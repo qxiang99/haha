@@ -41,6 +41,7 @@
         android:layout_height="88px"
         android:background="@color/write"
         android:layout_gravity="bottom" />
+
     <Button
         android:id="@+id/ready_but_startscan"
         android:layout_width="252px"

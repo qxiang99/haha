@@ -33,4 +33,12 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text2"/>
 
+
+    <com.bintutu.shop.ui.view.ScanView
+        android:layout_width="500dp"
+        android:layout_height="500dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text2"/>
+
+
 </android.support.constraint.ConstraintLayout>

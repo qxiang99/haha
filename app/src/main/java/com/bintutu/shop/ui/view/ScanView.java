@@ -14,6 +14,8 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 
+import com.bintutu.shop.R;
+
 
 /**
  * Created by weiyang on 2017/10/1.
@@ -31,7 +33,7 @@ public  class ScanView extends View {
 
     private Paint mScanPaint_Radio;//雷达样式画笔
     private Path mBoundaryLinePath;//边框path
-    private int mBoundaryColor = Color.WHITE;
+    private int mBoundaryColor = Color.BLUE;
     private float mBoundaryStrokeWidth = 8f;//扫描区域边线样式-线宽
 
     private Path mGriddingPath;//网格样式的path

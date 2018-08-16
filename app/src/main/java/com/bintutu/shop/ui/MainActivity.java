@@ -1,4 +1,4 @@
-package com.bintutu.shop;
+package com.bintutu.shop.ui;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.bintutu.shop.R;
 import com.bintutu.shop.utils.DensityUtil;
 
 public class MainActivity extends AppCompatActivity {

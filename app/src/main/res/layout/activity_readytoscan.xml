@@ -7,12 +7,12 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@mipmap/bg" />
-
+        android:background="@color/write" />
+<!--android:background="@mipmap/bg" -->
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="88px"
-        android:background="@color/black"
+        android:background="@color/write"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
@@ -30,11 +30,24 @@
 
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="148px"
+        android:layout_height="82px"
+        android:layout_marginLeft="208px"
+        android:layout_marginBottom="5px"
         android:background="@mipmap/home_bg"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
+
+    <Button
+        android:layout_width="252px"
+        android:layout_height="82px"
+        android:layout_marginRight="30px"
+        android:layout_marginBottom="5px"
+        android:background="@mipmap/start_scan"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+
   <!--  <ImageView
         android:id="@+id/ready_image_home"
         android:layout_width="148px"

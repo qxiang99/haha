@@ -1,8 +1,10 @@
-package com.bintutu.shop;
+package com.bintutu.shop.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+
+import com.bintutu.shop.ShopApplication;
 
 public abstract class BaseActivity extends AppCompatActivity {
 

@@ -1,6 +1,8 @@
-package com.bintutu.shop;
+package com.bintutu.shop.ui;
 
 import android.os.Bundle;
+
+import com.bintutu.shop.R;
 
 public class ReadyToScanActivity extends BaseActivity {
     @Override

@@ -28,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+
+
               Log.e("text2",DensityUtil.px2dp(MainActivity.this,88)+"...");
               Log.e("text2",DensityUtil.px2dp(MainActivity.this,90)+"...");
 

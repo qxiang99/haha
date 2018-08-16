@@ -34,7 +34,7 @@ public  class ScanView extends View {
     private Paint mScanPaint_Radio;//雷达样式画笔
     private Path mBoundaryLinePath;//边框path
     private int mBoundaryColor = Color.BLUE;
-    private float mBoundaryStrokeWidth = 8f;//扫描区域边线样式-线宽
+    private float mBoundaryStrokeWidth = 4f;//扫描区域边线样式-线宽
 
     private Path mGriddingPath;//网格样式的path
     private LinearGradient mLinearGradient_Radar;//雷达样式的画笔shader

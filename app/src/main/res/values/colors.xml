@@ -6,4 +6,7 @@
     <color name="scancolor">#63B8FF</color>
     <color name="write">#FFF</color>
     <color name="black">#000</color>
+    <color name="black80">#99000000</color>
+    <color name="text_color_c1">#333333</color>
+    <color name="bg_color">#d2b991</color>
 </resources>

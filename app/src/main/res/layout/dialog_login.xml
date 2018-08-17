@@ -8,7 +8,7 @@
 
 
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/login_lin_number"
         android:layout_width="580px"
         android:layout_height="40px"
@@ -21,22 +21,34 @@
         app:layout_constraintRight_toRightOf="parent">
 
         <ImageView
+            android:id="@+id/login_image1"
             android:layout_width="30px"
             android:layout_height="29px"
             android:background="@mipmap/scan_cod"
-            android:layout_gravity="center_vertical"/>
+            android:layout_centerHorizontal="true"/>
 
         <EditText
             android:id="@+id/login_edit_number"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="26px"
             android:hint="请输入编号"
-            android:gravity="center"
             android:maxLines="1"
             android:paddingLeft="25px"
-            android:textColor="@color/text_color_bf" />
+            android:textColor="@color/text_color_bf"
+            android:background="@null"
+            android:layout_toLeftOf="@+id/login_image1"
+            android:layout_alighParentRight="true"
+            android:layout_alighParentTop="true"/>
 
-    </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/black"
+            android:layout_toLeftOf="@+id/login_image1"
+            android:layout_alighParentRight="true"
+            android:layout_alighParentBottom="true"/>
+
+    </RelativeLayout>
 
 
     <LinearLayout
@@ -51,23 +63,33 @@
         app:layout_constraintRight_toRightOf="parent">
 
         <ImageView
+            android:id="@+id/login_image2"
             android:layout_width="22px"
             android:layout_height="31px"
             android:background="@mipmap/phone_bg"
-            android:layout_gravity="center_vertical"/>
+            android:layout_gravity="center_vertical"
+            android:layout_centerHorizontal="true"/>
 
         <EditText
             android:id="@+id/login_edit_phone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="请输入上传手机号"
-            android:gravity="center"
             android:maxLines="1"
             android:paddingLeft="25px"
             android:textColor="@color/text_color_bf"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/login_text_title"
-            app:layout_constraintRight_toRightOf="parent" />
+            android:background="@null"
+            android:layout_toLeftOf="@+id/login_image2"
+            android:layout_alighParentRight="true"
+            android:layout_alighParentTop="true"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/black"
+            android:layout_toLeftOf="@+id/login_image2"
+            android:layout_alighParentRight="true"
+            android:layout_alighParentBottom="true"/>
 
     </LinearLayout>
 
@@ -81,26 +103,37 @@
         android:layout_marginBottom="100px"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/login_lin_phone"
-        app:layout_constraintRight_toRightOf="parent">
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <ImageView
+            android:id="@+id/login_image3"
             android:layout_width="22px"
             android:layout_height="31px"
             android:background="@mipmap/verification_code"
-            android:layout_gravity="center_vertical"/>
+            android:layout_gravity="center_vertical"
+            android:layout_centerHorizontal="true"/>
 
         <EditText
             android:id="@+id/login_edit_pwd"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="请输入上传手机号"
-            android:gravity="center"
             android:maxLines="1"
             android:paddingLeft="25px"
             android:textColor="@color/text_color_bf"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/login_text_title"
-            app:layout_constraintRight_toRightOf="parent" />
+            android:background="@null"
+            android:layout_toLeftOf="@+id/login_image3"
+            android:layout_alighParentRight="true"
+            android:layout_alighParentTop="true"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/black"
+            android:layout_toLeftOf="@+id/login_image3"
+            android:layout_alighParentRight="true"
+            android:layout_alighParentBottom="true"/>
 
     </LinearLayout>
 

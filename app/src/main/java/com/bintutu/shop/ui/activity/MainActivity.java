@@ -1,13 +1,13 @@
-package com.bintutu.shop.ui;
+package com.bintutu.shop.ui.activity;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 
 import com.bintutu.shop.R;
+import com.bintutu.shop.ui.BaseActivity;
 import com.bintutu.shop.utils.DensityUtil;
 
 public class MainActivity extends BaseActivity {

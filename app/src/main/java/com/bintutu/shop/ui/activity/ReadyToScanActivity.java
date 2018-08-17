@@ -1,4 +1,4 @@
-package com.bintutu.shop.ui;
+package com.bintutu.shop.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,7 @@ import android.support.constraint.ConstraintLayout;
 import android.view.View;
 
 import com.bintutu.shop.R;
+import com.bintutu.shop.ui.BaseActivity;
 
 public class ReadyToScanActivity extends BaseActivity {
     @Override

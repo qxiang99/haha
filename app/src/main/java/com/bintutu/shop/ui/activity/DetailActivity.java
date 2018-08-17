@@ -28,8 +28,8 @@ public class DetailActivity extends BaseActivity {
 
     @BindView(R.id.recyclerview)
     RecyclerView mRecyclerview;
-    @BindView(R.id.detail_lin_image)
-    LinearLayout mLinImage;
+    /*@BindView(R.id.detail_lin_image)
+    LinearLayout mLinImage;*/
     private List<DetailBean> DetailList = new ArrayList<>();
     private LoginDailog loginDailog;
 
@@ -60,16 +60,15 @@ public class DetailActivity extends BaseActivity {
         mRecyclerview.setAdapter(detailAdapter);
 
 
-       // mLinImage
 
 
 
-        findViewById(R.id.detail_text_title).setOnClickListener(new View.OnClickListener() {
+
+       /* findViewById(R.id.detail_text_title).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loginDailog.show();
             }
-        });
+        });*/
 
     }
 

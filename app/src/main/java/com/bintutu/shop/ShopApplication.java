@@ -18,6 +18,7 @@ public class ShopApplication extends Application {
     public void onCreate() {
         super.onCreate();
         mcontext = this;
+        toastUtils= new ToastUtils(mcontext);
     }
 
     public void ShowToast(String message) {

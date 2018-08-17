@@ -6,10 +6,13 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.bintutu.shop.ShopApplication;
 
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 public abstract class BaseActivity extends AppCompatActivity {
 
     public ShopApplication mApp;
-    //private Unbinder unbinder;
+    private Unbinder unbinder;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -17,7 +20,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         mApp = ShopApplication.getInstance();
         initContentView(savedInstanceState);
         //绑定控件
-        //unbinder = ButterKnife.bind(this);
+        unbinder = ButterKnife.bind(this);
         init();
         setListener();
     }

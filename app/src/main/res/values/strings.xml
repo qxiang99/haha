@@ -1,3 +1,34 @@
 <resources>
     <string name="app_name">Bintutu</string>
+
+    <string name="FootLen">脚长</string>
+    <string name="ZhiWei">跖围（前掌)</string>
+    <string name="FuWei">跗围（脚背）</string>
+    <string name="DouWei">脚指周长</string>
+    <string name="JiaoWanWei">脚指宽度</string>
+    <string name="JiaoZhiZhou">跖围宽</string>
+    <string name="WaiHuaiXiaGao">底板净宽</string>
+    <string name="HouGenTuGao">外踝骨中心下缘点高度</string>
+    <string name="ZhouShangGao">跗围高度</string>
+    <string name="FuWeiGao">第一跖趾关节高度</string>
+    <string name="ZhiZhiGao">大拇趾趾尖高度</string>
+    <string name="DaMoZhiGao">拇趾里宽</string>
+    <string name="JiaoWanGao">小趾外宽</string>
+    <string name="JiaoZhiKuan">第一跖趾里宽</string>
+    <string name="ZhiWeiKuan">第五跖趾外宽</string>
+    <string name="DiBanKuan">腰窝外宽</string>
+    <string name="MuZhiLiKuan">踵心底板净宽</string>
+    <string name="XiaoZhiWaiKuan">拇趾外凸点部位长度</string>
+    <string name="lZhizhiLiKuan">小趾端点部位长度</string>
+    <string name="SZhizhiLiKuan">小趾外凸点部位长度</string>
+    <string name="YaoWoWaiKuan">第一跖趾部位长度</string>
+    <string name="ZhongXinDiKuan">第五跖趾部位长度</string>
+    <string name="JiaoHuaiNeiKuan">跗骨部位长度</string>
+    <string name="MuZhiWaiTuChang">腰窝部位长度</string>
+    <string name="XiaoZhiDuanChang">舟上弯点部位长度</string>
+    <string name="XiaoZhiWaiTuChang">外踝骨中心部位长度</string>
+    <string name="lZhiZhiChang">踵心部位长度</string>
+    <string name="SZhiZhiChang">后跟边距长度</string>
+    <string name="FuGuChang">前掌凸点部位长度</string>
+
 </resources>

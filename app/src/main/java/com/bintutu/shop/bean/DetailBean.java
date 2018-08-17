@@ -10,14 +10,17 @@ public class DetailBean {
      */
 
     private String name;
+    private int number;
     private String left;
     private String right;
 
-    public DetailBean(String name, String left, String right) {
+    public DetailBean(String name,int number, String left, String right) {
         setName(name);
+        setNumber(number);
         setLeft(left);
         setRight(right);
     }
+
 
     public String getName() {
         return name;
@@ -25,6 +28,14 @@ public class DetailBean {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
     }
 
     public String getLeft() {

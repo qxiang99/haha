@@ -10,6 +10,7 @@ import com.bintutu.shop.bean.DetailBean;
 import com.bintutu.shop.bean.LeftBean;
 import com.bintutu.shop.bean.RightBean;
 import com.bintutu.shop.ui.adapter.DetailAdapter;
+import com.bintutu.shop.ui.view.LoginDailog;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ public class DetailActivity extends BaseActivity {
     @BindView(R.id.recyclerview)
     RecyclerView mRecyclerview;
     private List<DetailBean> DetailList = new ArrayList<>();
+    private LoginDailog loginDailog;
 
     @Override
     protected void initContentView(Bundle savedInstanceState) {
@@ -32,6 +34,8 @@ public class DetailActivity extends BaseActivity {
     @Override
     protected void init() {
         getData();
+        showDailog();
+
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         mRecyclerview.setLayoutManager(linearLayoutManager);
@@ -41,6 +45,8 @@ public class DetailActivity extends BaseActivity {
         mRecyclerview.setAdapter(detailAdapter);
 
     }
+
+
 
     @Override
     protected void setListener() {
@@ -85,8 +91,11 @@ public class DetailActivity extends BaseActivity {
         DetailList.add(new DetailBean(getResources().getString(R.string.lZhiZhiChang), 27, leftBean.get_27_1ZhiZhiChang(), rightBean.get_27_1ZhiZhiChang()));
         DetailList.add(new DetailBean(getResources().getString(R.string.SZhiZhiChang), 28, leftBean.get_28_5ZhiZhiChang(), rightBean.get_28_5ZhiZhiChang()));
         DetailList.add(new DetailBean(getResources().getString(R.string.FuGuChang), 29, leftBean.get_29_FuGuChang(), rightBean.get_29_FuGuChang()));
+    }
 
 
+    private void showDailog() {
+        loginDailog = new LoginDailog(this);
     }
 
 }

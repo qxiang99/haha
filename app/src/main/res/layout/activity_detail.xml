@@ -17,7 +17,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerview"
             android:layout_marginTop="200dp"
-            android:background="@color/write"
+            android:background="@color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
       <!--  <android.support.constraint.ConstraintLayout

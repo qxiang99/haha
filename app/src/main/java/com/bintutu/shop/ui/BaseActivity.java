@@ -31,4 +31,12 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected abstract void init();
 
     protected abstract void setListener();
+
+
+    /**
+     * 通用弹出提示
+     */
+    public void ShowToast(String message) {
+        mApp.ShowToast(message);
+    }
 }

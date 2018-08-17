@@ -4,23 +4,31 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 
 import com.bintutu.shop.R;
 import com.bintutu.shop.utils.DensityUtil;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void initContentView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_main);
+    }
 
+    @Override
+    protected void init() {
+
+    }
+
+    @Override
+    protected void setListener() {
         findViewById(R.id.text).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-              startActivity(new Intent(MainActivity.this,ReadyToScanActivity.class));
+                startActivity(new Intent(MainActivity.this,ReadyToScanActivity.class));
 
             }
         });
@@ -31,12 +39,36 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-              Log.e("text2",DensityUtil.px2dp(MainActivity.this,88)+"...");
-              Log.e("text2",DensityUtil.px2dp(MainActivity.this,90)+"...");
+                Log.e("text2",DensityUtil.px2dp(MainActivity.this,88)+"...");
+                Log.e("text2",DensityUtil.px2dp(MainActivity.this,90)+"...");
 
             }
         });
     }
 
+
+
+    //退出时的时间
+    private long mExitTime;
+
+    //对返回键进行监听
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            exit();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    public void exit() {
+        if ((System.currentTimeMillis() - mExitTime) > 2000) {
+            ShowToast("再按一次退出");
+            mExitTime = System.currentTimeMillis();
+        } else {
+            finish();
+            System.exit(0);
+        }
+    }
 
 }

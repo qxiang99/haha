@@ -31,5 +31,7 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
     //recyclerview
     compile 'com.android.support:recyclerview-v7:28+'
+    //gson
+    compile 'com.google.code.gson:gson:2.8.0'
 
 }

@@ -5,10 +5,99 @@
     android:layout_height="wrap_content"
     android:background="@color/white">
 
+    <ImageView
+        android:id="@+id/login_image1"
+        android:layout_width="22px"
+        android:layout_height="31px"
+        android:layout_marginLeft="80px"
+        android:layout_marginTop="110px"
+        android:background="@mipmap/scan_cod"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <EditText
+        android:id="@+id/login_edit_number"
+        android:layout_width="530px"
+        android:layout_height="31px"
+        android:layout_marginLeft="25px"
+        android:layout_marginRight="80px"
+        android:background="@null"
+        android:hint="请输入编号"
+        android:maxLines="1"
+        android:textColor="@color/text_color_bf"
+        android:textSize="@dimen/text_size_26"
+        app:layout_constraintBottom_toBottomOf="@+id/login_image1"
+        app:layout_constraintLeft_toRightOf="@+id/login_image1"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/login_image1" />
 
+    <View
+        android:layout_width="530px"
+        android:layout_height="1px"
+        android:background="@color/black"
+        android:layout_marginLeft="25px"
+        android:layout_marginTop="14px"
+        app:layout_constraintLeft_toRightOf="@+id/login_image1"
+        app:layout_constraintTop_toBottomOf="@+id/login_edit_number"/>
 
-    <RelativeLayout
+    <ImageView
+        android:id="@+id/login_image2"
+        android:layout_width="22px"
+        android:layout_height="31px"
+        android:layout_marginTop="65px"
+        android:background="@mipmap/phone_bg"
+        app:layout_constraintLeft_toLeftOf="@+id/login_image1"
+        app:layout_constraintTop_toBottomOf="@+id/login_image1" />
+
+    <EditText
+        android:id="@+id/login_edit_phone"
+        android:layout_width="530px"
+        android:layout_height="31px"
+        android:layout_marginLeft="25px"
+        android:layout_marginRight="80px"
+        android:background="@null"
+        android:hint="请输入上传手机号"
+        android:maxLines="1"
+        android:textColor="@color/text_color_bf"
+        android:textSize="@dimen/text_size_26"
+        app:layout_constraintBottom_toBottomOf="@+id/login_image2"
+        app:layout_constraintLeft_toRightOf="@+id/login_image2"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/login_image2" />
+
+    <View
+        android:layout_width="530px"
+        android:layout_height="1px"
+        android:background="@color/black"
+        android:layout_marginLeft="25px"
+        android:layout_marginTop="14px"
+        app:layout_constraintLeft_toRightOf="@+id/login_image2"
+        app:layout_constraintTop_toBottomOf="@+id/login_edit_phone"/>
+
+    <ImageView
+        android:id="@+id/login_image3"
+        android:layout_width="22px"
+        android:layout_height="31px"
+        android:layout_marginBottom="115px"
+        android:layout_marginTop="65px"
+        android:background="@mipmap/verification_code"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="@+id/login_image2"
+        app:layout_constraintTop_toBottomOf="@+id/login_image2" />
+
+    <EditText
+        android:id="@+id/login_edit_pwd"
+        android:layout_width="530px"
+        android:layout_height="31px"
+        android:layout_marginLeft="25px"
+        android:hint="请输入上传手机号"
+        android:maxLines="1"
+        android:textColor="@color/text_color_bf"
+        android:textSize="@dimen/text_size_26"
+        app:layout_constraintBottom_toBottomOf="@+id/login_image3"
+        app:layout_constraintLeft_toRightOf="@+id/login_image3"
+        app:layout_constraintTop_toTopOf="@+id/login_image3" />
+    <!--<RelativeLayout
         android:id="@+id/login_lin_number"
         android:layout_width="580px"
         android:layout_height="40px"
@@ -20,14 +109,9 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent">
 
-        <ImageView
-            android:id="@+id/login_image1"
-            android:layout_width="30px"
-            android:layout_height="29px"
-            android:background="@mipmap/scan_cod"
-            android:layout_centerHorizontal="true"/>
 
-       <!-- <EditText
+
+       &lt;!&ndash; <EditText
             android:id="@+id/login_edit_number"
             android:layout_width="match_parent"
             android:layout_height="26px"
@@ -38,15 +122,15 @@
             android:background="@null"
             android:layout_toLeftOf="@+id/login_image1"
             android:layout_alighParentRight="true"
-            android:layout_alighParentTop="true"/>-->
+            android:layout_alighParentTop="true"/>&ndash;&gt;
 
-        <!--<ImageView
+        &lt;!&ndash;<ImageView
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:background="@color/black"
             android:layout_toLeftOf="@+id/login_image1"
             android:layout_alighParentRight="true"
-            android:layout_alighParentBottom="true"/>-->
+            android:layout_alighParentBottom="true"/>&ndash;&gt;
 
     </RelativeLayout>
 
@@ -58,19 +142,14 @@
         android:orientation="horizontal"
         android:layout_marginLeft="80px"
         android:layout_marginRight="80px"
+        android:layout_marginTop="50px"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/login_lin_number"
         app:layout_constraintRight_toRightOf="parent">
 
-        <ImageView
-            android:id="@+id/login_image2"
-            android:layout_width="22px"
-            android:layout_height="31px"
-            android:background="@mipmap/phone_bg"
-            android:layout_gravity="center_vertical"
-            android:layout_centerHorizontal="true"/>
 
-      <!--  <EditText
+
+      &lt;!&ndash;  <EditText
             android:id="@+id/login_edit_phone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -81,15 +160,15 @@
             android:background="@null"
             android:layout_toLeftOf="@+id/login_image2"
             android:layout_alighParentRight="true"
-            android:layout_alighParentTop="true"/>-->
+            android:layout_alighParentTop="true"/>&ndash;&gt;
 
-       <!-- <ImageView
+       &lt;!&ndash; <ImageView
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:background="@color/black"
             android:layout_toLeftOf="@+id/login_image2"
             android:layout_alighParentRight="true"
-            android:layout_alighParentBottom="true"/>-->
+            android:layout_alighParentBottom="true"/>&ndash;&gt;
 
     </RelativeLayout>
 
@@ -100,21 +179,16 @@
         android:orientation="horizontal"
         android:layout_marginLeft="80px"
         android:layout_marginRight="80px"
+        android:layout_marginTop="50px"
         android:layout_marginBottom="100px"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/login_lin_phone"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <ImageView
-            android:id="@+id/login_image3"
-            android:layout_width="22px"
-            android:layout_height="31px"
-            android:background="@mipmap/verification_code"
-            android:layout_gravity="center_vertical"
-            android:layout_centerHorizontal="true"/>
 
-        <!--<EditText
+
+        &lt;!&ndash;<EditText
             android:id="@+id/login_edit_pwd"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -125,21 +199,17 @@
             android:background="@null"
             android:layout_toLeftOf="@+id/login_image3"
             android:layout_alighParentRight="true"
-            android:layout_alighParentTop="true"/>-->
+            android:layout_alighParentTop="true"/>&ndash;&gt;
 
-       <!-- <ImageView
+       &lt;!&ndash; <ImageView
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:background="@color/black"
             android:layout_toLeftOf="@+id/login_image3"
             android:layout_alighParentRight="true"
-            android:layout_alighParentBottom="true"/>-->
+            android:layout_alighParentBottom="true"/>&ndash;&gt;
 
-    </RelativeLayout>
-
-
-
-
+    </RelativeLayout>-->
 
 
 </android.support.constraint.ConstraintLayout>

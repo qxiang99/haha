@@ -1,74 +1,229 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.constraint.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/detail_text_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="50px"
-            android:layout_marginTop="30px"
-            android:text="足型数据详情"
-            android:textColor="@color/text_color_c1"
-            android:textSize="@dimen/text_size_36"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/detail_text_titletime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="50px"
-            android:text="数据采集日期 2018-01-23"
-            android:textColor="@color/text_color_c9"
-            android:textSize="@dimen/text_size_24"
-            app:layout_constraintBottom_toBottomOf="@+id/detail_text_title"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/detail_text_title" />
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/detail_viewpager"
+        <android.support.constraint.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
-            android:layout_height="530px"
-            android:layout_marginTop="30px"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/detail_text_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50px"
+                android:layout_marginTop="30px"
+                android:text="足型数据详情"
+                android:textColor="@color/text_color_c1"
+                android:textSize="@dimen/text_size_36"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/detail_text_titletime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="50px"
+                android:text="数据采集日期 2018-01-23"
+                android:textColor="@color/text_color_c9"
+                android:textSize="@dimen/text_size_24"
+                app:layout_constraintBottom_toBottomOf="@+id/detail_text_title"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/detail_text_title" />
+
+            <HorizontalScrollView
+                android:id="@+id/detai_scroll"
+                android:layout_width="match_parent"
+                android:layout_height="530px"
+                android:layout_marginTop="30px"
+                android:scrollbars="none"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/detail_text_title">
+                <LinearLayout
+                    android:id="@+id/detail_lin_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal" >
+
+                    <ImageView
+                        android:layout_width="530px"
+                        android:layout_marginLeft="-185px"
+                        android:layout_marginRight="15px"
+                        android:layout_height="match_parent"
+                        android:background="@mipmap/leftfoot_internal"/>
+
+                    <ImageView
+                    android:layout_width="530px"
+                    android:layout_marginRight="15px"
+                    android:layout_height="match_parent"
+                    android:background="@mipmap/leftfoot_surface"/>
+
+                    <ImageView
+                        android:layout_width="530px"
+                        android:layout_marginRight="15px"
+                        android:layout_height="match_parent"
+                        android:background="@mipmap/leftfoot_outside"/>
+
+                    <ImageView
+                        android:layout_width="530px"
+                        android:layout_marginRight="15px"
+                        android:layout_height="match_parent"
+                        android:background="@mipmap/rightfoot_internal"/>
+
+                    <ImageView
+                        android:layout_width="530px"
+                        android:layout_marginRight="15px"
+                        android:layout_height="match_parent"
+                        android:background="@mipmap/rightfoot_surface"/>
+
+                    <ImageView
+                        android:layout_width="530px"
+                        android:layout_height="match_parent"
+                        android:background="@mipmap/rightfoot_outside"/>
+
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <Button
+                android:id="@+id/detail_but_left"
+                android:layout_width="150px"
+                android:layout_height="50px"
+                android:layout_marginRight="40px"
+                android:text="左脚"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/detail_but_right"
+                app:layout_constraintTop_toBottomOf="@+id/detai_scroll" />
+
+            <Button
+                android:id="@+id/detail_but_right"
+                android:layout_width="150px"
+                android:layout_height="50px"
+                android:layout_marginLeft="40px"
+                android:text="右脚"
+                app:layout_constraintLeft_toRightOf="@+id/detail_but_left"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/detai_scroll" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="60px"
+                android:background="@color/white"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/detail_but_left" />
+
+
+            <TextView
+                android:id="@+id/detail_text_title2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50px"
+                android:layout_marginTop="100px"
+                android:text="足部详情图"
+                android:textColor="@color/text_color_c1"
+                android:textSize="@dimen/text_size_30"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/recyclerview" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="400px"
+                android:layout_marginBottom="148px"
+                android:layout_marginLeft="65px"
+                android:layout_marginRight="65px"
+                android:layout_marginTop="40px"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/detail_text_title2">
+
+                <ImageView
+                    android:id="@+id/detail_image_footleft"
+                    android:layout_width="0px"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="50px"
+                    android:layout_weight="1"
+                    android:background="@color/black" />
+
+                <ImageView
+                    android:id="@+id/detail_image_footright"
+                    android:layout_width="0px"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="50px"
+                    android:layout_weight="1"
+                    android:background="@color/black" />
+
+                <ImageView
+                    android:id="@+id/detail_image_plantarleft"
+                    android:layout_width="0px"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="50px"
+                    android:layout_weight="1"
+                    android:background="@color/black" />
+
+                <ImageView
+                    android:id="@+id/detail_image_plantarright"
+                    android:layout_width="0px"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/black" />
+            </LinearLayout>
+
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+
+
+    <android.support.constraint.ConstraintLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="88px"
+        android:layout_gravity="bottom">
+
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="88px"
+            android:background="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/detail_text_title" />
+            app:layout_constraintRight_toRightOf="parent" />
 
         <Button
-            android:id="@+id/detail_but_left"
-            android:layout_width="150px"
-            android:layout_height="50px"
-            android:layout_marginRight="40px"
-            android:text="左脚"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/detail_but_right"
-            app:layout_constraintTop_toBottomOf="@+id/detail_viewpager" />
+            android:id="@+id/ready_image_return"
+            android:layout_width="148px"
+            android:layout_height="82px"
+            android:layout_marginBottom="5px"
+            android:layout_marginLeft="30px"
+            android:background="@mipmap/return_bg"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
 
         <Button
-            android:id="@+id/detail_but_right"
-            android:layout_width="150px"
-            android:layout_height="50px"
-            android:layout_marginLeft="40px"
-            android:text="右脚"
-            app:layout_constraintLeft_toRightOf="@+id/detail_but_left"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/detail_viewpager" />
+            android:layout_width="148px"
+            android:layout_height="82px"
+            android:layout_marginBottom="5px"
+            android:layout_marginLeft="208px"
+            android:background="@mipmap/home_bg"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="60px"
-            android:background="@color/white"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/detail_but_left" />
+        <Button
+            android:id="@+id/ready_but_startscan"
+            android:layout_width="252px"
+            android:layout_height="82px"
+            android:layout_marginBottom="5px"
+            android:layout_marginRight="30px"
+            android:background="@mipmap/upload_scan"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
-</ScrollView>
+</FrameLayout>

@@ -1,10 +1,12 @@
 package com.bintutu.shop.ui.activity;
 
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.bintutu.shop.R;
 import com.bintutu.shop.bean.DetailBean;
@@ -12,6 +14,7 @@ import com.bintutu.shop.bean.LeftBean;
 import com.bintutu.shop.bean.RightBean;
 import com.bintutu.shop.ui.BaseActivity;
 import com.bintutu.shop.ui.adapter.DetailAdapter;
+import com.bintutu.shop.ui.adapter.ViewPagerAdapter;
 import com.bintutu.shop.ui.view.LoginDailog;
 import com.google.gson.Gson;
 
@@ -25,8 +28,18 @@ public class DetailActivity extends BaseActivity {
 
     @BindView(R.id.recyclerview)
     RecyclerView mRecyclerview;
+    @BindView(R.id.detail_lin_image)
+    LinearLayout mLinImage;
     private List<DetailBean> DetailList = new ArrayList<>();
     private LoginDailog loginDailog;
+
+    private int[] ImageRes = {
+            R.mipmap.leftfoot_internal,
+            R.mipmap.leftfoot_surface,
+            R.mipmap.leftfoot_outside,
+            R.mipmap.rightfoot_internal,
+            R.mipmap.rightfoot_surface,
+            R.mipmap.rightfoot_outside};
 
     @Override
     protected void initContentView(Bundle savedInstanceState) {
@@ -39,12 +52,16 @@ public class DetailActivity extends BaseActivity {
         showDailog();
 
 
-       /* LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         mRecyclerview.setLayoutManager(linearLayoutManager);
         mRecyclerview.setHasFixedSize(true);
         mRecyclerview.setItemAnimator(new DefaultItemAnimator());
         DetailAdapter detailAdapter = new DetailAdapter(DetailList);
-        mRecyclerview.setAdapter(detailAdapter);*/
+        mRecyclerview.setAdapter(detailAdapter);
+
+
+       // mLinImage
+
 
 
         findViewById(R.id.detail_text_title).setOnClickListener(new View.OnClickListener() {

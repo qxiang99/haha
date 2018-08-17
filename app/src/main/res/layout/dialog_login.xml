@@ -8,4 +8,105 @@
 
 
 
+    <LinearLayout
+        android:id="@+id/login_lin_number"
+        android:layout_width="580px"
+        android:layout_height="40px"
+        android:orientation="horizontal"
+        android:layout_marginLeft="80px"
+        android:layout_marginRight="80px"
+        android:layout_marginTop="110px"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <ImageView
+            android:layout_width="30px"
+            android:layout_height="29px"
+            android:background="@mipmap/scan_cod"
+            android:layout_gravity="center_vertical"/>
+
+        <EditText
+            android:id="@+id/login_edit_number"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="请输入编号"
+            android:gravity="center"
+            android:maxLines="1"
+            android:paddingLeft="25px"
+            android:textColor="@color/text_color_bf" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/login_lin_phone"
+        android:layout_width="580px"
+        android:layout_height="40px"
+        android:orientation="horizontal"
+        android:layout_marginLeft="80px"
+        android:layout_marginRight="80px"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_lin_number"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <ImageView
+            android:layout_width="22px"
+            android:layout_height="31px"
+            android:background="@mipmap/phone_bg"
+            android:layout_gravity="center_vertical"/>
+
+        <EditText
+            android:id="@+id/login_edit_phone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="请输入上传手机号"
+            android:gravity="center"
+            android:maxLines="1"
+            android:paddingLeft="25px"
+            android:textColor="@color/text_color_bf"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/login_text_title"
+            app:layout_constraintRight_toRightOf="parent" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/login_lin_pwd"
+        android:layout_width="580px"
+        android:layout_height="40px"
+        android:orientation="horizontal"
+        android:layout_marginLeft="80px"
+        android:layout_marginRight="80px"
+        android:layout_marginBottom="100px"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_lin_phone"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <ImageView
+            android:layout_width="22px"
+            android:layout_height="31px"
+            android:background="@mipmap/verification_code"
+            android:layout_gravity="center_vertical"/>
+
+        <EditText
+            android:id="@+id/login_edit_pwd"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="请输入上传手机号"
+            android:gravity="center"
+            android:maxLines="1"
+            android:paddingLeft="25px"
+            android:textColor="@color/text_color_bf"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/login_text_title"
+            app:layout_constraintRight_toRightOf="parent" />
+
+    </LinearLayout>
+
+
+
+
+
+
 </android.support.constraint.ConstraintLayout>

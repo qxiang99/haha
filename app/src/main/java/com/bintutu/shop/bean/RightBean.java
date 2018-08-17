@@ -66,13 +66,13 @@ public class RightBean implements Serializable {
     @SerializedName("18_XiaoZhiWaiKuan")
     private String _18_XiaoZhiWaiKuan;
     @SerializedName("19_1ZhizhiLiKuan")
-    private String _$19_1ZhizhiLiKuan;
+    private String _19_1ZhizhiLiKuan;
     @SerializedName("1_FootLen")
-    private String _$1_FootLen;
+    private String _1_FootLen;
     @SerializedName("20_5ZhizhiLiKuan")
-    private String _$20_5ZhizhiLiKuan;
+    private String _20_5ZhizhiLiKuan;
     @SerializedName("21_YaoWoWaiKuan")
-    private String _$21_YaoWoWaiKuan;
+    private String _21_YaoWoWaiKuan;
     @SerializedName("22_ZhongXinDiKuan")
     private String _22_ZhongXinDiKuan;
     @SerializedName("23_JiaoHuaiNeiKuan")
@@ -194,36 +194,36 @@ public class RightBean implements Serializable {
         this._18_XiaoZhiWaiKuan = _18_XiaoZhiWaiKuan;
     }
 
-    public String get_$19_1ZhizhiLiKuan() {
-        return _$19_1ZhizhiLiKuan;
+    public String get_19_1ZhizhiLiKuan() {
+        return _19_1ZhizhiLiKuan;
     }
 
-    public void set_$19_1ZhizhiLiKuan(String _$19_1ZhizhiLiKuan) {
-        this._$19_1ZhizhiLiKuan = _$19_1ZhizhiLiKuan;
+    public void set_19_1ZhizhiLiKuan(String _19_1ZhizhiLiKuan) {
+        this._19_1ZhizhiLiKuan = _19_1ZhizhiLiKuan;
     }
 
-    public String get_$1_FootLen() {
-        return _$1_FootLen;
+    public String get_1_FootLen() {
+        return _1_FootLen;
     }
 
-    public void set_$1_FootLen(String _$1_FootLen) {
-        this._$1_FootLen = _$1_FootLen;
+    public void set_1_FootLen(String _$1_FootLen) {
+        this._1_FootLen = _$1_FootLen;
     }
 
-    public String get_$20_5ZhizhiLiKuan() {
-        return _$20_5ZhizhiLiKuan;
+    public String get_20_5ZhizhiLiKuan() {
+        return _20_5ZhizhiLiKuan;
     }
 
-    public void set_$20_5ZhizhiLiKuan(String _$20_5ZhizhiLiKuan) {
-        this._$20_5ZhizhiLiKuan = _$20_5ZhizhiLiKuan;
+    public void set_20_5ZhizhiLiKuan(String _20_5ZhizhiLiKuan) {
+        this._20_5ZhizhiLiKuan = _20_5ZhizhiLiKuan;
     }
 
-    public String get_$21_YaoWoWaiKuan() {
-        return _$21_YaoWoWaiKuan;
+    public String get_21_YaoWoWaiKuan() {
+        return _21_YaoWoWaiKuan;
     }
 
-    public void set_$21_YaoWoWaiKuan(String _$21_YaoWoWaiKuan) {
-        this._$21_YaoWoWaiKuan = _$21_YaoWoWaiKuan;
+    public void set_21_YaoWoWaiKuan(String _21_YaoWoWaiKuan) {
+        this._21_YaoWoWaiKuan = _21_YaoWoWaiKuan;
     }
 
     public String get_22_ZhongXinDiKuan() {

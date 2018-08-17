@@ -1,98 +1,80 @@
 package com.bintutu.shop.ui.adapter;
 
-public class DetailAdapter  /*extends DefaultAdapter<DetailBean> {
+import android.content.Context;
+import android.view.View;
 
-    public OnItemClickListener mListener;
+import com.bintutu.shop.R;
+import com.bintutu.shop.bean.DetailBean;
+import java.util.List;
 
-    public FeedBackAdapter(List<DetailBean> infos) {
+public class DetailAdapter  extends DefaultAdapter<DetailBean> {
+
+
+    private Context mContext;
+
+    public DetailAdapter(List<DetailBean> infos) {
         super(infos);
     }
 
     @Override
-    public BaseHolder<Feedback> getHolder(View v, int viewType) {
-        return new VH(v);
+    public BaseHolder<DetailBean> getHolder(View v, int viewType) {
+        return new OrderListItem(v);
     }
+
 
     @Override
     public int getLayoutId(int viewType) {
-        return R.layout.item_feedback;
+        return R.layout.item_detail;
     }
 
-    public class VH extends BaseHolder<Feedback> {
-        @BindView(R.id.item_layout)
-        ConstraintLayout mItemLayout;
-        @BindView(R.id.item_title)
-        TextView mItemTitle;
-        @BindView(R.id.item_badge)
-        CheckBox mItemBadge;
-        public VH(View itemView) {
+
+
+    protected class OrderListItem extends BaseHolder<DetailBean> {
+
+
+
+        protected OrderListItem(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+            mContext = itemView.getContext();
+
         }
 
         @Override
-        public void setData(final Feedback data, final int position) {
-            mItemTitle.setText(data.getName());
-            mItemBadge.setChecked(data.isChecked());
-            mItemTitle.setEnabled(data.isChecked());
-            if (data.isChecked()){
-                //虽然叫蓝色 实际为红色
-                mItemLayout.setBackgroundResource(R.drawable.feedback_blue_line);
-            }else {
-                mItemLayout.setBackgroundResource(R.drawable.feedback_gray_line);
-            }
-            mItemLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (mListener == null){
-                        return;
-                    }
-                    if (!mItemBadge.isChecked()){
-                        mListener.onItemChecked(data,position);
-                        changeOtherTypeState(position);
+        public void setData(final DetailBean data, final int position) {
 
-                    }else {
-
-                        mListener.onItemCancel(data,position);
-                        cancelChecked();
-                        DebugLog.e("取消选中>>>>>>>>>>>.");
-                    }
-                }
-            });
 
         }
-        //更改其他问题类型的状态
-        private void changeOtherTypeState(int  position){
-            for (int i = 0; i < getInfos().size(); i++) {
-                if ((position == i)){
-                    getInfos().get(i).setChecked(true);
-                }else {
-                    getInfos().get(i).setChecked(false);
-                }
-            }
-            notifyDataSetChanged();
-        }
-        //取消选中
-        private void cancelChecked(){
-            for (int i = 0; i < getInfos().size(); i++) {
-                getInfos().get(i).setChecked(false);
-            }
-            notifyDataSetChanged();
+
+        @Override
+        protected void onRelease() {
+            super.onRelease();
+            //mLlItem.setBackgroundColor(0);
+            System.gc();
         }
     }
 
-    public OnItemClickListener getListener() {
-        return mListener;
+
+   /* public void addInformation(List<DataPersonBean.ListBean> mList) {
+        updateList(mList);
     }
 
-    public void setListener(OnItemClickListener mListener) {
-        this.mListener = mListener;
+    private OnSetClickListener mSetClickListener;
+    private OnDelClickListener mDelClickListener;
+
+    public void setSetClickListener(OnSetClickListener mSetClickListener) {
+        this.mSetClickListener = mSetClickListener;
     }
 
-    public interface OnItemClickListener{
-        void onItemChecked(Feedback string,int postion);
-        void onItemCancel(Feedback string,int postion);
+    public interface OnSetClickListener {
+        void onSetData(DataPersonBean.ListBean data);
     }
 
-*/{
+
+    public void setDelClickListener(OnDelClickListener mDelClickListener) {
+        this.mDelClickListener = mDelClickListener;
+    }
+
+    public interface OnDelClickListener {
+        void onDelData(DataPersonBean.ListBean data);
+    }*/
 }

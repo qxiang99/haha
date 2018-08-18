@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/fragment_web_one_lin"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
+    <WebView
+        android:id="@+id/webView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
     <ProgressBar
         android:id="@+id/web_progressbar"
         style="?android:attr/progressBarStyleHorizontal"
@@ -12,9 +18,11 @@
         android:progressDrawable="@drawable/web_pb"
         android:visibility="gone" />
 
-    <WebView
-        android:id="@+id/webView"
+    <Button
+        android:id="@+id/button"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="50dp"
+        android:text="跳转按钮" />
 
-</LinearLayout>
+
+</FrameLayout>

@@ -35,8 +35,6 @@ public class MainActivity extends BaseActivity {
     ProgressBar mWebProgressbar;
     @BindView(R.id.webView)
     WebView mWebView;
-    @BindView(R.id.fragment_web_one_lin)
-    LinearLayout fragmentWebOneLin;
     private String url;
     private String callback;
 
@@ -75,6 +73,13 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void setListener() {
+
+        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this,ReadyToScanActivity.class));
+            }
+        });
 
         mWebView.setWebViewClient(new WebViewClient() {
             @Override

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/image"
+        android:layout_width="670px"
+        android:layout_height="400px"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="数据扫描中"
+        android:textSize="@dimen/text_size_36"
+        android:textColor="@color/bg_color"
+        android:layout_marginTop="70px"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="扫描过程可能需要几秒，请耐心等待"
+        android:textSize="@dimen/text_size_36"
+        android:textColor="@color/bg_color"
+        android:layout_marginTop="70px"/>
+
+</LinearLayout>

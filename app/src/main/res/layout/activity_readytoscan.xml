@@ -24,7 +24,7 @@
             app:layout_constraintRight_toRightOf="parent" />
 
         <Button
-            android:id="@+id/ready_image_return"
+            android:id="@+id/ready_but_return"
             android:layout_width="148px"
             android:layout_height="82px"
             android:layout_marginBottom="5px"
@@ -35,6 +35,7 @@
 
 
         <Button
+            android:id="@+id/ready_but_home"
             android:layout_width="148px"
             android:layout_height="82px"
             android:layout_marginBottom="5px"

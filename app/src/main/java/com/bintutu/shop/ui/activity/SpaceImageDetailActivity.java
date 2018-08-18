@@ -19,13 +19,14 @@ public class SpaceImageDetailActivity extends Activity {
     private int mWidth;
     private int mHeight;
     SmoothImageView imageView = null;
+    private int mResid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-       // mDatas = (ArrayList<String>) getIntent().getSerializableExtra("images");
-       // mPosition = getIntent().getIntExtra("position", 0);
+        mResid = getIntent().getIntExtra("images", 0);
+        mPosition = getIntent().getIntExtra("position", 0);
         mLocationX = getIntent().getIntExtra("locationX", 0);
         mLocationY = getIntent().getIntExtra("locationY", 0);
         mWidth = getIntent().getIntExtra("width", 0);
@@ -37,7 +38,7 @@ public class SpaceImageDetailActivity extends Activity {
         imageView.setLayoutParams(new ViewGroup.LayoutParams(-1, -1));
         imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
         setContentView(imageView);
-        imageView.setImageResource(R.mipmap.leftfoot_internal);
+        imageView.setImageResource(mResid);
        // ImageLoader.getInstance().displayImage(mDatas.get(mPosition), imageView);
 //		imageView.setImageResource(R.drawable.temp);
         // ScaleAnimation scaleAnimation = new ScaleAnimation(0.5f, 1.0f, 0.5f,

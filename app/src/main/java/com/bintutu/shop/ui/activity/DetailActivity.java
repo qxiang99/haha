@@ -6,6 +6,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -33,8 +34,16 @@ public class DetailActivity extends BaseActivity {
     HorizontalScrollView detaiScroll;
     @BindView(R.id.detail_lin_image)
     LinearLayout mLinImage;
-    @BindView(R.id.detail_image)
-    ImageView detailImage;
+    @BindView(R.id.detail_image_left)
+    ImageView detailImageLeft;
+    @BindView(R.id.detail_image_center)
+    ImageView detailImageCenter;
+    @BindView(R.id.detail_image_right)
+    ImageView detailImageRight;
+    @BindView(R.id.detail_but_left)
+    Button detailButLeft;
+    @BindView(R.id.detail_but_right)
+    Button detailButRight;
     private List<DetailBean> DetailList = new ArrayList<>();
     private LoginDailog loginDailog;
 
@@ -57,43 +66,88 @@ public class DetailActivity extends BaseActivity {
         showDailog();
         showRecyclerview();
 
+        detailButLeft.setEnabled(false);
+        detailButRight.setEnabled(true);
         detaiScroll.scrollTo(200, 0);
+    }
 
+    @Override
+    protected void setListener() {
 
-        detailImage.setOnClickListener(new View.OnClickListener() {
+        detailImageLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                Intent intent = new Intent(DetailActivity.this, SpaceImageDetailActivity.class);
-                int[] location = new int[2];
-                detailImage.getLocationOnScreen(location);
-                intent.putExtra("locationX", location[0]);
-                intent.putExtra("locationY", location[1]);
-
-                intent.putExtra("width", detailImage.getWidth());
-                intent.putExtra("height", detailImage.getHeight());
-                startActivity(intent);
-                overridePendingTransition(0, 0);
+                if (!detailButLeft.isEnabled()){
+                    showSpaceImage(detailImageLeft, ImageRes[0]);
+                }else {
+                    showSpaceImage(detailImageLeft, ImageRes[3]);
+                }
 
             }
         });
+        detailImageCenter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!detailButLeft.isEnabled()){
+                    showSpaceImage(detailImageCenter, ImageRes[1]);
+                }else {
+                    showSpaceImage(detailImageCenter, ImageRes[4]);
+                }
+            }
+        });
+        detailImageRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!detailButLeft.isEnabled()){
+                    showSpaceImage(detailImageRight, ImageRes[2]);
+                }else {
+                    showSpaceImage(detailImageRight, ImageRes[5]);
+                }
+            }
+        });
 
+        detailButLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                detailButLeft.setEnabled(false);
+                detailButRight.setEnabled(true);
+                detailImageLeft.setImageResource(R.mipmap.leftfoot_internal);
+                detailImageCenter.setImageResource(R.mipmap.leftfoot_surface);
+                detailImageRight.setImageResource(R.mipmap.leftfoot_outside);
+            }
+        });
+        detailButRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                detailButLeft.setEnabled(true);
+                detailButRight.setEnabled(false);
+                detailImageLeft.setImageResource(R.mipmap.rightfoot_internal);
+                detailImageCenter.setImageResource(R.mipmap.rightfoot_surface);
+                detailImageRight.setImageResource(R.mipmap.rightfoot_outside);
+            }
+        });
+    }
+
+    private void showSpaceImage(ImageView view, int imageRe) {
+        Intent intent = new Intent(DetailActivity.this, SpaceImageDetailActivity.class);
+        intent.putExtra("images", imageRe);
+        int[] location = new int[2];
+        view.getLocationOnScreen(location);
+        intent.putExtra("locationX", location[0]);
+        intent.putExtra("locationY", location[1]);
+        intent.putExtra("width", view.getWidth());
+        intent.putExtra("height", view.getHeight());
+        startActivity(intent);
+        overridePendingTransition(0, 0);
     }
 
     private void showRecyclerview() {
-
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         mRecyclerview.setLayoutManager(linearLayoutManager);
         mRecyclerview.setHasFixedSize(true);
         mRecyclerview.setItemAnimator(new DefaultItemAnimator());
         DetailAdapter detailAdapter = new DetailAdapter(DetailList);
         mRecyclerview.setAdapter(detailAdapter);
-    }
-
-
-    @Override
-    protected void setListener() {
-
     }
 
     public void getData() {
@@ -141,4 +195,10 @@ public class DetailActivity extends BaseActivity {
         loginDailog = new LoginDailog(this);
     }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
 }

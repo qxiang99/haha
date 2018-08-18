@@ -55,31 +55,16 @@ public class DetailActivity extends BaseActivity {
     protected void init() {
         getData();
         showDailog();
+        showRecyclerview();
 
+        detaiScroll.scrollTo(200, 0);
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        mRecyclerview.setLayoutManager(linearLayoutManager);
-        mRecyclerview.setHasFixedSize(true);
-        mRecyclerview.setItemAnimator(new DefaultItemAnimator());
-        DetailAdapter detailAdapter = new DetailAdapter(DetailList);
-        mRecyclerview.setAdapter(detailAdapter);
-
-
-        findViewById(R.id.detail_text_title).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                detaiScroll.scrollTo(200, 0);
-            }
-        });
 
         detailImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 Intent intent = new Intent(DetailActivity.this, SpaceImageDetailActivity.class);
-                //intent.putExtra("images", (ArrayList<String>) datas);
-                //intent.putExtra("position", position);
                 int[] location = new int[2];
                 detailImage.getLocationOnScreen(location);
                 intent.putExtra("locationX", location[0]);
@@ -90,32 +75,19 @@ public class DetailActivity extends BaseActivity {
                 startActivity(intent);
                 overridePendingTransition(0, 0);
 
-               /* // 判断当前点击了哪一个
-                for (int i = 0; i < mLinImage.getChildCount(); i++) {
-                    ImageView tv = (ImageView) mLinImage.getChildAt(i);
-                    if (view == tv) {
-                        // 让对应的这个textView变红
-                        tv.setTextColor(Color.RED);
-                        viewPager.setCurrentItem(i);
-                    }
-                }*/
             }
         });
 
+    }
 
-       /*  Intent intent = new Intent(MainActivity.this, SpaceImageDetailActivity.class);
-                    intent.putExtra("images", (ArrayList<String>) datas);
-                    intent.putExtra("position", position);
-                    int[] location = new int[2];
-                    imageView.getLocationOnScreen(location);
-                    intent.putExtra("locationX", location[0]);
-                    intent.putExtra("locationY", location[1]);
+    private void showRecyclerview() {
 
-                    intent.putExtra("width", imageView.getWidth());
-                    intent.putExtra("height", imageView.getHeight());
-                    startActivity(intent);
-                    overridePendingTransition(0, 0);*/
-
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        mRecyclerview.setLayoutManager(linearLayoutManager);
+        mRecyclerview.setHasFixedSize(true);
+        mRecyclerview.setItemAnimator(new DefaultItemAnimator());
+        DetailAdapter detailAdapter = new DetailAdapter(DetailList);
+        mRecyclerview.setAdapter(detailAdapter);
     }
 
 
@@ -169,10 +141,4 @@ public class DetailActivity extends BaseActivity {
         loginDailog = new LoginDailog(this);
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
 }

@@ -34,4 +34,6 @@ dependencies {
     //gson
     compile 'com.google.code.gson:gson:2.8.0'
 
+    compile 'com.lzy.net:okgo:3.0.4'
+
 }

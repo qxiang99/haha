@@ -25,6 +25,13 @@ public class ReadyToScanActivity extends BaseActivity {
                 startActivity(new Intent(ReadyToScanActivity.this,DetailActivity.class));
             }
         });
+
+
+
+
+
+
+
     }
 
     @Override

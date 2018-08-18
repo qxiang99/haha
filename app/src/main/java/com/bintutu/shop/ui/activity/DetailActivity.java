@@ -1,11 +1,13 @@
 package com.bintutu.shop.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.HorizontalScrollView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.bintutu.shop.R;
@@ -14,7 +16,6 @@ import com.bintutu.shop.bean.LeftBean;
 import com.bintutu.shop.bean.RightBean;
 import com.bintutu.shop.ui.BaseActivity;
 import com.bintutu.shop.ui.adapter.DetailAdapter;
-import com.bintutu.shop.ui.adapter.ViewPagerAdapter;
 import com.bintutu.shop.ui.view.LoginDailog;
 import com.google.gson.Gson;
 
@@ -28,8 +29,12 @@ public class DetailActivity extends BaseActivity {
 
     @BindView(R.id.recyclerview)
     RecyclerView mRecyclerview;
-    /*@BindView(R.id.detail_lin_image)
-    LinearLayout mLinImage;*/
+    @BindView(R.id.detai_scroll)
+    HorizontalScrollView detaiScroll;
+    @BindView(R.id.detail_lin_image)
+    LinearLayout mLinImage;
+    @BindView(R.id.detail_image)
+    ImageView detailImage;
     private List<DetailBean> DetailList = new ArrayList<>();
     private LoginDailog loginDailog;
 
@@ -60,18 +65,58 @@ public class DetailActivity extends BaseActivity {
         mRecyclerview.setAdapter(detailAdapter);
 
 
-
-
-
-
-       /* findViewById(R.id.detail_text_title).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.detail_text_title).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                detaiScroll.scrollTo(200, 0);
             }
-        });*/
+        });
+
+        detailImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(DetailActivity.this, SpaceImageDetailActivity.class);
+                //intent.putExtra("images", (ArrayList<String>) datas);
+                //intent.putExtra("position", position);
+                int[] location = new int[2];
+                detailImage.getLocationOnScreen(location);
+                intent.putExtra("locationX", location[0]);
+                intent.putExtra("locationY", location[1]);
+
+                intent.putExtra("width", detailImage.getWidth());
+                intent.putExtra("height", detailImage.getHeight());
+                startActivity(intent);
+                overridePendingTransition(0, 0);
+
+               /* // 判断当前点击了哪一个
+                for (int i = 0; i < mLinImage.getChildCount(); i++) {
+                    ImageView tv = (ImageView) mLinImage.getChildAt(i);
+                    if (view == tv) {
+                        // 让对应的这个textView变红
+                        tv.setTextColor(Color.RED);
+                        viewPager.setCurrentItem(i);
+                    }
+                }*/
+            }
+        });
+
+
+       /*  Intent intent = new Intent(MainActivity.this, SpaceImageDetailActivity.class);
+                    intent.putExtra("images", (ArrayList<String>) datas);
+                    intent.putExtra("position", position);
+                    int[] location = new int[2];
+                    imageView.getLocationOnScreen(location);
+                    intent.putExtra("locationX", location[0]);
+                    intent.putExtra("locationY", location[1]);
+
+                    intent.putExtra("width", imageView.getWidth());
+                    intent.putExtra("height", imageView.getHeight());
+                    startActivity(intent);
+                    overridePendingTransition(0, 0);*/
 
     }
-
 
 
     @Override
@@ -124,4 +169,10 @@ public class DetailActivity extends BaseActivity {
         loginDailog = new LoginDailog(this);
     }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
 }

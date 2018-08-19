@@ -73,6 +73,7 @@ public class JsonConvert<T> implements Converter<T> {
                 return parseClass(response, clazz);
             }
         }
+        Log.e("BaseResponse",(type == null)+"..2+"+(type instanceof ParameterizedType)+"..."+(type instanceof Class));
         if (type instanceof ParameterizedType) {
             return parseParameterizedType(response, (ParameterizedType) type);
         } else if (type instanceof Class) {
@@ -117,6 +118,7 @@ public class JsonConvert<T> implements Converter<T> {
     }
 
     private T parseParameterizedType(Response response, ParameterizedType type) throws Exception {
+
         if (type == null) return null;
         ResponseBody body = response.body();
         if (body == null) return null;
@@ -124,6 +126,7 @@ public class JsonConvert<T> implements Converter<T> {
 
         Type rawType = type.getRawType();                     // 泛型的实际类型
         Type typeArgument = type.getActualTypeArguments()[0]; // 泛型的参数
+        Log.e("BaseResponse",(typeArgument == String.class)+"..3");
         if (rawType != BaseResponse.class) {
             // 泛型格式如下： new JsonCallback<外层BaseBean<内层JavaBean>>(this)
             T t = Convert.fromJson(jsonReader, type);
@@ -135,8 +138,18 @@ public class JsonConvert<T> implements Converter<T> {
                 SimpleResponse simpleResponse = Convert.fromJson(jsonReader, SimpleResponse.class);
                 response.close();
                 //noinspection unchecked
-                return (T) simpleResponse.toLzyResponse();
-            } else {
+                return (T) simpleResponse;
+            }else if (typeArgument == String.class){
+                //    l
+                Log.e("typeArgument",".....3..."+Convert.toJson(jsonReader));
+                Log.e("typeArgument",".....3..."+Convert.fromJson(jsonReader,String.class));
+                Log.e("typeArgument",".....3..."+Convert.fromJson(jsonReader,typeArgument));
+                Log.e("typeArgument",".....3..."+Convert.toJson(jsonReader,String.class));
+
+                String simpleResponse = Convert.fromJson(jsonReader,String.class);
+                response.close();
+                return  (T) simpleResponse;
+            }else {
                 // 泛型格式如下： new JsonCallback<LzyResponse<内层JavaBean>>(this)
                 BaseResponse baseResponse = Convert.fromJson(jsonReader, type);
                 response.close();

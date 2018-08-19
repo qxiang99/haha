@@ -20,6 +20,7 @@ import android.widget.ProgressBar;
 
 import com.bintutu.shop.R;
 import com.bintutu.shop.ui.BaseActivity;
+import com.bintutu.shop.utils.AppConstant;
 import com.bintutu.shop.utils.DebugLog;
 import com.bintutu.shop.utils.DensityUtil;
 
@@ -47,7 +48,7 @@ public class MainActivity extends BaseActivity {
     protected void init() {
         Intent intent = getIntent();
         url = intent.getStringExtra("url");
-        if (url == null || TextUtils.isEmpty(url)) return;
+       /* if (url == null || TextUtils.isEmpty(url)) return;*/
         WebSettings settings = mWebView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setUserAgentString("scheme//caigou_ANDROID/1.1.1");
@@ -67,7 +68,7 @@ public class MainActivity extends BaseActivity {
                 url = url + "?token=" + ConfigManager.User.getToken();
             }
         }*/
-        mWebView.loadUrl(url);
+        mWebView.loadUrl(AppConstant.URL);
         DebugLog.e("新连接：" + url);
     }
 
@@ -95,7 +96,8 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                if (url.startsWith("takeout://")) {
+                if (url.startsWith("bintutu://")) {
+                    DebugLog.e(url+"");
                      Takeout(url);
                 } else {
                     view.loadUrl(url);
@@ -131,15 +133,25 @@ public class MainActivity extends BaseActivity {
 
 
     private void Takeout(String url) {
-        if (url.startsWith("takeout://share")) {
-            Map<String, String> map = getParamsMap(url, "takeout://share");
+        if (url.startsWith("bintutu://startscanning")) {
+            Map<String, String> map = getParamsMap(url, "bintutu://startscanning");
             String data = map.get("param");
             callback = map.get("callback");
             DebugLog.e("param:" + data);
-            String call = "javascript:Hybrid." + callback + "()";
-            mWebView.loadUrl(call);
+            startActivity(new Intent(MainActivity.this,ReadyToScanActivity.class));
 
         }
+        if (url.startsWith("bintutu://cookies")) {
+            Map<String, String> map = getParamsMap(url, "bintutu://cookies");
+            String data = map.get("param");
+            callback = map.get("callback");
+            DebugLog.e("param:" + data);
+            startActivity(new Intent(MainActivity.this,ReadyToScanActivity.class));
+
+        }
+
+
+
     }
 
 

@@ -16,7 +16,9 @@
 package com.bintutu.shop.okgo;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonIOException;
+import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;
 
@@ -70,7 +72,7 @@ public class Convert {
         return create().toJson(src, typeOfSrc);
     }
 
-   /* public static String formatJson(String json) {
+   /*public static String formatJson(String json) {
         try {
             JsonParser jp = new JsonParser();
             JsonElement je = jp.parse(json);

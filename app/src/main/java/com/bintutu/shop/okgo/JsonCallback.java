@@ -45,8 +45,8 @@ public abstract class JsonCallback<T> extends AbsCallback<T> {
     @Override
     public void onStart(Request<T, ? extends Request> request) {
         super.onStart(request);
-        request.headers("token", "")
-                .headers("terminalType", "2");
+       /* request.headers("token", "")
+                .headers("terminalType", "2");*/
 
     }
 

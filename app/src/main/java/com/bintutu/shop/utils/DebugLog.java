@@ -18,7 +18,7 @@ public class DebugLog {
     }
 
     public static boolean isDebuggable() {
-        return Boolean.parseBoolean(ShopApplication.getInstance().GetDebug()+"");
+        return Boolean.parseBoolean("true");
     }
 
     private static String createLog(String log) {

@@ -10,9 +10,11 @@ import com.bintutu.shop.R;
 import com.bintutu.shop.bean.BaseResponse;
 import com.bintutu.shop.bean.LoginBean;
 import com.bintutu.shop.okgo.JsonCallback;
+import com.bintutu.shop.okgo.SimpleResponse;
 import com.bintutu.shop.ui.BaseActivity;
 import com.bintutu.shop.ui.view.GifDailog;
 import com.bintutu.shop.utils.AppConstant;
+import com.bintutu.shop.utils.DebugLog;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
 
@@ -37,15 +39,19 @@ public class ReadyToScanActivity extends BaseActivity {
     @Override
     protected void init() {
         //请求扫描仪是否在线
-        OkGo.<BaseResponse<LoginBean>>get(AppConstant.LOGIN)
-                .params("name", "")
-                .execute(new JsonCallback<BaseResponse<LoginBean>>() {
+        OkGo.<BaseResponse<String>>get("http://192.168.12.1/getID")
+                //.params("name", "")
+                .execute(new JsonCallback<BaseResponse<String>>() {
                     @Override
-                    public void onSuccess(Response<BaseResponse<LoginBean>> response) {
+                    public void onSuccess(Response<BaseResponse<String>> response) {
+                        DebugLog.e("......"+response.body());
+                        if (response.body()!=null){
+
+                        }
                     }
 
                     @Override
-                    public void onError(Response<BaseResponse<LoginBean>> response) {
+                    public void onError(Response<BaseResponse<String>> response) {
                     }
                 });
 
@@ -73,7 +79,8 @@ public class ReadyToScanActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                //startScan();
-                startActivity(new Intent(ReadyToScanActivity.this,DetailActivity.class));
+               // startActivity(new Intent(ReadyToScanActivity.this,DetailActivity.class));
+                requestData();
             }
         });
 
@@ -85,7 +92,76 @@ public class ReadyToScanActivity extends BaseActivity {
         gifDailog.show();
         gifDailog.StartGif();
         //发出扫描命令
+        ScanPost();
         //循环请求结果
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                requestData();
+            }
+        }).start();
+
+
+    }
+
+    private void ScanPost() {
+        OkGo.<BaseResponse<String>>post("http://192.168.12.1/beginScan")
+                .params("id","2018234223" )
+                .params("begin", "1")
+                .execute(new JsonCallback<BaseResponse<String>>() {
+                    @Override
+                    public void onSuccess(Response<BaseResponse<String>> response) {
+
+                    }
+                    @Override
+                    public void onError(Response<BaseResponse<String>> response) {
+                    }
+                });
+
+
+
+
+    }
+
+
+    private void requestData() {
+       OkGo.<BaseResponse<String>>post("http://192.168.12.1/requestData")
+                .params("id","2018234223" )
+                .execute(new JsonCallback<BaseResponse<String>>() {
+                    @Override
+                    public void onSuccess(Response<BaseResponse<String>> response) {
+                        DebugLog.e("......"+response.body());
+                    }
+
+                    @Override
+                    public void onError(Response<BaseResponse<String>> response) {
+                    }
+                });
+
+/*
+        OkGo.<BaseResponse<String>>get("http://192.168.12.1/awawaw/left.json")
+                .execute(new JsonCallback<BaseResponse<String>>() {
+                    @Override
+                    public void onSuccess(Response<BaseResponse<String>> response) {
+                        DebugLog.e("......"+response.body());
+                    }
+
+                    @Override
+                    public void onError(Response<BaseResponse<String>> response) {
+                    }
+                });
+
+        OkGo.<BaseResponse<String>>get("http://192.168.12.1/awawaw/right.json")
+                .execute(new JsonCallback<BaseResponse<String>>() {
+                    @Override
+                    public void onSuccess(Response<BaseResponse<String>> response) {
+                        DebugLog.e("......"+response.body());
+                    }
+
+                    @Override
+                    public void onError(Response<BaseResponse<String>> response) {
+                    }
+                });*/
     }
 
 }

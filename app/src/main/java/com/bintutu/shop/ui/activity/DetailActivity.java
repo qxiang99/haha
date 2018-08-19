@@ -12,14 +12,23 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.bintutu.shop.R;
+import com.bintutu.shop.bean.BaseResponse;
 import com.bintutu.shop.bean.DetailBean;
 import com.bintutu.shop.bean.LeftBean;
 import com.bintutu.shop.bean.RightBean;
+import com.bintutu.shop.okgo.DialogCallback;
+import com.bintutu.shop.okgo.JsonCallback;
+import com.bintutu.shop.okgo.LzyResponse;
+import com.bintutu.shop.okgo.ServerModel;
 import com.bintutu.shop.ui.BaseActivity;
 import com.bintutu.shop.ui.adapter.DetailAdapter;
 import com.bintutu.shop.ui.view.LoginDailog;
+import com.bintutu.shop.utils.DebugLog;
 import com.google.gson.Gson;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.model.Response;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,9 +86,9 @@ public class DetailActivity extends BaseActivity {
         detailImageLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!detailButLeft.isEnabled()){
+                if (!detailButLeft.isEnabled()) {
                     showSpaceImage(detailImageLeft, ImageRes[0]);
-                }else {
+                } else {
                     showSpaceImage(detailImageLeft, ImageRes[3]);
                 }
 
@@ -88,9 +97,9 @@ public class DetailActivity extends BaseActivity {
         detailImageCenter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!detailButLeft.isEnabled()){
+                if (!detailButLeft.isEnabled()) {
                     showSpaceImage(detailImageCenter, ImageRes[1]);
-                }else {
+                } else {
                     showSpaceImage(detailImageCenter, ImageRes[4]);
                 }
             }
@@ -98,9 +107,9 @@ public class DetailActivity extends BaseActivity {
         detailImageRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!detailButLeft.isEnabled()){
+                if (!detailButLeft.isEnabled()) {
                     showSpaceImage(detailImageRight, ImageRes[2]);
-                }else {
+                } else {
                     showSpaceImage(detailImageRight, ImageRes[5]);
                 }
             }
@@ -151,6 +160,8 @@ public class DetailActivity extends BaseActivity {
     }
 
     public void getData() {
+
+
         Gson gson = new Gson();
 
         String leftJson = "{ \"10_FuWeiGao\" : 0.0, \"11_1ZhiZhiGao\" : 0.0, \"12_DaMoZhiGao\" : 0.0, \"13_JiaoWanGao\" : 0.0, \"14_JiaoZhiKuan\" : 0.0, \"15_ZhiWeiKuan\" : 75.0062, \"16_DiBanKuan\" : 75.0062, \"17_MuZhiLiKuan\" : 9.89464, \"18_XiaoZhiWaiKuan\" : 56.4657, \"19_1ZhizhiLiKuan\" : 17.5741, \"1_FootLen\" : 221.054, \"20_5ZhizhiLiKuan\" : 55.9658, \"21_YaoWoWaiKuan\" : 73.5143, \"22_ZhongXinDiKuan\" : 56.0287, \"23_JiaoHuaiNeiKuan\" : 0.0, \"24_MuZhiWaiTuChang\" : 198.949, \"25_XiaoZhiDuanChang\" : 182.37, \"26_XiaoZhiWaiTuChang\" : 172.422, \"27_1ZhiZhiChang\" : 160.264, \"28_5ZhiZhiChang\" : 140.369, \"29_FuGuChang\" : 121.58, \"2_ZhiWei\" : 0.0, \"30_YaoWoChang\" : 90.6323, \"31_ZhouShangDianChang\" : 85.1059, \"32_WaiHuaiGuZhongChang\" : 49.7372, \"33_ZhongXinChang\" : 39.7898, \"34_HouGenBianChang\" : 8.84217, \"35_QianZhangTuDianChang\" : 152.085, \"36_ZuGongDu\" : 0.0, \"37_NeiWaiFanDu\" : 0.0, \"3_FuWei\" : 0.0, \"4_DouWei\" : 0.0, \"5_JiaoWanWei\" : 0.0, \"6_JiaoZhiZhou\" : 0.0, \"7_WaiHuaiXiaGao\" : 0.0, \"8_HouGenTuGao\" : 0.0, \"9_ZhouShangGao\" : 0.0 }";
@@ -188,6 +199,88 @@ public class DetailActivity extends BaseActivity {
         DetailList.add(new DetailBean(getResources().getString(R.string.lZhiZhiChang), 27, leftBean.get_27_1ZhiZhiChang(), rightBean.get_27_1ZhiZhiChang()));
         DetailList.add(new DetailBean(getResources().getString(R.string.SZhiZhiChang), 28, leftBean.get_28_5ZhiZhiChang(), rightBean.get_28_5ZhiZhiChang()));
         DetailList.add(new DetailBean(getResources().getString(R.string.FuGuChang), 29, leftBean.get_29_FuGuChang(), rightBean.get_29_FuGuChang()));
+
+    }
+
+    private void upload() {
+        //上传数据
+        OkGo.<BaseResponse<String>>post("http://116.62.145.154:8080/shop_3d/backend/web/index.php/userfoottypedata/newdata\n")
+                .params("name", "2018234223")//自定的一个名字
+                .params("customer_id", "1")//手机号验证码请求成功返回的id
+                .params("customer_phone", "1")//手机号
+                .params("shop_id", "1")//商铺手机号
+                .params("device_id", "1")//判断设备在不在线的返回的数据
+                .params("foot_remark", "1")//数据界面上面需要标记的图片json
+                .params("detail_data", "1")//left.json+right.json
+                .params("remark", "1")//备注
+                .execute(new JsonCallback<BaseResponse<String>>() {
+                    @Override
+                    public void onSuccess(Response<BaseResponse<String>> response) {
+
+                    }
+
+                    @Override
+                    public void onError(Response<BaseResponse<String>> response) {
+                    }
+                });
+
+        //发送验证码
+        OkGo.<BaseResponse<String>>post("http://116.62.145.154:8080/shop_3d/backend/web/index.php/customer/varificationcode")
+                .params("phone", "")
+                .execute(new JsonCallback<BaseResponse<String>>() {
+                    @Override
+                    public void onSuccess(Response<BaseResponse<String>> response) {
+
+                    }
+
+                    @Override
+                    public void onError(Response<BaseResponse<String>> response) {
+                    }
+                });
+        //验证码登陆
+        OkGo.<BaseResponse<String>>post("http://116.62.145.154:8080/shop_3d/backend/web/index.php/customer/login")
+                .params("phone", "")
+                .params("varification_code", "1")
+                .execute(new JsonCallback<BaseResponse<String>>() {
+                    @Override
+                    public void onSuccess(Response<BaseResponse<String>> response) {
+
+                    }
+
+                    @Override
+                    public void onError(Response<BaseResponse<String>> response) {
+                    }
+                });
+
+        /*上传zip
+http://116.62.145.154:8080/shop_3d/backend/web/index.php/userfoottypedata/uploadzip
+id: 数据的id
+file：文件*/
+
+
+        /*上传图片
+http://116.62.145.154:8080/shop_3d/backend/web/index.php/userfoottypedata/uploadpic
+id: 数据的id
+file：文件*/
+
+        //上传图片
+        OkGo.<LzyResponse<ServerModel>>post("")//
+                .tag(this)//
+                .headers("header1", "headerValue1")//
+//                .params("param1", "paramValue1")// 这里不要使用params，upBytes 与 params 是互斥的，只有 upBytes 的数据会被上传
+                .upFile(new File(""))//
+                .execute(new DialogCallback<LzyResponse<ServerModel>>(this) {
+                    @Override
+                    public void onSuccess(Response<LzyResponse<ServerModel>> response) {
+
+                    }
+
+                    @Override
+                    public void onError(Response<LzyResponse<ServerModel>> response) {
+
+                    }
+                });
+
     }
 
 
@@ -195,10 +288,5 @@ public class DetailActivity extends BaseActivity {
         loginDailog = new LoginDailog(this);
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
+
 }

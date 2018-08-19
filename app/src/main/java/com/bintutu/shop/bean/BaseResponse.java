@@ -23,10 +23,20 @@ public class BaseResponse<T> implements Serializable {
     private static final long serialVersionUID = 5213230387175987834L;
 
     public int code;
+
+    public int result;
     public int http_code;
     public String msg;
     public String message;
     public T data;
+
+    public int getResult() {
+        return result;
+    }
+
+    public void setResult(int result) {
+        this.result = result;
+    }
 
     public int getCode() {
         return code;

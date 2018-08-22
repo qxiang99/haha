@@ -107,15 +107,19 @@
         app:layout_constraintLeft_toLeftOf="@+id/login_image2"
         app:layout_constraintTop_toBottomOf="@+id/login_image2" />
 
+
+
+
     <EditText
         android:id="@+id/login_edit_code"
         android:layout_width="330px"
         android:layout_height="31px"
         android:layout_marginLeft="25px"
+        android:background="@null"
         android:hint="请输入验证码"
-        android:textColorHint="@color/text_color_bf"
         android:maxLines="1"
         android:textColor="@color/text_color_bf"
+        android:textColorHint="@color/text_color_bf"
         android:textSize="@dimen/text_size_26"
         app:layout_constraintBottom_toBottomOf="@+id/login_image3"
         app:layout_constraintLeft_toRightOf="@+id/login_image3"

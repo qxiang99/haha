@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +17,13 @@ import android.widget.TextView;
 
 import com.bintutu.shop.R;
 import com.bintutu.shop.bean.BaseResponse;
+import com.bintutu.shop.bean.LeftBean;
+import com.bintutu.shop.bean.LoginBean;
 import com.bintutu.shop.okgo.JsonCallback;
 import com.bintutu.shop.utils.AppConstant;
+import com.bintutu.shop.utils.DebugLog;
 import com.bintutu.shop.utils.ToastUtils;
+import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
 
@@ -69,16 +74,18 @@ public class LoginDailog extends Dialog {
                 }
 
                 //发送验证码
-                OkGo.<BaseResponse<String>>post(AppConstant.VARIFICATIONCODE)
+                OkGo.<BaseResponse<LoginBean>>post(AppConstant.VARIFICATIONCODE)
                         .params("phone", PHONE)
-                        .execute(new JsonCallback<BaseResponse<String>>() {
+                        .execute(new JsonCallback<BaseResponse<LoginBean>>() {
                             @Override
-                            public void onSuccess(Response<BaseResponse<String>> response) {
-
+                            public void onSuccess(Response<BaseResponse<LoginBean>> response) {
+                                DebugLog.e(".......");
+                                ToastUtils.showToast(mContext, "发送成功");
                             }
 
                             @Override
-                            public void onError(Response<BaseResponse<String>> response) {
+                            public void onError(Response<BaseResponse<LoginBean>> response) {
+                                super.onError(response);
                             }
                         });
 
@@ -91,7 +98,7 @@ public class LoginDailog extends Dialog {
 
                 final String Number = mLoginEditNumber.getText().toString().trim();
                 final String PHONE = mLoginEditPhone.getText().toString().trim();
-                final String code = mLoginTextCode.getText().toString().trim();
+                final String code = mLoginEditCode.getText().toString().trim();
                 if (TextUtils.isEmpty(Number)) {
                     ToastUtils.showToast(mContext, "编号不能为空");
                     return;
@@ -112,11 +119,22 @@ public class LoginDailog extends Dialog {
                         .execute(new JsonCallback<BaseResponse<String>>() {
                             @Override
                             public void onSuccess(Response<BaseResponse<String>> response) {
+                                Gson gson = new Gson();
+                                String data = String.valueOf(response.body());
+                                LoginBean loginBean = gson.fromJson(data, LoginBean.class);
+                                if (loginBean!=null&loginBean.getCode()==0){
+                                    ToastUtils.showToast(mContext, "登录成功");
+                                    if (mListener!=null){
+                                        mListener.Data(Number,PHONE,loginBean.getResult().getCustomer_id());
+                                    }
+                                    dismiss();
+                                }
 
                             }
 
                             @Override
                             public void onError(Response<BaseResponse<String>> response) {
+
                             }
                         });
 

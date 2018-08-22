@@ -63,7 +63,6 @@ public class JsonConvert<T> implements Converter<T> {
      */
     @Override
     public T convertResponse(Response response) throws Throwable {
-        Log.e("BaseResponse",(type == null)+"..1");
         if (type == null) {
             if (clazz == null) {
                 // 如果没有通过构造函数传进来，就自动解析父类泛型的真实类型（有局限性，继承后就无法解析到）
@@ -73,8 +72,7 @@ public class JsonConvert<T> implements Converter<T> {
                 return parseClass(response, clazz);
             }
         }
-        Log.e("BaseResponse",(type == null)+"..2+"+(type instanceof ParameterizedType)+"..."+(type instanceof Class));
-        if (type instanceof ParameterizedType) {
+       if (type instanceof ParameterizedType) {
             return parseParameterizedType(response, (ParameterizedType) type);
         } else if (type instanceof Class) {
             return parseClass(response, (Class<?>) type);
@@ -126,7 +124,6 @@ public class JsonConvert<T> implements Converter<T> {
 
         Type rawType = type.getRawType();                     // 泛型的实际类型
         Type typeArgument = type.getActualTypeArguments()[0]; // 泛型的参数
-        Log.e("BaseResponse",(typeArgument == String.class)+"..3");
         if (rawType != BaseResponse.class) {
             // 泛型格式如下： new JsonCallback<外层BaseBean<内层JavaBean>>(this)
             T t = Convert.fromJson(jsonReader, type);

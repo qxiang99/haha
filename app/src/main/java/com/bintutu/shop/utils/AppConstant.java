@@ -39,17 +39,17 @@ public class AppConstant {
     //请求设备拉取数据-----post
     public static final String REQUEST_DATA = EQUIPMENT_URL + "requestData";
     //获取数据LEFT_JSON----get
-    public static final String LEFT_JSON = EQUIPMENT_URL + "awawaw/left.json";
+    public static final String LEFT_JSON = EQUIPMENT_URL ;
     //获取数据RIGHT_JSON----get
-    public static final String RIGHT_JSON = EQUIPMENT_URL + "awawaw/right.json";
+    public static final String RIGHT_JSON = EQUIPMENT_URL;
     //获取数据图片1---------get
-    public static final String IMAGE_ONE = EQUIPMENT_URL + "awawaw/0-show.jpg";
+    public static final String IMAGE_ONE = EQUIPMENT_URL ;
     //获取数据图片2---------get
-    public static final String IAMGE_TWO = EQUIPMENT_URL + "awawaw/1-show.jpg";
+    public static final String IAMGE_TWO = EQUIPMENT_URL ;
     //获取数据图片3---------get
-    public static final String IMAGE_TREE = EQUIPMENT_URL + "awawaw/5_l-show.jpg";
+    public static final String IMAGE_TREE = EQUIPMENT_URL ;
     //获取数据图片4---------get
-    public static final String IAMGE_FOUR = EQUIPMENT_URL + "awawaw/5_r-show.jpg";
+    public static final String IAMGE_FOUR = EQUIPMENT_URL ;
     //获取数据ZIP-----------get
     public static final String DATA_ZIP = EQUIPMENT_URL + "awawaw/right.json";
 }

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
@@ -15,6 +16,7 @@ import com.bintutu.shop.R;
 import com.bintutu.shop.bean.BaseResponse;
 import com.bintutu.shop.bean.DetailBean;
 import com.bintutu.shop.bean.LeftBean;
+import com.bintutu.shop.bean.LoginBean;
 import com.bintutu.shop.bean.RightBean;
 import com.bintutu.shop.okgo.DialogCallback;
 import com.bintutu.shop.okgo.JsonCallback;
@@ -83,6 +85,11 @@ public class DetailActivity extends BaseActivity {
     private Gson gson;
     private LeftBean leftBean;
     private RightBean rightBean;
+    private String number="0";
+    private String loginnumber;
+    private String loginphone;
+    private String logincustomer_id;
+    private String customerid;
 
     @Override
     protected void initContentView(Bundle savedInstanceState) {
@@ -92,13 +99,17 @@ public class DetailActivity extends BaseActivity {
     @Override
     protected void init() {
         gson = new Gson();
+
+        Intent intent = getIntent();
+        number = intent.getStringExtra(Constant.ItentKey1);
+
         getLeft();
         showDailog();
         showRecyclerview();
-        GlideUtil.load(DetailActivity.this,"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1534919414212&di=fbedfe4b189d0ea45c4baf65ed766163&imgtype=0&src=http%3A%2F%2Fimg5.duitang.com%2Fuploads%2Fitem%2F201605%2F31%2F20160531224207_P5trE.jpeg",detailImageFootleft );
-        GlideUtil.load(DetailActivity.this,"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1534919414212&di=fbedfe4b189d0ea45c4baf65ed766163&imgtype=0&src=http%3A%2F%2Fimg5.duitang.com%2Fuploads%2Fitem%2F201605%2F31%2F20160531224207_P5trE.jpeg",detailImageFootright );
-        GlideUtil.load(DetailActivity.this,"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1534919414212&di=fbedfe4b189d0ea45c4baf65ed766163&imgtype=0&src=http%3A%2F%2Fimg5.duitang.com%2Fuploads%2Fitem%2F201605%2F31%2F20160531224207_P5trE.jpeg",detailImagePlantarleft );
-        GlideUtil.load(DetailActivity.this,"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1534919414212&di=fbedfe4b189d0ea45c4baf65ed766163&imgtype=0&src=http%3A%2F%2Fimg5.duitang.com%2Fuploads%2Fitem%2F201605%2F31%2F20160531224207_P5trE.jpeg",detailImagePlantarright );
+        GlideUtil.load(DetailActivity.this,AppConstant.IMAGE_ONE+number+"/1-show.jpg",detailImageFootleft );
+        GlideUtil.load(DetailActivity.this,AppConstant.IAMGE_TWO+number+"/0-show.jpg",detailImageFootright );
+        GlideUtil.load(DetailActivity.this,AppConstant.IMAGE_TREE+number+"/5_l-show.jpg",detailImagePlantarleft );
+        GlideUtil.load(DetailActivity.this,AppConstant.IAMGE_FOUR+number+"/5_r-show.jpg",detailImagePlantarright );
 
         detailButLeft.setEnabled(false);
         detailButRight.setEnabled(true);
@@ -143,11 +154,12 @@ public class DetailActivity extends BaseActivity {
         detailButLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                detailButLeft.setEnabled(false);
+                upload(loginnumber, loginphone, logincustomer_id);
+               /* detailButLeft.setEnabled(false);
                 detailButRight.setEnabled(true);
                 detailImageLeft.setImageResource(R.mipmap.leftfoot_internal);
                 detailImageCenter.setImageResource(R.mipmap.leftfoot_surface);
-                detailImageRight.setImageResource(R.mipmap.leftfoot_outside);
+                detailImageRight.setImageResource(R.mipmap.leftfoot_outside);*/
             }
         });
         detailButRight.setOnClickListener(new View.OnClickListener() {
@@ -170,7 +182,9 @@ public class DetailActivity extends BaseActivity {
         loginDailog.seLogintListener(new LoginDailog.OnLoginClickListener() {
             @Override
             public void Data(String number, String phone, String customer_id) {
-                upload(number, phone, customer_id);
+                loginnumber = number;
+                loginphone = phone;
+                logincustomer_id = customer_id;
             }
         });
     }
@@ -201,7 +215,7 @@ public class DetailActivity extends BaseActivity {
 
 
     public void getLeft() {
-        OkGo.<BaseResponse<String>>get("http://opzhpptsb.bkt.clouddn.com/left.json")
+        OkGo.<BaseResponse<String>>get(AppConstant.LEFT_JSON+number+"/left.json")
                 .execute(new JsonCallback<BaseResponse<String>>() {
                     @Override
                     public void onSuccess(Response<BaseResponse<String>> response) {
@@ -219,7 +233,7 @@ public class DetailActivity extends BaseActivity {
     }
 
     private void getRight() {
-        OkGo.<BaseResponse<String>>get("http://opzhpptsb.bkt.clouddn.com/right.json")
+        OkGo.<BaseResponse<String>>get(AppConstant.RIGHT_JSON+number+"/right.json")
                 .execute(new JsonCallback<BaseResponse<String>>() {
                     @Override
                     public void onSuccess(Response<BaseResponse<String>> response) {
@@ -285,15 +299,18 @@ public class DetailActivity extends BaseActivity {
                 .params("customer_phone", phone)//手机号
                 .params("shop_id", ConfigManager.Device.getShopID())//商铺号
                 .params("device_id", ConfigManager.Device.getEquipmentID())//判断设备在不在线的返回的数据
-                .params("foot_remark", "1")//数据界面上面需要标记的图片json
+                .params("foot_remark", "")//数据界面上面需要标记的图片json
                 .params("detail_data", detailData)//left.json+right.json
                 .params("remark", "1")//备注
                 .execute(new JsonCallback<BaseResponse<String>>() {
                     @Override
                     public void onSuccess(Response<BaseResponse<String>> response) {
-                        if (true){
+                        String data = String.valueOf(response.body());
+                        LoginBean loginBean = gson.fromJson(data, LoginBean.class);
+                        if (loginBean!=null&loginBean.getCode()==0){
                             Intent intent = new Intent(DetailActivity.this, UploadSucessActivity.class);
-                            intent.putExtra(Constant.ItentKey1, "");
+                            customerid = loginBean.getResult().getCustomer_id();
+                            intent.putExtra(Constant.ItentKey1, loginBean.getResult().getCustomer_id());
                             startActivity(intent);
                         }
                     }
@@ -303,7 +320,7 @@ public class DetailActivity extends BaseActivity {
                     }
                 });
 
-        new Thread(new Runnable() {
+      /*  new Thread(new Runnable() {
             @Override
             public void run() {
                 //上传zip
@@ -312,12 +329,12 @@ public class DetailActivity extends BaseActivity {
                 UploadImage();
 
             }
-        }).start();
+        }).start();*/
 
     }
 
     private void UploadZip() {
-        MediaType Image = MediaType.parse("image/png; charset=utf-8");
+
         //上传图片
         OkGo.<LzyResponse<ServerModel>>post(AppConstant.UPLOAD_ZIP)
                 .headers("id", "headerValue1")//
@@ -335,6 +352,7 @@ public class DetailActivity extends BaseActivity {
                 });
     }
 
+    MediaType Image = MediaType.parse("image/png; charset=utf-8");
     private void UploadImage() {
         //上传图片
         OkGo.<LzyResponse<ServerModel>>post(AppConstant.UPLOAD_IMAGE)
@@ -366,4 +384,15 @@ public class DetailActivity extends BaseActivity {
          }
         }
     }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+
+
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
 }

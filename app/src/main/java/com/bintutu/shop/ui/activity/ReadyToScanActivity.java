@@ -17,6 +17,7 @@ import com.bintutu.shop.ui.BaseActivity;
 import com.bintutu.shop.ui.view.GifDailog;
 import com.bintutu.shop.utils.AppConstant;
 import com.bintutu.shop.utils.ConfigManager;
+import com.bintutu.shop.utils.Constant;
 import com.bintutu.shop.utils.DebugLog;
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
@@ -41,6 +42,7 @@ public class ReadyToScanActivity extends BaseActivity {
     private Gson gson;
     private GifDailog gifDailog;
     private int retry;
+    private Timer timer;
 
 
     @Override
@@ -112,13 +114,12 @@ public class ReadyToScanActivity extends BaseActivity {
         //发出扫描命令
         ScanPost();
         //循环请求结果
-        Timer timer = new Timer();
+        timer = new Timer();
         timer.schedule(new TimerTask() {
             public void run() {
                 requestData();
-                this.cancel();
             }
-        }, 1000);
+        }, 5000,10000);
     }
 
     private void ScanPost() {
@@ -143,19 +144,23 @@ public class ReadyToScanActivity extends BaseActivity {
 
     private void requestData() {
         //AppConstant.REQUEST_DATA
-        OkGo.<BaseResponse<String>>post("http://opzhpptsb.bkt.clouddn.com/a.json")
+        OkGo.<BaseResponse<String>>post(AppConstant.REQUEST_DATA)
                 .params("id", scanNametime)
                 .execute(new JsonCallback<BaseResponse<String>>() {
                     @Override
                     public void onSuccess(Response<BaseResponse<String>> response) {
                         ScanBean scanBean = gson.fromJson(String.valueOf(response.body()), ScanBean.class);
-                        DebugLog.e(scanBean.getResult()+"");
-                        if (scanBean.getResult() == 0) {
+                        DebugLog.e(scanBean.getResult()+"。。。。。1。。。。。");
+                        if (scanBean.getResult() == 1) {
+                            timer.cancel();
                             gifDailog.StopGif();
                             gifDailog.dismiss();
-                            startActivity(new Intent(ReadyToScanActivity.this,DetailActivity.class));
+                            Intent intent = new Intent(ReadyToScanActivity.this, DetailActivity.class);
+                            intent.putExtra(Constant.ItentKey1, scanNametime);
+                            startActivity(intent);
                             finish();
-                        } else if (scanBean.getResult() == 1) {
+                        } else if (scanBean.getResult() == 0) {
+                            timer.cancel();
                             retry++;
                             if (retry<2){
                                 //发送扫描命令加循环请求
@@ -166,6 +171,7 @@ public class ReadyToScanActivity extends BaseActivity {
 
                     @Override
                     public void onError(Response<BaseResponse<String>> response) {
+                        timer.cancel();
                     }
                 });
 

@@ -23,7 +23,10 @@ import com.lzy.okgo.model.Progress;
 import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
 
+import org.json.JSONObject;
+
 import java.io.File;
+import java.util.HashMap;
 
 public class TextActivity extends AppCompatActivity {
 
@@ -77,6 +80,13 @@ public class TextActivity extends AppCompatActivity {
                         super.onError(response);
                     }
                 });
+
+        HashMap<String, String> params = new HashMap<>();
+        params.put("key1", "value1");
+        params.put("key2", "这里是需要提交的json格式数据");
+        params.put("key3", "也可以使用三方工具将对象转成json字符串");
+        params.put("key4", "其实你怎么高兴怎么写都行");
+        JSONObject jsonObject = new JSONObject(params);
 
         //上传长String
         /*  OkGo.<LzyResponse<ServerModel>>post(Urls.URL_TEXT_UPLOAD)//

@@ -25,6 +25,7 @@ import com.bintutu.shop.ui.adapter.DetailAdapter;
 import com.bintutu.shop.ui.view.LoginDailog;
 import com.bintutu.shop.utils.AppConstant;
 import com.bintutu.shop.utils.ConfigManager;
+import com.bintutu.shop.utils.Constant;
 import com.bintutu.shop.utils.DebugLog;
 import com.bintutu.shop.utils.GlideUtil;
 import com.google.gson.Gson;
@@ -38,6 +39,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okhttp3.MediaType;
 
 public class DetailActivity extends BaseActivity {
 
@@ -67,7 +69,7 @@ public class DetailActivity extends BaseActivity {
     ImageView detailImagePlantarleft;
     @BindView(R.id.detail_image_plantarright)
     ImageView detailImagePlantarright;
-
+    private static final int SELECT_ONE = 1;
     private List<DetailBean> DetailList = new ArrayList<>();
     private LoginDailog loginDailog;
 
@@ -186,7 +188,7 @@ public class DetailActivity extends BaseActivity {
         intent.putExtra("locationY", location[1]);
         intent.putExtra("width", view.getWidth());
         intent.putExtra("height", view.getHeight());
-        startActivity(intent);
+        startActivityForResult(intent, SELECT_ONE);
         overridePendingTransition(0, 0);
     }
 
@@ -281,7 +283,7 @@ public class DetailActivity extends BaseActivity {
                 .params("name", number)//自定的一个名字
                 .params("customer_id", customer_id)//手机号验证码请求成功返回的id
                 .params("customer_phone", phone)//手机号
-                .params("shop_id", ConfigManager.Device.getShopID())//商铺手机号
+                .params("shop_id", ConfigManager.Device.getShopID())//商铺号
                 .params("device_id", ConfigManager.Device.getEquipmentID())//判断设备在不在线的返回的数据
                 .params("foot_remark", "1")//数据界面上面需要标记的图片json
                 .params("detail_data", detailData)//left.json+right.json
@@ -289,7 +291,11 @@ public class DetailActivity extends BaseActivity {
                 .execute(new JsonCallback<BaseResponse<String>>() {
                     @Override
                     public void onSuccess(Response<BaseResponse<String>> response) {
-
+                        if (true){
+                            Intent intent = new Intent(DetailActivity.this, UploadSucessActivity.class);
+                            intent.putExtra(Constant.ItentKey1, "");
+                            startActivity(intent);
+                        }
                     }
 
                     @Override
@@ -311,10 +317,11 @@ public class DetailActivity extends BaseActivity {
     }
 
     private void UploadZip() {
+        MediaType Image = MediaType.parse("image/png; charset=utf-8");
         //上传图片
         OkGo.<LzyResponse<ServerModel>>post(AppConstant.UPLOAD_ZIP)
                 .headers("id", "headerValue1")//
-                .upFile(new File(""))//
+                .upFile(new File(""),Image)//
                 .execute(new DialogCallback<LzyResponse<ServerModel>>(this) {
                     @Override
                     public void onSuccess(Response<LzyResponse<ServerModel>> response) {
@@ -347,10 +354,16 @@ public class DetailActivity extends BaseActivity {
     }
 
 
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK && null != data) {
+         if (requestCode == SELECT_ONE) {
+
+
+         }
+        }
     }
 }

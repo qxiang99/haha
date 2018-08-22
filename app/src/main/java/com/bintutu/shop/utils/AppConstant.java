@@ -26,8 +26,10 @@ public class AppConstant {
 
 
 
-    //web网址
-    public static final String WEBVIEW_URL = "http://ipadscan_test.bintutu.com/shop_3dscanner_learning/frontend/shutdown.html";
+    //web首页
+    public static final String WEBVIEW_HOME = "http://ipadscan_test.bintutu.com/shop_3dscanner_learning/frontend/shutdown.html";
+    //web选鞋页
+    public static final String WEBVIEW_CHOOSE = "http://ipadscan_test.bintutu.com/shop_3dscanner_learning/frontend/shutdown.html";
     //设备地址
     public static final String EQUIPMENT_URL = "http://192.168.12.1/";
     //查看设备是否在线----get

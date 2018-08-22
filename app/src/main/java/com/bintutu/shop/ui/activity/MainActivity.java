@@ -24,6 +24,7 @@ import com.bintutu.shop.bean.WebDataBean;
 import com.bintutu.shop.ui.BaseActivity;
 import com.bintutu.shop.utils.AppConstant;
 import com.bintutu.shop.utils.ConfigManager;
+import com.bintutu.shop.utils.Constant;
 import com.bintutu.shop.utils.DebugLog;
 import com.bintutu.shop.utils.DensityUtil;
 import com.google.gson.Gson;
@@ -51,8 +52,12 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void init() {
         Intent intent = getIntent();
-        url = intent.getStringExtra("url");
-        /* if (url == null || TextUtils.isEmpty(url)) return;*/
+        String weburl = intent.getStringExtra(Constant.ItentKey1);
+         if (weburl!=null){
+             url =  weburl;
+         }else {
+             url = AppConstant.WEBVIEW_HOME;
+         }
         WebSettings settings = mWebView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setUserAgentString("scheme//caigou_ANDROID/1.1.1");
@@ -72,8 +77,8 @@ public class MainActivity extends BaseActivity {
                 url = url + "?token=" + ConfigManager.User.getToken();
             }
         }*/
-        mWebView.loadUrl(AppConstant.WEBVIEW_URL);
-        DebugLog.e("新连接：" + AppConstant.WEBVIEW_URL);
+        mWebView.loadUrl(url);
+        DebugLog.e("新连接：" + url);
     }
 
     @Override

@@ -24,6 +24,7 @@ import com.bintutu.shop.ui.BaseActivity;
 import com.bintutu.shop.ui.adapter.DetailAdapter;
 import com.bintutu.shop.ui.view.LoginDailog;
 import com.bintutu.shop.utils.AppConstant;
+import com.bintutu.shop.utils.ConfigManager;
 import com.bintutu.shop.utils.DebugLog;
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
@@ -31,6 +32,7 @@ import com.lzy.okgo.model.Response;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -153,7 +155,7 @@ public class DetailActivity extends BaseActivity {
         loginDailog.seLogintListener(new LoginDailog.OnLoginClickListener() {
             @Override
             public void Data(String number, String phone, String customer_id) {
-                upload(number,phone,customer_id);
+                upload(number, phone, customer_id);
             }
         });
     }
@@ -181,7 +183,6 @@ public class DetailActivity extends BaseActivity {
         mRecyclerview.setHasFixedSize(true);
         mRecyclerview.setItemAnimator(new DefaultItemAnimator());
     }
-
 
 
     public void getLeft() {
@@ -256,17 +257,21 @@ public class DetailActivity extends BaseActivity {
     }
 
 
-
     private void upload(String number, String phone, String customer_id) {
+
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("left", leftBean);
+        map.put("right", rightBean);
+        String detailData = gson.toJson(map);
         //上传数据
         OkGo.<BaseResponse<String>>post(AppConstant.NEW_DATA)
                 .params("name", number)//自定的一个名字
                 .params("customer_id", customer_id)//手机号验证码请求成功返回的id
                 .params("customer_phone", phone)//手机号
-                .params("shop_id", "1")//商铺手机号
-                .params("device_id", "1")//判断设备在不在线的返回的数据
+                .params("shop_id", ConfigManager.Device.getShopID())//商铺手机号
+                .params("device_id", ConfigManager.Device.getEquipmentID())//判断设备在不在线的返回的数据
                 .params("foot_remark", "1")//数据界面上面需要标记的图片json
-                .params("detail_data", "1")//left.json+right.json
+                .params("detail_data", detailData)//left.json+right.json
                 .params("remark", "1")//备注
                 .execute(new JsonCallback<BaseResponse<String>>() {
                     @Override
@@ -289,7 +294,7 @@ public class DetailActivity extends BaseActivity {
 
             }
         }).start();
-        
+
     }
 
     private void UploadZip() {

@@ -66,13 +66,17 @@ public class ConfigManager {
     public static class Device {
 
         public static final String SHOW_SPLASH = "show_splash";
+        public static final String EQUIPMENTID = "device_equipment";
         public static final String TOKEN = "device_token";
         public static final String LOGINNAME = "device_loginname";
         public static final String LOGINPWD = "device_loginpwd";
+        public static final String SHOPID = "device_shopid";
+        public static final String SHOPPHONE = "device_shopphone";
 
         private static String getConfigFile() {
             return CONFIG_DEVICE;
         }
+
 
         public static boolean isShowSplash() {
             return getBoolean(getConfigFile(), getVersionBindKey(SHOW_SPLASH), true);
@@ -105,6 +109,30 @@ public class ConfigManager {
 
         public static void setLoginPwd(String pwd) {
             commitString(getConfigFile(), LOGINPWD, pwd);
+        }
+
+        public static String getEquipmentID() {
+            return getString(getConfigFile(), EQUIPMENTID, "");
+        }
+
+        public static void setEquipmentID(String id) {
+            commitString(getConfigFile(), EQUIPMENTID, id);
+        }
+
+        public static String getShopID() {
+            return getString(getConfigFile(), SHOPID, "");
+        }
+
+        public static void setShopID(String id) {
+            commitString(getConfigFile(), SHOPID, id);
+        }
+
+        public static String getShopPhone() {
+            return getString(getConfigFile(), SHOPPHONE, "");
+        }
+
+        public static void setShopPhone(String phone) {
+            commitString(getConfigFile(), SHOPPHONE, phone);
         }
 
     }

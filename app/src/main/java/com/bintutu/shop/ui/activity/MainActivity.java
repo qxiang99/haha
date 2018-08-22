@@ -19,10 +19,14 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.bintutu.shop.R;
+import com.bintutu.shop.bean.ScanBean;
+import com.bintutu.shop.bean.WebDataBean;
 import com.bintutu.shop.ui.BaseActivity;
 import com.bintutu.shop.utils.AppConstant;
+import com.bintutu.shop.utils.ConfigManager;
 import com.bintutu.shop.utils.DebugLog;
 import com.bintutu.shop.utils.DensityUtil;
+import com.google.gson.Gson;
 
 import java.net.URLDecoder;
 import java.util.Map;
@@ -48,7 +52,7 @@ public class MainActivity extends BaseActivity {
     protected void init() {
         Intent intent = getIntent();
         url = intent.getStringExtra("url");
-       /* if (url == null || TextUtils.isEmpty(url)) return;*/
+        /* if (url == null || TextUtils.isEmpty(url)) return;*/
         WebSettings settings = mWebView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setUserAgentString("scheme//caigou_ANDROID/1.1.1");
@@ -78,7 +82,7 @@ public class MainActivity extends BaseActivity {
         findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this,ReadyToScanActivity.class));
+                startActivity(new Intent(MainActivity.this, ReadyToScanActivity.class));
             }
         });
 
@@ -97,8 +101,8 @@ public class MainActivity extends BaseActivity {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 if (url.startsWith("bintutu://")) {
-                    DebugLog.e(url+"");
-                     Takeout(url);
+                    DebugLog.e(url + "");
+                    Takeout(url);
                 } else {
                     view.loadUrl(url);
                 }
@@ -131,25 +135,30 @@ public class MainActivity extends BaseActivity {
     }
 
 
-
     private void Takeout(String url) {
         if (url.startsWith("bintutu://startscanning")) {
             Map<String, String> map = getParamsMap(url, "bintutu://startscanning");
             String data = map.get("param");
             callback = map.get("callback");
             DebugLog.e("param:" + data);
-            startActivity(new Intent(MainActivity.this,ReadyToScanActivity.class));
-
+            Gson gson = new Gson();
+            WebDataBean webDataBean = gson.fromJson(data, WebDataBean.class);
+            if (webDataBean.getShop_id() != null) {
+                ConfigManager.Device.setShopID(webDataBean.getShop_id());
+            }
+            if (webDataBean.getShop_phone() != null) {
+                ConfigManager.Device.setShopPhone(webDataBean.getShop_phone() );
+            }
+            startActivity(new Intent(MainActivity.this, ReadyToScanActivity.class));
         }
         if (url.startsWith("bintutu://cookies")) {
             Map<String, String> map = getParamsMap(url, "bintutu://cookies");
             String data = map.get("param");
             callback = map.get("callback");
             DebugLog.e("param:" + data);
-            startActivity(new Intent(MainActivity.this,ReadyToScanActivity.class));
+            startActivity(new Intent(MainActivity.this, ReadyToScanActivity.class));
 
         }
-
 
 
     }

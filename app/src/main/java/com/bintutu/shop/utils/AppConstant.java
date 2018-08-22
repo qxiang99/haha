@@ -26,7 +26,7 @@ public class AppConstant {
 
 
 
-
+    //web网址
     public static final String WEBVIEW_URL = "http://ipadscan_test.bintutu.com/shop_3dscanner_learning/frontend/shutdown.html";
     //设备地址
     public static final String EQUIPMENT_URL = "http://192.168.12.1/";
@@ -41,13 +41,13 @@ public class AppConstant {
     //获取数据RIGHT_JSON----get
     public static final String RIGHT_JSON = EQUIPMENT_URL + "awawaw/right.json";
     //获取数据图片1---------get
-    public static final String IMAGE_ONE = EQUIPMENT_URL + "awawaw/left.json";
+    public static final String IMAGE_ONE = EQUIPMENT_URL + "awawaw/0-show.jpg";
     //获取数据图片2---------get
-    public static final String IAMGE_TWO = EQUIPMENT_URL + "awawaw/right.json";
+    public static final String IAMGE_TWO = EQUIPMENT_URL + "awawaw/1-show.jpg";
     //获取数据图片3---------get
-    public static final String IMAGE_TREE = EQUIPMENT_URL + "awawaw/left.json";
+    public static final String IMAGE_TREE = EQUIPMENT_URL + "awawaw/5_l-show.jpg";
     //获取数据图片4---------get
-    public static final String IAMGE_FOUR = EQUIPMENT_URL + "awawaw/right.json";
+    public static final String IAMGE_FOUR = EQUIPMENT_URL + "awawaw/5_r-show.jpg";
     //获取数据ZIP-----------get
     public static final String DATA_ZIP = EQUIPMENT_URL + "awawaw/right.json";
 }

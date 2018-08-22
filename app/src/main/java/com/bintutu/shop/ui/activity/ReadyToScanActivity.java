@@ -16,6 +16,7 @@ import com.bintutu.shop.okgo.SimpleResponse;
 import com.bintutu.shop.ui.BaseActivity;
 import com.bintutu.shop.ui.view.GifDailog;
 import com.bintutu.shop.utils.AppConstant;
+import com.bintutu.shop.utils.ConfigManager;
 import com.bintutu.shop.utils.DebugLog;
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
@@ -39,6 +40,8 @@ public class ReadyToScanActivity extends BaseActivity {
     private String scanNametime;
     private Gson gson;
     private GifDailog gifDailog;
+    private int retry;
+
 
     @Override
     protected void initContentView(Bundle savedInstanceState) {
@@ -55,6 +58,11 @@ public class ReadyToScanActivity extends BaseActivity {
                     @Override
                     public void onSuccess(Response<BaseResponse<String>> response) {
                         DebugLog.e("......" + response.body());
+                        if (response.body()!=null){
+                            ConfigManager.Device.setEquipmentID(String.valueOf(response.body()));
+                        }else {
+                            ShowToast("设备不在线！！");
+                        }
                     }
 
                     @Override
@@ -92,8 +100,8 @@ public class ReadyToScanActivity extends BaseActivity {
     }
 
     private void startScan() {
+        retry = 0;
         //开启动画
-
         gifDailog.show();
         gifDailog.StartGif();
         //发送扫描命令加循环请求
@@ -148,8 +156,11 @@ public class ReadyToScanActivity extends BaseActivity {
                             startActivity(new Intent(ReadyToScanActivity.this,DetailActivity.class));
                             finish();
                         } else if (scanBean.getResult() == 1) {
-                            //发送扫描命令加循环请求
-                            RequestScan();
+                            retry++;
+                            if (retry<2){
+                                //发送扫描命令加循环请求
+                                RequestScan();
+                            }
                         }
                     }
 

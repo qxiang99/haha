@@ -5,12 +5,11 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.bintutu.shop.ShopApplication;
-import com.zhy.autolayout.AutoLayoutActivity;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public abstract class BaseActivity extends AutoLayoutActivity {
+public abstract class BaseActivity extends AppCompatActivity {
 
     public ShopApplication mApp;
     private Unbinder unbinder;

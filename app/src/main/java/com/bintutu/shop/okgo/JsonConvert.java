@@ -140,10 +140,10 @@ public class JsonConvert<T> implements Converter<T> {
                 //noinspection unchecked
                 return (T) simpleResponse;
             }else if (typeArgument == String.class){
-                //noinspection unchecked
-                String bodys =  body.string();
+
+                String simple = body.string();
                 response.close();
-                return (T) bodys;
+                return  (T) simple;
             }else {
                 // 泛型格式如下： new JsonCallback<LzyResponse<内层JavaBean>>(this)
                 BaseResponse baseResponse = Convert.fromJson(jsonReader, type);

@@ -1,5 +1,6 @@
 package com.bintutu.shop.ui.activity;
 
+import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
@@ -9,14 +10,19 @@ import android.widget.Button;
 import com.bintutu.shop.R;
 import com.bintutu.shop.bean.BaseResponse;
 import com.bintutu.shop.bean.LoginBean;
+import com.bintutu.shop.bean.ScanBean;
 import com.bintutu.shop.okgo.JsonCallback;
 import com.bintutu.shop.okgo.SimpleResponse;
 import com.bintutu.shop.ui.BaseActivity;
 import com.bintutu.shop.ui.view.GifDailog;
 import com.bintutu.shop.utils.AppConstant;
 import com.bintutu.shop.utils.DebugLog;
+import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,6 +36,9 @@ public class ReadyToScanActivity extends BaseActivity {
     Button readyButHome;
     @BindView(R.id.ready_but_startscan)
     Button readyButStartscan;
+    private String scanNametime;
+    private Gson gson;
+    private GifDailog gifDailog;
 
     @Override
     protected void initContentView(Bundle savedInstanceState) {
@@ -38,16 +47,14 @@ public class ReadyToScanActivity extends BaseActivity {
 
     @Override
     protected void init() {
+        gifDailog = new GifDailog(ReadyToScanActivity.this);
+        gson = new Gson();
         //请求扫描仪是否在线
-        OkGo.<BaseResponse<String>>get("http://192.168.12.1/getID")
-                //.params("name", "")
+        OkGo.<BaseResponse<String>>get(AppConstant.GET_ID)
                 .execute(new JsonCallback<BaseResponse<String>>() {
                     @Override
                     public void onSuccess(Response<BaseResponse<String>> response) {
-                        DebugLog.e("......"+response.body());
-                        if (response.body()!=null){
-
-                        }
+                        DebugLog.e("......" + response.body());
                     }
 
                     @Override
@@ -70,7 +77,7 @@ public class ReadyToScanActivity extends BaseActivity {
         readyButHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(ReadyToScanActivity.this,MainActivity.class));
+                startActivity(new Intent(ReadyToScanActivity.this, MainActivity.class));
                 finish();
             }
         });
@@ -78,9 +85,7 @@ public class ReadyToScanActivity extends BaseActivity {
         readyButStartscan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               //startScan();
-               // startActivity(new Intent(ReadyToScanActivity.this,DetailActivity.class));
-                requestData();
+                startScan();
             }
         });
 
@@ -88,49 +93,64 @@ public class ReadyToScanActivity extends BaseActivity {
 
     private void startScan() {
         //开启动画
-        GifDailog gifDailog = new GifDailog(ReadyToScanActivity.this);
+
         gifDailog.show();
         gifDailog.StartGif();
+        //发送扫描命令加循环请求
+        RequestScan();
+    }
+
+    private void RequestScan() {
         //发出扫描命令
         ScanPost();
         //循环请求结果
-        new Thread(new Runnable() {
-            @Override
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
             public void run() {
                 requestData();
+                this.cancel();
             }
-        }).start();
-
-
+        }, 1000);
     }
 
     private void ScanPost() {
-        OkGo.<BaseResponse<String>>post("http://192.168.12.1/beginScan")
-                .params("id","2018234223" )
+        scanNametime = System.currentTimeMillis() + "";
+        OkGo.<BaseResponse<String>>post(AppConstant.BEGIN_SCAN)
+                .params("id", scanNametime)//名称
                 .params("begin", "1")
                 .execute(new JsonCallback<BaseResponse<String>>() {
                     @Override
                     public void onSuccess(Response<BaseResponse<String>> response) {
 
                     }
+
                     @Override
                     public void onError(Response<BaseResponse<String>> response) {
                     }
                 });
-
-
 
 
     }
 
 
     private void requestData() {
-       OkGo.<BaseResponse<String>>post("http://192.168.12.1/requestData")
-                .params("id","2018234223" )
+        //AppConstant.REQUEST_DATA
+        OkGo.<BaseResponse<String>>post("http://opzhpptsb.bkt.clouddn.com/a.json")
+                .params("id", scanNametime)
                 .execute(new JsonCallback<BaseResponse<String>>() {
                     @Override
                     public void onSuccess(Response<BaseResponse<String>> response) {
-                        DebugLog.e("......"+response.body());
+                        ScanBean scanBean = gson.fromJson(String.valueOf(response.body()), ScanBean.class);
+                        DebugLog.e(scanBean.getResult()+"");
+                        if (scanBean.getResult() == 0) {
+                            gifDailog.StopGif();
+                            gifDailog.dismiss();
+                            startActivity(new Intent(ReadyToScanActivity.this,DetailActivity.class));
+                            finish();
+                        } else if (scanBean.getResult() == 1) {
+                            //发送扫描命令加循环请求
+                            RequestScan();
+                        }
                     }
 
                     @Override
@@ -138,30 +158,7 @@ public class ReadyToScanActivity extends BaseActivity {
                     }
                 });
 
-/*
-        OkGo.<BaseResponse<String>>get("http://192.168.12.1/awawaw/left.json")
-                .execute(new JsonCallback<BaseResponse<String>>() {
-                    @Override
-                    public void onSuccess(Response<BaseResponse<String>> response) {
-                        DebugLog.e("......"+response.body());
-                    }
 
-                    @Override
-                    public void onError(Response<BaseResponse<String>> response) {
-                    }
-                });
-
-        OkGo.<BaseResponse<String>>get("http://192.168.12.1/awawaw/right.json")
-                .execute(new JsonCallback<BaseResponse<String>>() {
-                    @Override
-                    public void onSuccess(Response<BaseResponse<String>> response) {
-                        DebugLog.e("......"+response.body());
-                    }
-
-                    @Override
-                    public void onError(Response<BaseResponse<String>> response) {
-                    }
-                });*/
     }
 
 }

@@ -205,7 +205,7 @@
             app:layout_constraintLeft_toLeftOf="parent" />
 
         <Button
-            android:id="@+id/ready_but_startscan"
+            android:id="@+id/detail_but_upload"
             android:layout_width="252px"
             android:layout_height="82px"
             android:layout_marginBottom="5px"

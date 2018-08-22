@@ -23,6 +23,7 @@ import com.bintutu.shop.okgo.ServerModel;
 import com.bintutu.shop.ui.BaseActivity;
 import com.bintutu.shop.ui.adapter.DetailAdapter;
 import com.bintutu.shop.ui.view.LoginDailog;
+import com.bintutu.shop.utils.AppConstant;
 import com.bintutu.shop.utils.DebugLog;
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
@@ -53,6 +54,9 @@ public class DetailActivity extends BaseActivity {
     Button detailButLeft;
     @BindView(R.id.detail_but_right)
     Button detailButRight;
+    @BindView(R.id.detail_but_upload)
+    Button detailButUpload;
+
     private List<DetailBean> DetailList = new ArrayList<>();
     private LoginDailog loginDailog;
 
@@ -63,6 +67,9 @@ public class DetailActivity extends BaseActivity {
             R.mipmap.rightfoot_internal,
             R.mipmap.rightfoot_surface,
             R.mipmap.rightfoot_outside};
+    private Gson gson;
+    private LeftBean leftBean;
+    private RightBean rightBean;
 
     @Override
     protected void initContentView(Bundle savedInstanceState) {
@@ -71,7 +78,8 @@ public class DetailActivity extends BaseActivity {
 
     @Override
     protected void init() {
-        getData();
+        gson = new Gson();
+        getLeft();
         showDailog();
         showRecyclerview();
 
@@ -135,6 +143,23 @@ public class DetailActivity extends BaseActivity {
                 detailImageRight.setImageResource(R.mipmap.rightfoot_outside);
             }
         });
+        detailButUpload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loginDailog.show();
+            }
+        });
+
+        loginDailog.seLogintListener(new LoginDailog.OnLoginClickListener() {
+            @Override
+            public void Data(String number, String phone, String customer_id) {
+                upload(number,phone,customer_id);
+            }
+        });
+    }
+
+    private void showDailog() {
+        loginDailog = new LoginDailog(this);
     }
 
     private void showSpaceImage(ImageView view, int imageRe) {
@@ -155,20 +180,46 @@ public class DetailActivity extends BaseActivity {
         mRecyclerview.setLayoutManager(linearLayoutManager);
         mRecyclerview.setHasFixedSize(true);
         mRecyclerview.setItemAnimator(new DefaultItemAnimator());
-        DetailAdapter detailAdapter = new DetailAdapter(DetailList);
-        mRecyclerview.setAdapter(detailAdapter);
+    }
+
+
+
+    public void getLeft() {
+        OkGo.<BaseResponse<String>>get("http://opzhpptsb.bkt.clouddn.com/left.json")
+                .execute(new JsonCallback<BaseResponse<String>>() {
+                    @Override
+                    public void onSuccess(Response<BaseResponse<String>> response) {
+                        DebugLog.e("......" + response.body());
+                        getRight();
+                        String leftJson = String.valueOf(response.body());
+                        leftBean = gson.fromJson(leftJson, LeftBean.class);
+
+                    }
+
+                    @Override
+                    public void onError(Response<BaseResponse<String>> response) {
+                    }
+                });
+    }
+
+    private void getRight() {
+        OkGo.<BaseResponse<String>>get("http://opzhpptsb.bkt.clouddn.com/right.json")
+                .execute(new JsonCallback<BaseResponse<String>>() {
+                    @Override
+                    public void onSuccess(Response<BaseResponse<String>> response) {
+                        DebugLog.e("......" + response.body());
+                        String rightJson = String.valueOf(response.body());
+                        rightBean = gson.fromJson(rightJson, RightBean.class);
+                        getData();
+                    }
+
+                    @Override
+                    public void onError(Response<BaseResponse<String>> response) {
+                    }
+                });
     }
 
     public void getData() {
-
-
-        Gson gson = new Gson();
-
-        String leftJson = "{ \"10_FuWeiGao\" : 0.0, \"11_1ZhiZhiGao\" : 0.0, \"12_DaMoZhiGao\" : 0.0, \"13_JiaoWanGao\" : 0.0, \"14_JiaoZhiKuan\" : 0.0, \"15_ZhiWeiKuan\" : 75.0062, \"16_DiBanKuan\" : 75.0062, \"17_MuZhiLiKuan\" : 9.89464, \"18_XiaoZhiWaiKuan\" : 56.4657, \"19_1ZhizhiLiKuan\" : 17.5741, \"1_FootLen\" : 221.054, \"20_5ZhizhiLiKuan\" : 55.9658, \"21_YaoWoWaiKuan\" : 73.5143, \"22_ZhongXinDiKuan\" : 56.0287, \"23_JiaoHuaiNeiKuan\" : 0.0, \"24_MuZhiWaiTuChang\" : 198.949, \"25_XiaoZhiDuanChang\" : 182.37, \"26_XiaoZhiWaiTuChang\" : 172.422, \"27_1ZhiZhiChang\" : 160.264, \"28_5ZhiZhiChang\" : 140.369, \"29_FuGuChang\" : 121.58, \"2_ZhiWei\" : 0.0, \"30_YaoWoChang\" : 90.6323, \"31_ZhouShangDianChang\" : 85.1059, \"32_WaiHuaiGuZhongChang\" : 49.7372, \"33_ZhongXinChang\" : 39.7898, \"34_HouGenBianChang\" : 8.84217, \"35_QianZhangTuDianChang\" : 152.085, \"36_ZuGongDu\" : 0.0, \"37_NeiWaiFanDu\" : 0.0, \"3_FuWei\" : 0.0, \"4_DouWei\" : 0.0, \"5_JiaoWanWei\" : 0.0, \"6_JiaoZhiZhou\" : 0.0, \"7_WaiHuaiXiaGao\" : 0.0, \"8_HouGenTuGao\" : 0.0, \"9_ZhouShangGao\" : 0.0 }";
-        LeftBean leftBean = gson.fromJson(leftJson, LeftBean.class);
-
-        String rightJson = "{ \"10_FuWeiGao\" : 0.0, \"11_1ZhiZhiGao\" : 0.0, \"12_DaMoZhiGao\" : 0.0, \"13_JiaoWanGao\" : 0.0, \"14_JiaoZhiKuan\" : 0.0, \"15_ZhiWeiKuan\" : 45.1571, \"16_DiBanKuan\" : 45.1571, \"17_MuZhiLiKuan\" : 0.0, \"18_XiaoZhiWaiKuan\" : 0.0, \"19_1ZhizhiLiKuan\" : 0.0, \"1_FootLen\" : 212.314, \"20_5ZhizhiLiKuan\" : 0.0, \"21_YaoWoWaiKuan\" : 0.0, \"22_ZhongXinDiKuan\" : 0.0, \"23_JiaoHuaiNeiKuan\" : 0.0, \"24_MuZhiWaiTuChang\" : 0.0, \"25_XiaoZhiDuanChang\" : 0.0, \"26_XiaoZhiWaiTuChang\" : 0.0, \"27_1ZhiZhiChang\" : 0.0, \"28_5ZhiZhiChang\" : 0.0, \"29_FuGuChang\" : 0.0, \"2_ZhiWei\" : 0.0, \"30_YaoWoChang\" : 87.0485, \"31_ZhouShangDianChang\" : 81.7407, \"32_WaiHuaiGuZhongChang\" : 47.7705, \"33_ZhongXinChang\" : 0.0, \"34_HouGenBianChang\" : 8.49254, \"35_QianZhangTuDianChang\" : 146.072, \"36_ZuGongDu\" : 0.0, \"37_NeiWaiFanDu\" : 0.0, \"3_FuWei\" : 0.0, \"4_DouWei\" : 0.0, \"5_JiaoWanWei\" : 0.0, \"6_JiaoZhiZhou\" : 0.0, \"7_WaiHuaiXiaGao\" : 0.0, \"8_HouGenTuGao\" : 0.0, \"9_ZhouShangGao\" : 0.0 }";
-        RightBean rightBean = gson.fromJson(rightJson, RightBean.class);
 
         DetailList.add(new DetailBean(getResources().getString(R.string.FootLen), 1, leftBean.get_1_FootLen(), rightBean.get_1_FootLen()));
         DetailList.add(new DetailBean(getResources().getString(R.string.ZhiWei), 2, leftBean.get_2_ZhiWei(), rightBean.get_2_ZhiWei()));
@@ -200,14 +251,18 @@ public class DetailActivity extends BaseActivity {
         DetailList.add(new DetailBean(getResources().getString(R.string.SZhiZhiChang), 28, leftBean.get_28_5ZhiZhiChang(), rightBean.get_28_5ZhiZhiChang()));
         DetailList.add(new DetailBean(getResources().getString(R.string.FuGuChang), 29, leftBean.get_29_FuGuChang(), rightBean.get_29_FuGuChang()));
 
+        DetailAdapter detailAdapter = new DetailAdapter(DetailList);
+        mRecyclerview.setAdapter(detailAdapter);
     }
 
-    private void upload() {
+
+
+    private void upload(String number, String phone, String customer_id) {
         //上传数据
-        OkGo.<BaseResponse<String>>post("http://116.62.145.154:8080/shop_3d/backend/web/index.php/userfoottypedata/newdata\n")
-                .params("name", "2018234223")//自定的一个名字
-                .params("customer_id", "1")//手机号验证码请求成功返回的id
-                .params("customer_phone", "1")//手机号
+        OkGo.<BaseResponse<String>>post(AppConstant.NEW_DATA)
+                .params("name", number)//自定的一个名字
+                .params("customer_id", customer_id)//手机号验证码请求成功返回的id
+                .params("customer_phone", phone)//手机号
                 .params("shop_id", "1")//商铺手机号
                 .params("device_id", "1")//判断设备在不在线的返回的数据
                 .params("foot_remark", "1")//数据界面上面需要标记的图片json
@@ -224,50 +279,23 @@ public class DetailActivity extends BaseActivity {
                     }
                 });
 
-        //发送验证码
-        OkGo.<BaseResponse<String>>post("http://116.62.145.154:8080/shop_3d/backend/web/index.php/customer/varificationcode")
-                .params("phone", "")
-                .execute(new JsonCallback<BaseResponse<String>>() {
-                    @Override
-                    public void onSuccess(Response<BaseResponse<String>> response) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //上传zip
+                UploadZip();
+                //上传图片
+                UploadImage();
 
-                    }
+            }
+        }).start();
+        
+    }
 
-                    @Override
-                    public void onError(Response<BaseResponse<String>> response) {
-                    }
-                });
-        //验证码登陆
-        OkGo.<BaseResponse<String>>post("http://116.62.145.154:8080/shop_3d/backend/web/index.php/customer/login")
-                .params("phone", "")
-                .params("varification_code", "1")
-                .execute(new JsonCallback<BaseResponse<String>>() {
-                    @Override
-                    public void onSuccess(Response<BaseResponse<String>> response) {
-
-                    }
-
-                    @Override
-                    public void onError(Response<BaseResponse<String>> response) {
-                    }
-                });
-
-        /*上传zip
-http://116.62.145.154:8080/shop_3d/backend/web/index.php/userfoottypedata/uploadzip
-id: 数据的id
-file：文件*/
-
-
-        /*上传图片
-http://116.62.145.154:8080/shop_3d/backend/web/index.php/userfoottypedata/uploadpic
-id: 数据的id
-file：文件*/
-
+    private void UploadZip() {
         //上传图片
-        OkGo.<LzyResponse<ServerModel>>post("")//
-                .tag(this)//
-                .headers("header1", "headerValue1")//
-//                .params("param1", "paramValue1")// 这里不要使用params，upBytes 与 params 是互斥的，只有 upBytes 的数据会被上传
+        OkGo.<LzyResponse<ServerModel>>post(AppConstant.UPLOAD_ZIP)
+                .headers("id", "headerValue1")//
                 .upFile(new File(""))//
                 .execute(new DialogCallback<LzyResponse<ServerModel>>(this) {
                     @Override
@@ -280,12 +308,24 @@ file：文件*/
 
                     }
                 });
-
     }
 
+    private void UploadImage() {
+        //上传图片
+        OkGo.<LzyResponse<ServerModel>>post(AppConstant.UPLOAD_IMAGE)
+                .headers("id", "headerValue1")//
+                .upFile(new File(""))//
+                .execute(new DialogCallback<LzyResponse<ServerModel>>(this) {
+                    @Override
+                    public void onSuccess(Response<LzyResponse<ServerModel>> response) {
 
-    private void showDailog() {
-        loginDailog = new LoginDailog(this);
+                    }
+
+                    @Override
+                    public void onError(Response<LzyResponse<ServerModel>> response) {
+
+                    }
+                });
     }
 
 

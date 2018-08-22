@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 圆形内部填充-线性渐变 -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval"
+    android:useLevel="true">
+
+    <!-- angle调整渐变角度，只能是45的倍数，centerX, centerY是百分百（0-1） -->
+    <gradient
+        android:angle="-90"
+        android:centerX="0.5"
+        android:centerY="0.9"
+        android:centerColor="#80ff0000"
+        android:endColor="#ffff0000"
+        android:startColor="#00ff0000"
+        android:type="linear" />
+
+</shape>

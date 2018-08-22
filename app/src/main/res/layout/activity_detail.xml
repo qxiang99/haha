@@ -139,31 +139,27 @@
                     android:layout_width="0px"
                     android:layout_height="match_parent"
                     android:layout_marginRight="50px"
-                    android:layout_weight="1"
-                    android:background="@color/black" />
+                    android:layout_weight="1" />
 
                 <ImageView
                     android:id="@+id/detail_image_footright"
                     android:layout_width="0px"
                     android:layout_height="match_parent"
                     android:layout_marginRight="50px"
-                    android:layout_weight="1"
-                    android:background="@color/black" />
+                    android:layout_weight="1" />
 
                 <ImageView
                     android:id="@+id/detail_image_plantarleft"
                     android:layout_width="0px"
                     android:layout_height="match_parent"
                     android:layout_marginRight="50px"
-                    android:layout_weight="1"
-                    android:background="@color/black" />
+                    android:layout_weight="1" />
 
                 <ImageView
                     android:id="@+id/detail_image_plantarright"
                     android:layout_width="0px"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@color/black" />
+                    android:layout_weight="1" />
             </LinearLayout>
 
         </android.support.constraint.ConstraintLayout>

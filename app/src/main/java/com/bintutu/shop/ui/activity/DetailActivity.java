@@ -26,6 +26,7 @@ import com.bintutu.shop.ui.view.LoginDailog;
 import com.bintutu.shop.utils.AppConstant;
 import com.bintutu.shop.utils.ConfigManager;
 import com.bintutu.shop.utils.DebugLog;
+import com.bintutu.shop.utils.GlideUtil;
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
@@ -58,6 +59,14 @@ public class DetailActivity extends BaseActivity {
     Button detailButRight;
     @BindView(R.id.detail_but_upload)
     Button detailButUpload;
+    @BindView(R.id.detail_image_footleft)
+    ImageView detailImageFootleft;
+    @BindView(R.id.detail_image_footright)
+    ImageView detailImageFootright;
+    @BindView(R.id.detail_image_plantarleft)
+    ImageView detailImagePlantarleft;
+    @BindView(R.id.detail_image_plantarright)
+    ImageView detailImagePlantarright;
 
     private List<DetailBean> DetailList = new ArrayList<>();
     private LoginDailog loginDailog;
@@ -84,6 +93,10 @@ public class DetailActivity extends BaseActivity {
         getLeft();
         showDailog();
         showRecyclerview();
+        GlideUtil.load(DetailActivity.this,"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1534919414212&di=fbedfe4b189d0ea45c4baf65ed766163&imgtype=0&src=http%3A%2F%2Fimg5.duitang.com%2Fuploads%2Fitem%2F201605%2F31%2F20160531224207_P5trE.jpeg",detailImageFootleft );
+        GlideUtil.load(DetailActivity.this,"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1534919414212&di=fbedfe4b189d0ea45c4baf65ed766163&imgtype=0&src=http%3A%2F%2Fimg5.duitang.com%2Fuploads%2Fitem%2F201605%2F31%2F20160531224207_P5trE.jpeg",detailImageFootright );
+        GlideUtil.load(DetailActivity.this,"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1534919414212&di=fbedfe4b189d0ea45c4baf65ed766163&imgtype=0&src=http%3A%2F%2Fimg5.duitang.com%2Fuploads%2Fitem%2F201605%2F31%2F20160531224207_P5trE.jpeg",detailImagePlantarleft );
+        GlideUtil.load(DetailActivity.this,"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1534919414212&di=fbedfe4b189d0ea45c4baf65ed766163&imgtype=0&src=http%3A%2F%2Fimg5.duitang.com%2Fuploads%2Fitem%2F201605%2F31%2F20160531224207_P5trE.jpeg",detailImagePlantarright );
 
         detailButLeft.setEnabled(false);
         detailButRight.setEnabled(true);
@@ -334,4 +347,10 @@ public class DetailActivity extends BaseActivity {
     }
 
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
 }

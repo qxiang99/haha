@@ -79,7 +79,7 @@ public class MainActivity extends BaseActivity {
                 url = url + "?token=" + ConfigManager.User.getToken();
             }
         }*/
-        // mWebView.loadUrl(url);
+        mWebView.loadUrl(url);
         DebugLog.e("新连接：" + url);
     }
 

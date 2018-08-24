@@ -44,7 +44,6 @@ public class ReadyToScanActivity extends BaseActivity {
     private GifDailog gifDailog;
     private int retry;
     private Timer timer;
-    private LoginDailog loginDailog;
 
 
     @Override
@@ -55,7 +54,6 @@ public class ReadyToScanActivity extends BaseActivity {
     @Override
     protected void init() {
         gifDailog = new GifDailog(ReadyToScanActivity.this);
-        loginDailog = new LoginDailog(this);
         gson = new Gson();
         //请求扫描仪是否在线
         OkGo.<BaseResponse<String>>get(AppConstant.GET_ID)
@@ -98,7 +96,11 @@ public class ReadyToScanActivity extends BaseActivity {
         readyButStartscan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startScan();
+                //startScan();
+
+                Intent intent = new Intent(ReadyToScanActivity.this, UploadSucessActivity.class);
+                intent.putExtra(Constant.ItentKey1, "1321351224");
+                startActivity(intent);
             }
         });
 
@@ -107,11 +109,10 @@ public class ReadyToScanActivity extends BaseActivity {
     private void startScan() {
         retry = 0;
         //开启动画
-        //gifDailog.show();
-        //gifDailog.StartGif();
-        loginDailog.show();
+        gifDailog.show();
+        gifDailog.StartGif();
         //发送扫描命令加循环请求
-       // RequestScan();
+        RequestScan();
     }
 
     private void RequestScan() {

@@ -8,12 +8,12 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="9">
+        android:layout_weight="1">
 
         <android.support.v7.widget.CardView
             android:id="@+id/data_card_view"
-            android:layout_width="@dimen/dp_320"
-            android:layout_height="@dimen/dp_230"
+            android:layout_width="@dimen/dp_345"
+            android:layout_height="@dimen/dp_255"
             android:layout_centerInParent="true"
             app:cardCornerRadius="@dimen/dp_4_5">
 
@@ -25,44 +25,55 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_23"
                     android:gravity="center"
                     android:text="扫描成功 !"
-                    android:layout_marginTop="@dimen/dp_10"
                     android:textColor="@color/bg_color"
-                    android:textSize="@dimen/dp_33"/>
+                    android:textSize="@dimen/dp_30" />
 
                 <TextView
                     android:id="@+id/sucess_text_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_9"
                     android:gravity="center"
                     android:text="扫描编码："
-                    android:layout_marginTop="@dimen/dp_2"
                     android:textColor="@color/text_color_c1"
-                    android:textSize="@dimen/dp_9"/>
+                    android:textSize="@dimen/dp_10" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_7"
                     android:gravity="center"
                     android:text="数据上传成功后，您可以在App中查看您的足型数据"
-                    android:layout_marginTop="@dimen/dp_7"
                     android:textColor="@color/text_color_bf"
-                    android:textSize="@dimen/dp_10"/>
+                    android:textSize="@dimen/dp_11" />
 
                 <ImageView
-                    android:layout_gravity="center"
                     android:layout_width="@dimen/dp_80"
                     android:layout_height="@dimen/dp_80"
-                    android:layout_marginTop="@dimen/dp_12"
-                    android:background="@mipmap/image_bg"/>
-
-                <Button
-                    android:id="@+id/sucess_but_goscan"
-                    android:layout_marginTop="@dimen/dp_12"
                     android:layout_gravity="center"
-                    android:layout_width="@dimen/dp_160"
-                    android:layout_height="@dimen/dp_25"
-                    android:background="@color/bg_color"/>
+                    android:layout_marginTop="@dimen/dp_12"
+                    android:background="@mipmap/image_bg" />
+
+                <LinearLayout
+                    android:id="@+id/sucess_lin_goscan"
+                    android:gravity="center"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_width="@dimen/dp_200"
+                    android:layout_height="@dimen/dp_30"
+                    android:layout_marginTop="@dimen/dp_12"
+                    android:background="@mipmap/goscan_bg">
+
+                    <TextView
+                        android:id="@+id/sucess_text_goscan"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textSize="@dimen/dp_14"
+                        android:gravity="center"/>
+                </LinearLayout>
+
 
             </LinearLayout>
         </android.support.v7.widget.CardView>
@@ -72,42 +83,27 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="@dimen/dp_40"
         android:background="@color/black"
+        android:gravity="center"
         android:orientation="horizontal">
 
-        <View
-            android:layout_width="0dp"
+        <Button
+            android:id="@+id/sucess_but_choose"
+            android:layout_width="@dimen/dp_100"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_marginBottom="@dimen/dp_2"
+            android:layout_marginRight="@dimen/dp_14"
+            android:layout_marginTop="@dimen/dp_1"
+            android:background="@mipmap/chooseshoes" />
 
-        <LinearLayout
-            android:layout_width="0dp"
+        <Button
+            android:id="@+id/sucess_but_backhome"
+            android:layout_width="@dimen/dp_100"
             android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <Button
-                android:id="@+id/sucess_but_choose"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:background="@mipmap/chooseshoes"/>
-
-            <Button
-                android:id="@+id/sucess_but_backhome"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/dp_15"
-                android:background="@mipmap/gobackhome"/>
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_marginBottom="@dimen/dp_2"
+            android:layout_marginTop="@dimen/dp_1"
+            android:background="@mipmap/gobackhome" />
 
     </LinearLayout>
 

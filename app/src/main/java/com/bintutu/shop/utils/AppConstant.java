@@ -8,7 +8,7 @@ public class AppConstant {
     //测试环境
     public static String TEST_URL = "http://116.62.145.154:8080/";
     //正式环境
-    public static String Formal_URL = "https://api-wuweidaojia.abhpd.com/api/";
+    public static String Formal_URL = "";
 
     public static String BASE_URLS = Toogle ? Formal_URL : TEST_URL;
 
@@ -27,7 +27,11 @@ public class AppConstant {
     //web首页
     public static final String WEBVIEW_HOME = "http://ipadscan_test.bintutu.com/shop_3dscanner_learning/frontend/shutdown.html";
     //web选鞋页
-    public static final String WEBVIEW_CHOOSE = "http://ipadscan_test.bintutu.com/shop_3dscanner_learning/frontend/shutdown.html";
+    public static final String WEBVIEW_CHOOSE(String customer_id,String phone,String id,String color,String fur,String sole_materials,String sole_accessory,String exclusive){
+        return "http://ipadscan_test.bintutu.com/shop_3dscanner_learning/frontend/information.html?customer_id="+customer_id+"&phone="+phone+"&id="+id+"&color="+color+"&fur="+fur+"&sole_materials="+sole_materials+"&sole_accessory="+sole_accessory+"&exclusive="+exclusive;
+    }
+
+
     //设备地址
     public static final String EQUIPMENT_URL = "http://192.168.12.1/";
     //查看设备是否在线----get

@@ -387,17 +387,7 @@ public class DetailActivity extends BaseActivity {
     }
 
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == RESULT_OK && null != data) {
-            if (requestCode == SELECT_ONE) {
-
-
-            }
-        }
-    }
 
 
     public void addTag() {

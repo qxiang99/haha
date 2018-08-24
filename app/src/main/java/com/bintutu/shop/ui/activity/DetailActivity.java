@@ -402,11 +402,20 @@ public class DetailActivity extends BaseActivity {
 
     public void addTag() {
         dataLinAddtag.removeAllViews();
+        int tag = 0;
         for (int i=0;i<TaglList.size();i++){
-            View view = LayoutInflater.from(DetailActivity.this).inflate(R.layout.detail_tag_item, null);
-            //TextView title = (TextView) view.findViewById(R.id.itemone_tradingarea_title);
-            //title.setText(TaglList.get(i).getName());
-            dataLinAddtag.addView(view);
+            TAGBean tagBean = TaglList.get(i);
+            for (int a=0;a<TaglList.get(i).getDetailList().size();a++){
+                TAGBean.DetailListBean  detailListBean = TaglList.get(i).getDetailList().get(a);
+                View view = LayoutInflater.from(DetailActivity.this).inflate(R.layout.detail_tag_item, null);
+                TextView number = view.findViewById(R.id.tag_text_number);
+                number.setText(tag++);
+                TextView title = view.findViewById(R.id.tag_text_title);
+                title.setText("["+tagBean.getName()+"] : ");
+                TextView content = view.findViewById(R.id.tag_text_content);
+                content.setText(detailListBean.getContent());
+                dataLinAddtag.addView(view);
+            }
         }
     }
 }

@@ -97,6 +97,18 @@
                 app:layout_constraintLeft_toRightOf="@+id/detail_but_left"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/detai_scroll" />
+
+            <LinearLayout
+                android:id="@+id/data_lin_addtag"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="@dimen/dp_27"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/detail_but_left">
+
+            </LinearLayout>
             <android.support.v7.widget.CardView
                 android:id="@+id/data_card_view"
                 android:layout_width="match_parent"
@@ -106,7 +118,7 @@
                 android:layout_marginTop="@dimen/dp_27"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/detail_but_left">
+                app:layout_constraintTop_toBottomOf="@+id/data_lin_addtag">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerview"

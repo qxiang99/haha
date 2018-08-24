@@ -4,7 +4,9 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +18,7 @@ import com.bintutu.shop.bean.BaseResponse;
 import com.bintutu.shop.bean.LoginBean;
 import com.bintutu.shop.okgo.JsonCallback;
 import com.bintutu.shop.utils.AppConstant;
+import com.bintutu.shop.utils.CutDown;
 import com.bintutu.shop.utils.DebugLog;
 import com.bintutu.shop.utils.ToastUtils;
 import com.google.gson.Gson;
@@ -37,7 +40,10 @@ public class LoginDailog extends Dialog {
     TextView mLoginTextCode;
     @BindView(R.id.login_but_submit)
     Button mLoginButSubmit;
+    @BindView(R.id.login_view3)
+    View loginView3;
     private Context mContext;
+    private CutDown cutDown;
 
     public LoginDailog(@NonNull Context context) {
         super(context, R.style.dialog_style);
@@ -93,14 +99,14 @@ public class LoginDailog extends Dialog {
         mLoginButSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 final String Number = mLoginEditNumber.getText().toString().trim();
                 final String PHONE = mLoginEditPhone.getText().toString().trim();
                 final String code = mLoginEditCode.getText().toString().trim();
                 if (TextUtils.isEmpty(Number)) {
                     ToastUtils.showToast(mContext, "编号不能为空");
                     return;
-                }if (TextUtils.isEmpty(PHONE)) {
+                }
+                if (TextUtils.isEmpty(PHONE)) {
                     ToastUtils.showToast(mContext, "手机号不能为空");
                     return;
                 }
@@ -120,10 +126,10 @@ public class LoginDailog extends Dialog {
                                 Gson gson = new Gson();
                                 String data = String.valueOf(response.body());
                                 LoginBean loginBean = gson.fromJson(data, LoginBean.class);
-                                if (loginBean!=null&loginBean.getCode()==0){
+                                if (loginBean != null & loginBean.getCode() == 0) {
                                     ToastUtils.showToast(mContext, "登录成功");
-                                    if (mListener!=null){
-                                        mListener.Data(Number,PHONE,loginBean.getResult().getCustomer_id());
+                                    if (mListener != null) {
+                                        mListener.Data(Number, PHONE, loginBean.getResult().getCustomer_id());
                                     }
                                     dismiss();
                                 }
@@ -141,7 +147,6 @@ public class LoginDailog extends Dialog {
     }
 
 
-
     private OnLoginClickListener mListener;
 
     public void seLogintListener(OnLoginClickListener mListener) {
@@ -149,11 +154,12 @@ public class LoginDailog extends Dialog {
     }
 
     public void getCode() {
-       /* new CutDown(60, new CutDown.OnCuDownListener() {
+        cutDown = new CutDown(60, new CutDown.OnCuDownListener() {
             @Override
             public void onNext(int time) {
-                if (mLoginTextCode!=null){
+                if (mLoginTextCode != null) {
                     mLoginTextCode.setTextColor(ContextCompat.getColor(mContext, R.color.text_color_bf));
+                    loginView3.setBackgroundColor(ContextCompat.getColor(mContext, R.color.text_color_bf));
                     mLoginTextCode.setEnabled(false);
                     mLoginTextCode.setText("重新获取(" + time + ")");
                 }
@@ -161,22 +167,50 @@ public class LoginDailog extends Dialog {
 
             @Override
             public void onFinish() {
-                if (mLoginTextCode!=null) {
+                if (mLoginTextCode != null) {
                     mLoginTextCode.setTextColor(ContextCompat.getColor(mContext, R.color.bg_color));
+                    loginView3.setBackgroundColor(ContextCompat.getColor(mContext, R.color.bg_color));
                     mLoginTextCode.setEnabled(true);
                     mLoginTextCode.setText("获取验证码");
                 }
             }
 
             @Override
-            public void onError(java.lang.Throwable mThrowable) {
+            public void onError(Throwable mThrowable) {
 
             }
-        }).subscribeCutDown();*/
+        });
+        cutDown.subscribeCutDown();
     }
 
-    public interface OnLoginClickListener{
-            void Data(String number,String phone,String customer_id);
+    public interface OnLoginClickListener {
+        void Data(String number, String phone, String customer_id);
 
     }
+
+    //退出时的时间
+    private long mExitTime;
+
+    //对返回键进行监听
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            exit();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    public void exit() {
+        if ((System.currentTimeMillis() - mExitTime) > 2000) {
+            ToastUtils.showToast(mContext, "再按一次退出登录");
+            mExitTime = System.currentTimeMillis();
+        } else {
+            if (cutDown!=null){
+                cutDown.Stop();
+            }
+            dismiss();
+        }
+    }
+
 }

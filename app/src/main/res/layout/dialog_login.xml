@@ -95,6 +95,7 @@
             android:textColor="@color/bg_color" />
 
         <View
+            android:id="@+id/login_view3"
             android:layout_width="@dimen/dp_82"
             android:layout_height="@dimen/dp_1"
             android:layout_marginLeft="@dimen/dp_9"

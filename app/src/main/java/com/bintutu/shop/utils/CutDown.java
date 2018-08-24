@@ -59,6 +59,11 @@ public class CutDown {
         });
     }
 
+    public void Stop() {
+        if (null != mCuDownListener) mCuDownListener.onFinish();
+        if (null != disposable) disposable.dispose();
+    }
+
     public interface OnCuDownListener {
         void onNext(int time);
 

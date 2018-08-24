@@ -5,19 +5,14 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.bintutu.shop.R;
 import com.bintutu.shop.bean.BaseResponse;
-import com.bintutu.shop.bean.LeftBean;
 import com.bintutu.shop.bean.LoginBean;
 import com.bintutu.shop.okgo.JsonCallback;
 import com.bintutu.shop.utils.AppConstant;
@@ -72,6 +67,9 @@ public class LoginDailog extends Dialog {
                     ToastUtils.showToast(mContext, "手机号不能为空");
                     return;
                 }
+
+
+                getCode();
 
                 //发送验证码
                 OkGo.<BaseResponse<LoginBean>>post(AppConstant.VARIFICATIONCODE)
@@ -148,6 +146,33 @@ public class LoginDailog extends Dialog {
 
     public void seLogintListener(OnLoginClickListener mListener) {
         this.mListener = mListener;
+    }
+
+    public void getCode() {
+       /* new CutDown(60, new CutDown.OnCuDownListener() {
+            @Override
+            public void onNext(int time) {
+                if (mLoginTextCode!=null){
+                    mLoginTextCode.setTextColor(ContextCompat.getColor(mContext, R.color.text_color_bf));
+                    mLoginTextCode.setEnabled(false);
+                    mLoginTextCode.setText("重新获取(" + time + ")");
+                }
+            }
+
+            @Override
+            public void onFinish() {
+                if (mLoginTextCode!=null) {
+                    mLoginTextCode.setTextColor(ContextCompat.getColor(mContext, R.color.bg_color));
+                    mLoginTextCode.setEnabled(true);
+                    mLoginTextCode.setText("获取验证码");
+                }
+            }
+
+            @Override
+            public void onError(java.lang.Throwable mThrowable) {
+
+            }
+        }).subscribeCutDown();*/
     }
 
     public interface OnLoginClickListener{

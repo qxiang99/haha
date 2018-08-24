@@ -86,7 +86,7 @@ public class DetailActivity extends BaseActivity {
     private Gson gson;
     private LeftBean leftBean;
     private RightBean rightBean;
-    private String number="0";
+    private String number = "0";
     private String loginnumber;
     private String loginphone;
     private String logincustomer_id;
@@ -104,14 +104,18 @@ public class DetailActivity extends BaseActivity {
         Intent intent = getIntent();
         number = intent.getStringExtra(Constant.ItentKey1);
 
-        getLeft();
+        //getLeft();
+        getData();
         showDailog();
         showRecyclerview();
-        GlideUtil.load(DetailActivity.this,AppConstant.IMAGE_ONE(number),detailImageFootleft );
-        GlideUtil.load(DetailActivity.this,AppConstant.IAMGE_TWO(number),detailImageFootright );
-        GlideUtil.load(DetailActivity.this,AppConstant.IMAGE_TREE(number),detailImagePlantarleft );
-        GlideUtil.load(DetailActivity.this,AppConstant.IAMGE_FOUR(number),detailImagePlantarright );
+        GlideUtil.load(DetailActivity.this, AppConstant.IMAGE_ONE(number), detailImageFootleft);
+        GlideUtil.load(DetailActivity.this, AppConstant.IAMGE_TWO(number), detailImageFootright);
+        GlideUtil.load(DetailActivity.this, AppConstant.IMAGE_TREE(number), detailImagePlantarleft);
+        GlideUtil.load(DetailActivity.this, AppConstant.IAMGE_FOUR(number), detailImagePlantarright);
 
+        detailImageLeft.setImageResource(R.mipmap.leftfoot_internal);
+        detailImageCenter.setImageResource(R.mipmap.leftfoot_surface);
+        detailImageRight.setImageResource(R.mipmap.leftfoot_outside);
         detailButLeft.setEnabled(false);
         detailButRight.setEnabled(true);
         detaiScroll.scrollTo(200, 0);
@@ -155,12 +159,11 @@ public class DetailActivity extends BaseActivity {
         detailButLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                upload(loginnumber, loginphone, logincustomer_id);
-               /* detailButLeft.setEnabled(false);
+                detailButLeft.setEnabled(false);
                 detailButRight.setEnabled(true);
                 detailImageLeft.setImageResource(R.mipmap.leftfoot_internal);
                 detailImageCenter.setImageResource(R.mipmap.leftfoot_surface);
-                detailImageRight.setImageResource(R.mipmap.leftfoot_outside);*/
+                detailImageRight.setImageResource(R.mipmap.leftfoot_outside);
             }
         });
         detailButRight.setOnClickListener(new View.OnClickListener() {
@@ -253,6 +256,11 @@ public class DetailActivity extends BaseActivity {
 
     public void getData() {
 
+        String left = "{ \"10_FuWeiGao\" : 0.0, \"11_1ZhiZhiGao\" : 0.0, \"12_DaMoZhiGao\" : 0.0, \"13_JiaoWanGao\" : 0.0, \"14_JiaoZhiKuan\" : 0.0, \"15_ZhiWeiKuan\" : 75.0062, \"16_DiBanKuan\" : 75.0062, \"17_MuZhiLiKuan\" : 9.89464, \"18_XiaoZhiWaiKuan\" : 56.4657, \"19_1ZhizhiLiKuan\" : 17.5741, \"1_FootLen\" : 221.054, \"20_5ZhizhiLiKuan\" : 55.9658, \"21_YaoWoWaiKuan\" : 73.5143, \"22_ZhongXinDiKuan\" : 56.0287, \"23_JiaoHuaiNeiKuan\" : 0.0, \"24_MuZhiWaiTuChang\" : 198.949, \"25_XiaoZhiDuanChang\" : 182.37, \"26_XiaoZhiWaiTuChang\" : 172.422, \"27_1ZhiZhiChang\" : 160.264, \"28_5ZhiZhiChang\" : 140.369, \"29_FuGuChang\" : 121.58, \"2_ZhiWei\" : 0.0, \"30_YaoWoChang\" : 90.6323, \"31_ZhouShangDianChang\" : 85.1059, \"32_WaiHuaiGuZhongChang\" : 49.7372, \"33_ZhongXinChang\" : 39.7898, \"34_HouGenBianChang\" : 8.84217, \"35_QianZhangTuDianChang\" : 152.085, \"36_ZuGongDu\" : 0.0, \"37_NeiWaiFanDu\" : 0.0, \"3_FuWei\" : 0.0, \"4_DouWei\" : 0.0, \"5_JiaoWanWei\" : 0.0, \"6_JiaoZhiZhou\" : 0.0, \"7_WaiHuaiXiaGao\" : 0.0, \"8_HouGenTuGao\" : 0.0, \"9_ZhouShangGao\" : 0.0 }";
+        String right="{ \"10_FuWeiGao\" : 0.0, \"11_1ZhiZhiGao\" : 0.0, \"12_DaMoZhiGao\" : 0.0, \"13_JiaoWanGao\" : 0.0, \"14_JiaoZhiKuan\" : 0.0, \"15_ZhiWeiKuan\" : 45.1571, \"16_DiBanKuan\" : 45.1571, \"17_MuZhiLiKuan\" : 0.0, \"18_XiaoZhiWaiKuan\" : 0.0, \"19_1ZhizhiLiKuan\" : 0.0, \"1_FootLen\" : 212.314, \"20_5ZhizhiLiKuan\" : 0.0, \"21_YaoWoWaiKuan\" : 0.0, \"22_ZhongXinDiKuan\" : 0.0, \"23_JiaoHuaiNeiKuan\" : 0.0, \"24_MuZhiWaiTuChang\" : 0.0, \"25_XiaoZhiDuanChang\" : 0.0, \"26_XiaoZhiWaiTuChang\" : 0.0, \"27_1ZhiZhiChang\" : 0.0, \"28_5ZhiZhiChang\" : 0.0, \"29_FuGuChang\" : 0.0, \"2_ZhiWei\" : 0.0, \"30_YaoWoChang\" : 87.0485, \"31_ZhouShangDianChang\" : 81.7407, \"32_WaiHuaiGuZhongChang\" : 47.7705, \"33_ZhongXinChang\" : 0.0, \"34_HouGenBianChang\" : 8.49254, \"35_QianZhangTuDianChang\" : 146.072, \"36_ZuGongDu\" : 0.0, \"37_NeiWaiFanDu\" : 0.0, \"3_FuWei\" : 0.0, \"4_DouWei\" : 0.0, \"5_JiaoWanWei\" : 0.0, \"6_JiaoZhiZhou\" : 0.0, \"7_WaiHuaiXiaGao\" : 0.0, \"8_HouGenTuGao\" : 0.0, \"9_ZhouShangGao\" : 0.0 }";
+        leftBean = gson.fromJson(left, LeftBean.class);
+        rightBean = gson.fromJson(right, RightBean.class);
+
         DetailList.add(new DetailBean(getResources().getString(R.string.FootLen), 1, leftBean.get_1_FootLen(), rightBean.get_1_FootLen()));
         DetailList.add(new DetailBean(getResources().getString(R.string.ZhiWei), 2, leftBean.get_2_ZhiWei(), rightBean.get_2_ZhiWei()));
         DetailList.add(new DetailBean(getResources().getString(R.string.FuWei), 3, leftBean.get_3_FuWei(), rightBean.get_3_FuWei()));
@@ -309,7 +317,7 @@ public class DetailActivity extends BaseActivity {
                     public void onSuccess(Response<BaseResponse<String>> response) {
                         String data = String.valueOf(response.body());
                         LoginBean loginBean = gson.fromJson(data, LoginBean.class);
-                        if (loginBean!=null&loginBean.getCode()==0){
+                        if (loginBean != null & loginBean.getCode() == 0) {
                             Intent intent = new Intent(DetailActivity.this, UploadSucessActivity.class);
                             customerid = loginBean.getResult().getCustomer_id();
                             intent.putExtra(Constant.ItentKey1, loginBean.getResult().getCustomer_id());
@@ -355,6 +363,7 @@ public class DetailActivity extends BaseActivity {
     }
 
     MediaType Image = MediaType.parse("image/png; charset=utf-8");
+
     private void UploadImage() {
         //上传图片
         OkGo.<LzyResponse<ServerModel>>post(AppConstant.UPLOAD_IMAGE)
@@ -374,16 +383,15 @@ public class DetailActivity extends BaseActivity {
     }
 
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK && null != data) {
-         if (requestCode == SELECT_ONE) {
+            if (requestCode == SELECT_ONE) {
 
 
-         }
+            }
         }
     }
 

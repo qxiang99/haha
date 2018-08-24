@@ -15,6 +15,7 @@ import com.bintutu.shop.okgo.JsonCallback;
 import com.bintutu.shop.okgo.SimpleResponse;
 import com.bintutu.shop.ui.BaseActivity;
 import com.bintutu.shop.ui.view.GifDailog;
+import com.bintutu.shop.ui.view.LoginDailog;
 import com.bintutu.shop.utils.AppConstant;
 import com.bintutu.shop.utils.ConfigManager;
 import com.bintutu.shop.utils.Constant;
@@ -43,6 +44,7 @@ public class ReadyToScanActivity extends BaseActivity {
     private GifDailog gifDailog;
     private int retry;
     private Timer timer;
+    private LoginDailog loginDailog;
 
 
     @Override
@@ -53,6 +55,7 @@ public class ReadyToScanActivity extends BaseActivity {
     @Override
     protected void init() {
         gifDailog = new GifDailog(ReadyToScanActivity.this);
+        loginDailog = new LoginDailog(this);
         gson = new Gson();
         //请求扫描仪是否在线
         OkGo.<BaseResponse<String>>get(AppConstant.GET_ID)
@@ -104,10 +107,11 @@ public class ReadyToScanActivity extends BaseActivity {
     private void startScan() {
         retry = 0;
         //开启动画
-        gifDailog.show();
-        gifDailog.StartGif();
+        //gifDailog.show();
+        //gifDailog.StartGif();
+        loginDailog.show();
         //发送扫描命令加循环请求
-        RequestScan();
+       // RequestScan();
     }
 
     private void RequestScan() {

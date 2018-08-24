@@ -2,10 +2,10 @@ package com.bintutu.shop.ui.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.util.ArrayMap;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -15,18 +15,18 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.bintutu.shop.R;
-import com.bintutu.shop.bean.ScanBean;
 import com.bintutu.shop.bean.WebDataBean;
 import com.bintutu.shop.ui.BaseActivity;
+import com.bintutu.shop.ui.view.ImageDailog;
+import com.bintutu.shop.ui.view.PictureTagLayout;
 import com.bintutu.shop.utils.AppConstant;
 import com.bintutu.shop.utils.ConfigManager;
 import com.bintutu.shop.utils.Constant;
 import com.bintutu.shop.utils.DebugLog;
-import com.bintutu.shop.utils.DensityUtil;
 import com.google.gson.Gson;
 
 import java.net.URLDecoder;
@@ -51,13 +51,15 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void init() {
+
+
         Intent intent = getIntent();
         String weburl = intent.getStringExtra(Constant.ItentKey1);
-         if (weburl!=null){
-             url =  weburl;
-         }else {
-             url = AppConstant.WEBVIEW_HOME;
-         }
+        if (weburl != null) {
+            url = weburl;
+        } else {
+            url = AppConstant.WEBVIEW_HOME;
+        }
         WebSettings settings = mWebView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setUserAgentString("scheme//caigou_ANDROID/1.1.1");
@@ -77,7 +79,7 @@ public class MainActivity extends BaseActivity {
                 url = url + "?token=" + ConfigManager.User.getToken();
             }
         }*/
-        mWebView.loadUrl(url);
+        // mWebView.loadUrl(url);
         DebugLog.e("新连接：" + url);
     }
 
@@ -94,12 +96,7 @@ public class MainActivity extends BaseActivity {
         mWebView.setWebViewClient(new WebViewClient() {
             @Override
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
-                //showToast("网络连接失败 ,请连接网络");
-               /* fragmentOrderTwoLin.setVisibility(View.VISIBLE);
-                fragmentWebOneLin.setVisibility(View.GONE);
-                fragmentOrderTwoImage.setBackgroundResource(R.mipmap.pic_anomaly_normal);
-                fragmentOrderTwoText.setText("网络异常");
-                fragmentOrderNologinBut.setText("重新加载");*/
+                ShowToast("网络连接失败 ,请连接网络");
             }
 
 
@@ -139,7 +136,12 @@ public class MainActivity extends BaseActivity {
 
     }
 
-
+    public Bitmap createViewBitmap(View v) {
+        Bitmap bitmap = Bitmap.createBitmap(v.getWidth(), v.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        v.draw(canvas);
+        return bitmap;
+    }
     private void Takeout(String url) {
         if (url.startsWith("bintutu://startscanning")) {
             Map<String, String> map = getParamsMap(url, "bintutu://startscanning");
@@ -152,7 +154,7 @@ public class MainActivity extends BaseActivity {
                 ConfigManager.Device.setShopID(webDataBean.getShop_id());
             }
             if (webDataBean.getShop_phone() != null) {
-                ConfigManager.Device.setShopPhone(webDataBean.getShop_phone() );
+                ConfigManager.Device.setShopPhone(webDataBean.getShop_phone());
             }
             startActivity(new Intent(MainActivity.this, ReadyToScanActivity.class));
         }
@@ -188,7 +190,6 @@ public class MainActivity extends BaseActivity {
             mExitTime = System.currentTimeMillis();
         } else {
             finish();
-            System.exit(0);
         }
     }
 

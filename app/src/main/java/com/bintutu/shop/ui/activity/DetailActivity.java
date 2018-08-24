@@ -24,6 +24,7 @@ import com.bintutu.shop.okgo.LzyResponse;
 import com.bintutu.shop.okgo.ServerModel;
 import com.bintutu.shop.ui.BaseActivity;
 import com.bintutu.shop.ui.adapter.DetailAdapter;
+import com.bintutu.shop.ui.view.ImageDailog;
 import com.bintutu.shop.ui.view.LoginDailog;
 import com.bintutu.shop.utils.AppConstant;
 import com.bintutu.shop.utils.ConfigManager;
@@ -106,10 +107,10 @@ public class DetailActivity extends BaseActivity {
         getLeft();
         showDailog();
         showRecyclerview();
-        GlideUtil.load(DetailActivity.this,AppConstant.IMAGE_ONE+number+"/1-show.jpg",detailImageFootleft );
-        GlideUtil.load(DetailActivity.this,AppConstant.IAMGE_TWO+number+"/0-show.jpg",detailImageFootright );
-        GlideUtil.load(DetailActivity.this,AppConstant.IMAGE_TREE+number+"/5_l-show.jpg",detailImagePlantarleft );
-        GlideUtil.load(DetailActivity.this,AppConstant.IAMGE_FOUR+number+"/5_r-show.jpg",detailImagePlantarright );
+        GlideUtil.load(DetailActivity.this,AppConstant.IMAGE_ONE(number),detailImageFootleft );
+        GlideUtil.load(DetailActivity.this,AppConstant.IAMGE_TWO(number),detailImageFootright );
+        GlideUtil.load(DetailActivity.this,AppConstant.IMAGE_TREE(number),detailImagePlantarleft );
+        GlideUtil.load(DetailActivity.this,AppConstant.IAMGE_FOUR(number),detailImagePlantarright );
 
         detailButLeft.setEnabled(false);
         detailButRight.setEnabled(true);
@@ -191,10 +192,11 @@ public class DetailActivity extends BaseActivity {
 
     private void showDailog() {
         loginDailog = new LoginDailog(this);
+
     }
 
     private void showSpaceImage(ImageView view, int imageRe) {
-        Intent intent = new Intent(DetailActivity.this, SpaceImageDetailActivity.class);
+      /*  Intent intent = new Intent(DetailActivity.this, SpaceImageDetailActivity.class);
         intent.putExtra("images", imageRe);
         int[] location = new int[2];
         view.getLocationOnScreen(location);
@@ -203,7 +205,7 @@ public class DetailActivity extends BaseActivity {
         intent.putExtra("width", view.getWidth());
         intent.putExtra("height", view.getHeight());
         startActivityForResult(intent, SELECT_ONE);
-        overridePendingTransition(0, 0);
+        overridePendingTransition(0, 0);*/
     }
 
     private void showRecyclerview() {
@@ -215,7 +217,7 @@ public class DetailActivity extends BaseActivity {
 
 
     public void getLeft() {
-        OkGo.<BaseResponse<String>>get(AppConstant.LEFT_JSON+number+"/left.json")
+        OkGo.<BaseResponse<String>>get(AppConstant.LEFT_JSON(number))
                 .execute(new JsonCallback<BaseResponse<String>>() {
                     @Override
                     public void onSuccess(Response<BaseResponse<String>> response) {
@@ -233,7 +235,7 @@ public class DetailActivity extends BaseActivity {
     }
 
     private void getRight() {
-        OkGo.<BaseResponse<String>>get(AppConstant.RIGHT_JSON+number+"/right.json")
+        OkGo.<BaseResponse<String>>get(AppConstant.RIGHT_JSON(number))
                 .execute(new JsonCallback<BaseResponse<String>>() {
                     @Override
                     public void onSuccess(Response<BaseResponse<String>> response) {
@@ -338,7 +340,7 @@ public class DetailActivity extends BaseActivity {
         //上传图片
         OkGo.<LzyResponse<ServerModel>>post(AppConstant.UPLOAD_ZIP)
                 .headers("id", "headerValue1")//
-                .upFile(new File(""),Image)//
+                .params("fileKey", new File(""))//
                 .execute(new DialogCallback<LzyResponse<ServerModel>>(this) {
                     @Override
                     public void onSuccess(Response<LzyResponse<ServerModel>> response) {

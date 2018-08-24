@@ -34,13 +34,6 @@ public class SplashActivity extends BaseActivity {
 
 
     private void StartApp() {
-       /* if (ConfigManager.Device.isShowSplash()) {
-            Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
-            startActivity(intent);
-        }else {
-            Intent intent=new Intent(SplashActivity.this,DataActivity.class);
-            startActivity(intent);
-        }*/
         Intent intent=new Intent(SplashActivity.this,MainActivity.class);
         startActivity(intent);
         finish();

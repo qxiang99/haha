@@ -66,7 +66,7 @@ public class Abc extends RelativeLayout implements View.OnTouchListener {
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-       /* switch (event.getAction()) {
+        switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 touchView = null;
                 if(clickView!=null){
@@ -98,7 +98,7 @@ public class Abc extends RelativeLayout implements View.OnTouchListener {
                 }
                 touchView = null;
                 break;
-        }*/
+        }
         return false;
     }
 

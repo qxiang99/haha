@@ -15,9 +15,9 @@ import com.bintutu.shop.R;
 public class PictureTagView extends RelativeLayout implements OnEditorActionListener{
 
 	private Context context;
-	private TextView tvPictureTagLabel;
-	private EditText etPictureTagLabel;
-	private View loTag;
+	//private TextView tvPictureTagLabel;
+	//private EditText etPictureTagLabel;
+	//private View loTag;
 	public enum Status{Normal,Edit}
 	public enum Direction{Left,Right}
 	private Direction direction = Direction.Left;
@@ -37,9 +37,9 @@ public class PictureTagView extends RelativeLayout implements OnEditorActionList
 	/** 初始化视图 **/
 	protected void initViews(){
 		LayoutInflater.from(context).inflate(R.layout.picturetagview, this,true);
-		tvPictureTagLabel = (TextView) findViewById(R.id.tvPictureTagLabel);
-		etPictureTagLabel = (EditText) findViewById(R.id.etPictureTagLabel);
-		loTag = findViewById(R.id.loTag);
+		//tvPictureTagLabel = (TextView) findViewById(R.id.tvPictureTagLabel);
+		//etPictureTagLabel = (EditText) findViewById(R.id.etPictureTagLabel);
+		//loTag = findViewById(R.id.loTag);
 	}
 	/** 初始化 **/
 	protected void init(){
@@ -49,23 +49,23 @@ public class PictureTagView extends RelativeLayout implements OnEditorActionList
 
 	/** 初始化事件 **/
 	protected void initEvents(){
-		etPictureTagLabel.setOnEditorActionListener(this);
+		//etPictureTagLabel.setOnEditorActionListener(this);
 	}
 	
 	public void setStatus(Status status){
 		switch(status){
 		case Normal:
-			tvPictureTagLabel.setVisibility(View.VISIBLE);
-			etPictureTagLabel.clearFocus();
-			tvPictureTagLabel.setText(etPictureTagLabel.getText());
-			etPictureTagLabel.setVisibility(View.GONE);
+			//tvPictureTagLabel.setVisibility(View.VISIBLE);
+			//etPictureTagLabel.clearFocus();
+			//tvPictureTagLabel.setText(etPictureTagLabel.getText());
+			//etPictureTagLabel.setVisibility(View.GONE);
 			//隐藏键盘
-			imm.hideSoftInputFromWindow(etPictureTagLabel.getWindowToken() , 0); 
+			//imm.hideSoftInputFromWindow(etPictureTagLabel.getWindowToken() , 0);
 			break;
 		case Edit:
-			tvPictureTagLabel.setVisibility(View.GONE);
-			etPictureTagLabel.setVisibility(View.VISIBLE);
-			etPictureTagLabel.requestFocus();
+			//tvPictureTagLabel.setVisibility(View.GONE);
+			//etPictureTagLabel.setVisibility(View.VISIBLE);
+			//etPictureTagLabel.requestFocus();
 			//弹出键盘
 			imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
 			break;

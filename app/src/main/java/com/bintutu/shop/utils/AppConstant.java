@@ -24,8 +24,6 @@ public class AppConstant {
     public static final String UPLOAD_IMAGE = BASE_URLS + "shop_3d/backend/web/index.php/userfoottypedata/uploadpic";
 
 
-
-
     //web首页
     public static final String WEBVIEW_HOME = "http://ipadscan_test.bintutu.com/shop_3dscanner_learning/frontend/shutdown.html";
     //web选鞋页
@@ -38,18 +36,40 @@ public class AppConstant {
     public static final String BEGIN_SCAN = EQUIPMENT_URL + "beginScan";
     //请求设备拉取数据-----post
     public static final String REQUEST_DATA = EQUIPMENT_URL + "requestData";
+
     //获取数据LEFT_JSON----get
-    public static final String LEFT_JSON = EQUIPMENT_URL ;
+    public static final String LEFT_JSON(String leftjson) {
+        return EQUIPMENT_URL + leftjson + "/left.json";
+    }
+
     //获取数据RIGHT_JSON----get
-    public static final String RIGHT_JSON = EQUIPMENT_URL;
+    public static final String RIGHT_JSON(String rightjson) {
+        return EQUIPMENT_URL + rightjson + "/right.json";
+    }
+
     //获取数据图片1---------get
-    public static final String IMAGE_ONE = EQUIPMENT_URL ;
+    public static String IMAGE_ONE(String one) {
+        return EQUIPMENT_URL + one + "/1-show.jpg";
+    }
+
     //获取数据图片2---------get
-    public static final String IAMGE_TWO = EQUIPMENT_URL ;
+    public static String IAMGE_TWO(String two) {
+        return EQUIPMENT_URL + two + "/0-show.jpg";
+    }
+
     //获取数据图片3---------get
-    public static final String IMAGE_TREE = EQUIPMENT_URL ;
+    public static String IMAGE_TREE(String tree) {
+        return EQUIPMENT_URL + tree + "/5_l-show.jpg";
+    }
+
     //获取数据图片4---------get
-    public static final String IAMGE_FOUR = EQUIPMENT_URL ;
+    public static String IAMGE_FOUR(String four) {
+        return EQUIPMENT_URL + four + "/5_r-show.jpg";
+    }
+
     //获取数据ZIP-----------get
-    public static final String DATA_ZIP = EQUIPMENT_URL + "awawaw/right.json";
+    public static String DATA_ZIP(String zip) {
+        return EQUIPMENT_URL + zip + "/right.zip";
+    }
+
 }

@@ -49,13 +49,6 @@
 
         </activity>
         <!--放大图片-->
-        <activity
-            android:name=".ui.activity.SpaceImageDetailActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:launchMode="singleTop"
-            android:screenOrientation="landscape"
-            android:theme="@style/IMTheme.Transparent"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
         <!--上传成功页-->
         <activity
             android:name=".ui.activity.UploadSucessActivity"

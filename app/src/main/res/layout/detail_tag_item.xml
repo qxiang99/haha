@@ -2,13 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/dp_12"
     android:orientation="horizontal">
 
 
     <LinearLayout
-        android:layout_width="@dimen/dp_20"
-        android:layout_height="@dimen/dp_20"
-        android:layout_marginLeft="@dimen/dp_22"
+        android:layout_width="@dimen/dp_22"
+        android:layout_height="@dimen/dp_22"
         android:background="@mipmap/red_point" >
         <TextView
             android:id="@+id/tag_text_number"
@@ -23,7 +23,8 @@
     <TextView
         android:id="@+id/tag_text_title"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/dp_22"
+        android:gravity="center_vertical"
         android:layout_marginLeft="@dimen/dp_12"
         android:textColor="@color/text_color_c1"
         android:textSize="@dimen/dp_12"
@@ -33,9 +34,9 @@
         android:id="@+id/tag_text_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_vertical"
         android:layout_marginLeft="@dimen/dp_5"
         android:textColor="@color/text_color_c1"
         android:textSize="@dimen/dp_12"
-        android:text=""
-        android:layout_marginBottom="@dimen/dp_14"/>
+        android:text="" />
 </LinearLayout>

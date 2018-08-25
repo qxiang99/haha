@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -38,6 +39,9 @@ import com.bintutu.shop.utils.ConfigManager;
 import com.bintutu.shop.utils.Constant;
 import com.bintutu.shop.utils.DebugLog;
 import com.bintutu.shop.utils.GlideUtil;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
@@ -87,6 +91,8 @@ public class DetailActivity extends BaseActivity {
     ImageView detailImagePlantarright;
     @BindView(R.id.data_lin_addtag)
     LinearLayout dataLinAddtag;
+    @BindView(R.id.detail_edit_remark)
+    EditText dataEditRemark;
     private List<DetailBean> DetailList = new ArrayList<>();
     private List<TAGBean> TaglList = new ArrayList<>();
     private LoginDailog loginDailog;
@@ -124,12 +130,15 @@ public class DetailActivity extends BaseActivity {
         number = intent.getStringExtra(Constant.ItentKey1);
         //getLeft();
         getData();
-        showDailog();
+        //
+        loginDailog = new LoginDailog(this);
+        //初始化Recyclerview
         showRecyclerview();
-        GlideUtil.load(DetailActivity.this, AppConstant.IMAGE_ONE(number), detailImageFootleft);
-        GlideUtil.load(DetailActivity.this, AppConstant.IAMGE_TWO(number), detailImageFootright);
-        GlideUtil.load(DetailActivity.this, AppConstant.IMAGE_TREE(number), detailImagePlantarleft);
-        GlideUtil.load(DetailActivity.this, AppConstant.IAMGE_FOUR(number), detailImagePlantarright);
+        //加载四张图片
+        LoadingImage();
+
+
+
 
         SetImage();
 
@@ -138,6 +147,8 @@ public class DetailActivity extends BaseActivity {
         detaiScroll.scrollTo(200, 0);
 
     }
+
+
 
 
     @Override
@@ -224,12 +235,6 @@ public class DetailActivity extends BaseActivity {
                 logincustomer_id = customer_id;
             }
         });
-
-    }
-
-    private void showDailog() {
-        loginDailog = new LoginDailog(this);
-
 
     }
 
@@ -344,6 +349,8 @@ public class DetailActivity extends BaseActivity {
         map.put("left", leftBean);
         map.put("right", rightBean);
         String detailData = gson.toJson(map);
+        String foot_remark = gson.toJson(TaglList);
+        final String remark = dataEditRemark.getText().toString().trim();
         //上传数据
         OkGo.<BaseResponse<String>>post(AppConstant.NEW_DATA)
                 .params("name", number)//自定的一个名字
@@ -351,9 +358,9 @@ public class DetailActivity extends BaseActivity {
                 .params("customer_phone", phone)//手机号
                 .params("shop_id", ConfigManager.Device.getShopID())//商铺号
                 .params("device_id", ConfigManager.Device.getEquipmentID())//判断设备在不在线的返回的数据
-                .params("foot_remark", "")//数据界面上面需要标记的图片json
+                .params("foot_remark", foot_remark)//数据界面上面需要标记的图片json
                 .params("detail_data", detailData)//left.json+right.json
-                .params("remark", "1")//备注
+                .params("remark", remark+"")//备注
                 .execute(new JsonCallback<BaseResponse<String>>() {
                     @Override
                     public void onSuccess(Response<BaseResponse<String>> response) {
@@ -469,5 +476,43 @@ public class DetailActivity extends BaseActivity {
         detailImageLeftTwo.setBackground(new BitmapDrawable(getResources(), map.get(detailImageLeftTwo)));
         detailImageCenterTwo.setBackground(new BitmapDrawable(getResources(), map.get(detailImageCenterTwo)));
         detailImageRightTwo.setBackground(new BitmapDrawable(getResources(), map.get(detailImageRightTwo)));
+
+    }
+
+    private void LoadingImage() {
+
+        /* GlideUtil.load(DetailActivity.this, AppConstant.IMAGE_ONE(number), detailImageFootleft);
+        GlideUtil.load(DetailActivity.this, AppConstant.IAMGE_TWO(number), detailImageFootright);
+        GlideUtil.load(DetailActivity.this, AppConstant.IMAGE_TREE(number), detailImagePlantarleft);
+        GlideUtil.load(DetailActivity.this, AppConstant.IAMGE_FOUR(number), detailImagePlantarright);*/
+
+        String URL ="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1535237432187&di=f140fa616bff9996b541fcebe348ec99&imgtype=0&src=http%3A%2F%2Fwww.shishiwww.com%2Fuploads%2Fallimg%2F180825%2F2252495646-1.jpg";
+
+        GlideUtil.load(DetailActivity.this, URL, detailImageFootleft);
+
+      /*  Glide.with(this).load(URL).asBitmap().into(new SimpleTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                detailImageFootleft.setBackground(new BitmapDrawable(getResources(), resource));
+            }
+        });*/
+        Glide.with(this).load(AppConstant.IAMGE_TWO(number)).asBitmap().into(new SimpleTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                detailImageFootright.setBackground(new BitmapDrawable(getResources(), resource));
+            }
+        });
+        Glide.with(this).load(AppConstant.IMAGE_TREE(number)).asBitmap().into(new SimpleTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                detailImagePlantarleft.setBackground(new BitmapDrawable(getResources(), resource));
+            }
+        });
+        Glide.with(this).load(AppConstant.IAMGE_FOUR(number)).asBitmap().into(new SimpleTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                detailImagePlantarright.setBackground(new BitmapDrawable(getResources(), resource));
+            }
+        });
     }
 }

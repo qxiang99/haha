@@ -3,18 +3,15 @@ package com.bintutu.shop.ui.view;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import com.bintutu.shop.R;
+import com.bintutu.shop.bean.TAGBean;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,6 +23,9 @@ public class ImageDailog extends Dialog {
    PictureTagLayout picture;
 
     private Context mContext;
+    private ImageView mView;
+    private int mWidth;
+    private int mHidth;
 
 
     public ImageDailog(@NonNull Context context) {
@@ -44,12 +44,32 @@ public class ImageDailog extends Dialog {
 
 
     private void setListener() {
+        picture.setSetClickListener(new PictureTagLayout.OnSetClickListener() {
+            @Override
+            public void onSetData(Bitmap viewBitmap,  TAGBean tagBean) {
+                if (mImageClickListener!=null){
+                    mImageClickListener.onSetData(mView,viewBitmap,tagBean);
+                }
+            }
+        });
+    }
+
+    public void setImage(String name, ImageView view, Bitmap imageRe) {
+        mView = view;
+        picture.setImage(name,imageRe);
 
     }
 
-    public void setImage(int Rid) {
-        picture.setImage(Rid);
 
+    private OnImageClickListener mImageClickListener;
+
+    public void setImageClickListener(OnImageClickListener mImageClickListener) {
+        this.mImageClickListener = mImageClickListener;
+    }
+
+
+    public interface OnImageClickListener {
+        void onSetData(ImageView view, Bitmap viewBitmap,TAGBean tagBean);
     }
 
 }

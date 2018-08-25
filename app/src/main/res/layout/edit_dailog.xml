@@ -23,7 +23,7 @@
        android:gravity="center"
        android:textColor="@color/text_color_c1"
        android:text="请输入详细细节"
-       android:textSize="@dimen/dp_13"
+       android:textSize="@dimen/dp_11"
        android:layout_marginLeft="@dimen/dp_10"
        app:layout_constraintLeft_toLeftOf="parent" />
 
@@ -37,7 +37,7 @@
        android:padding="@dimen/dp_5"
        android:gravity="top|left"
        android:textColor="@color/text_color_c1"
-       android:textSize="@dimen/dp_12"
+       android:textSize="@dimen/dp_10"
        android:background="@drawable/edit_bg"
        app:layout_constraintTop_toBottomOf="@+id/edit_title"
        app:layout_constraintLeft_toLeftOf="parent"
@@ -59,7 +59,7 @@
           android:layout_height="match_parent"
           android:text="确定"
           android:textColor="@color/white"
-          android:textSize="@dimen/dp_12"
+          android:textSize="@dimen/dp_10"
           android:layout_marginRight="@dimen/dp_15"
           android:background="@drawable/edit_but_disabled"/>
       <Button
@@ -67,7 +67,7 @@
           android:layout_width="@dimen/dp_35"
           android:layout_height="match_parent"
           android:text="取消"
-          android:textSize="@dimen/dp_12"
+          android:textSize="@dimen/dp_10"
           android:textColor="@color/text_color_c1"
           android:background="@drawable/edit_but_normals"/>
 

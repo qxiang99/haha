@@ -72,6 +72,7 @@ public class ConfigManager {
         public static final String LOGINPWD = "device_loginpwd";
         public static final String SHOPID = "device_shopid";
         public static final String SHOPPHONE = "device_shopphone";
+        public static final String DETAILTAG = "device_Ddetail_tag";
 
         private static String getConfigFile() {
             return CONFIG_DEVICE;
@@ -133,6 +134,14 @@ public class ConfigManager {
 
         public static void setShopPhone(String phone) {
             commitString(getConfigFile(), SHOPPHONE, phone);
+        }
+
+        public static int getTag() {
+            return getInt(getConfigFile(), DETAILTAG, 0);
+        }
+
+        public static void setTag(int tag) {
+            commitInt(getConfigFile(), DETAILTAG, tag);
         }
 
     }

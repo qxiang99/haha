@@ -1,11 +1,15 @@
 package com.bintutu.shop.ui.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -44,9 +48,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import okhttp3.MediaType;
 
+@RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
 public class DetailActivity extends BaseActivity {
 
     @BindView(R.id.recyclerview)
@@ -61,6 +65,12 @@ public class DetailActivity extends BaseActivity {
     ImageView detailImageCenter;
     @BindView(R.id.detail_image_right)
     ImageView detailImageRight;
+    @BindView(R.id.detail_image_left_two)
+    ImageView detailImageLeftTwo;
+    @BindView(R.id.detail_image_center_two)
+    ImageView detailImageCenterTwo;
+    @BindView(R.id.detail_image_right_two)
+    ImageView detailImageRightTwo;
     @BindView(R.id.detail_but_left)
     Button detailButLeft;
     @BindView(R.id.detail_but_right)
@@ -75,7 +85,6 @@ public class DetailActivity extends BaseActivity {
     ImageView detailImagePlantarleft;
     @BindView(R.id.detail_image_plantarright)
     ImageView detailImagePlantarright;
-    private static final int SELECT_ONE = 1;
     @BindView(R.id.data_lin_addtag)
     LinearLayout dataLinAddtag;
     private List<DetailBean> DetailList = new ArrayList<>();
@@ -97,20 +106,22 @@ public class DetailActivity extends BaseActivity {
     private String loginphone;
     private String logincustomer_id;
     private String customerid;
-    private ImageDailog imageDailog;
+    private HashMap<View, Bitmap> map;
 
     @Override
     protected void initContentView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_detail);
     }
 
+
     @Override
     protected void init() {
         gson = new Gson();
+        //设置Tag
+        ConfigManager.Device.setTag(1);
 
         Intent intent = getIntent();
         number = intent.getStringExtra(Constant.ItentKey1);
-
         //getLeft();
         getData();
         showDailog();
@@ -120,74 +131,29 @@ public class DetailActivity extends BaseActivity {
         GlideUtil.load(DetailActivity.this, AppConstant.IMAGE_TREE(number), detailImagePlantarleft);
         GlideUtil.load(DetailActivity.this, AppConstant.IAMGE_FOUR(number), detailImagePlantarright);
 
-        detailImageLeft.setImageResource(R.mipmap.leftfoot_internal);
-        detailImageCenter.setImageResource(R.mipmap.leftfoot_surface);
-        detailImageRight.setImageResource(R.mipmap.leftfoot_outside);
+        SetImage();
+
         detailButLeft.setEnabled(false);
         detailButRight.setEnabled(true);
         detaiScroll.scrollTo(200, 0);
 
-       /* TAGBean tagBean = new TAGBean();
-        tagBean.setName("左脚脚面");
-        List<TAGBean.DetailListBean> DElList = new ArrayList<>();
-        TAGBean.DetailListBean detailListBean = new TAGBean.DetailListBean();
-        detailListBean.setContent("急眼觉得很舒服回家的身份卡了复活多少房间卡双离合大厦分开了，水电费哈师大尽快回复第三方会骄傲是浪费撒的结合房间卡萨圣诞节饭好了师大附近开好了");
-        TAGBean.DetailListBean detailListBean2 = new TAGBean.DetailListBean();
-        detailListBean2.setContent("急眼觉得很舒服回家的身份卡了");
-        DElList.add(detailListBean);
-        DElList.add(detailListBean2);
-        tagBean.setDetailList(DElList);
-        TaglList.add(tagBean);
-
-
-        addTag();*/
     }
+
 
     @Override
     protected void setListener() {
-
-        detailImageLeft.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!detailButLeft.isEnabled()) {
-                    showSpaceImage(detailImageLeft, ImageRes[0]);
-                } else {
-                    showSpaceImage(detailImageLeft, ImageRes[3]);
-                }
-
-            }
-        });
-        detailImageCenter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!detailButLeft.isEnabled()) {
-                    showSpaceImage(detailImageCenter, ImageRes[1]);
-                } else {
-                    showSpaceImage(detailImageCenter, ImageRes[4]);
-                }
-            }
-        });
-        detailImageRight.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                /*if (!detailButLeft.isEnabled()) {
-                    showSpaceImage(detailImageRight, ImageRes[2]);
-                } else {
-                    showSpaceImage(detailImageRight, ImageRes[5]);
-                }*/
-
-
-            }
-        });
 
         detailButLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 detailButLeft.setEnabled(false);
                 detailButRight.setEnabled(true);
-                detailImageLeft.setImageResource(R.mipmap.leftfoot_internal);
-                detailImageCenter.setImageResource(R.mipmap.leftfoot_surface);
-                detailImageRight.setImageResource(R.mipmap.leftfoot_outside);
+                detailImageLeft.setVisibility(View.VISIBLE);
+                detailImageCenter.setVisibility(View.VISIBLE);
+                detailImageRight.setVisibility(View.VISIBLE);
+                detailImageLeftTwo.setVisibility(View.GONE);
+                detailImageCenterTwo.setVisibility(View.GONE);
+                detailImageRightTwo.setVisibility(View.GONE);
             }
         });
         detailButRight.setOnClickListener(new View.OnClickListener() {
@@ -195,30 +161,54 @@ public class DetailActivity extends BaseActivity {
             public void onClick(View view) {
                 detailButLeft.setEnabled(true);
                 detailButRight.setEnabled(false);
-                detailImageLeft.setImageResource(R.mipmap.rightfoot_internal);
-                detailImageCenter.setImageResource(R.mipmap.rightfoot_surface);
-                detailImageRight.setImageResource(R.mipmap.rightfoot_outside);
-
-
-                dataLinAddtag.setVisibility(View.VISIBLE);
-                TAGBean tagBean = new TAGBean();
-                tagBean.setName("左脚脚面");
-                List<TAGBean.DetailListBean> DElList = new ArrayList<>();
-                TAGBean.DetailListBean detailListBean = new TAGBean.DetailListBean();
-                detailListBean.setContent("急眼觉得很舒服回家的身份卡了复活多少房间卡双离合大厦分开了，水电费哈师大尽快回复第三方会骄傲是浪费撒的结合房间卡萨圣诞节饭好了师大附近开好了");
-                TAGBean.DetailListBean detailListBean2 = new TAGBean.DetailListBean();
-                detailListBean2.setContent("急眼觉得很舒服回家的身份卡了");
-                DElList.add(detailListBean);
-                DElList.add(detailListBean2);
-                tagBean.setDetailList(DElList);
-                TaglList.add(tagBean);
-
-
-                addTag();
-
+                detailImageLeft.setVisibility(View.GONE);
+                detailImageCenter.setVisibility(View.GONE);
+                detailImageRight.setVisibility(View.GONE);
+                detailImageLeftTwo.setVisibility(View.VISIBLE);
+                detailImageCenterTwo.setVisibility(View.VISIBLE);
+                detailImageRightTwo.setVisibility(View.VISIBLE);
 
             }
         });
+
+        detailImageLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showSpaceImage("左脚内侧",detailImageLeft, map.get(detailImageLeft));
+            }
+        });
+        detailImageCenter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showSpaceImage("左脚脚面", detailImageCenter, map.get(detailImageCenter));
+            }
+        });
+        detailImageRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showSpaceImage("左脚外侧", detailImageRight, map.get(detailImageRight));
+            }
+        });
+        detailImageLeftTwo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showSpaceImage("右脚内侧", detailImageLeftTwo, map.get(detailImageLeftTwo));
+            }
+        });
+        detailImageCenterTwo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showSpaceImage("右脚脚面", detailImageCenterTwo, map.get(detailImageCenterTwo));
+            }
+        });
+        detailImageRightTwo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showSpaceImage("右脚外侧", detailImageRightTwo, map.get(detailImageRightTwo));
+            }
+        });
+
+
         detailButUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -234,17 +224,32 @@ public class DetailActivity extends BaseActivity {
                 logincustomer_id = customer_id;
             }
         });
+
     }
 
     private void showDailog() {
         loginDailog = new LoginDailog(this);
-        imageDailog = new ImageDailog(this);
+
 
     }
 
-    private void showSpaceImage(ImageView view, int imageRe) {
+    private void showSpaceImage(String name, ImageView view, Bitmap imageRe) {
+        ImageDailog imageDailog = new ImageDailog(this);
         imageDailog.show();
-        imageDailog.setImage(imageRe);
+        imageDailog.setImage(name,view, imageRe);
+        imageDailog.setImageClickListener(new ImageDailog.OnImageClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+            @Override
+            public void onSetData(ImageView view, Bitmap viewBitmap, TAGBean tagBean) {
+                map.put(view, viewBitmap);
+                view.setBackground(new BitmapDrawable(getResources(), viewBitmap));
+
+                if(!TaglList.contains(tagBean)) {
+                    TaglList.add(tagBean);
+                }
+                addTag();
+            }
+        });
 
     }
 
@@ -421,8 +426,8 @@ public class DetailActivity extends BaseActivity {
 
 
     public void addTag() {
+        dataLinAddtag.setVisibility(View.VISIBLE);
         dataLinAddtag.removeAllViews();
-        int tag = 0;
         DebugLog.e("TAGBean", TaglList.size() + ".....1");
         for (int i = 0; i < TaglList.size(); i++) {
             TAGBean tagBean = TaglList.get(i);
@@ -431,8 +436,7 @@ public class DetailActivity extends BaseActivity {
                 TAGBean.DetailListBean detailListBean = TaglList.get(i).getDetailList().get(a);
                 View view = LayoutInflater.from(DetailActivity.this).inflate(R.layout.detail_tag_item, null);
                 TextView number = view.findViewById(R.id.tag_text_number);
-                tag = tag++;
-                number.setText("1");
+                number.setText(detailListBean.getIndex()+"");
                 TextView title = view.findViewById(R.id.tag_text_title);
                 title.setText("[" + tagBean.getName() + "] : ");
                 TextView content = view.findViewById(R.id.tag_text_content);
@@ -440,5 +444,30 @@ public class DetailActivity extends BaseActivity {
                 dataLinAddtag.addView(view);
             }
         }
+    }
+
+
+    private void SetImage() {
+        Bitmap leftfoot_internal = BitmapFactory.decodeResource(getResources(), R.mipmap.leftfoot_internal);
+        Bitmap leftfoot_surface = BitmapFactory.decodeResource(getResources(), R.mipmap.leftfoot_surface);
+        Bitmap leftfoot_outside = BitmapFactory.decodeResource(getResources(), R.mipmap.leftfoot_outside);
+        Bitmap rightfoot_internal = BitmapFactory.decodeResource(getResources(), R.mipmap.rightfoot_internal);
+        Bitmap rightfoot_surface = BitmapFactory.decodeResource(getResources(), R.mipmap.rightfoot_surface);
+        Bitmap rightfoot_outside = BitmapFactory.decodeResource(getResources(), R.mipmap.rightfoot_outside);
+
+        map = new HashMap<>();
+        map.put(detailImageLeft, leftfoot_internal);
+        map.put(detailImageCenter, leftfoot_surface);
+        map.put(detailImageRight, leftfoot_outside);
+        map.put(detailImageLeftTwo, rightfoot_internal);
+        map.put(detailImageCenterTwo, rightfoot_surface);
+        map.put(detailImageRightTwo, rightfoot_outside);
+
+        detailImageLeft.setBackground(new BitmapDrawable(getResources(), map.get(detailImageLeft)));
+        detailImageCenter.setBackground(new BitmapDrawable(getResources(), map.get(detailImageCenter)));
+        detailImageRight.setBackground(new BitmapDrawable(getResources(), map.get(detailImageRight)));
+        detailImageLeftTwo.setBackground(new BitmapDrawable(getResources(), map.get(detailImageLeftTwo)));
+        detailImageCenterTwo.setBackground(new BitmapDrawable(getResources(), map.get(detailImageCenterTwo)));
+        detailImageRightTwo.setBackground(new BitmapDrawable(getResources(), map.get(detailImageRightTwo)));
     }
 }

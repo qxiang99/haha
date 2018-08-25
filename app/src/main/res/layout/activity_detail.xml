@@ -58,20 +58,41 @@
                     <ImageView
                         android:id="@+id/detail_image_left"
                         android:layout_width="@dimen/dp_241"
-                        android:layout_height="match_parent"
+                        android:layout_height="@dimen/dp_241"
                         android:layout_marginRight="@dimen/dp_7" />
 
                     <ImageView
                         android:id="@+id/detail_image_center"
                         android:layout_width="@dimen/dp_241"
-                        android:layout_height="match_parent"
+                        android:layout_height="@dimen/dp_241"
                         android:layout_marginRight="@dimen/dp_7" />
 
                     <ImageView
                         android:id="@+id/detail_image_right"
                         android:layout_width="@dimen/dp_241"
-                        android:layout_height="match_parent"
+                        android:layout_height="@dimen/dp_241"
                         android:layout_marginRight="@dimen/dp_7" />
+
+                    <ImageView
+                        android:id="@+id/detail_image_left_two"
+                        android:layout_width="@dimen/dp_241"
+                        android:layout_height="@dimen/dp_241"
+                        android:layout_marginRight="@dimen/dp_7"
+                        android:visibility="gone"/>
+
+                    <ImageView
+                        android:id="@+id/detail_image_center_two"
+                        android:layout_width="@dimen/dp_241"
+                        android:layout_height="@dimen/dp_241"
+                        android:layout_marginRight="@dimen/dp_7"
+                        android:visibility="gone"/>
+
+                    <ImageView
+                        android:id="@+id/detail_image_right_two"
+                        android:layout_width="@dimen/dp_241"
+                        android:layout_height="@dimen/dp_241"
+                        android:layout_marginRight="@dimen/dp_7"
+                        android:visibility="gone"/>
 
                 </LinearLayout>
             </HorizontalScrollView>

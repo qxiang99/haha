@@ -397,7 +397,8 @@ public class DetailActivity extends BaseActivity {
         //上传图片
         OkGo.<LzyResponse<ServerModel>>post(AppConstant.UPLOAD_ZIP)
                 .headers("id", "headerValue1")//
-                .params("fileKey", new File(""))//
+               .params("","")
+                .params("file",new File(""))
                 .execute(new DialogCallback<LzyResponse<ServerModel>>(this) {
                     @Override
                     public void onSuccess(Response<LzyResponse<ServerModel>> response) {
@@ -414,21 +415,7 @@ public class DetailActivity extends BaseActivity {
     MediaType Image = MediaType.parse("image/png; charset=utf-8");
 
     private void UploadImage() {
-        //上传图片
-        OkGo.<LzyResponse<ServerModel>>post(AppConstant.UPLOAD_IMAGE)
-                .headers("id", "headerValue1")//
-                .upFile(new File(""))//
-                .execute(new DialogCallback<LzyResponse<ServerModel>>(this) {
-                    @Override
-                    public void onSuccess(Response<LzyResponse<ServerModel>> response) {
 
-                    }
-
-                    @Override
-                    public void onError(Response<LzyResponse<ServerModel>> response) {
-
-                    }
-                });
     }
 
 
@@ -488,7 +475,7 @@ public class DetailActivity extends BaseActivity {
 
         String URL ="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1535237432187&di=f140fa616bff9996b541fcebe348ec99&imgtype=0&src=http%3A%2F%2Fwww.shishiwww.com%2Fuploads%2Fallimg%2F180825%2F2252495646-1.jpg";
 
-        GlideUtil.load(DetailActivity.this, URL, detailImageFootleft);
+        GlideUtil.load(DetailActivity.this, URL, detailImageFootleft,"one.jpg");
 
       /*  Glide.with(this).load(URL).asBitmap().into(new SimpleTarget<Bitmap>() {
             @Override

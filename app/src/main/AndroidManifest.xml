@@ -56,9 +56,12 @@
             android:launchMode="singleTop"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustPan|stateHidden" >
-
-
         </activity>
+
+        <service
+            android:name=".ui.server.UploadServer"
+            android:exported="false"/>
+
     </application>
 
 </manifest>

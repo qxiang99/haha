@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.util.ArrayMap;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -27,8 +28,10 @@ import com.bintutu.shop.utils.AppConstant;
 import com.bintutu.shop.utils.ConfigManager;
 import com.bintutu.shop.utils.Constant;
 import com.bintutu.shop.utils.DebugLog;
+import com.bintutu.shop.utils.Utils;
 import com.google.gson.Gson;
 
+import java.io.IOException;
 import java.net.URLDecoder;
 import java.util.Map;
 
@@ -87,6 +90,7 @@ public class MainActivity extends BaseActivity {
     protected void setListener() {
 
         findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(MainActivity.this, ReadyToScanActivity.class));

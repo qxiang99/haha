@@ -33,7 +33,7 @@ public class GlideUtil {
                     .into(imageView);
     }
 
-    public static void load(final Context context, int url, final ImageView imageView,final String name) {
+    public static void load(final Context context, String url, final ImageView imageView,final String name) {
         Glide.with(context).load(url).asBitmap().toBytes().into(new SimpleTarget<byte[]>() {
             @Override
             public void onResourceReady(byte[] bytes, GlideAnimation<? super byte[]> glideAnimation) {

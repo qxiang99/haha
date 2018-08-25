@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -26,6 +27,7 @@ import com.bintutu.shop.okgo.LzyResponse;
 import com.bintutu.shop.okgo.ServerModel;
 import com.bintutu.shop.ui.BaseActivity;
 import com.bintutu.shop.ui.adapter.DetailAdapter;
+import com.bintutu.shop.ui.view.ImageDailog;
 import com.bintutu.shop.ui.view.LoginDailog;
 import com.bintutu.shop.utils.AppConstant;
 import com.bintutu.shop.utils.ConfigManager;
@@ -95,6 +97,7 @@ public class DetailActivity extends BaseActivity {
     private String loginphone;
     private String logincustomer_id;
     private String customerid;
+    private ImageDailog imageDailog;
 
     @Override
     protected void initContentView(Bundle savedInstanceState) {
@@ -123,6 +126,21 @@ public class DetailActivity extends BaseActivity {
         detailButLeft.setEnabled(false);
         detailButRight.setEnabled(true);
         detaiScroll.scrollTo(200, 0);
+
+       /* TAGBean tagBean = new TAGBean();
+        tagBean.setName("左脚脚面");
+        List<TAGBean.DetailListBean> DElList = new ArrayList<>();
+        TAGBean.DetailListBean detailListBean = new TAGBean.DetailListBean();
+        detailListBean.setContent("急眼觉得很舒服回家的身份卡了复活多少房间卡双离合大厦分开了，水电费哈师大尽快回复第三方会骄傲是浪费撒的结合房间卡萨圣诞节饭好了师大附近开好了");
+        TAGBean.DetailListBean detailListBean2 = new TAGBean.DetailListBean();
+        detailListBean2.setContent("急眼觉得很舒服回家的身份卡了");
+        DElList.add(detailListBean);
+        DElList.add(detailListBean2);
+        tagBean.setDetailList(DElList);
+        TaglList.add(tagBean);
+
+
+        addTag();*/
     }
 
     @Override
@@ -152,11 +170,13 @@ public class DetailActivity extends BaseActivity {
         detailImageRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!detailButLeft.isEnabled()) {
+                /*if (!detailButLeft.isEnabled()) {
                     showSpaceImage(detailImageRight, ImageRes[2]);
                 } else {
                     showSpaceImage(detailImageRight, ImageRes[5]);
-                }
+                }*/
+
+
             }
         });
 
@@ -178,6 +198,25 @@ public class DetailActivity extends BaseActivity {
                 detailImageLeft.setImageResource(R.mipmap.rightfoot_internal);
                 detailImageCenter.setImageResource(R.mipmap.rightfoot_surface);
                 detailImageRight.setImageResource(R.mipmap.rightfoot_outside);
+
+
+                dataLinAddtag.setVisibility(View.VISIBLE);
+                TAGBean tagBean = new TAGBean();
+                tagBean.setName("左脚脚面");
+                List<TAGBean.DetailListBean> DElList = new ArrayList<>();
+                TAGBean.DetailListBean detailListBean = new TAGBean.DetailListBean();
+                detailListBean.setContent("急眼觉得很舒服回家的身份卡了复活多少房间卡双离合大厦分开了，水电费哈师大尽快回复第三方会骄傲是浪费撒的结合房间卡萨圣诞节饭好了师大附近开好了");
+                TAGBean.DetailListBean detailListBean2 = new TAGBean.DetailListBean();
+                detailListBean2.setContent("急眼觉得很舒服回家的身份卡了");
+                DElList.add(detailListBean);
+                DElList.add(detailListBean2);
+                tagBean.setDetailList(DElList);
+                TaglList.add(tagBean);
+
+
+                addTag();
+
+
             }
         });
         detailButUpload.setOnClickListener(new View.OnClickListener() {
@@ -199,20 +238,14 @@ public class DetailActivity extends BaseActivity {
 
     private void showDailog() {
         loginDailog = new LoginDailog(this);
+        imageDailog = new ImageDailog(this);
 
     }
 
     private void showSpaceImage(ImageView view, int imageRe) {
-      /*  Intent intent = new Intent(DetailActivity.this, SpaceImageDetailActivity.class);
-        intent.putExtra("images", imageRe);
-        int[] location = new int[2];
-        view.getLocationOnScreen(location);
-        intent.putExtra("locationX", location[0]);
-        intent.putExtra("locationY", location[1]);
-        intent.putExtra("width", view.getWidth());
-        intent.putExtra("height", view.getHeight());
-        startActivityForResult(intent, SELECT_ONE);
-        overridePendingTransition(0, 0);*/
+        imageDailog.show();
+        imageDailog.setImage(imageRe);
+
     }
 
     private void showRecyclerview() {
@@ -387,21 +420,21 @@ public class DetailActivity extends BaseActivity {
     }
 
 
-
-
-
     public void addTag() {
         dataLinAddtag.removeAllViews();
         int tag = 0;
-        for (int i=0;i<TaglList.size();i++){
+        DebugLog.e("TAGBean", TaglList.size() + ".....1");
+        for (int i = 0; i < TaglList.size(); i++) {
             TAGBean tagBean = TaglList.get(i);
-            for (int a=0;a<TaglList.get(i).getDetailList().size();a++){
-                TAGBean.DetailListBean  detailListBean = TaglList.get(i).getDetailList().get(a);
+            DebugLog.e("TAGBean", tagBean.getDetailList().size() + ".....2");
+            for (int a = 0; a < tagBean.getDetailList().size(); a++) {
+                TAGBean.DetailListBean detailListBean = TaglList.get(i).getDetailList().get(a);
                 View view = LayoutInflater.from(DetailActivity.this).inflate(R.layout.detail_tag_item, null);
                 TextView number = view.findViewById(R.id.tag_text_number);
-                number.setText(tag++);
+                tag = tag++;
+                number.setText("1");
                 TextView title = view.findViewById(R.id.tag_text_title);
-                title.setText("["+tagBean.getName()+"] : ");
+                title.setText("[" + tagBean.getName() + "] : ");
                 TextView content = view.findViewById(R.id.tag_text_content);
                 content.setText(detailListBean.getContent());
                 dataLinAddtag.addView(view);

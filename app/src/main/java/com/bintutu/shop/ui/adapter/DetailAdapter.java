@@ -62,7 +62,7 @@ public class DetailAdapter extends DefaultAdapter<DetailBean> {
             if (position % 2 == 0) {
                 itemLin.setBackgroundColor(ContextCompat.getColor(mContext, R.color.white));
             } else {
-                itemLin.setBackgroundColor(ContextCompat.getColor(mContext, R.color.bg_color));
+                itemLin.setBackgroundColor(ContextCompat.getColor(mContext, R.color.bg_color_two));
             }
             itemTextNumber.setText(Integer.toString(data.getNumber()));
             itemTextName.setText(data.getName());

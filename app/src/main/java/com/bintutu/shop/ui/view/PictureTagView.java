@@ -15,6 +15,8 @@ import com.bintutu.shop.R;
 public class PictureTagView extends RelativeLayout implements OnEditorActionListener{
 
 	private Context context;
+
+
 	//private TextView tvPictureTagLabel;
 	//private EditText etPictureTagLabel;
 	//private View loTag;

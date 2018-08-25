@@ -2,8 +2,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:focusableInTouchMode="true"
-    android:focusable="true">
+    android:focusable="true"
+    android:focusableInTouchMode="true">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -76,58 +76,77 @@
                 </LinearLayout>
             </HorizontalScrollView>
 
-            <Button
-                android:id="@+id/detail_but_left"
-                android:layout_width="150px"
-                android:layout_height="50px"
-                android:layout_marginRight="40px"
-                android:background="@drawable/detail_but_bg"
-                android:text="左脚"
+            <LinearLayout
+                android:id="@+id/detail_lin_but"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/dp_18"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toLeftOf="@+id/detail_but_right"
-                app:layout_constraintTop_toBottomOf="@+id/detai_scroll" />
-
-            <Button
-                android:id="@+id/detail_but_right"
-                android:layout_width="150px"
-                android:layout_height="50px"
-                android:layout_marginLeft="40px"
-                android:background="@drawable/detail_but_bg"
-                android:text="右脚"
-                app:layout_constraintLeft_toRightOf="@+id/detail_but_left"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/detai_scroll" />
+                app:layout_constraintTop_toBottomOf="@+id/detai_scroll">
+
+                <Button
+                    android:id="@+id/detail_but_left"
+                    android:layout_width="@dimen/dp_68"
+                    android:layout_height="@dimen/dp_23"
+                    android:layout_marginRight="@dimen/dp_36"
+                    android:background="@drawable/detail_but_bg"
+                    android:textColor="@color/detail_but_text_cor"
+                    android:textSize="@dimen/dp_11"
+                    android:text="左脚" />
+
+                <Button
+                    android:id="@+id/detail_but_right"
+                    android:layout_width="@dimen/dp_68"
+                    android:layout_height="@dimen/dp_23"
+                    android:background="@drawable/detail_but_bg"
+                    android:textColor="@color/detail_but_text_cor"
+                    android:textSize="@dimen/dp_11"
+                    android:text="右脚" />
+
+            </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/data_lin_addtag"
+                android:id="@+id/data_lin_tag"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="@dimen/dp_27"
-                android:layout_marginRight="@dimen/dp_50"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/detail_but_left">
+                app:layout_constraintTop_toBottomOf="@+id/detail_lin_but">
+
+                <LinearLayout
+                    android:id="@+id/data_lin_addtag"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/dp_27"
+                    android:layout_marginTop="@dimen/dp_27"
+                    android:orientation="vertical"
+                    android:visibility="gone"/>
+
 
             </LinearLayout>
+
             <android.support.v7.widget.CardView
                 android:id="@+id/data_card_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                app:cardCornerRadius="@dimen/dp_4_5"
                 android:layout_marginTop="@dimen/dp_27"
+                app:cardCornerRadius="@dimen/dp_4_5"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/data_lin_addtag">
+                app:layout_constraintTop_toBottomOf="@+id/data_lin_tag">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white" />
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white" />
 
             </android.support.v7.widget.CardView>
+
             <TextView
                 android:id="@+id/detail_text_title2"
                 android:layout_width="wrap_content"
@@ -194,9 +213,9 @@
             android:id="@+id/ready_image_return"
             android:layout_width="@dimen/dp_66"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/dp_1"
             android:layout_marginBottom="@dimen/dp_2"
             android:layout_marginLeft="@dimen/dp_14"
+            android:layout_marginTop="@dimen/dp_1"
             android:background="@mipmap/return_bg"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent" />
@@ -205,9 +224,9 @@
         <Button
             android:layout_width="@dimen/dp_66"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/dp_1"
             android:layout_marginBottom="@dimen/dp_2"
             android:layout_marginLeft="@dimen/dp_14"
+            android:layout_marginTop="@dimen/dp_1"
             android:background="@mipmap/home_bg"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/ready_image_return" />
@@ -216,9 +235,9 @@
             android:id="@+id/detail_but_upload"
             android:layout_width="@dimen/dp_100"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/dp_1"
             android:layout_marginBottom="@dimen/dp_2"
             android:layout_marginRight="@dimen/dp_14"
+            android:layout_marginTop="@dimen/dp_1"
             android:background="@mipmap/upload_scan"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent" />

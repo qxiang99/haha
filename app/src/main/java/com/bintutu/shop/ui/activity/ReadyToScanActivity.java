@@ -97,10 +97,9 @@ public class ReadyToScanActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 //startScan();
+                startActivity(new Intent(ReadyToScanActivity.this, DetailActivity.class));
+                finish();
 
-                Intent intent = new Intent(ReadyToScanActivity.this, UploadSucessActivity.class);
-                intent.putExtra(Constant.ItentKey1, "1321351224");
-                startActivity(intent);
             }
         });
 

@@ -5,8 +5,10 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.support.annotation.NonNull;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import com.bintutu.shop.R;
@@ -22,11 +24,14 @@ public class ImageDailog extends Dialog {
 
    @BindView(R.id.imag_picture)
    PictureTagLayout picture;
+   @BindView(R.id.imag_back)
+   Button imagBack;
 
     private Context mContext;
     private ImageView mView;
     private int mWidth;
     private int mHidth;
+    private TAGBean mtagBean;
 
 
     public ImageDailog(@NonNull Context context) {
@@ -48,11 +53,33 @@ public class ImageDailog extends Dialog {
         picture.setSetClickListener(new PictureTagLayout.OnSetClickListener() {
             @Override
             public void onSetData(Bitmap viewBitmap,  TAGBean tagBean) {
-                if (mImageClickListener!=null){
-                    mImageClickListener.onSetData(mView,viewBitmap,tagBean);
+                mtagBean = tagBean;
+            }
+        });
+
+        imagBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+                if (mImageClickListener!=null&&mtagBean!=null){
+                    mImageClickListener.onSetData(mView,createViewBitmap(picture),mtagBean);
                 }
             }
         });
+    }
+
+    //对返回键进行监听
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            dismiss();
+            if (mImageClickListener!=null&&mtagBean!=null){
+                mImageClickListener.onSetData(mView,createViewBitmap(picture),mtagBean);
+            }
+
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
 

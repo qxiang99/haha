@@ -3,6 +3,7 @@ package com.bintutu.shop.ui.view;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,6 +53,14 @@ public class ImageDailog extends Dialog {
                 }
             }
         });
+    }
+
+
+    public Bitmap createViewBitmap(View v) {
+        Bitmap bitmap = Bitmap.createBitmap(v.getWidth(), v.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        v.draw(canvas);
+        return bitmap;
     }
 
     public void setImage(String name, ImageView view, Bitmap imageRe) {

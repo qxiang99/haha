@@ -96,9 +96,7 @@ public class ReadyToScanActivity extends BaseActivity {
         readyButStartscan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //startScan();
-                startActivity(new Intent(ReadyToScanActivity.this, DetailActivity.class));
-                finish();
+                startScan();
 
             }
         });

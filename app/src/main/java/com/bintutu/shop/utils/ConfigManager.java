@@ -6,6 +6,7 @@ import com.bintutu.shop.ShopApplication;
 
 public class ConfigManager {
 
+    private static final String CONFIG_FOOT = "config_foot";
     private static final String CONFIG_DEVICE = "config_devices";
     private static final String CONFIG_PERMISSION = "config_permission";
 
@@ -142,6 +143,99 @@ public class ConfigManager {
 
         public static void setTag(int tag) {
             commitInt(getConfigFile(), DETAILTAG, tag);
+        }
+
+    }
+
+
+
+    public static class Foot {
+
+
+        public static final String People_id = "device_People_id";
+        public static final String customer_id = "device_customer_id";
+        public static final String customer_phone = "device_customer_phone";
+        public static final String idid = "device_idid";
+        public static final String choosed_color_id = "device_choosed_color_id";
+        public static final String choosed_fur_id = "device_choosed_fur_id";
+        public static final String choosed_sole_material_id = "device_choosed_sole_material_id";
+        public static final String choosed_sole_accessory_id = "device_choosed_sole_accessory_id";
+        public static final String choosed_exclusive_id = "device_choosed_exclusive_id";
+
+        private static String getConfigFile() {
+            return CONFIG_FOOT;
+        }
+
+        public static String getPeople_id() {
+            return getString(getConfigFile(), People_id, "");
+        }
+
+        public static void setPeople_id(String id) {
+            commitString(getConfigFile(), People_id, id);
+        }
+
+        public static String getCustomer_id() {
+            return getString(getConfigFile(), customer_id, "");
+        }
+
+        public static void setCustomer_id(String id) {
+            commitString(getConfigFile(), customer_id, id);
+        }
+
+        public static String getCustomer_phone() {
+            return getString(getConfigFile(), customer_phone, "");
+        }
+
+        public static void setCustomer_phone(String phone) {
+            commitString(getConfigFile(), customer_phone, phone);
+        }
+
+        public static String getIdid() {
+            return getString(getConfigFile(), idid, "");
+        }
+
+        public static void setIdid(String id) {
+            commitString(getConfigFile(), idid, id);
+        }
+
+        public static String getchoosed_color_id() {
+            return getString(getConfigFile(), choosed_color_id, "");
+        }
+
+        public static void setchoosed_color_id(String id) {
+            commitString(getConfigFile(), choosed_color_id, id);
+        }
+
+        public static String getchoosed_fur_id() {
+            return getString(getConfigFile(), choosed_fur_id, "");
+        }
+
+        public static void setchoosed_fur_id(String id) {
+            commitString(getConfigFile(), choosed_fur_id, id);
+        }
+
+        public static String getchoosed_sole_material_id() {
+            return getString(getConfigFile(), choosed_sole_material_id, "");
+        }
+
+        public static void setchoosed_sole_material_id(String id) {
+            commitString(getConfigFile(), choosed_sole_material_id, id);
+        }
+
+        public static String getchoosed_sole_accessory_id() {
+            return getString(getConfigFile(), choosed_sole_accessory_id, "");
+        }
+
+        public static void setchoosed_sole_accessory_id(String id) {
+            commitString(getConfigFile(), choosed_sole_accessory_id, id);
+        }
+
+        public static String getchoosed_exclusive_id() {
+            return getString(getConfigFile(), choosed_exclusive_id, "");
+        }
+
+        public static void setchoosed_exclusive_id(String id) {
+            commitString(getConfigFile(), choosed_exclusive_id, id);
         }
 
     }

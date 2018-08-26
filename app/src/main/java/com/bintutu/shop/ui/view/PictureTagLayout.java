@@ -34,7 +34,7 @@ public class PictureTagLayout extends RelativeLayout implements OnTouchListener{
     private Context mContext;
     private ImageView PictureImage;
     private RelativeLayout PictureRel;
-    private View LayoutPicture;
+    private RelativeLayout LayoutPicture;
     private List<TAGBean.DetailListBean> dElList;
     private String mName;
     private boolean addTag;
@@ -49,7 +49,7 @@ public class PictureTagLayout extends RelativeLayout implements OnTouchListener{
         init(context);
     }
     private void init(Context context){
-        LayoutPicture = inflate(context, R.layout.layout_picture, this);
+         LayoutPicture = (RelativeLayout) inflate(context, R.layout.layout_picture, this);
         PictureRel = (RelativeLayout) LayoutPicture.findViewById(R.id.picture_rel);
         PictureImage = (ImageView) LayoutPicture.findViewById(R.id.picture_image);
         tagBean = new TAGBean();
@@ -99,28 +99,34 @@ public class PictureTagLayout extends RelativeLayout implements OnTouchListener{
         LayoutParams params=new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
         int inDw = imageView.getBackground().getIntrinsicWidth();
         int inDh = imageView.getBackground().getIntrinsicHeight();
+        int inLINDw2 = LayoutPicture.getWidth();
+        int inLINDh2 = LayoutPicture.getHeight();
         params.leftMargin = x-inDw/2;
+        double pagex = (double)x/inLINDw2;
+        double pagey = (double)y/inLINDh2;
+        DebugLog.e("addItem.....","x:"+x+".....with:"+inLINDw2+"....y:"+y+"....hegth:"+inLINDh2);
+        DebugLog.e("addItem.....",".....pagex:"+pagex+".....pagey:"+pagey);
         params.topMargin = y-inDh/2;
         this.addView(view,params);
 
+        requestLayout();
         invalidate();
         if (addTag){
             addTag =false;
             SetTagbaen();
         }
 
-
         TAGBean.DetailListBean detailListBean = new TAGBean.DetailListBean();
         detailListBean.setContent(edit);
         detailListBean.setX(x);
         detailListBean.setY(y);
-        detailListBean.setIndex(x/inDw);
-        detailListBean.setPageY(y/inDh);
+        detailListBean.setPageX(pagex);
+        detailListBean.setPageY(pagey);
         detailListBean.setIndex(tag);
         dElList.add(detailListBean);
 
         if (mSetClickListener!=null){
-            mSetClickListener.onSetData(createViewBitmap(LayoutPicture),tagBean);
+            mSetClickListener.onSetData(createViewBitmap(this),tagBean);
         }
     }
 
@@ -158,26 +164,26 @@ public class PictureTagLayout extends RelativeLayout implements OnTouchListener{
             }
             if (mName.startsWith("左脚脚面")) {
                 tagBean.setItem("face");
-                tagBean.setId("medial-face");
+                tagBean.setId("face-left");
             }
             if (mName.startsWith("左脚外侧")) {
-                tagBean.setItem("outside");
-                tagBean.setId("medial-outside");
+                tagBean.setItem("lateral");
+                tagBean.setId("lateral-left");
             }
         }
         if (mName.startsWith("右脚")){
             tagBean.setFoot("left");
             if (mName.startsWith("右脚内侧")) {
                 tagBean.setItem("medial");
-                tagBean.setId("medial-left");
+                tagBean.setId("medial-right");
             }
             if (mName.startsWith("右脚脚面")) {
                 tagBean.setItem("face");
-                tagBean.setId("medial-face");
+                tagBean.setId("face-right");
             }
             if (mName.startsWith("右脚外侧")) {
-                tagBean.setItem("outside");
-                tagBean.setId("medial-outside");
+                tagBean.setItem("lateral");
+                tagBean.setId("lateral-right");
             }
         }
 

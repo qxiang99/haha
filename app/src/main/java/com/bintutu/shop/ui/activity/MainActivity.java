@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.bintutu.shop.R;
+import com.bintutu.shop.bean.ChooseBean;
 import com.bintutu.shop.bean.WebDataBean;
 import com.bintutu.shop.ui.BaseActivity;
 import com.bintutu.shop.ui.view.ImageDailog;
@@ -84,25 +85,26 @@ public class MainActivity extends BaseActivity {
         }*/
         mWebView.loadUrl(url);
         DebugLog.e("新连接：" + url);
+
+
+
+        ConfigManager.Foot.setCustomer_id("");
+        ConfigManager.Foot.setCustomer_phone("");
+        ConfigManager.Foot.setIdid("");
+        ConfigManager.Foot.setchoosed_color_id("");
+        ConfigManager.Foot.setchoosed_exclusive_id("");
+        ConfigManager.Foot.setchoosed_sole_accessory_id("");
+        ConfigManager.Foot.setchoosed_sole_material_id("");
     }
 
     @Override
     protected void setListener() {
-
-        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, ReadyToScanActivity.class));
-            }
-        });
 
         mWebView.setWebViewClient(new WebViewClient() {
             @Override
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
                 ShowToast("网络连接失败 ,请连接网络");
             }
-
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -147,12 +149,12 @@ public class MainActivity extends BaseActivity {
         return bitmap;
     }
     private void Takeout(String url) {
+        Gson gson = new Gson();
         if (url.startsWith("bintutu://startscanning")) {
             Map<String, String> map = getParamsMap(url, "bintutu://startscanning");
             String data = map.get("param");
             callback = map.get("callback");
             DebugLog.e("param:" + data);
-            Gson gson = new Gson();
             WebDataBean webDataBean = gson.fromJson(data, WebDataBean.class);
             if (webDataBean.getShop_id() != null) {
                 ConfigManager.Device.setShopID(webDataBean.getShop_id());
@@ -167,6 +169,14 @@ public class MainActivity extends BaseActivity {
             String data = map.get("param");
             callback = map.get("callback");
             DebugLog.e("param:" + data);
+            ChooseBean chooseBean = gson.fromJson(data, ChooseBean.class);
+            ConfigManager.Foot.setCustomer_id(chooseBean.getCustomer_id());
+            ConfigManager.Foot.setCustomer_phone(chooseBean.getCustomer_phone());
+            ConfigManager.Foot.setIdid(chooseBean.getIdid());
+            ConfigManager.Foot.setchoosed_color_id(chooseBean.getChoosed_color_id());
+            ConfigManager.Foot.setchoosed_exclusive_id(chooseBean.getChoosed_exclusive_id());
+            ConfigManager.Foot.setchoosed_sole_accessory_id(chooseBean.getChoosed_sole_accessory_id());
+            ConfigManager.Foot.setchoosed_sole_material_id(chooseBean.getChoosed_sole_material_id());
             startActivity(new Intent(MainActivity.this, ReadyToScanActivity.class));
 
         }

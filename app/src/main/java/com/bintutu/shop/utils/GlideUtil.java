@@ -38,6 +38,7 @@ public class GlideUtil {
             @Override
             public void onResourceReady(byte[] bytes, GlideAnimation<? super byte[]> glideAnimation) {
                 try {
+
                     savaBitmap(context,name, bytes);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -62,7 +63,6 @@ public class GlideUtil {
                 String imgNames = filePath + "/" + imgName;
                 fos = new FileOutputStream(imgNames);
                 fos.write(bytes);
-                Toast.makeText(context, "图片已保存到" + filePath, Toast.LENGTH_SHORT).show();
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
@@ -74,8 +74,6 @@ public class GlideUtil {
                     e.printStackTrace();
                 }
             }
-        } else {
-            Toast.makeText(context, "请检查SD卡是否可用", Toast.LENGTH_SHORT).show();
         }
     }
 

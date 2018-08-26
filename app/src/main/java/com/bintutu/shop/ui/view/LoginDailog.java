@@ -59,6 +59,8 @@ public class LoginDailog extends Dialog {
         //按空白处不能取消动画
         setCanceledOnTouchOutside(false);
 
+        String scanNametime = System.currentTimeMillis() + "";
+        mLoginEditNumber.setText(scanNametime);
         setListener();
     }
 

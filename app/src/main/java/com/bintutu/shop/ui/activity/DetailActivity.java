@@ -6,10 +6,12 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -26,6 +28,7 @@ import com.bintutu.shop.bean.LeftBean;
 import com.bintutu.shop.bean.LoginBean;
 import com.bintutu.shop.bean.RightBean;
 import com.bintutu.shop.bean.TAGBean;
+import com.bintutu.shop.bean.UploadBean;
 import com.bintutu.shop.okgo.DialogCallback;
 import com.bintutu.shop.okgo.JsonCallback;
 import com.bintutu.shop.okgo.LzyResponse;
@@ -39,14 +42,19 @@ import com.bintutu.shop.utils.ConfigManager;
 import com.bintutu.shop.utils.Constant;
 import com.bintutu.shop.utils.DebugLog;
 import com.bintutu.shop.utils.GlideUtil;
+import com.bintutu.shop.utils.Utils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.FileCallback;
+import com.lzy.okgo.model.Progress;
 import com.lzy.okgo.model.Response;
+import com.lzy.okgo.request.base.Request;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -111,8 +119,12 @@ public class DetailActivity extends BaseActivity {
     private String loginnumber;
     private String loginphone;
     private String logincustomer_id;
-    private String customerid;
+    private String uploadid;
     private HashMap<View, Bitmap> map;
+    private String imagefile;
+    private List<TAGBean> tag;
+
+
 
     @Override
     protected void initContentView(Bundle savedInstanceState) {
@@ -128,15 +140,19 @@ public class DetailActivity extends BaseActivity {
 
         Intent intent = getIntent();
         number = intent.getStringExtra(Constant.ItentKey1);
-        //getLeft();
-        getData();
+        //
+        getLeft();
         //
         loginDailog = new LoginDailog(this);
         //初始化Recyclerview
         showRecyclerview();
         //加载四张图片
         LoadingImage();
-
+        try {
+            imagefile = Environment.getExternalStorageDirectory().getCanonicalPath() + "/Bintutu";
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
 
@@ -223,7 +239,15 @@ public class DetailActivity extends BaseActivity {
         detailButUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loginDailog.show();
+                if (ConfigManager.Foot.getCustomer_id()!=null&&!ConfigManager.Foot.getCustomer_id().equals("")){
+                    loginnumber =System.currentTimeMillis() + "";
+                    loginphone = ConfigManager.Foot.getCustomer_phone();
+                    logincustomer_id = ConfigManager.Foot.getCustomer_id();
+                    upload(loginnumber,loginphone,logincustomer_id);
+                }else {
+                    loginDailog.show();
+                }
+
             }
         });
 
@@ -232,7 +256,10 @@ public class DetailActivity extends BaseActivity {
             public void Data(String number, String phone, String customer_id) {
                 loginnumber = number;
                 loginphone = phone;
+                ConfigManager.Foot.setCustomer_id(customer_id);
+                ConfigManager.Foot.setCustomer_phone(phone);
                 logincustomer_id = customer_id;
+                upload(loginnumber,loginphone,logincustomer_id);
             }
         });
 
@@ -303,11 +330,6 @@ public class DetailActivity extends BaseActivity {
 
     public void getData() {
 
-        String left = "{ \"10_FuWeiGao\" : 0.0, \"11_1ZhiZhiGao\" : 0.0, \"12_DaMoZhiGao\" : 0.0, \"13_JiaoWanGao\" : 0.0, \"14_JiaoZhiKuan\" : 0.0, \"15_ZhiWeiKuan\" : 75.0062, \"16_DiBanKuan\" : 75.0062, \"17_MuZhiLiKuan\" : 9.89464, \"18_XiaoZhiWaiKuan\" : 56.4657, \"19_1ZhizhiLiKuan\" : 17.5741, \"1_FootLen\" : 221.054, \"20_5ZhizhiLiKuan\" : 55.9658, \"21_YaoWoWaiKuan\" : 73.5143, \"22_ZhongXinDiKuan\" : 56.0287, \"23_JiaoHuaiNeiKuan\" : 0.0, \"24_MuZhiWaiTuChang\" : 198.949, \"25_XiaoZhiDuanChang\" : 182.37, \"26_XiaoZhiWaiTuChang\" : 172.422, \"27_1ZhiZhiChang\" : 160.264, \"28_5ZhiZhiChang\" : 140.369, \"29_FuGuChang\" : 121.58, \"2_ZhiWei\" : 0.0, \"30_YaoWoChang\" : 90.6323, \"31_ZhouShangDianChang\" : 85.1059, \"32_WaiHuaiGuZhongChang\" : 49.7372, \"33_ZhongXinChang\" : 39.7898, \"34_HouGenBianChang\" : 8.84217, \"35_QianZhangTuDianChang\" : 152.085, \"36_ZuGongDu\" : 0.0, \"37_NeiWaiFanDu\" : 0.0, \"3_FuWei\" : 0.0, \"4_DouWei\" : 0.0, \"5_JiaoWanWei\" : 0.0, \"6_JiaoZhiZhou\" : 0.0, \"7_WaiHuaiXiaGao\" : 0.0, \"8_HouGenTuGao\" : 0.0, \"9_ZhouShangGao\" : 0.0 }";
-        String right = "{ \"10_FuWeiGao\" : 0.0, \"11_1ZhiZhiGao\" : 0.0, \"12_DaMoZhiGao\" : 0.0, \"13_JiaoWanGao\" : 0.0, \"14_JiaoZhiKuan\" : 0.0, \"15_ZhiWeiKuan\" : 45.1571, \"16_DiBanKuan\" : 45.1571, \"17_MuZhiLiKuan\" : 0.0, \"18_XiaoZhiWaiKuan\" : 0.0, \"19_1ZhizhiLiKuan\" : 0.0, \"1_FootLen\" : 212.314, \"20_5ZhizhiLiKuan\" : 0.0, \"21_YaoWoWaiKuan\" : 0.0, \"22_ZhongXinDiKuan\" : 0.0, \"23_JiaoHuaiNeiKuan\" : 0.0, \"24_MuZhiWaiTuChang\" : 0.0, \"25_XiaoZhiDuanChang\" : 0.0, \"26_XiaoZhiWaiTuChang\" : 0.0, \"27_1ZhiZhiChang\" : 0.0, \"28_5ZhiZhiChang\" : 0.0, \"29_FuGuChang\" : 0.0, \"2_ZhiWei\" : 0.0, \"30_YaoWoChang\" : 87.0485, \"31_ZhouShangDianChang\" : 81.7407, \"32_WaiHuaiGuZhongChang\" : 47.7705, \"33_ZhongXinChang\" : 0.0, \"34_HouGenBianChang\" : 8.49254, \"35_QianZhangTuDianChang\" : 146.072, \"36_ZuGongDu\" : 0.0, \"37_NeiWaiFanDu\" : 0.0, \"3_FuWei\" : 0.0, \"4_DouWei\" : 0.0, \"5_JiaoWanWei\" : 0.0, \"6_JiaoZhiZhou\" : 0.0, \"7_WaiHuaiXiaGao\" : 0.0, \"8_HouGenTuGao\" : 0.0, \"9_ZhouShangGao\" : 0.0 }";
-        leftBean = gson.fromJson(left, LeftBean.class);
-        rightBean = gson.fromJson(right, RightBean.class);
-
         DetailList.add(new DetailBean(getResources().getString(R.string.FootLen), 1, leftBean.get_1_FootLen(), rightBean.get_1_FootLen()));
         DetailList.add(new DetailBean(getResources().getString(R.string.ZhiWei), 2, leftBean.get_2_ZhiWei(), rightBean.get_2_ZhiWei()));
         DetailList.add(new DetailBean(getResources().getString(R.string.FuWei), 3, leftBean.get_3_FuWei(), rightBean.get_3_FuWei()));
@@ -349,7 +371,13 @@ public class DetailActivity extends BaseActivity {
         map.put("left", leftBean);
         map.put("right", rightBean);
         String detailData = gson.toJson(map);
-        String foot_remark = gson.toJson(TaglList);
+
+        sortListTag();
+
+        String foot_remark = gson.toJson(tag);
+
+
+
         final String remark = dataEditRemark.getText().toString().trim();
         //上传数据
         OkGo.<BaseResponse<String>>post(AppConstant.NEW_DATA)
@@ -365,12 +393,11 @@ public class DetailActivity extends BaseActivity {
                     @Override
                     public void onSuccess(Response<BaseResponse<String>> response) {
                         String data = String.valueOf(response.body());
-                        LoginBean loginBean = gson.fromJson(data, LoginBean.class);
-                        if (loginBean != null & loginBean.getCode() == 0) {
-                            Intent intent = new Intent(DetailActivity.this, UploadSucessActivity.class);
-                            customerid = loginBean.getResult().getCustomer_id();
-                            intent.putExtra(Constant.ItentKey1, loginBean.getResult().getCustomer_id());
-                            startActivity(intent);
+                        UploadBean uploadBean = gson.fromJson(data, UploadBean.class);
+                        if (uploadBean != null & uploadBean.getCode() == 0) {
+                            uploadid = uploadBean.getResult().getId();
+                            DebugLog.e(uploadid+".................customerid");
+                            downloadZip();
                         }
                     }
 
@@ -379,30 +406,65 @@ public class DetailActivity extends BaseActivity {
                     }
                 });
 
-      /*  new Thread(new Runnable() {
-            @Override
-            public void run() {
-                //上传zip
-                UploadZip();
-                //上传图片
-                UploadImage();
 
-            }
-        }).start();*/
 
     }
 
-    private void UploadZip() {
 
+
+
+    private void downloadZip() {
+        OkGo.<File>get(AppConstant.DATA_ZIP(number))
+                .tag(this)
+                .execute(new FileCallback(imagefile,"data.tgz") {
+                    @Override
+                    public void onSuccess(Response<File> response) {
+                        File file = (File) response.body();
+                        Log.d("checkUpdateReceiver", file+"文件下载完成");
+                        Log.d("checkUpdateReceiver", "文件下载完成");
+                        UploadZip(file);
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                //上传zip
+                                //上传图片
+                                GetImage();
+
+                            }
+                        }).start();
+                    }
+
+                    @Override
+                    public void downloadProgress(Progress progress) {
+                        Log.d("checkUpdateReceiver" , "文件下载中");
+                    }
+
+                    @Override
+                    public void onStart(Request<File, ? extends Request> request) {
+                        Log.d("checkUpdateReceiver" , "开始下载");
+                    }
+
+                    @Override
+                    public void onError(Response<File> response) {
+                        super.onError(response);
+                    }
+                });
+    }
+
+    private void UploadZip(File file) {
+        File files = new File(imagefile+"/data.tgz");
         //上传图片
         OkGo.<LzyResponse<ServerModel>>post(AppConstant.UPLOAD_ZIP)
-                .headers("id", "headerValue1")//
-               .params("","")
-                .params("file",new File(""))
+
+               .params("id",uploadid)
+                .params("file",files,"data.tgz", MediaType.parse("application/x-tar"))
                 .execute(new DialogCallback<LzyResponse<ServerModel>>(this) {
                     @Override
                     public void onSuccess(Response<LzyResponse<ServerModel>> response) {
-
+                        Intent intent = new Intent(DetailActivity.this, UploadSucessActivity.class);
+                        intent.putExtra(Constant.ItentKey1, uploadid);
+                        startActivity(intent);
+                        finish();
                     }
 
                     @Override
@@ -414,18 +476,45 @@ public class DetailActivity extends BaseActivity {
 
     MediaType Image = MediaType.parse("image/png; charset=utf-8");
 
-    private void UploadImage() {
+    private void GetImage() {
 
+
+        List<String> imageliat = Utils.getAllFiles(imagefile,"jpg");
+
+        UploadImage(imageliat);
+
+
+    }
+
+    private void UploadImage(List<String> imageliat) {
+        for (String file :imageliat){
+
+            //上传图片
+            OkGo.<LzyResponse<ServerModel>>post(AppConstant.UPLOAD_IMAGE)
+
+                    .params("id",uploadid)
+                    .params("file",new File(file))
+                    .execute(new JsonCallback<LzyResponse<ServerModel>>() {
+                        @Override
+                        public void onSuccess(Response<LzyResponse<ServerModel>> response) {
+
+                        }
+
+                        @Override
+                        public void onError(Response<LzyResponse<ServerModel>> response) {
+
+                        }
+                    });
+
+        }
     }
 
 
     public void addTag() {
         dataLinAddtag.setVisibility(View.VISIBLE);
         dataLinAddtag.removeAllViews();
-        DebugLog.e("TAGBean", TaglList.size() + ".....1");
         for (int i = 0; i < TaglList.size(); i++) {
             TAGBean tagBean = TaglList.get(i);
-            DebugLog.e("TAGBean", tagBean.getDetailList().size() + ".....2");
             for (int a = 0; a < tagBean.getDetailList().size(); a++) {
                 TAGBean.DetailListBean detailListBean = TaglList.get(i).getDetailList().get(a);
                 View view = LayoutInflater.from(DetailActivity.this).inflate(R.layout.detail_tag_item, null);
@@ -468,38 +557,88 @@ public class DetailActivity extends BaseActivity {
 
     private void LoadingImage() {
 
-        /* GlideUtil.load(DetailActivity.this, AppConstant.IMAGE_ONE(number), detailImageFootleft);
+        GlideUtil.load(DetailActivity.this, AppConstant.IMAGE_ONE(number), detailImageFootleft);
         GlideUtil.load(DetailActivity.this, AppConstant.IAMGE_TWO(number), detailImageFootright);
         GlideUtil.load(DetailActivity.this, AppConstant.IMAGE_TREE(number), detailImagePlantarleft);
-        GlideUtil.load(DetailActivity.this, AppConstant.IAMGE_FOUR(number), detailImagePlantarright);*/
+        GlideUtil.load(DetailActivity.this, AppConstant.IAMGE_FOUR(number), detailImagePlantarright);
 
-        String URL ="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1535237432187&di=f140fa616bff9996b541fcebe348ec99&imgtype=0&src=http%3A%2F%2Fwww.shishiwww.com%2Fuploads%2Fallimg%2F180825%2F2252495646-1.jpg";
 
-        GlideUtil.load(DetailActivity.this, URL, detailImageFootleft,"one.jpg");
+        GlideUtil.load(DetailActivity.this, AppConstant.IMAGE_ONE(number), detailImageFootleft,"1-show.jpg");
+        GlideUtil.load(DetailActivity.this, AppConstant.IAMGE_TWO(number), detailImageFootright,"0-show.jpg");
+        GlideUtil.load(DetailActivity.this, AppConstant.IMAGE_TREE(number), detailImagePlantarleft,"5_l-show.jpg");
+        GlideUtil.load(DetailActivity.this, AppConstant.IAMGE_FOUR(number), detailImagePlantarright,"5_r-show.jpg");
 
-      /*  Glide.with(this).load(URL).asBitmap().into(new SimpleTarget<Bitmap>() {
-            @Override
-            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                detailImageFootleft.setBackground(new BitmapDrawable(getResources(), resource));
+    }
+
+
+    private void sortListTag() {
+        tag = new ArrayList<>();
+        TAGBean medial_left = null;
+        TAGBean face_left= null;
+        TAGBean lateral_left= null;
+        TAGBean medial_right= null;
+        TAGBean face_right= null;
+        TAGBean lateral_right= null;
+
+        List<TAGBean.DetailListBean> detailmedial_left =new ArrayList<>();
+        List<TAGBean.DetailListBean> detailface_left =new ArrayList<>();
+        List<TAGBean.DetailListBean> detaillateral_left =new ArrayList<>();
+        List<TAGBean.DetailListBean> detailmedial_right =new ArrayList<>();
+        List<TAGBean.DetailListBean> detailface_right =new ArrayList<>();
+        List<TAGBean.DetailListBean> detaillateral_right =new ArrayList<>();
+
+        for (int i=0;i<TaglList.size();i++){
+            if (TaglList.get(i).getName().equals("左脚内侧")){
+                medial_left = TaglList.get(i);
+                detailmedial_left.addAll(TaglList.get(i).getDetailList()) ;
             }
-        });*/
-        Glide.with(this).load(AppConstant.IAMGE_TWO(number)).asBitmap().into(new SimpleTarget<Bitmap>() {
-            @Override
-            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                detailImageFootright.setBackground(new BitmapDrawable(getResources(), resource));
+            if (TaglList.get(i).getName().equals("左脚脚面")){
+                face_left = TaglList.get(i);
+                detailface_left.addAll(TaglList.get(i).getDetailList()) ;
             }
-        });
-        Glide.with(this).load(AppConstant.IMAGE_TREE(number)).asBitmap().into(new SimpleTarget<Bitmap>() {
-            @Override
-            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                detailImagePlantarleft.setBackground(new BitmapDrawable(getResources(), resource));
+            if (TaglList.get(i).getName().equals("左脚外侧")){
+                lateral_left = TaglList.get(i);
+                detaillateral_left.addAll(TaglList.get(i).getDetailList()) ;
             }
-        });
-        Glide.with(this).load(AppConstant.IAMGE_FOUR(number)).asBitmap().into(new SimpleTarget<Bitmap>() {
-            @Override
-            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                detailImagePlantarright.setBackground(new BitmapDrawable(getResources(), resource));
+            if (TaglList.get(i).getName().equals("右脚内侧")){
+                medial_right = TaglList.get(i);
+                detailmedial_right.addAll(TaglList.get(i).getDetailList()) ;
             }
-        });
+            if (TaglList.get(i).getName().equals("右脚脚面")){
+                face_right = TaglList.get(i);
+                detailface_right.addAll(TaglList.get(i).getDetailList()) ;
+            }
+            if (TaglList.get(i).getName().equals("右脚外侧")){
+                lateral_right = TaglList.get(i);
+                detaillateral_right.addAll(TaglList.get(i).getDetailList()) ;
+
+            }
+        }
+
+        if (medial_left!=null){
+            medial_left.setDetailList(detailmedial_left);
+            tag.add(medial_left);
+        }
+        if (face_left!=null){
+            face_left.setDetailList(detailface_left);
+            tag.add(face_left);
+        }
+        if (lateral_left!=null){
+            lateral_left.setDetailList(detaillateral_left);
+            tag.add(lateral_left);
+        }
+        if (medial_right!=null){
+            medial_right.setDetailList(detailmedial_right);
+            tag.add(medial_right);
+        }
+        if (face_right!=null){
+            face_right.setDetailList(detailface_right);
+            tag.add(face_right);
+        }
+        if (lateral_right!=null){
+            lateral_right.setDetailList(detaillateral_right);
+            tag.add(lateral_right);
+        }
+
     }
 }

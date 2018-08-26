@@ -27,6 +27,10 @@ public class AppConstant {
     //web首页
     public static final String WEBVIEW_HOME = "http://ipadscan_test.bintutu.com/shop_3dscanner_learning/frontend/shutdown.html";
     //web选鞋页
+    public static final String WEBVIEW_SORT(String customer_id,String customer_phone){
+        return "http://ipadscan_test.bintutu.com/shop_3dscanner_learning/frontend/sort.html?customer_id="+customer_id+"&customer_phone="+customer_phone;
+    };
+    //web选鞋页
     public static final String WEBVIEW_CHOOSE(String customer_id,String phone,String id,String color,String fur,String sole_materials,String sole_accessory,String exclusive){
         return "http://ipadscan_test.bintutu.com/shop_3dscanner_learning/frontend/information.html?customer_id="+customer_id+"&phone="+phone+"&id="+id+"&color="+color+"&fur="+fur+"&sole_materials="+sole_materials+"&sole_accessory="+sole_accessory+"&exclusive="+exclusive;
     }
@@ -73,7 +77,7 @@ public class AppConstant {
 
     //获取数据ZIP-----------get
     public static String DATA_ZIP(String zip) {
-        return EQUIPMENT_URL + zip + "/right.zip";
+        return EQUIPMENT_URL + zip + "/data.tgz";
     }
 
 }

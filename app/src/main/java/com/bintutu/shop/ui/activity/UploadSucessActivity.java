@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.bintutu.shop.R;
 import com.bintutu.shop.ui.BaseActivity;
 import com.bintutu.shop.utils.AppConstant;
+import com.bintutu.shop.utils.ConfigManager;
 import com.bintutu.shop.utils.Constant;
 import com.bintutu.shop.utils.CutDown;
 
@@ -52,8 +53,27 @@ public class UploadSucessActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(UploadSucessActivity.this, MainActivity.class);
-                intent.putExtra(Constant.ItentKey1, AppConstant.WEBVIEW_CHOOSE("","","","","","","",""));
+                if (ConfigManager.Foot.getIdid()!=null&&!ConfigManager.Foot.getIdid().equals("")){
+                    intent.putExtra(Constant.ItentKey1, AppConstant.WEBVIEW_CHOOSE(
+                            ConfigManager.Foot.getCustomer_id(),
+                            ConfigManager.Foot.getCustomer_phone(),
+                            ConfigManager.Foot.getIdid(),
+                            ConfigManager.Foot.getchoosed_color_id(),
+                            ConfigManager.Foot.getchoosed_fur_id(),
+                            ConfigManager.Foot.getchoosed_sole_material_id(),
+                            ConfigManager.Foot.getchoosed_sole_accessory_id(),
+                            ConfigManager.Foot.getchoosed_exclusive_id()));
+                }else {
+                    intent.putExtra(Constant.ItentKey1, AppConstant.WEBVIEW_SORT( ConfigManager.Foot.getCustomer_id(),ConfigManager.Foot.getCustomer_phone()));
+                }
                 startActivity(intent);
+                ConfigManager.Foot.setCustomer_id("");
+                ConfigManager.Foot.setCustomer_phone("");
+                ConfigManager.Foot.setIdid("");
+                ConfigManager.Foot.setchoosed_color_id("");
+                ConfigManager.Foot.setchoosed_exclusive_id("");
+                ConfigManager.Foot.setchoosed_sole_accessory_id("");
+                ConfigManager.Foot.setchoosed_sole_material_id("");
                 finish();
             }
         });
@@ -67,6 +87,13 @@ public class UploadSucessActivity extends BaseActivity {
         sucessButBackhome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ConfigManager.Foot.setCustomer_id("");
+                ConfigManager.Foot.setCustomer_phone("");
+                ConfigManager.Foot.setIdid("");
+                ConfigManager.Foot.setchoosed_color_id("");
+                ConfigManager.Foot.setchoosed_exclusive_id("");
+                ConfigManager.Foot.setchoosed_sole_accessory_id("");
+                ConfigManager.Foot.setchoosed_sole_material_id("");
                 startActivity(new Intent(UploadSucessActivity.this, MainActivity.class));
                 finish();
             }

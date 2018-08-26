@@ -55,7 +55,7 @@
                     android:layout_height="@dimen/dp_80"
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/dp_12"
-                    android:background="@mipmap/image_bg" />
+                    android:background="@mipmap/qr_scanpng" />
 
                 <LinearLayout
                     android:id="@+id/sucess_lin_goscan"

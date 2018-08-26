@@ -115,9 +115,8 @@ public class UploadSucessActivity extends BaseActivity {
             @Override
             public void onFinish() {
                 if (sucessTextGoscan != null) {
-                    sucessTextGoscan.setTextColor(ContextCompat.getColor(UploadSucessActivity.this, R.color.text_color_c1));
-                    sucessTextGoscan.setEnabled(true);
-                    sucessTextGoscan.setText("继续扫描");
+                    startActivity(new Intent(UploadSucessActivity.this, ReadyToScanActivity.class));
+                    finish();
                 }
             }
 

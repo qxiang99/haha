@@ -87,6 +87,10 @@ public class DetailActivity extends BaseActivity {
     Button detailButLeft;
     @BindView(R.id.detail_but_right)
     Button detailButRight;
+    @BindView(R.id.ready_but_return)
+    Button detailButReturn;
+    @BindView(R.id.ready_but_home)
+    Button detailButHome;
     @BindView(R.id.detail_but_upload)
     Button detailButUpload;
     @BindView(R.id.detail_image_footleft)
@@ -169,6 +173,34 @@ public class DetailActivity extends BaseActivity {
 
     @Override
     protected void setListener() {
+
+        detailButReturn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ConfigManager.Foot.setCustomer_id("");
+                ConfigManager.Foot.setCustomer_phone("");
+                ConfigManager.Foot.setIdid("");
+                ConfigManager.Foot.setchoosed_color_id("");
+                ConfigManager.Foot.setchoosed_exclusive_id("");
+                ConfigManager.Foot.setchoosed_sole_accessory_id("");
+                ConfigManager.Foot.setchoosed_sole_material_id("");
+               finish();
+            }
+        });
+        detailButHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ConfigManager.Foot.setCustomer_id("");
+                ConfigManager.Foot.setCustomer_phone("");
+                ConfigManager.Foot.setIdid("");
+                ConfigManager.Foot.setchoosed_color_id("");
+                ConfigManager.Foot.setchoosed_exclusive_id("");
+                ConfigManager.Foot.setchoosed_sole_accessory_id("");
+                ConfigManager.Foot.setchoosed_sole_material_id("");
+                startActivity(new Intent(DetailActivity.this, MainActivity.class));
+                finish();
+            }
+        });
 
         detailButLeft.setOnClickListener(new View.OnClickListener() {
             @Override

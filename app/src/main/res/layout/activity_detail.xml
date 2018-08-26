@@ -253,7 +253,7 @@
         android:background="@color/black">
 
         <Button
-            android:id="@+id/ready_image_return"
+            android:id="@+id/ready_but_return"
             android:layout_width="@dimen/dp_66"
             android:layout_height="match_parent"
             android:layout_marginBottom="@dimen/dp_2"
@@ -265,6 +265,7 @@
 
 
         <Button
+            android:id="@+id/ready_but_home"
             android:layout_width="@dimen/dp_66"
             android:layout_height="match_parent"
             android:layout_marginBottom="@dimen/dp_2"
@@ -272,7 +273,7 @@
             android:layout_marginTop="@dimen/dp_1"
             android:background="@mipmap/home_bg"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@+id/ready_image_return" />
+            app:layout_constraintLeft_toRightOf="@+id/ready_but_return" />
 
         <Button
             android:id="@+id/detail_but_upload"

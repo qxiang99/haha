@@ -55,7 +55,9 @@ import com.lzy.okgo.request.base.Request;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -85,6 +87,8 @@ public class DetailActivity extends BaseActivity {
     ImageView detailImageRightTwo;
     @BindView(R.id.detail_but_left)
     Button detailButLeft;
+    @BindView(R.id.detail_but_delete)
+    Button detailButDelete;
     @BindView(R.id.detail_but_right)
     Button detailButRight;
     @BindView(R.id.ready_but_return)
@@ -173,6 +177,14 @@ public class DetailActivity extends BaseActivity {
 
     @Override
     protected void setListener() {
+        detailButDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                map.clear();
+                SetImage();
+                TaglList.clear();
+            }
+        });
 
         detailButReturn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -184,7 +196,7 @@ public class DetailActivity extends BaseActivity {
                 ConfigManager.Foot.setchoosed_exclusive_id("");
                 ConfigManager.Foot.setchoosed_sole_accessory_id("");
                 ConfigManager.Foot.setchoosed_sole_material_id("");
-               finish();
+                finish();
             }
         });
         detailButHome.setOnClickListener(new View.OnClickListener() {
@@ -272,7 +284,9 @@ public class DetailActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 if (ConfigManager.Foot.getCustomer_id()!=null&&!ConfigManager.Foot.getCustomer_id().equals("")){
-                    loginnumber =System.currentTimeMillis() + "";
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+                    Date date = new Date(System.currentTimeMillis());
+                    loginnumber =simpleDateFormat.format(date);
                     loginphone = ConfigManager.Foot.getCustomer_phone();
                     logincustomer_id = ConfigManager.Foot.getCustomer_id();
                     upload(loginnumber,loginphone,logincustomer_id);
@@ -545,19 +559,23 @@ public class DetailActivity extends BaseActivity {
     public void addTag() {
         dataLinAddtag.setVisibility(View.VISIBLE);
         dataLinAddtag.removeAllViews();
-        for (int i = 0; i < TaglList.size(); i++) {
-            TAGBean tagBean = TaglList.get(i);
-            for (int a = 0; a < tagBean.getDetailList().size(); a++) {
-                TAGBean.DetailListBean detailListBean = TaglList.get(i).getDetailList().get(a);
-                View view = LayoutInflater.from(DetailActivity.this).inflate(R.layout.detail_tag_item, null);
-                TextView number = view.findViewById(R.id.tag_text_number);
-                number.setText(detailListBean.getIndex()+"");
-                TextView title = view.findViewById(R.id.tag_text_title);
-                title.setText("[" + tagBean.getName() + "] : ");
-                TextView content = view.findViewById(R.id.tag_text_content);
-                content.setText(detailListBean.getContent());
-                dataLinAddtag.addView(view);
+        if (TaglList!=null&&TaglList.size()>0) {
+            for (int i = 0; i < TaglList.size(); i++) {
+                TAGBean tagBean = TaglList.get(i);
+                for (int a = 0; a < tagBean.getDetailList().size(); a++) {
+                    TAGBean.DetailListBean detailListBean = TaglList.get(i).getDetailList().get(a);
+                    View view = LayoutInflater.from(DetailActivity.this).inflate(R.layout.detail_tag_item, null);
+                    TextView number = view.findViewById(R.id.tag_text_number);
+                    number.setText(detailListBean.getIndex() + "");
+                    TextView title = view.findViewById(R.id.tag_text_title);
+                    title.setText("[" + tagBean.getName() + "] : ");
+                    TextView content = view.findViewById(R.id.tag_text_content);
+                    content.setText(detailListBean.getContent());
+                    dataLinAddtag.addView(view);
+                }
             }
+        }else {
+            dataLinAddtag.setVisibility(View.GONE);
         }
     }
 

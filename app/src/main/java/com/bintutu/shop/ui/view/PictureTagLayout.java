@@ -172,7 +172,7 @@ public class PictureTagLayout extends RelativeLayout implements OnTouchListener{
             }
         }
         if (mName.startsWith("右脚")){
-            tagBean.setFoot("left");
+            tagBean.setFoot("right");
             if (mName.startsWith("右脚内侧")) {
                 tagBean.setItem("medial");
                 tagBean.setId("medial-right");

@@ -64,12 +64,35 @@ public class MainActivity extends BaseActivity {
         } else {
             url = AppConstant.WEBVIEW_HOME;
         }
+
+
+        mWebView.setHorizontalScrollBarEnabled(false);//水平不显示
+        mWebView.setVerticalScrollBarEnabled(false); //垂直不显示
+
+
+        mWebView.setWebViewClient(new WebViewClient());
+        mWebView.setInitialScale(10);//为10%，最小缩放等级
+        mWebView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+
+        mWebView.setHorizontalScrollBarEnabled(false);//水平不显示
+        mWebView.setVerticalScrollBarEnabled(false); //垂直不显示
+        //mWebView.setInitialScale(10);//为10%，最小缩放等级
+
         WebSettings settings = mWebView.getSettings();
-        settings.setJavaScriptEnabled(true);
+        //主要用于平板，针对特定屏幕代码调整分辨率
+        settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        settings.setJavaScriptCanOpenWindowsAutomatically(true);
+        settings.setUseWideViewPort(true);//设置webview推荐使用的窗口
+        settings.setLoadWithOverviewMode(true);//设置webview加载的页面的模式
+        settings.setDisplayZoomControls(false);//隐藏webview缩放按钮
+        settings.setJavaScriptEnabled(true); // 设置支持javascript脚本
+        settings.setAllowFileAccess(true); // 允许访问文件
+        settings.setBuiltInZoomControls(false); // 设置显示缩放按钮
+        settings.setSupportZoom(false); // 支持缩放
         settings.setUserAgentString("scheme//caigou_ANDROID/1.1.1");
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
-        }
+        }*/
         // 开启DOM缓存。
         settings.setDomStorageEnabled(true);
        /* settings.setDatabaseEnabled(true);
@@ -103,7 +126,6 @@ public class MainActivity extends BaseActivity {
         mWebView.setWebViewClient(new WebViewClient() {
             @Override
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
-                ShowToast("网络连接失败 ,请连接网络");
             }
 
             @Override
@@ -140,6 +162,14 @@ public class MainActivity extends BaseActivity {
             }
         });
 
+        findViewById(R.id.web_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, ReadyToScanActivity.class));
+                finish();
+            }
+        });
+
     }
 
     public Bitmap createViewBitmap(View v) {
@@ -163,6 +193,7 @@ public class MainActivity extends BaseActivity {
                 ConfigManager.Device.setShopPhone(webDataBean.getShop_phone());
             }
             startActivity(new Intent(MainActivity.this, ReadyToScanActivity.class));
+            finish();
         }
         if (url.startsWith("bintutu://cookies")) {
             Map<String, String> map = getParamsMap(url, "bintutu://cookies");
@@ -178,6 +209,7 @@ public class MainActivity extends BaseActivity {
             ConfigManager.Foot.setchoosed_sole_accessory_id(chooseBean.getChoosed_sole_accessory_id());
             ConfigManager.Foot.setchoosed_sole_material_id(chooseBean.getChoosed_sole_material_id());
             startActivity(new Intent(MainActivity.this, ReadyToScanActivity.class));
+            finish();
 
         }
 

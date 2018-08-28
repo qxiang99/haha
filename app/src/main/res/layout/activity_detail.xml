@@ -121,8 +121,19 @@
                     android:id="@+id/detail_but_right"
                     android:layout_width="@dimen/dp_68"
                     android:layout_height="@dimen/dp_23"
+                    android:layout_marginRight="@dimen/dp_36"
                     android:background="@drawable/detail_but_bg"
                     android:text="右脚"
+                    android:textColor="@color/detail_but_text_cor"
+                    android:textSize="@dimen/dp_11" />
+
+
+                <Button
+                    android:id="@+id/detail_but_delete"
+                    android:layout_width="@dimen/dp_68"
+                    android:layout_height="@dimen/dp_23"
+                    android:background="@drawable/detail_but_bg"
+                    android:text="清除"
                     android:textColor="@color/detail_but_text_cor"
                     android:textSize="@dimen/dp_11" />
 

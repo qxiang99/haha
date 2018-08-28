@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 
@@ -81,6 +82,7 @@ public class ReadyToScanActivity extends BaseActivity {
         readyButReturn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                startActivity(new Intent(ReadyToScanActivity.this, MainActivity.class));
                 finish();
             }
         });
@@ -160,7 +162,6 @@ public class ReadyToScanActivity extends BaseActivity {
                             Intent intent = new Intent(ReadyToScanActivity.this, DetailActivity.class);
                             intent.putExtra(Constant.ItentKey1, scanNametime);
                             startActivity(intent);
-                            finish();
                         } else if (scanBean.getResult() == 0) {
                             timer.cancel();
                             retry++;
@@ -178,6 +179,17 @@ public class ReadyToScanActivity extends BaseActivity {
                 });
 
 
+    }
+
+    //对返回键进行监听
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            startActivity(new Intent(ReadyToScanActivity.this, MainActivity.class));
+            finish();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
 }

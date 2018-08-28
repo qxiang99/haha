@@ -25,6 +25,9 @@ import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -46,7 +49,7 @@ public class LoginDailog extends Dialog {
     private CutDown cutDown;
 
     public LoginDailog(@NonNull Context context) {
-        super(context, R.style.dialog_style);
+        super(context, R.style.dialog_style_two);
         mContext = context;
     }
 
@@ -59,7 +62,9 @@ public class LoginDailog extends Dialog {
         //按空白处不能取消动画
         setCanceledOnTouchOutside(false);
 
-        String scanNametime = System.currentTimeMillis() + "";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+        Date date = new Date(System.currentTimeMillis());
+        String scanNametime = simpleDateFormat.format(date);
         mLoginEditNumber.setText(scanNametime);
         setListener();
     }
@@ -129,7 +134,7 @@ public class LoginDailog extends Dialog {
                                 String data = String.valueOf(response.body());
                                 LoginBean loginBean = gson.fromJson(data, LoginBean.class);
                                 if (loginBean != null & loginBean.getCode() == 0) {
-                                    ToastUtils.showToast(mContext, "登录成功");
+                                    ToastUtils.showToast(mContext, "开始上传");
                                     if (mListener != null) {
                                         mListener.Data(Number, PHONE, loginBean.getResult().getCustomer_id());
                                     }

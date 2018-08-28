@@ -67,11 +67,20 @@ public class ShopLoginActivity extends BaseActivity {
             return;
         }
 
+        if (PWD.length()!=6) {
+            ShowToast("密码长度不够");
+            return;
+        }
 
-        //验证码登陆
+        if (!PHONE.endsWith(PWD)) {
+            ShowToast("密码不正确");
+            return;
+        }
+
+
+        //登陆
         OkGo.<BaseResponse<String>>post(AppConstant.SHOP_LOGIN)
                 .params("phone", PHONE)
-                .params("password", PWD)
                 .execute(new JsonCallback<BaseResponse<String>>() {
                     @Override
                     public void onSuccess(Response<BaseResponse<String>> response) {

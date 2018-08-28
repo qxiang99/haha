@@ -16,6 +16,8 @@ public class AppConstant {
     public static final String VARIFICATIONCODE = BASE_URLS + "shop_3d/backend/web/index.php/customer/varificationcode";
     //登录
     public static final String LOGIN = BASE_URLS + "shop_3d/backend/web/index.php/customer/login";
+    //登录
+    public static final String SHOP_LOGIN = BASE_URLS + "shop_3d/backend/web/index.php/homepage/pictures";
     //上传数据
     public static final String NEW_DATA = BASE_URLS + "shop_3d/backend/web/index.php/userfoottypedata/newdata";
     //上传ZIP

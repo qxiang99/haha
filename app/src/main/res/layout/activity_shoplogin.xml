@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/shoplogin_bg">
+
+    <ImageView
+        android:id="@+id/shoplogin_icon"
+        android:layout_width="@dimen/dp_78"
+        android:layout_height="@dimen/dp_96"
+        android:layout_marginTop="@dimen/dp_38"
+        android:background="@mipmap/login_logo"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.constraint.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_35"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/shoplogin_icon">
+
+        <ImageView
+            android:id="@+id/shoplogin_image1"
+            android:layout_width="@dimen/dp_10"
+            android:layout_height="@dimen/dp_14"
+            android:background="@mipmap/phone_bg"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/shoplogin_edit_phone"
+            android:layout_width="@dimen/dp_240"
+            android:layout_height="@dimen/dp_14"
+            android:layout_marginLeft="@dimen/dp_12"
+            android:background="@null"
+            android:hint="请输入账号"
+            android:inputType="number"
+            android:maxLines="1"
+            android:textColor="@color/text_color_bf"
+            android:textColorHint="@color/text_color_bf"
+            android:textSize="@dimen/dp_12"
+            app:layout_constraintBottom_toBottomOf="@+id/shoplogin_image1"
+            app:layout_constraintLeft_toRightOf="@+id/shoplogin_image1"
+            app:layout_constraintTop_toTopOf="@+id/shoplogin_image1" />
+
+        <View
+            android:id="@+id/login_view"
+            android:layout_width="@dimen/dp_240"
+            android:layout_height="1px"
+            android:layout_marginLeft="@dimen/dp_12"
+            android:layout_marginTop="@dimen/dp_5"
+            android:background="@color/text_color_bf"
+            app:layout_constraintLeft_toRightOf="@+id/shoplogin_image1"
+            app:layout_constraintTop_toBottomOf="@+id/shoplogin_edit_phone" />
+
+
+        <ImageView
+            android:id="@+id/shoplogin_image2"
+            android:layout_width="@dimen/dp_10"
+            android:layout_height="@dimen/dp_14"
+            android:layout_marginTop="@dimen/dp_23"
+            android:background="@mipmap/verification_code"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/login_view" />
+
+
+        <EditText
+            android:id="@+id/shoplogin_edit_pwd"
+            android:layout_width="@dimen/dp_240"
+            android:layout_height="@dimen/dp_14"
+            android:layout_marginLeft="@dimen/dp_12"
+            android:background="@null"
+            android:hint="请输入密码"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:textColor="@color/text_color_bf"
+            android:textColorHint="@color/text_color_bf"
+            android:textSize="@dimen/dp_12"
+            app:layout_constraintBottom_toBottomOf="@+id/shoplogin_image2"
+            app:layout_constraintLeft_toRightOf="@+id/shoplogin_image2"
+            app:layout_constraintTop_toTopOf="@+id/shoplogin_image2" />
+
+        <View
+            android:id="@+id/login_view2"
+            android:layout_width="@dimen/dp_240"
+            android:layout_height="1px"
+            android:layout_marginLeft="@dimen/dp_12"
+            android:layout_marginTop="@dimen/dp_5"
+            android:background="@color/text_color_bf"
+            app:layout_constraintLeft_toRightOf="@+id/shoplogin_image2"
+            app:layout_constraintTop_toBottomOf="@+id/shoplogin_edit_pwd" />
+
+
+        <Button
+            android:id="@+id/shoplogin_but_submit"
+            android:layout_width="@dimen/dp_262"
+            android:layout_height="@dimen/dp_37"
+            android:background="@mipmap/shoplogin_but_bg"
+            android:layout_marginTop="@dimen/dp_31"
+            app:layout_constraintLeft_toLeftOf="@+id/shoplogin_image2"
+            app:layout_constraintRight_toRightOf="@+id/shoplogin_edit_pwd"
+            app:layout_constraintTop_toBottomOf="@+id/login_view2" />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+
+</android.support.constraint.ConstraintLayout>

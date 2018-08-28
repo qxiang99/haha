@@ -1,32 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/fragment_web_one_lin"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <WebView
-        android:id="@+id/webView"
+    <LinearLayout
+        android:id="@+id/main_lin_wifi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="@dimen/dp_19"
+            android:layout_height="@dimen/dp_15"
+            android:layout_marginLeft="@dimen/dp_9"
+            android:layout_marginTop="@dimen/dp_9"
+            android:layout_marginRight="@dimen/dp_9"
+            android:layout_marginBottom="@dimen/dp_9"
+            android:background="@mipmap/wifi_icon"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/main_lin_poweroff"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="@dimen/dp_15"
+            android:layout_height="@dimen/dp_15"
+            android:layout_marginLeft="@dimen/dp_9"
+            android:layout_marginTop="@dimen/dp_9"
+            android:layout_marginRight="@dimen/dp_9"
+            android:layout_marginBottom="@dimen/dp_9"
+            android:background="@mipmap/power_off"/>
+    </LinearLayout>
+
+    <com.bintutu.shop.ui.view.RecyclerCoverFlow
+        android:id="@+id/mian_coverflow"
+        android:layout_marginTop="@dimen/dp_22"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fadingEdge="none"
-        android:overScrollMode="never" />
-
-    <ProgressBar
-        android:id="@+id/web_progressbar"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="match_parent"
-        android:layout_height="1dip"
-        android:progressDrawable="@drawable/web_pb"
-        android:visibility="gone" />
-
-    <Button
-        android:id="@+id/web_button"
-        android:layout_width="@dimen/dp_60"
-        android:layout_height="@dimen/dp_30"
-        android:text="离线版"
-        android:textColor="@color/text_color_c1"
-        android:textSize="@dimen/dp_15"/>
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
 
 
-</FrameLayout>
+</android.support.constraint.ConstraintLayout>

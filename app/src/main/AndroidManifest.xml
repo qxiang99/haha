@@ -20,7 +20,6 @@
             android:name=".ui.activity.SplashActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.Loading">
-
         </activity>
         <!--商铺登录页-->
         <activity
@@ -29,7 +28,10 @@
             android:launchMode="singleTop"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustPan|stateHidden" >
-
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <!--首页-->
         <activity
@@ -38,11 +40,8 @@
             android:launchMode="singleTop"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustPan|stateHidden" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter></activity>
-        <!--首页-->
+           </activity>
+        <!--Web-->
         <activity
             android:name=".ui.activity.WebActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -58,6 +57,14 @@
             android:launchMode="singleTop"
             android:screenOrientation="landscape" >
         </activity>
+        <!--gif动画页-->
+        <activity
+            android:name=".ui.activity.GifActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <!--数据详情页-->
         <activity
             android:name=".ui.activity.DetailActivity"
@@ -65,10 +72,7 @@
             android:launchMode="singleTop"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustPan|stateHidden" >
-
         </activity>
-
-        <!--放大图片-->
         <!--上传成功页-->
         <activity
             android:name=".ui.activity.UploadSucessActivity"
@@ -77,6 +81,7 @@
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustPan|stateHidden" >
         </activity>
+
 
         <service
             android:name=".ui.server.UploadServer"

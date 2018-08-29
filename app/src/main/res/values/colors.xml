@@ -6,7 +6,8 @@
     <color name="scancolor">#63B8FF</color>
     <color name="white">#FFF</color>
     <color name="black">#000</color>
-    <color name="black80">#99000000</color>
+    <color name="black99">#99000000</color>
+    <color name="black80">#80000000</color>
     <color name="black50">#50000000</color>
 
     <color name="text_color_c1">#333333</color>

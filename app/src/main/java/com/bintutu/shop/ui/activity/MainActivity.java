@@ -10,15 +10,23 @@ import android.widget.LinearLayout;
 
 import com.bintutu.shop.R;
 import com.bintutu.shop.bean.BaseResponse;
+import com.bintutu.shop.bean.ImageBean;
+import com.bintutu.shop.bean.ScanBean;
 import com.bintutu.shop.okgo.JsonCallback;
 import com.bintutu.shop.ui.BaseActivity;
+import com.bintutu.shop.ui.adapter.CoverFlowAdapter;
 import com.bintutu.shop.ui.view.CloseDailog;
+import com.bintutu.shop.ui.view.CoverFlowLayoutManger;
 import com.bintutu.shop.ui.view.RecyclerCoverFlow;
 import com.bintutu.shop.ui.view.WifiDailog;
 import com.bintutu.shop.utils.AppConstant;
 import com.bintutu.shop.utils.ConfigManager;
+import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -60,19 +68,42 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initData() {
-        //登陆
+      /*  //登陆
         OkGo.<BaseResponse<String>>post("http://opzhpptsb.bkt.clouddn.com/image.json")
                 .params("shop_id", "67901")
                 .execute(new JsonCallback<BaseResponse<String>>() {
                     @Override
                     public void onSuccess(Response<BaseResponse<String>> response) {
-                        Log.e("onSuccess",response.body()+"....");
+                        Log.e("BaseResponse",response.body()+".....11");
+                        Gson gson = new Gson();
+                        ImageBean imageBean = gson.fromJson(String.valueOf(response.body()), ImageBean.class);
+                        Log.e("BaseResponse",imageBean.getData().getLinks().size()+".....");
                     }
 
                     @Override
                     public void onError(Response<BaseResponse<String>> response) {
 
                     }
-                });
+                });*/
+
+        List<String> DetailList = new ArrayList<>();
+        DetailList.add("http://opzhpptsb.bkt.clouddn.com/one.jpg");
+        DetailList.add("http://opzhpptsb.bkt.clouddn.com/two.jpg");
+        DetailList.add("http://opzhpptsb.bkt.clouddn.com/tree.jpg");
+        DetailList.add("http://opzhpptsb.bkt.clouddn.com/four.jpg");
+        DetailList.add("http://opzhpptsb.bkt.clouddn.com/five.jpg");
+        DetailList.add("http://opzhpptsb.bkt.clouddn.com/six.jpg");
+        DetailList.add("http://opzhpptsb.bkt.clouddn.com/nine.jpg");
+
+        //        mList.setFlatFlow(true); //平面滚动
+//        mList.setGreyItem(true); //设置灰度渐变
+//        mList.setAlphaItem(true); //设置半透渐变
+        mReCverFlow.setAdapter(new CoverFlowAdapter(this, DetailList));
+        mReCverFlow.setOnItemSelectedListener(new CoverFlowLayoutManger.OnSelected() {
+            @Override
+            public void onItemSelected(int position) {
+               // ((TextView) findViewById(R.id.index)).setText((position + 1) + "/" + mList.getLayoutManager().getItemCount());
+            }
+        });
     }
 }

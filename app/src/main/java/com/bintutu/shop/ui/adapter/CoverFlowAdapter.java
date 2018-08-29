@@ -10,13 +10,17 @@ import android.widget.ImageView;
 import com.bintutu.shop.R;
 import com.bumptech.glide.Glide;
 
+import java.util.List;
+
 public class CoverFlowAdapter extends RecyclerView.Adapter<CoverFlowAdapter.ViewHolder> {
 
     private Context mContext;
 
     private onItemClick clickCb;
+    private List<String> mdetailList;
 
-    public CoverFlowAdapter(Context c) {
+    public CoverFlowAdapter(Context c, List<String> detailList) {
+        mdetailList = detailList;
         mContext = c;
     }
 
@@ -37,7 +41,7 @@ public class CoverFlowAdapter extends RecyclerView.Adapter<CoverFlowAdapter.View
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        Glide.with(mContext).load("").into(holder.img);
+        Glide.with(mContext).load(mdetailList.get(position % mdetailList.size())).into(holder.img);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

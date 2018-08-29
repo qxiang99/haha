@@ -6,16 +6,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bintutu.shop.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class CloseDailog extends Dialog {
 
     private Context context;
-    private ImageView img;
-    private TextView txt;
+    @BindView(R.id.close_but_diss)
+    Button mCloseButDiss;
+    @BindView(R.id.close_but_confirm)
+    Button mCloseButConFirm;
 
     public CloseDailog(Context context) {
         super(context, R.style.close_dialog);
@@ -23,22 +29,31 @@ public class CloseDailog extends Dialog {
         //加载布局文件
         LayoutInflater inflater=(LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view=inflater.inflate(R.layout.close_dialog, null);
-       /* img=(ImageView) view.findViewById(R.id.iphone_progress_dialog_img);
-        txt=(TextView) view.findViewById(R.id.iphone_progress_dialog_txt);
-        //给图片添加动态效果
-        Animation anim= AnimationUtils.loadAnimation(context, R.anim.progressbar);
-        img.setAnimation(anim);
-        txt.setText(R.string.iphone_progressbar_dialog_txt);*/
-        //dialog添加视图
+        ButterKnife.bind(this, view);
         setContentView(view);
-
+        //按空白处不能取消动画
+        setCanceledOnTouchOutside(false);
+        setListener();
     }
 
-    public void setMsg(String msg){
-        txt.setText(msg);
+    private void setListener() {
+        mCloseButDiss.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dismiss();
+            }
+        });
+        mCloseButConFirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ConFirm();
+            }
+        });
     }
-    public void setMsg(int msgId){
-        txt.setText(msgId);
+
+    private void ConFirm() {
+        //关闭扫描仪
     }
+
 
 }

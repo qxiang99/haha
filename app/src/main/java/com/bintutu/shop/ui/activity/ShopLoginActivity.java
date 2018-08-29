@@ -48,8 +48,7 @@ public class ShopLoginActivity extends BaseActivity {
         mShopLoginButSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //submit();
-                startActivity(new Intent(ShopLoginActivity.this,GifActivity.class));
+                submit();
             }
         });
 

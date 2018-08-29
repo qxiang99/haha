@@ -38,7 +38,7 @@ public class GifActivity extends Activity {
     public void StartGif() {
         try {
             gifDrawable = new GifDrawable(getResources(), R.drawable.scan);
-            image.setImageDrawable(gifDrawable);//这里是实际决定资源的地方，优先级高于xml文件的资源定义
+            image.setImageDrawable(gifDrawable);
         } catch (IOException e) {
             e.printStackTrace();
         }

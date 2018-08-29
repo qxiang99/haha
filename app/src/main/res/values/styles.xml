@@ -38,7 +38,8 @@
         <item name="android:windowIsTranslucent">true</item><!-- 是否半透明 -->
         <item name="android:windowNoTitle">true</item>
         <item name="android:backgroundDimEnabled">false</item><!-- dim:模糊的 阴影效果 -->
-        <item name="android:windowBackground">@null</item><!-- 背景图片的大小也影响窗口的大小 -->
+
+        <item name="android:windowBackground">@color/black_00000000</item><!-- 背景图片的大小也影响窗口的大小 -->
     </style>
 
 

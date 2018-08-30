@@ -4,6 +4,7 @@ package com.bintutu.shop.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -16,6 +17,7 @@ import com.bintutu.shop.okgo.JsonCallback;
 import com.bintutu.shop.ui.BaseActivity;
 import com.bintutu.shop.ui.adapter.CoverFlowAdapter;
 import com.bintutu.shop.ui.view.CloseDailog;
+import com.bintutu.shop.ui.view.CommanDailog;
 import com.bintutu.shop.ui.view.CoverFlowLayoutManger;
 import com.bintutu.shop.ui.view.RecyclerCoverFlow;
 import com.bintutu.shop.ui.view.WifiDailog;
@@ -37,6 +39,12 @@ public class MainActivity extends BaseActivity {
     LinearLayout mLinPowerOff;
     @BindView(R.id.main_lin_wifi)
     LinearLayout mLinWifi;
+    @BindView(R.id.main_lin_command)
+    LinearLayout mLinCommand;
+    @BindView(R.id.main_but_scan)
+    Button mButScan;
+    @BindView(R.id.main_but_hibitionroom)
+    Button mButHibitionRoom;
 
     @Override
     protected void initContentView(Bundle savedInstanceState) {
@@ -63,6 +71,25 @@ public class MainActivity extends BaseActivity {
             public void onClick(View view) {
                 WifiDailog wifiDailog = new WifiDailog(MainActivity.this);
                 wifiDailog.show();
+            }
+        });
+        mLinCommand.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CommanDailog commanDailog = new CommanDailog(MainActivity.this);
+                commanDailog.show();
+            }
+        });
+        mButScan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this,ReadyToScanActivity.class));
+            }
+        });
+        mButHibitionRoom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this,WebActivity.class));
             }
         });
     }
@@ -105,5 +132,28 @@ public class MainActivity extends BaseActivity {
                // ((TextView) findViewById(R.id.index)).setText((position + 1) + "/" + mList.getLayoutManager().getItemCount());
             }
         });
+    }
+
+
+    //退出时的时间
+    private long mExitTime;
+
+    //对返回键进行监听
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            exit();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    public void exit() {
+        if ((System.currentTimeMillis() - mExitTime) > 2000) {
+            ShowToast("再按一次退出");
+            mExitTime = System.currentTimeMillis();
+        } else {
+            finish();
+        }
     }
 }

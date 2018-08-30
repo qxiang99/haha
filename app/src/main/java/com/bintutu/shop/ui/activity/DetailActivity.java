@@ -36,6 +36,7 @@ import com.bintutu.shop.okgo.ServerModel;
 import com.bintutu.shop.ui.BaseActivity;
 import com.bintutu.shop.ui.adapter.DetailAdapter;
 import com.bintutu.shop.ui.view.ImageDailog;
+import com.bintutu.shop.ui.view.ImageTwoDailog;
 import com.bintutu.shop.ui.view.LoginDailog;
 import com.bintutu.shop.utils.AppConstant;
 import com.bintutu.shop.utils.ConfigManager;
@@ -312,7 +313,10 @@ public class DetailActivity extends BaseActivity {
     }
 
     private void showSpaceImage(String name, ImageView view, Bitmap imageRe) {
-        ImageDailog imageDailog = new ImageDailog(this);
+
+        ImageTwoDailog imageTwoDailog = new ImageTwoDailog(this);
+        imageTwoDailog.show();
+      /*  ImageDailog imageDailog = new ImageDailog(this);
         imageDailog.show();
         imageDailog.setImage(name,view, imageRe);
         imageDailog.setImageClickListener(new ImageDailog.OnImageClickListener() {
@@ -327,7 +331,7 @@ public class DetailActivity extends BaseActivity {
                 }
                 addTag();
             }
-        });
+        });*/
 
     }
 

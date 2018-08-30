@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+ <!-- <ImageView
+      android:layout_width="2000dp"
+      android:layout_height="2000dp"
+      android:background="@color/black50"/>-->
+ <android.support.constraint.ConstraintLayout
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     app:layout_constraintLeft_toLeftOf="parent"
+     app:layout_constraintTop_toTopOf="parent"
+     app:layout_constraintRight_toRightOf="parent"
+     app:layout_constraintBottom_toBottomOf="parent">
+
+  <ImageView
+      android:id="@+id/command_image"
+      android:layout_width="@dimen/dp_10"
+      android:layout_height="@dimen/dp_14"
+      android:background="@mipmap/verification_code"
+      app:layout_constraintLeft_toLeftOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/wifi_image1" />
+
+
+  <EditText
+      android:id="@+id/command_edit_pwd"
+      android:layout_width="@dimen/dp_225"
+      android:layout_height="@dimen/dp_14"
+      android:layout_marginLeft="@dimen/dp_12"
+      android:background="@null"
+      android:hint="请输入口令"
+      android:inputType="textPassword"
+      android:maxLines="1"
+      android:textColor="@color/text_color_bf"
+      android:textColorHint="@color/text_color_bf"
+      android:textSize="@dimen/dp_12"
+      app:layout_constraintBottom_toBottomOf="@+id/command_image"
+      app:layout_constraintLeft_toRightOf="@+id/command_image"
+      app:layout_constraintTop_toTopOf="@+id/command_image" />
+
+  <View
+      android:id="@+id/command_view"
+      android:layout_width="@dimen/dp_225"
+      android:layout_height="1px"
+      android:layout_marginLeft="@dimen/dp_12"
+      android:layout_marginTop="@dimen/dp_5"
+      android:background="@color/text_color_bf"
+      app:layout_constraintLeft_toRightOf="@+id/command_image"
+      app:layout_constraintTop_toBottomOf="@+id/command_edit_pwd" />
+
+  <Button
+      android:id="@+id/command_but_submit"
+      android:layout_width="@dimen/dp_245"
+      android:layout_height="@dimen/dp_32"
+      android:background="@mipmap/command_login"
+      android:layout_marginTop="@dimen/dp_40"
+      app:layout_constraintLeft_toLeftOf="@+id/command_image"
+      app:layout_constraintTop_toBottomOf="@+id/command_image" />
+
+ </android.support.constraint.ConstraintLayout>
+
+
+
+</android.support.constraint.ConstraintLayout>

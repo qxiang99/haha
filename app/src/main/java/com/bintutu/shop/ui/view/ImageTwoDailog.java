@@ -20,10 +20,8 @@ import butterknife.ButterKnife;
 public class ImageTwoDailog extends Dialog {
 
 
-    @BindView(R.id.imag_picture)
-    PictureTagLayout picture;
-    @BindView(R.id.imag_back)
-    Button imagBack;
+    @BindView(R.id.imagetwo_image_img)
+    TagLayout picture;
 
     private Context mContext;
     private ImageView mView;
@@ -47,62 +45,11 @@ public class ImageTwoDailog extends Dialog {
 
 
     private void setListener() {
-        picture.setSetClickListener(new PictureTagLayout.OnSetClickListener() {
-            @Override
-            public void onSetData(Bitmap viewBitmap, TAGBean tagBean) {
-                mtagBean = tagBean;
-            }
-        });
 
-        imagBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-                if (mImageClickListener!=null&&mtagBean!=null){
-                    mImageClickListener.onSetData(mView,createViewBitmap(picture),mtagBean);
-                }
-            }
-        });
     }
 
-    //对返回键进行监听
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-            dismiss();
-            if (mImageClickListener!=null&&mtagBean!=null){
-                mImageClickListener.onSetData(mView,createViewBitmap(picture),mtagBean);
-            }
-
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
-
-
-    public Bitmap createViewBitmap(View v) {
-        Bitmap bitmap = Bitmap.createBitmap(v.getWidth(), v.getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        v.draw(canvas);
-        return bitmap;
-    }
 
     public void setImage(String name, ImageView view, Bitmap imageRe) {
-        mView = view;
         picture.setImage(name,imageRe);
-
     }
-
-
-    private ImageDailog.OnImageClickListener mImageClickListener;
-
-    public void setImageClickListener(ImageDailog.OnImageClickListener mImageClickListener) {
-        this.mImageClickListener = mImageClickListener;
-    }
-
-
-    public interface OnImageClickListener {
-        void onSetData(ImageView view, Bitmap viewBitmap,TAGBean tagBean);
-    }
-
 }

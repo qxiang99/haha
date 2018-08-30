@@ -316,6 +316,7 @@ public class DetailActivity extends BaseActivity {
 
         ImageTwoDailog imageTwoDailog = new ImageTwoDailog(this);
         imageTwoDailog.show();
+        imageTwoDailog.setImage(name,view, imageRe);
       /*  ImageDailog imageDailog = new ImageDailog(this);
         imageDailog.show();
         imageDailog.setImage(name,view, imageRe);

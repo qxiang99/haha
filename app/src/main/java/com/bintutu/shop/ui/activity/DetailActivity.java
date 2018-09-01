@@ -24,8 +24,8 @@ import android.widget.TextView;
 import com.bintutu.shop.R;
 import com.bintutu.shop.bean.BaseResponse;
 import com.bintutu.shop.bean.DetailBean;
+import com.bintutu.shop.bean.FootTagBean;
 import com.bintutu.shop.bean.LeftBean;
-import com.bintutu.shop.bean.LoginBean;
 import com.bintutu.shop.bean.RightBean;
 import com.bintutu.shop.bean.TAGBean;
 import com.bintutu.shop.bean.UploadBean;
@@ -35,7 +35,6 @@ import com.bintutu.shop.okgo.LzyResponse;
 import com.bintutu.shop.okgo.ServerModel;
 import com.bintutu.shop.ui.BaseActivity;
 import com.bintutu.shop.ui.adapter.DetailAdapter;
-import com.bintutu.shop.ui.view.ImageDailog;
 import com.bintutu.shop.ui.view.ImageTwoDailog;
 import com.bintutu.shop.ui.view.LoginDailog;
 import com.bintutu.shop.utils.AppConstant;
@@ -44,9 +43,6 @@ import com.bintutu.shop.utils.Constant;
 import com.bintutu.shop.utils.DebugLog;
 import com.bintutu.shop.utils.GlideUtil;
 import com.bintutu.shop.utils.Utils;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.FileCallback;
@@ -74,6 +70,8 @@ public class DetailActivity extends BaseActivity {
     HorizontalScrollView detaiScroll;
     @BindView(R.id.detail_lin_image)
     LinearLayout mLinImage;
+    @BindView(R.id.detail_text_titletime)
+    TextView mDetailTextTime;
     @BindView(R.id.detail_image_left)
     ImageView detailImageLeft;
     @BindView(R.id.detail_image_center)
@@ -131,8 +129,7 @@ public class DetailActivity extends BaseActivity {
     private String uploadid;
     private HashMap<View, Bitmap> map;
     private String imagefile;
-    private List<TAGBean> tag;
-
+    private List<FootTagBean> footList= new ArrayList<>();
 
 
     @Override
@@ -144,8 +141,7 @@ public class DetailActivity extends BaseActivity {
     @Override
     protected void init() {
         gson = new Gson();
-        //设置Tag
-        ConfigManager.Device.setTag(1);
+
 
         Intent intent = getIntent();
         number = intent.getStringExtra(Constant.ItentKey1);
@@ -162,8 +158,10 @@ public class DetailActivity extends BaseActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date(System.currentTimeMillis());
+        String scanNametime = simpleDateFormat.format(date);
+        mDetailTextTime.setText("(数据采集日期 "+scanNametime+")");
 
         SetImage();
 
@@ -246,37 +244,37 @@ public class DetailActivity extends BaseActivity {
         detailImageLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showSpaceImage("左脚内侧",detailImageLeft, map.get(detailImageLeft));
+                showSpaceImage("左脚内侧",detailImageLeft, map.get(detailImageLeft),footList);
             }
         });
         detailImageCenter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showSpaceImage("左脚脚面", detailImageCenter, map.get(detailImageCenter));
+                showSpaceImage("左脚脚面", detailImageCenter, map.get(detailImageCenter),footList);
             }
         });
         detailImageRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showSpaceImage("左脚外侧", detailImageRight, map.get(detailImageRight));
+                showSpaceImage("左脚外侧", detailImageRight, map.get(detailImageRight),footList);
             }
         });
         detailImageLeftTwo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showSpaceImage("右脚内侧", detailImageLeftTwo, map.get(detailImageLeftTwo));
+                showSpaceImage("右脚内侧", detailImageLeftTwo, map.get(detailImageLeftTwo),footList);
             }
         });
         detailImageCenterTwo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showSpaceImage("右脚脚面", detailImageCenterTwo, map.get(detailImageCenterTwo));
+                showSpaceImage("右脚脚面", detailImageCenterTwo, map.get(detailImageCenterTwo),footList);
             }
         });
         detailImageRightTwo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showSpaceImage("右脚外侧", detailImageRightTwo, map.get(detailImageRightTwo));
+                showSpaceImage("右脚外侧", detailImageRightTwo, map.get(detailImageRightTwo),footList);
             }
         });
 
@@ -312,11 +310,35 @@ public class DetailActivity extends BaseActivity {
 
     }
 
-    private void showSpaceImage(String name, ImageView view, Bitmap imageRe) {
+    private void showSpaceImage(String name, ImageView view, Bitmap imageRe, List<FootTagBean> List) {
 
+        List<FootTagBean> newFoot = new ArrayList<>();
+        newFoot.addAll(List);
+        List<FootTagBean> footl = new ArrayList<>();
+        if (newFoot!=null&&newFoot.size()>0){
+            for (FootTagBean TagBean : newFoot){
+                if (TagBean.getName().equals(name)){
+                    footl.add(TagBean);
+                    footList.remove(TagBean);
+                }
+            }
+        }
         ImageTwoDailog imageTwoDailog = new ImageTwoDailog(this);
         imageTwoDailog.show();
-        imageTwoDailog.setImage(name,view, imageRe);
+        imageTwoDailog.setImage(name,view, imageRe,footl);
+        imageTwoDailog.setImageClickListener(new ImageTwoDailog.OnImageClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+            @Override
+            public void onSetData(ImageView view, Bitmap viewBitmap,List<FootTagBean> mFootList) {
+                view.setBackground(new BitmapDrawable(getResources(), viewBitmap));
+                if (mFootList!=null&&mFootList.size()>0){
+                    if(!DetailActivity.this.footList.contains(mFootList)) {
+                        DetailActivity.this.footList.addAll(mFootList);
+                    }
+                }
+                addTag();
+            }
+        });
       /*  ImageDailog imageDailog = new ImageDailog(this);
         imageDailog.show();
         imageDailog.setImage(name,view, imageRe);
@@ -423,9 +445,9 @@ public class DetailActivity extends BaseActivity {
         map.put("right", rightBean);
         String detailData = gson.toJson(map);
 
-        sortListTag();
+        sortListTag(footList);
 
-        String foot_remark = gson.toJson(tag);
+        String foot_remark = gson.toJson(TaglList);
 
 
 
@@ -525,7 +547,6 @@ public class DetailActivity extends BaseActivity {
                 });
     }
 
-    MediaType Image = MediaType.parse("image/png; charset=utf-8");
 
     private void GetImage() {
 
@@ -564,20 +585,17 @@ public class DetailActivity extends BaseActivity {
     public void addTag() {
         dataLinAddtag.setVisibility(View.VISIBLE);
         dataLinAddtag.removeAllViews();
-        if (TaglList!=null&&TaglList.size()>0) {
-            for (int i = 0; i < TaglList.size(); i++) {
-                TAGBean tagBean = TaglList.get(i);
-                for (int a = 0; a < tagBean.getDetailList().size(); a++) {
-                    TAGBean.DetailListBean detailListBean = TaglList.get(i).getDetailList().get(a);
+        if (footList!=null&&footList.size()>0) {
+            for (int i = 0; i < footList.size(); i++) {
                     View view = LayoutInflater.from(DetailActivity.this).inflate(R.layout.detail_tag_item, null);
                     TextView number = view.findViewById(R.id.tag_text_number);
-                    number.setText(detailListBean.getIndex() + "");
+                    number.setText(footList.get(i).getIndex() + "");
                     TextView title = view.findViewById(R.id.tag_text_title);
-                    title.setText("[" + tagBean.getName() + "] : ");
+                    title.setText("[" + footList.get(i).getName() + "] : ");
                     TextView content = view.findViewById(R.id.tag_text_content);
-                    content.setText(detailListBean.getContent());
+                    content.setText(footList.get(i).getContent());
                     dataLinAddtag.addView(view);
-                }
+
             }
         }else {
             dataLinAddtag.setVisibility(View.GONE);
@@ -626,26 +644,36 @@ public class DetailActivity extends BaseActivity {
     }
 
 
-    private void sortListTag() {
-        tag = new ArrayList<>();
+    private void sortListTag(List<FootTagBean> mFootList) {
+
+
+
         TAGBean medial_left = null;
         TAGBean face_left= null;
         TAGBean lateral_left= null;
         TAGBean medial_right= null;
         TAGBean face_right= null;
         TAGBean lateral_right= null;
-
+        //左脚内侧
         List<TAGBean.DetailListBean> detailmedial_left =new ArrayList<>();
+        //左脚脚面
         List<TAGBean.DetailListBean> detailface_left =new ArrayList<>();
+        //左脚外侧
         List<TAGBean.DetailListBean> detaillateral_left =new ArrayList<>();
+        //右脚内侧
         List<TAGBean.DetailListBean> detailmedial_right =new ArrayList<>();
+        //右脚脚面
         List<TAGBean.DetailListBean> detailface_right =new ArrayList<>();
+        //右脚外侧
         List<TAGBean.DetailListBean> detaillateral_right =new ArrayList<>();
+
+
+
 
         for (int i=0;i<TaglList.size();i++){
             if (TaglList.get(i).getName().equals("左脚内侧")){
                 medial_left = TaglList.get(i);
-                detailmedial_left.addAll(TaglList.get(i).getDetailList()) ;
+                detailmedial_left.addAll(detailmedial_left) ;
             }
             if (TaglList.get(i).getName().equals("左脚脚面")){
                 face_left = TaglList.get(i);
@@ -666,33 +694,78 @@ public class DetailActivity extends BaseActivity {
             if (TaglList.get(i).getName().equals("右脚外侧")){
                 lateral_right = TaglList.get(i);
                 detaillateral_right.addAll(TaglList.get(i).getDetailList()) ;
-
             }
         }
 
+        TaglList.clear();
+
+
+        for (FootTagBean footTagBean : mFootList){
+
+            TAGBean tagBean =new TAGBean();
+            tagBean.setFoot(footTagBean.getFoot());
+            tagBean.setId(footTagBean.getId());
+            tagBean.setItem(footTagBean.getItem());
+            tagBean.setName(footTagBean.getName());
+
+            TAGBean.DetailListBean detailListBean = new TAGBean.DetailListBean();
+            detailListBean.setContent(footTagBean.getContent());
+            detailListBean.setPageX(footTagBean.getPageX());
+            detailListBean.setPageY(footTagBean.getPageY());
+            detailListBean.setX(footTagBean.getX());
+            detailListBean.setPageY(footTagBean.getY());
+            detailListBean.setIndex(footTagBean.getIndex());
+            if (footTagBean.getName().equals("左脚内侧")){
+                medial_left =tagBean;
+                detailmedial_left.add(detailListBean);
+            }
+            if (footTagBean.getName().equals("左脚脚面")){
+                face_left =tagBean;
+                detailface_left.add(detailListBean);
+            }
+            if (footTagBean.getName().equals("左脚外侧")){
+                lateral_left =tagBean;
+                detaillateral_left.add(detailListBean);
+            }
+            if (footTagBean.getName().equals("右脚内侧")){
+                medial_right =tagBean;
+                detailmedial_right.add(detailListBean);
+            }
+            if (footTagBean.getName().equals("右脚脚面")){
+                face_right =tagBean;
+                detailface_right.add(detailListBean);
+            }
+            if (footTagBean.getName().equals("右脚外侧")){
+                lateral_right =tagBean;
+                detaillateral_right.add(detailListBean);
+            }
+        }
+
+
+
         if (medial_left!=null){
             medial_left.setDetailList(detailmedial_left);
-            tag.add(medial_left);
+            TaglList.add(medial_left);
         }
         if (face_left!=null){
             face_left.setDetailList(detailface_left);
-            tag.add(face_left);
+            TaglList.add(face_left);
         }
         if (lateral_left!=null){
             lateral_left.setDetailList(detaillateral_left);
-            tag.add(lateral_left);
+            TaglList.add(lateral_left);
         }
         if (medial_right!=null){
             medial_right.setDetailList(detailmedial_right);
-            tag.add(medial_right);
+            TaglList.add(medial_right);
         }
         if (face_right!=null){
             face_right.setDetailList(detailface_right);
-            tag.add(face_right);
+            TaglList.add(face_right);
         }
         if (lateral_right!=null){
             lateral_right.setDetailList(detaillateral_right);
-            tag.add(lateral_right);
+            TaglList.add(lateral_right);
         }
 
     }

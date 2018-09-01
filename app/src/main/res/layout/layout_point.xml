@@ -6,15 +6,15 @@
 
     <ImageView
         android:id="@+id/imgPoint"
-        android:layout_width="@dimen/dp_15"
-        android:layout_height="@dimen/dp_15"
+        android:layout_width="@dimen/dp_25"
+        android:layout_height="@dimen/dp_25"
         android:background="@mipmap/red_point" />
     <TextView
         android:id="@+id/textPoint"
         android:gravity="center"
-        android:textColor="@color/text_color_c1"
-        android:textSize="@dimen/dp_6"
-        android:layout_width="@dimen/dp_15"
-        android:layout_height="@dimen/dp_15" />
+        android:textColor="@color/white"
+        android:textSize="@dimen/dp_9"
+        android:layout_width="@dimen/dp_25"
+        android:layout_height="@dimen/dp_25" />
 
 </FrameLayout>

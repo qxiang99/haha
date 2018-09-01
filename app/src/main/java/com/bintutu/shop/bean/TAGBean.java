@@ -1,5 +1,7 @@
 package com.bintutu.shop.bean;
 
+import android.view.View;
+
 import java.util.List;
 
 public class TAGBean {
@@ -123,5 +125,6 @@ public class TAGBean {
         public void setIndex(int index) {
             this.index = index;
         }
+
     }
 }

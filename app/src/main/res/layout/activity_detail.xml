@@ -21,7 +21,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_22"
                 android:layout_marginTop="@dimen/dp_14"
-                android:text="足型数据详情"
+                android:text="足型数据详情 "
                 android:textColor="@color/text_color_c1"
                 android:textSize="@dimen/dp_16"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -31,9 +31,20 @@
                 android:id="@+id/detail_text_titletime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/dp_22"
-                android:text="数据采集日期 2018-01-23"
+                android:text="(数据采集日期 2018-01-23)"
                 android:textColor="@color/text_color_c9"
+                android:textSize="@dimen/dp_11"
+                app:layout_constraintBottom_toBottomOf="@+id/detail_text_title"
+                app:layout_constraintLeft_toRightOf="@+id/detail_text_title"
+                app:layout_constraintTop_toTopOf="@+id/detail_text_title" />
+
+            <Button
+                android:id="@+id/detail_but_delete"
+                android:layout_width="@dimen/dp_14"
+                android:layout_height="@dimen/dp_14"
+                android:background="@mipmap/trash"
+                android:layout_marginRight="@dimen/dp_22"
+                android:textColor="@color/detail_but_text_cor"
                 android:textSize="@dimen/dp_11"
                 app:layout_constraintBottom_toBottomOf="@+id/detail_text_title"
                 app:layout_constraintRight_toRightOf="parent"
@@ -121,21 +132,11 @@
                     android:id="@+id/detail_but_right"
                     android:layout_width="@dimen/dp_68"
                     android:layout_height="@dimen/dp_23"
-                    android:layout_marginRight="@dimen/dp_36"
                     android:background="@drawable/detail_but_bg"
                     android:text="右脚"
                     android:textColor="@color/detail_but_text_cor"
                     android:textSize="@dimen/dp_11" />
 
-
-                <Button
-                    android:id="@+id/detail_but_delete"
-                    android:layout_width="@dimen/dp_68"
-                    android:layout_height="@dimen/dp_23"
-                    android:background="@drawable/detail_but_bg"
-                    android:text="清除"
-                    android:textColor="@color/detail_but_text_cor"
-                    android:textSize="@dimen/dp_11" />
 
             </LinearLayout>
 

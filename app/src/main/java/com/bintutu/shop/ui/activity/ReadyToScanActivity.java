@@ -98,7 +98,8 @@ public class ReadyToScanActivity extends BaseActivity {
         readyButStartscan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startScan();
+                //startScan();
+                startActivity(new Intent(ReadyToScanActivity.this,GifActivity.class));
 
             }
         });

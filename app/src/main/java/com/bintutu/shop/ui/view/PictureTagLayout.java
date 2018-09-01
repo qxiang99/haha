@@ -19,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bintutu.shop.R;
+import com.bintutu.shop.bean.FootTagBean;
 import com.bintutu.shop.bean.TAGBean;
 import com.bintutu.shop.utils.ConfigManager;
 import com.bintutu.shop.utils.DebugLog;
@@ -93,9 +94,9 @@ public class PictureTagLayout extends RelativeLayout implements OnTouchListener{
         View view =  LayoutInflater.from(mContext).inflate(R.layout.layout_point, this, false);
         ImageView imageView = (ImageView) view.findViewById(R.id.imgPoint);
         TextView textPoint = (TextView) view.findViewById(R.id.textPoint);
-        int tag = ConfigManager.Device.getTag();
-        textPoint.setText(tag+"");
-        ConfigManager.Device.setTag((tag+1));
+       // int tag = ConfigManager.Device.getTag();
+       // textPoint.setText(tag+"");
+       // ConfigManager.Device.setTag((tag+1));
         LayoutParams params=new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
         int inDw = imageView.getBackground().getIntrinsicWidth();
         int inDh = imageView.getBackground().getIntrinsicHeight();
@@ -122,7 +123,7 @@ public class PictureTagLayout extends RelativeLayout implements OnTouchListener{
         detailListBean.setY(y);
         detailListBean.setPageX(pagex);
         detailListBean.setPageY(pagey);
-        detailListBean.setIndex(tag);
+      //  detailListBean.setIndex(tag);
         dElList.add(detailListBean);
 
         if (mSetClickListener!=null){
@@ -149,7 +150,7 @@ public class PictureTagLayout extends RelativeLayout implements OnTouchListener{
 
 
     public interface OnSetClickListener {
-        void onSetData(Bitmap viewBitmap, TAGBean tagBean);
+        void onSetData(Bitmap viewBitmap,  TAGBean tagBean);
     }
 
     private void SetTagbaen() {

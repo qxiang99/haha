@@ -10,8 +10,11 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.MediaController;
 import android.widget.Toast;
 
+import com.bintutu.shop.R;
 import com.bintutu.shop.bean.BaseResponse;
 import com.bintutu.shop.bean.LoginBean;
 import com.bintutu.shop.okgo.Convert;
@@ -26,16 +29,43 @@ import com.lzy.okgo.request.base.Request;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import pl.droidsonroids.gif.GifDrawable;
+import pl.droidsonroids.gif.GifImageView;
+import pl.droidsonroids.gif.MultiCallback;
 
 public class TextActivity extends AppCompatActivity {
 
+    @BindView(R.id.text_image)
+    GifImageView image;
+
+    private GifDrawable gifDrawableThree;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_text);
+        ButterKnife.bind(this);
+        MultiCallback multiCallback = new MultiCallback();
 
-        setData();
+        try {
+            gifDrawableThree = new GifDrawable(getResources(), R.drawable.scan_face);
+            image.setImageDrawable(gifDrawableThree);
+
+            multiCallback.addView(image);
+
+            gifDrawableThree.setCallback(multiCallback);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
     }
 
     private void setData() {

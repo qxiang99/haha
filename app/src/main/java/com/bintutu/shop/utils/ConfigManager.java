@@ -137,13 +137,13 @@ public class ConfigManager {
             commitString(getConfigFile(), SHOPPHONE, phone);
         }
 
-        public static int getTag() {
+       /* public static int getTag() {
             return getInt(getConfigFile(), DETAILTAG, 0);
         }
 
         public static void setTag(int tag) {
             commitInt(getConfigFile(), DETAILTAG, tag);
-        }
+        }*/
 
     }
 

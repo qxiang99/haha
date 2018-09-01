@@ -11,6 +11,7 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.Toast;
 
@@ -20,6 +21,8 @@ import com.bintutu.shop.bean.LoginBean;
 import com.bintutu.shop.okgo.Convert;
 import com.bintutu.shop.okgo.JsonCallback;
 import com.bintutu.shop.utils.AppConstant;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.FileCallback;
 import com.lzy.okgo.model.Progress;
@@ -41,7 +44,7 @@ import pl.droidsonroids.gif.MultiCallback;
 public class TextActivity extends AppCompatActivity {
 
     @BindView(R.id.text_image)
-    GifImageView image;
+    ImageView image;
     private GifDrawable gifDrawableThree;
 
     @Override
@@ -49,22 +52,22 @@ public class TextActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_text);
         ButterKnife.bind(this);
-        MultiCallback multiCallback = new MultiCallback();
 
-        try {
+
+      /* try {
             gifDrawableThree = new GifDrawable(getResources(), R.drawable.scan_face);
             image.setImageDrawable(gifDrawableThree);
 
-            multiCallback.addView(image);
-
-            gifDrawableThree.setCallback(multiCallback);
+           gifDrawableThree.start();
 
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
 
+       // Glide.with(this).load(R.drawable.scan_face).asGif().into(image);
+       //Glide.with(this).load(R.drawable.scan_face).asGif().dontAnimate().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(image);
 
-
+       // Glide.with(this).load("").dontAnimate().centerCrop().apply(RequestOptions.bitmapTransform(new GlideRoundTransformation(radius))).into(imageView);
     }
 
     private void setData() {

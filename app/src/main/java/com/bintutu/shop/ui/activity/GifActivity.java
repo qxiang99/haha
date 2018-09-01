@@ -25,17 +25,6 @@ public class GifActivity extends Activity {
 
     @BindView(R.id.imageface)
     GifImageView imageface;
-    @BindView(R.id.imageleft)
-    GifImageView imageleft;
-    @BindView(R.id.imageright)
-    GifImageView imageright;
-    @BindView(R.id.imagebottom)
-    GifImageView imagebottom;
-    private GifDrawable gifDrawable;
-    private GifDrawable gifDrawableface;
-    private GifDrawable gifDrawableleft;
-    private GifDrawable gifDrawableright;
-    private GifDrawable gifDrawablebottom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,19 +35,6 @@ public class GifActivity extends Activity {
     }
 
     protected void init() {
-
-        try {
-            gifDrawableface = new GifDrawable(getResources(), R.drawable.scan_face);
-            imageface.setImageDrawable(gifDrawableface);
-            gifDrawableleft = new GifDrawable(getResources(), R.drawable.scan_left);
-            imageleft.setImageDrawable(gifDrawableleft);
-            gifDrawableright = new GifDrawable(getResources(), R.drawable.scan_right);
-            imageright.setImageDrawable(gifDrawableright);
-            gifDrawablebottom = new GifDrawable(getResources(), R.drawable.scan_bottom);
-            imagebottom.setImageDrawable(gifDrawablebottom);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
         final int[] count = {0};
 
@@ -73,7 +49,7 @@ public class GifActivity extends Activity {
                 message.what = count[0];
                 mHandler.sendMessage(message);
             }
-        }, 5000, 5000);
+        }, 100, 1000);
         startface();
     }
 
@@ -81,80 +57,74 @@ public class GifActivity extends Activity {
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            int type = msg.what % 4;
+            int type = msg.what % 80;
             Log.e("mHandler", "...." + msg.what + "...." + type);
 
-            if (type == 0) {
+            if (type >0&&type<21) {
                 startface();
             }
-            if (type == 1) {
+            if (type >20&&type<41) {
                 startleft();
             }
-            if (type == 2) {
+            if (type >40&&type<61) {
                 startright();
             }
-            if (type == 3) {
+            if (type >60&&type<81) {
                 startbottom();
             }
         }
     };
 
     private void startface() {
-
-        if (gifDrawablebottom != null) {
-            gifDrawablebottom.stop();
+        try {
+            GifDrawable gifDrawableface = new GifDrawable(getResources(), R.drawable.scan_face);
+            imageface.setImageDrawable(gifDrawableface);
+            gifDrawableface.setLoopCount(1);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        imageface.setVisibility(View.VISIBLE);
-        imageleft.setVisibility(View.GONE);
-        imageright.setVisibility(View.GONE);
-        imagebottom.setVisibility(View.GONE);
-        gifDrawableface.start();
-
 
     }
 
     private void startleft() {
-
-        if (gifDrawableface != null) {
-            gifDrawableface.stop();
+        try {
+            GifDrawable gifDrawableleft = new GifDrawable(getResources(), R.drawable.scan_left);
+            imageface.setImageDrawable(gifDrawableleft);
+            gifDrawableleft.setLoopCount(1);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        imageface.setVisibility(View.GONE);
-        imageleft.setVisibility(View.VISIBLE);
-        imageright.setVisibility(View.GONE);
-        imagebottom.setVisibility(View.GONE);
-        gifDrawableleft.start();
     }
 
     private void startright() {
-
-        if (gifDrawableleft != null) {
-            gifDrawableleft.stop();
+        try {
+            GifDrawable gifDrawableright = new GifDrawable(getResources(), R.drawable.scan_right);
+            imageface.setImageDrawable(gifDrawableright);
+            gifDrawableright.setLoopCount(1);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        imageface.setVisibility(View.GONE);
-        imageleft.setVisibility(View.GONE);
-        imageright.setVisibility(View.VISIBLE);
-        imagebottom.setVisibility(View.GONE);
-        gifDrawableright.start();
+
     }
 
     private void startbottom() {
-
-        if (gifDrawableright != null) {
-            gifDrawableright.stop();
+        try {
+            GifDrawable gifDrawablebottom = new GifDrawable(getResources(), R.drawable.scan_bottom);
+            imageface.setImageDrawable(gifDrawablebottom);
+            gifDrawablebottom.setLoopCount(1);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+    }
+
+   /* private void ImageGone(GifImageView image) {
         imageface.setVisibility(View.GONE);
         imageleft.setVisibility(View.GONE);
         imageright.setVisibility(View.GONE);
-        imagebottom.setVisibility(View.VISIBLE);
-        gifDrawablebottom.start();
-    }
+        imagebottom.setVisibility(View.GONE);
+        image.setVisibility(View.VISIBLE);
+    }*/
 
-
-    public void StopGif() {
-        if (gifDrawable != null) {
-            gifDrawable.stop();
-        }
-    }
 
 
 }

@@ -42,7 +42,6 @@ public class TextActivity extends AppCompatActivity {
 
     @BindView(R.id.text_image)
     GifImageView image;
-
     private GifDrawable gifDrawableThree;
 
     @Override

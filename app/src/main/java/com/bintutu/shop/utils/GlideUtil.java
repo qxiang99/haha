@@ -39,7 +39,22 @@ public class GlideUtil {
             public void onResourceReady(byte[] bytes, GlideAnimation<? super byte[]> glideAnimation) {
                 try {
 
-                    savaBitmap(context,name, bytes);
+                    savaBitmap(context,"/Bintutu",name, bytes);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+    }
+
+    public static void load(final Context context, String url, final String name) {
+        Glide.with(context).load(url).asBitmap().toBytes().into(new SimpleTarget<byte[]>() {
+            @Override
+            public void onResourceReady(byte[] bytes, GlideAnimation<? super byte[]> glideAnimation) {
+                try {
+
+                    savaBitmap(context,"/Bintutuflow",name, bytes);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -50,16 +65,13 @@ public class GlideUtil {
 
 
     // 保存图片到手机指定目录
-    public static void savaBitmap(Context context, String imgName, byte[] bytes) {
+    public static void savaBitmap(Context context, String file ,String imgName, byte[] bytes) {
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             String filePath = null;
             FileOutputStream fos = null;
             try {
-                filePath = Environment.getExternalStorageDirectory().getCanonicalPath() + "/Bintutu";
+                filePath = Environment.getExternalStorageDirectory().getCanonicalPath() + file;
                 File imgDir = new File(filePath);
-                if (imgDir.exists()) {
-                    imgDir.delete();
-                }
                 if (!imgDir.exists()) {
                     imgDir.mkdirs();
                 }

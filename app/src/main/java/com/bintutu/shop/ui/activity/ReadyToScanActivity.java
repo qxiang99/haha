@@ -1,8 +1,11 @@
 package com.bintutu.shop.ui.activity;
 
 import android.app.Application;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.constraint.ConstraintLayout;
 import android.view.KeyEvent;
 import android.view.View;
@@ -25,6 +28,7 @@ import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
 
+import java.io.File;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -40,6 +44,8 @@ public class ReadyToScanActivity extends BaseActivity {
     Button readyButHome;
     @BindView(R.id.ready_but_startscan)
     Button readyButStartscan;
+    @BindView(R.id.ready_but_file)
+    Button readyButFile;
     private String scanNametime;
     private Gson gson;
     private GifDailog gifDailog;
@@ -110,10 +116,28 @@ public class ReadyToScanActivity extends BaseActivity {
 
             }
         });
+        readyButFile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startFile();
+            }
+        });
 
     }
 
+    private void startFile() {
 
+
+        //getUrl()获取文件目录，例如返回值为/storage/sdcard1/MIUI/music/mp3_hd/单色冰淇凌_单色凌.mp3
+        File file = new File(Environment.getExternalStorageDirectory() + "/BintutuImage");
+//获取父目录
+        File parentFlie = new File(file.getParent());
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setDataAndType(Uri.fromFile(parentFlie), "*/*");
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
 
 
     @Override

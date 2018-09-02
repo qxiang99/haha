@@ -16,7 +16,7 @@
     <style name="AppTheme.Loading" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="android:windowFullscreen">true</item>
-        <item name="android:windowBackground">@mipmap/bg</item>
+        <item name="android:windowBackground">@mipmap/shoplogin_bg</item>
     </style>
 
     <!--Dialog-->

@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -35,14 +38,20 @@ import com.bintutu.shop.utils.AppConstant;
 import com.bintutu.shop.utils.ConfigManager;
 import com.bintutu.shop.utils.Constant;
 import com.bintutu.shop.utils.DebugLog;
+import com.bintutu.shop.utils.GlideUtil;
+import com.bintutu.shop.utils.NetworkUtil;
+import com.bintutu.shop.utils.Utils;
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
 
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -70,6 +79,7 @@ public class MainActivity extends BaseActivity {
     List<String> DetailList = new ArrayList<>();
     private Gson gson;
     private SmoothLinearLayoutManager layoutManager;
+    private String imagefile;
 
     @Override
     protected void initContentView(Bundle savedInstanceState) {
@@ -83,12 +93,27 @@ public class MainActivity extends BaseActivity {
         wifiDailog = new WifiDailog(MainActivity.this);
         commanDailog = new CommanDailog(MainActivity.this);
 
-        mMainTextAuthorization.setText("授权门店:"+ConfigManager.Device.getShopID());
+        mMainTextAuthorization.setText("授权门店:" + ConfigManager.Device.getShopID());
+        try {
+            imagefile = Environment.getExternalStorageDirectory().getCanonicalPath() + "/Bintutuflow";
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        //layoutManager = new SmoothLinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-       //mReCverFlow.setLayoutManager(layoutManager);
+        DebugLog.e("printStackTrace",""+NetworkUtil.isNetworkAvailable(this));
 
-        initData();
+        if (NetworkUtil.isNetworkAvailable(this)) {
+            initData();
+        }else {
+            DetailList.clear();
+            List<String> imageliat = Utils.getAllFiles(imagefile, "jpg");
+            if (imageliat != null && imageliat.size() > 0) {
+                DetailList.addAll(imageliat);
+                CoverFlowAdapter coverFlowAdapter = new CoverFlowAdapter(MainActivity.this, DetailList);
+                mReCverFlow.setAdapter(coverFlowAdapter);
+            }
+        }
+
     }
 
 
@@ -201,12 +226,12 @@ public class MainActivity extends BaseActivity {
                     public void onSuccess(Response<BaseResponse<String>> response) {
 
                         CommandBean commandBean = gson.fromJson(String.valueOf(response.body()), CommandBean.class);
-                        if (commandBean!=null&&commandBean.getCode()==0){
+                        if (commandBean != null && commandBean.getCode() == 0) {
 
                             Intent intent = new Intent(MainActivity.this, WebActivity.class);
                             intent.putExtra(Constant.ItentKey1, AppConstant.WEBVIEW_EXHIBITIONROOM);
                             startActivity(intent);
-                        }else {
+                        } else {
                             ShowToast("口令错误");
                         }
 
@@ -232,29 +257,12 @@ public class MainActivity extends BaseActivity {
                             Log.e("BaseResponse", datailImageBean.getResult().size() + ".....");
                             for (DatailImageBean.ResultBean resultBean : datailImageBean.getResult()) {
                                 DetailList.add("http://resources_test.bintutu.com/merchandise_img/homepage_img" + resultBean.getImg());
-                                mReCverFlow.setAdapter(new CoverFlowAdapter(MainActivity.this, DetailList));
-
-
-                               /* mReCverFlow.addOnScrollListener(new RecyclerView.OnScrollListener() {
-                                    @Override
-                                    public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                                        if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                                            int i = layoutManager.findFirstVisibleItemPosition() % DetailList.size();
-
-                                        }
-                                    }
-                                });*/
-                                ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
-                                scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Log.e("initData","...33333333333333333333333...");
-                                        mReCverFlow.smoothScrollToPosition(mReCverFlow.getCoverFlowLayout().getCenterPosition() + 1);
-                                    }
-                                }, 2000, 2000, TimeUnit.MILLISECONDS);
-
-
+                                CoverFlowAdapter coverFlowAdapter = new CoverFlowAdapter(MainActivity.this, DetailList);
+                                mReCverFlow.setAdapter(coverFlowAdapter);
+                                GlideUtil.load(MainActivity.this, "http://resources_test.bintutu.com/merchandise_img/homepage_img" + resultBean.getImg(), resultBean.getImg());
                             }
+                            mReCverFlow.scrollToPosition(DetailList.size() * 10);
+                            startRecerflow();
 
                         }
 
@@ -264,13 +272,12 @@ public class MainActivity extends BaseActivity {
                     @Override
                     public void onError(Response<BaseResponse<String>> response) {
 
+
                     }
                 });
 
 
-
-
-        //        mList.setFlatFlow(true); //平面滚动
+        //
 //        mList.setGreyItem(true); //设置灰度渐变
 //        mList.setAlphaItem(true); //设置半透渐变
 
@@ -281,6 +288,29 @@ public class MainActivity extends BaseActivity {
             }
         });
     }
+
+    private void startRecerflow() {
+        final int[] count = {DetailList.size() * 10};
+        Timer timerRecerflow = new Timer();
+        timerRecerflow.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                count[0] = 1 + count[0];
+                Message message = new Message();
+                message.what = count[0];
+                mHandler.sendMessage(message);
+            }
+        }, 100, 3000);
+    }
+
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            int type = msg.what;
+            Log.e("handleMessage", "..." + type);
+            mReCverFlow.getCoverFlowLayout().scrollToPosition(type);
+        }
+    };
 
 
     /**

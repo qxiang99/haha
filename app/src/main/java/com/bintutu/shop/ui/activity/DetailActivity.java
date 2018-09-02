@@ -1,11 +1,14 @@
 package com.bintutu.shop.ui.activity;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -167,7 +170,7 @@ public class DetailActivity extends BaseActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH：mm：ss");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date(System.currentTimeMillis());
         String scanNametime = simpleDateFormat.format(date);
         mDetailTextTime.setText("(数据采集日期 " + scanNametime + ")");
@@ -845,5 +848,37 @@ public class DetailActivity extends BaseActivity {
 
     }
 
+  /*  private void ShowDailog(final String fileimage) {
+        //    通过AlertDialog.Builder这个类来实例化我们的一个AlertDialog的对象
+        final AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
+        //    设置Title的图标
+        builder.setIcon(R.mipmap.logo);
+        //    设置Title的内容
+        builder.setTitle("提示");
+        //    设置Content来显示一个信息
+        builder.setMessage("是否打开文件");
+        //    设置一个PositiveButton
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+
+
+
+            }
+        });
+        //    设置一个NegativeButton
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        //    显示出该对话框
+        final AlertDialog dia =builder.show();
+    }
+
+    *//**//*
+*/
 
 }

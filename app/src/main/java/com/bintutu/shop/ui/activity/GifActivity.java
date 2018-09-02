@@ -158,7 +158,7 @@ public class GifActivity extends Activity {
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            int type = msg.what % 80;
+            int type = msg.what;
 
             if (type >0&&type<21) {
                 startface();
@@ -171,6 +171,9 @@ public class GifActivity extends Activity {
             }
             if (type >60&&type<81) {
                 startbottom();
+            }
+            if (type >81) {
+                startface();
             }
         }
     };

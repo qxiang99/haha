@@ -58,6 +58,10 @@ public class CoverFlowAdapter extends RecyclerView.Adapter<CoverFlowAdapter.View
         return Integer.MAX_VALUE;
     }
 
+    public void setItem(int item) {
+
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder {
         ImageView img;
         public ViewHolder(View itemView) {

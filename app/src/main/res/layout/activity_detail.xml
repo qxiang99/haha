@@ -15,7 +15,7 @@
         <android.support.constraint.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white">
+            android:background="@color/bg_color_tree">
 
             <TextView
                 android:id="@+id/detail_text_title"
@@ -228,6 +228,7 @@
                     android:layout_width="0px"
                     android:layout_height="match_parent"
                     android:layout_marginRight="@dimen/dp_23"
+                    android:scaleType="fitCenter"
                     android:layout_weight="1" />
 
                 <ImageView
@@ -235,6 +236,7 @@
                     android:layout_width="0px"
                     android:layout_height="match_parent"
                     android:layout_marginRight="@dimen/dp_23"
+                    android:scaleType="fitCenter"
                     android:layout_weight="1" />
 
                 <ImageView
@@ -242,12 +244,14 @@
                     android:layout_width="0px"
                     android:layout_height="match_parent"
                     android:layout_marginRight="@dimen/dp_23"
+                    android:scaleType="fitCenter"
                     android:layout_weight="1" />
 
                 <ImageView
                     android:id="@+id/detail_image_plantarright"
                     android:layout_width="0px"
                     android:layout_height="match_parent"
+                    android:scaleType="fitCenter"
                     android:layout_weight="1" />
             </LinearLayout>
 

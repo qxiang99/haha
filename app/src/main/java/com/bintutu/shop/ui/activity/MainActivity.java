@@ -48,7 +48,9 @@ import com.lzy.okgo.model.Response;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -80,6 +82,7 @@ public class MainActivity extends BaseActivity {
     private Gson gson;
     private SmoothLinearLayoutManager layoutManager;
     private String imagefile;
+    private Timer timerRecerflow;
 
     @Override
     protected void initContentView(Bundle savedInstanceState) {
@@ -101,16 +104,20 @@ public class MainActivity extends BaseActivity {
         }
 
         DebugLog.e("printStackTrace",""+NetworkUtil.isNetworkAvailable(this));
-
+        mReCverFlow.setVisibility(View.GONE);
         if (NetworkUtil.isNetworkAvailable(this)) {
             initData();
         }else {
             DetailList.clear();
             List<String> imageliat = Utils.getAllFiles(imagefile, "jpg");
             if (imageliat != null && imageliat.size() > 0) {
+                mReCverFlow.setVisibility(View.VISIBLE);
                 DetailList.addAll(imageliat);
                 CoverFlowAdapter coverFlowAdapter = new CoverFlowAdapter(MainActivity.this, DetailList);
                 mReCverFlow.setAdapter(coverFlowAdapter);
+            }else {
+                mReCverFlow.setVisibility(View.GONE);
+
             }
         }
 
@@ -254,15 +261,22 @@ public class MainActivity extends BaseActivity {
 
                         DatailImageBean datailImageBean = gson.fromJson(String.valueOf(response.body()), DatailImageBean.class);
                         if (datailImageBean.getResult() != null) {
+                            mReCverFlow.setVisibility(View.VISIBLE);
                             Log.e("BaseResponse", datailImageBean.getResult().size() + ".....");
                             for (DatailImageBean.ResultBean resultBean : datailImageBean.getResult()) {
                                 DetailList.add("http://resources_test.bintutu.com/merchandise_img/homepage_img" + resultBean.getImg());
                                 CoverFlowAdapter coverFlowAdapter = new CoverFlowAdapter(MainActivity.this, DetailList);
                                 mReCverFlow.setAdapter(coverFlowAdapter);
-                                GlideUtil.load(MainActivity.this, "http://resources_test.bintutu.com/merchandise_img/homepage_img" + resultBean.getImg(), resultBean.getImg());
+                                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                Date date = new Date(System.currentTimeMillis());
+                                String scanNametime = simpleDateFormat.format(date);
+                                GlideUtil.load(MainActivity.this, "http://resources_test.bintutu.com/merchandise_img/homepage_img" + resultBean.getImg(), scanNametime+".jpg");
                             }
                             mReCverFlow.scrollToPosition(DetailList.size() * 10);
                             startRecerflow();
+
+                        }else {
+                            mReCverFlow.setVisibility(View.GONE);
 
                         }
 
@@ -291,7 +305,7 @@ public class MainActivity extends BaseActivity {
 
     private void startRecerflow() {
         final int[] count = {DetailList.size() * 10};
-        Timer timerRecerflow = new Timer();
+        timerRecerflow = new Timer();
         timerRecerflow.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -307,8 +321,12 @@ public class MainActivity extends BaseActivity {
         @Override
         public void handleMessage(Message msg) {
             int type = msg.what;
-            Log.e("handleMessage", "..." + type);
-            mReCverFlow.getCoverFlowLayout().scrollToPosition(type);
+          if (mReCverFlow!=null&DetailList!=null&&DetailList.size()>0){
+              mReCverFlow.getCoverFlowLayout().scrollToPosition(type);
+          }else {
+              timerRecerflow.cancel();
+          }
+
         }
     };
 

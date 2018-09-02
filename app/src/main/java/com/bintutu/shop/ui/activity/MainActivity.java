@@ -104,21 +104,22 @@ public class MainActivity extends BaseActivity {
         }
 
         DebugLog.e("printStackTrace",""+NetworkUtil.isNetworkAvailable(this));
-        mReCverFlow.setVisibility(View.GONE);
+        DetailList.clear();
+        List<String> imageliat = Utils.getAllFiles(imagefile, "jpg");
+        if (imageliat != null && imageliat.size() > 0) {
+            mReCverFlow.setVisibility(View.VISIBLE);
+            DetailList.addAll(imageliat);
+            CoverFlowAdapter coverFlowAdapter = new CoverFlowAdapter(MainActivity.this, DetailList);
+            mReCverFlow.setAdapter(coverFlowAdapter);
+        }else {
+            mReCverFlow.setVisibility(View.GONE);
+
+        }
         if (NetworkUtil.isNetworkAvailable(this)) {
             initData();
         }else {
-            DetailList.clear();
-            List<String> imageliat = Utils.getAllFiles(imagefile, "jpg");
-            if (imageliat != null && imageliat.size() > 0) {
-                mReCverFlow.setVisibility(View.VISIBLE);
-                DetailList.addAll(imageliat);
-                CoverFlowAdapter coverFlowAdapter = new CoverFlowAdapter(MainActivity.this, DetailList);
-                mReCverFlow.setAdapter(coverFlowAdapter);
-            }else {
-                mReCverFlow.setVisibility(View.GONE);
 
-            }
+
         }
 
     }

@@ -61,7 +61,7 @@
 
         <Button
             android:id="@+id/ready_but_startscan"
-            android:layout_width="@dimen/dp_100"
+            android:layout_width="@dimen/dp_95"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/dp_1"
             android:layout_marginBottom="@dimen/dp_2"

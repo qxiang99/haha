@@ -8,8 +8,9 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission
+        android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
         tools:ignore="ProtectedPermissions" />
 
     <application
@@ -36,7 +37,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTop"
             android:screenOrientation="landscape"
-            android:windowSoftInputMode="adjustPan|stateHidden" >
+            android:windowSoftInputMode="adjustPan|stateHidden">
 
         </activity>
         <!--首页-->
@@ -45,16 +46,16 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask"
             android:screenOrientation="landscape"
-            android:windowSoftInputMode="adjustPan|stateHidden" >
+            android:windowSoftInputMode="adjustPan|stateHidden">
 
-           </activity>
+        </activity>
         <!--Web-->
         <activity
             android:name=".ui.activity.WebActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTop"
             android:screenOrientation="landscape"
-            android:windowSoftInputMode="adjustPan|stateHidden" >
+            android:windowSoftInputMode="adjustPan|stateHidden">
 
         </activity>
         <!--准备扫描-->
@@ -62,7 +63,7 @@
             android:name=".ui.activity.ReadyToScanActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTop"
-            android:screenOrientation="landscape" >
+            android:screenOrientation="landscape">
 
         </activity>
         <!--gif动画页-->
@@ -79,7 +80,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTop"
             android:screenOrientation="landscape"
-            android:windowSoftInputMode="adjustPan|stateHidden" >
+            android:windowSoftInputMode="adjustPan|stateHidden">
 
         </activity>
         <!--上传成功页-->
@@ -88,15 +89,14 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTop"
             android:screenOrientation="landscape"
-            android:windowSoftInputMode="adjustPan|stateHidden" >
-        </activity>
-<activity android:name=".ui.activity.TextActivity">
+            android:windowSoftInputMode="adjustPan|stateHidden"></activity>
+        <activity android:name=".ui.activity.TextActivity">
 
-</activity>
+        </activity>
 
         <service
             android:name=".ui.server.UploadServer"
-            android:exported="false"/>
+            android:exported="false" />
 
     </application>
 

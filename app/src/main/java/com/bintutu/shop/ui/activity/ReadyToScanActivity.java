@@ -45,7 +45,7 @@ public class ReadyToScanActivity extends BaseActivity {
     private GifDailog gifDailog;
     private int retry;
     private Timer timer;
-
+    private boolean scangif =false;
 
     @Override
     protected void initContentView(Bundle savedInstanceState) {
@@ -63,8 +63,12 @@ public class ReadyToScanActivity extends BaseActivity {
                     public void onSuccess(Response<BaseResponse<String>> response) {
                         DebugLog.e("......" + response.body());
                         if (response.body()!=null){
+                            scangif=true;
+                            readyButStartscan.setBackgroundResource(R.mipmap.start_scan);
                             ConfigManager.Device.setEquipmentID(String.valueOf(response.body()));
                         }else {
+                            scangif = false;
+
                             ShowToast("设备不在线！！");
                         }
                     }
@@ -82,7 +86,6 @@ public class ReadyToScanActivity extends BaseActivity {
         readyButReturn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(ReadyToScanActivity.this, MainActivity.class));
                 finish();
             }
         });
@@ -98,99 +101,37 @@ public class ReadyToScanActivity extends BaseActivity {
         readyButStartscan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //startScan();
-                startActivity(new Intent(ReadyToScanActivity.this,GifActivity.class));
+                if (scangif){
+                    Intent intent = new Intent(ReadyToScanActivity.this, GifActivity.class);
+                    startActivityForResult(intent,300);
+                }else {
+                    ShowToast("设备不在线！！");
+                }
 
             }
         });
 
     }
 
-    private void startScan() {
-        retry = 0;
-        //开启动画
-        gifDailog.show();
-        gifDailog.StartGif();
-        //发送扫描命令加循环请求
-        RequestScan();
-    }
-
-    private void RequestScan() {
-        //发出扫描命令
-        ScanPost();
-        //循环请求结果
-        timer = new Timer();
-        timer.schedule(new TimerTask() {
-            public void run() {
-                requestData();
-            }
-        }, 5000,10000);
-    }
-
-    private void ScanPost() {
-        scanNametime = System.currentTimeMillis() + "";
-        OkGo.<BaseResponse<String>>post(AppConstant.BEGIN_SCAN)
-                .params("id", scanNametime)//名称
-                .params("begin", "1")
-                .execute(new JsonCallback<BaseResponse<String>>() {
-                    @Override
-                    public void onSuccess(Response<BaseResponse<String>> response) {
-
-                    }
-
-                    @Override
-                    public void onError(Response<BaseResponse<String>> response) {
-                    }
-                });
 
 
-    }
 
-
-    private void requestData() {
-        //AppConstant.REQUEST_DATA
-        OkGo.<BaseResponse<String>>post(AppConstant.REQUEST_DATA)
-                .params("id", scanNametime)
-                .execute(new JsonCallback<BaseResponse<String>>() {
-                    @Override
-                    public void onSuccess(Response<BaseResponse<String>> response) {
-                        ScanBean scanBean = gson.fromJson(String.valueOf(response.body()), ScanBean.class);
-                        DebugLog.e(scanBean.getResult()+"。。。。。1。。。。。");
-                        if (scanBean.getResult() == 1) {
-                            timer.cancel();
-                            gifDailog.StopGif();
-                            gifDailog.dismiss();
-                            Intent intent = new Intent(ReadyToScanActivity.this, DetailActivity.class);
-                            intent.putExtra(Constant.ItentKey1, scanNametime);
-                            startActivity(intent);
-                        } else if (scanBean.getResult() == 0) {
-                            timer.cancel();
-                            retry++;
-                            if (retry<2){
-                                //发送扫描命令加循环请求
-                                RequestScan();
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onError(Response<BaseResponse<String>> response) {
-                        timer.cancel();
-                    }
-                });
-
-
-    }
-
-    //对返回键进行监听
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-            startActivity(new Intent(ReadyToScanActivity.this, MainActivity.class));
-            finish();
-            return true;
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        DebugLog.e("TAG", "result."+resultCode);
+        if (resultCode==200){
+            String result = data.getExtras().getString(Constant.ItentKey1);//得到新Activity 关闭后返回的数据
+
+            Intent intent = new Intent(ReadyToScanActivity.this, DetailActivity.class);
+            intent.putExtra(Constant.ItentKey1, result);
+            startActivity(intent);
+
+        }else if (resultCode==500){
+                ShowToast("扫描出错");
         }
-        return super.onKeyDown(keyCode, event);
+
+
     }
+
 
 }

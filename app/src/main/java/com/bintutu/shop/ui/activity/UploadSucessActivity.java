@@ -52,7 +52,7 @@ public class UploadSucessActivity extends BaseActivity {
         sucessButChoose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(UploadSucessActivity.this, MainActivity.class);
+                Intent intent = new Intent(UploadSucessActivity.this, WebActivity.class);
                 if (ConfigManager.Foot.getIdid()!=null&&!ConfigManager.Foot.getIdid().equals("")){
                     intent.putExtra(Constant.ItentKey1, AppConstant.WEBVIEW_CHOOSE(
                             ConfigManager.Foot.getCustomer_id(),

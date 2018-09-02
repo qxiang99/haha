@@ -1,13 +1,20 @@
 package com.bintutu.shop.ui.activity;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.util.ArrayMap;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
+import android.webkit.JsPromptResult;
+import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
@@ -26,7 +33,9 @@ import com.bintutu.shop.utils.Constant;
 import com.bintutu.shop.utils.DebugLog;
 import com.google.gson.Gson;
 
+import java.net.HttpCookie;
 import java.net.URLDecoder;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -44,7 +53,7 @@ public class WebActivity extends BaseActivity {
     protected void initContentView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_web);
     }
-
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void init() {
 
@@ -63,9 +72,7 @@ public class WebActivity extends BaseActivity {
 
 
         mWebView.setWebViewClient(new WebViewClient());
-        mWebView.setInitialScale(10);//为10%，最小缩放等级
-        mWebView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-
+        mWebView.setInitialScale(10);//为10%，最小缩放等
         mWebView.setHorizontalScrollBarEnabled(false);//水平不显示
         mWebView.setVerticalScrollBarEnabled(false); //垂直不显示
         //mWebView.setInitialScale(10);//为10%，最小缩放等级
@@ -86,7 +93,7 @@ public class WebActivity extends BaseActivity {
             settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         }*/
         // 开启DOM缓存。
-        settings.setDomStorageEnabled(true);
+        //settings.setDomStorageEnabled(true);
        /* settings.setDatabaseEnabled(true);
         settings.setDatabasePath(getCacheDir().getAbsolutePath());*/
         //settings.setBuiltInZoomControls(true);
@@ -98,6 +105,7 @@ public class WebActivity extends BaseActivity {
                 url = url + "?token=" + ConfigManager.User.getToken();
             }
         }*/
+        syncCookie(WebActivity.this,getDomain(url));
         mWebView.loadUrl(url);
         DebugLog.e("新连接：" + url);
 
@@ -118,10 +126,12 @@ public class WebActivity extends BaseActivity {
         mWebView.setWebViewClient(new WebViewClient() {
             @Override
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+                DebugLog.e("shouldOverrideUrlLoading");
             }
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                DebugLog.e("shouldOverrideUrlLoading");
                 if (url.startsWith("bintutu://")) {
                     DebugLog.e(url + "");
                     Takeout(url);
@@ -131,13 +141,17 @@ public class WebActivity extends BaseActivity {
                 return true;
             }
 
+
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                DebugLog.e("shouldOverrideUrlLoading");
                 super.onPageStarted(view, url, favicon);
+
             }
 
             @Override
             public void onPageFinished(WebView view, String url) {
+                DebugLog.e("shouldOverrideUrlLoading");
                 super.onPageFinished(view, url);
             }
         });
@@ -152,15 +166,30 @@ public class WebActivity extends BaseActivity {
                     mWebProgressbar.setProgress(progress);//设置进度值
                 }
             }
+
+
+            @Override
+            public boolean onJsAlert(WebView view, String url, String message, final JsResult result) {
+                return true;
+            }
+
+            @Override
+            public boolean onJsConfirm(WebView view, String url, String message, JsResult result) {
+                return super.onJsConfirm(view, url, message, result);
+            }
+
+            @Override
+            public boolean onJsPrompt(WebView view, String url, String message, String defaultValue, JsPromptResult result) {
+                return super.onJsPrompt(view, url, message, defaultValue, result);
+            }
+
         });
 
-        findViewById(R.id.web_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(WebActivity.this, ReadyToScanActivity.class));
-                finish();
-            }
-        });
+
+
+
+
+
 
     }
 
@@ -185,6 +214,11 @@ public class WebActivity extends BaseActivity {
                 ConfigManager.Device.setShopPhone(webDataBean.getShop_phone());
             }
             startActivity(new Intent(WebActivity.this, ReadyToScanActivity.class));
+            finish();
+        }
+        if (url.startsWith("bintutu://home")) {
+
+            startActivity(new Intent(WebActivity.this, MainActivity.class));
             finish();
         }
         if (url.startsWith("bintutu://cookies")) {
@@ -245,4 +279,60 @@ public class WebActivity extends BaseActivity {
         }
         return queryStringMap;
     }
+
+
+    /**
+     * 获取URL的域名
+     */
+    private String getDomain(String url){
+        url = url.replace("http://", "").replace("https://", "");
+        if (url.contains("/")) {
+            url = url.substring(0, url.indexOf('/'));
+        }
+        return url;
+    }
+
+
+    /**
+     * 给WebView同步Cookie
+     *
+     * @param context 上下文
+     * @param url     可以使用[domain][host]
+     */
+    private void syncCookie(Context context, String url) {
+        CookieSyncManager.createInstance(context);
+        CookieManager cookieManager = CookieManager.getInstance();
+        cookieManager.setAcceptCookie(true);
+        cookieManager.removeSessionCookie();// 移除旧的[可以省略]
+
+        String value = "shop_id" + "=" + ConfigManager.Device.getShopID();
+        cookieManager.setCookie(url, value);
+
+        String value2 = "shop_phone" + "=" + ConfigManager.Device.getShopPhone();
+        cookieManager.setCookie(url, value2);
+
+        String value3 = "stronglogin" + "=" + "1";
+        cookieManager.setCookie(url, value3);
+
+        CookieSyncManager.getInstance().sync();// To get instant sync instead of waiting for the timer to trigger, the host can call this.
+    }
+
+/*
+    //对返回键进行监听
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (event.getAction() == KeyEvent.ACTION_DOWN) {
+            if (keyCode == KeyEvent.KEYCODE_BACK && mWebView.canGoBack()) {  //表示按返回键
+
+                mWebView.goBack();   //后退
+
+                //webview.goForward();//前进
+                return true;    //已处理
+            }
+        }
+        return false;
+    }*/
+
+
+
 }

@@ -6,6 +6,7 @@
     android:focusableInTouchMode="true">
 
     <ScrollView
+        android:id="@+id/detail_all_scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:overScrollMode="never"
@@ -13,7 +14,8 @@
 
         <android.support.constraint.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/white">
 
             <TextView
                 android:id="@+id/detail_text_title"
@@ -282,6 +284,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/ready_but_return" />
 
+
+
         <Button
             android:id="@+id/detail_but_upload"
             android:layout_width="@dimen/dp_100"
@@ -292,6 +296,17 @@
             android:background="@mipmap/upload_scan"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
+
+        <Button
+            android:id="@+id/detail_but_save"
+            android:layout_width="@dimen/dp_100"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/dp_2"
+            android:layout_marginRight="@dimen/dp_14"
+            android:layout_marginTop="@dimen/dp_1"
+            android:background="@mipmap/detail_save"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/detail_but_upload"/>
 
     </android.support.constraint.ConstraintLayout>
 </FrameLayout>

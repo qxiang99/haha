@@ -1,8 +1,10 @@
 package com.bintutu.shop.ui.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,6 +21,7 @@ import android.widget.EditText;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.bintutu.shop.R;
@@ -51,6 +54,8 @@ import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -68,6 +73,8 @@ public class DetailActivity extends BaseActivity {
     RecyclerView mRecyclerview;
     @BindView(R.id.detai_scroll)
     HorizontalScrollView detaiScroll;
+    @BindView(R.id.detail_all_scroll)
+    ScrollView detailALLScroll;
     @BindView(R.id.detail_lin_image)
     LinearLayout mLinImage;
     @BindView(R.id.detail_text_titletime)
@@ -96,6 +103,8 @@ public class DetailActivity extends BaseActivity {
     Button detailButHome;
     @BindView(R.id.detail_but_upload)
     Button detailButUpload;
+    @BindView(R.id.detail_but_save)
+    Button detailButSave;
     @BindView(R.id.detail_image_footleft)
     ImageView detailImageFootleft;
     @BindView(R.id.detail_image_footright)
@@ -129,7 +138,7 @@ public class DetailActivity extends BaseActivity {
     private String uploadid;
     private HashMap<View, Bitmap> map;
     private String imagefile;
-    private List<FootTagBean> footList= new ArrayList<>();
+    private List<FootTagBean> footList = new ArrayList<>();
 
 
     @Override
@@ -158,10 +167,10 @@ public class DetailActivity extends BaseActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH：mm：ss");
         Date date = new Date(System.currentTimeMillis());
         String scanNametime = simpleDateFormat.format(date);
-        mDetailTextTime.setText("(数据采集日期 "+scanNametime+")");
+        mDetailTextTime.setText("(数据采集日期 " + scanNametime + ")");
 
         SetImage();
 
@@ -170,8 +179,6 @@ public class DetailActivity extends BaseActivity {
         detaiScroll.scrollTo(200, 0);
 
     }
-
-
 
 
     @Override
@@ -244,37 +251,37 @@ public class DetailActivity extends BaseActivity {
         detailImageLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showSpaceImage("左脚内侧",detailImageLeft, map.get(detailImageLeft),footList);
+                showSpaceImage("左脚内侧", detailImageLeft, map.get(detailImageLeft), footList);
             }
         });
         detailImageCenter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showSpaceImage("左脚脚面", detailImageCenter, map.get(detailImageCenter),footList);
+                showSpaceImage("左脚脚面", detailImageCenter, map.get(detailImageCenter), footList);
             }
         });
         detailImageRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showSpaceImage("左脚外侧", detailImageRight, map.get(detailImageRight),footList);
+                showSpaceImage("左脚外侧", detailImageRight, map.get(detailImageRight), footList);
             }
         });
         detailImageLeftTwo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showSpaceImage("右脚内侧", detailImageLeftTwo, map.get(detailImageLeftTwo),footList);
+                showSpaceImage("右脚内侧", detailImageLeftTwo, map.get(detailImageLeftTwo), footList);
             }
         });
         detailImageCenterTwo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showSpaceImage("右脚脚面", detailImageCenterTwo, map.get(detailImageCenterTwo),footList);
+                showSpaceImage("右脚脚面", detailImageCenterTwo, map.get(detailImageCenterTwo), footList);
             }
         });
         detailImageRightTwo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showSpaceImage("右脚外侧", detailImageRightTwo, map.get(detailImageRightTwo),footList);
+                showSpaceImage("右脚外侧", detailImageRightTwo, map.get(detailImageRightTwo), footList);
             }
         });
 
@@ -282,14 +289,14 @@ public class DetailActivity extends BaseActivity {
         detailButUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (ConfigManager.Foot.getCustomer_id()!=null&&!ConfigManager.Foot.getCustomer_id().equals("")){
+                if (ConfigManager.Foot.getCustomer_id() != null && !ConfigManager.Foot.getCustomer_id().equals("")) {
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
                     Date date = new Date(System.currentTimeMillis());
-                    loginnumber =simpleDateFormat.format(date);
+                    loginnumber = simpleDateFormat.format(date);
                     loginphone = ConfigManager.Foot.getCustomer_phone();
                     logincustomer_id = ConfigManager.Foot.getCustomer_id();
-                    upload(loginnumber,loginphone,logincustomer_id);
-                }else {
+                    upload(loginnumber, loginphone, logincustomer_id);
+                } else {
                     loginDailog.show();
                 }
 
@@ -297,14 +304,34 @@ public class DetailActivity extends BaseActivity {
         });
 
         loginDailog.seLogintListener(new LoginDailog.OnLoginClickListener() {
+            private long lastClick;
             @Override
             public void Data(String number, String phone, String customer_id) {
+                if (System.currentTimeMillis() - lastClick <= 3000) {
+                    return;
+                }
+                lastClick = System.currentTimeMillis();
+
                 loginnumber = number;
                 loginphone = phone;
                 ConfigManager.Foot.setCustomer_id(customer_id);
                 ConfigManager.Foot.setCustomer_phone(phone);
                 logincustomer_id = customer_id;
-                upload(loginnumber,loginphone,logincustomer_id);
+                upload(loginnumber, loginphone, logincustomer_id);
+            }
+        });
+        detailButSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+                Date date = new Date(System.currentTimeMillis());
+                String scanNametime = simpleDateFormat.format(date);
+
+                try {
+                    saveMyBitmap(getScrollViewBitmap(detailALLScroll), scanNametime);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -315,9 +342,9 @@ public class DetailActivity extends BaseActivity {
         List<FootTagBean> newFoot = new ArrayList<>();
         newFoot.addAll(List);
         List<FootTagBean> footl = new ArrayList<>();
-        if (newFoot!=null&&newFoot.size()>0){
-            for (FootTagBean TagBean : newFoot){
-                if (TagBean.getName().equals(name)){
+        if (newFoot != null && newFoot.size() > 0) {
+            for (FootTagBean TagBean : newFoot) {
+                if (TagBean.getName().equals(name)) {
                     footl.add(TagBean);
                     footList.remove(TagBean);
                 }
@@ -325,14 +352,14 @@ public class DetailActivity extends BaseActivity {
         }
         ImageTwoDailog imageTwoDailog = new ImageTwoDailog(this);
         imageTwoDailog.show();
-        imageTwoDailog.setImage(name,view, imageRe,footl);
+        imageTwoDailog.setImage(name, view, imageRe, footl);
         imageTwoDailog.setImageClickListener(new ImageTwoDailog.OnImageClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
-            public void onSetData(ImageView view, Bitmap viewBitmap,List<FootTagBean> mFootList) {
+            public void onSetData(ImageView view, Bitmap viewBitmap, List<FootTagBean> mFootList) {
                 view.setBackground(new BitmapDrawable(getResources(), viewBitmap));
-                if (mFootList!=null&&mFootList.size()>0){
-                    if(!DetailActivity.this.footList.contains(mFootList)) {
+                if (mFootList != null && mFootList.size() > 0) {
+                    if (!DetailActivity.this.footList.contains(mFootList)) {
                         DetailActivity.this.footList.addAll(mFootList);
                     }
                 }
@@ -450,7 +477,6 @@ public class DetailActivity extends BaseActivity {
         String foot_remark = gson.toJson(TaglList);
 
 
-
         final String remark = dataEditRemark.getText().toString().trim();
         //上传数据
         OkGo.<BaseResponse<String>>post(AppConstant.NEW_DATA)
@@ -461,7 +487,7 @@ public class DetailActivity extends BaseActivity {
                 .params("device_id", ConfigManager.Device.getEquipmentID())//判断设备在不在线的返回的数据
                 .params("foot_remark", foot_remark)//数据界面上面需要标记的图片json
                 .params("detail_data", detailData)//left.json+right.json
-                .params("remark", remark+"")//备注
+                .params("remark", remark + "")//备注
                 .execute(new JsonCallback<BaseResponse<String>>() {
                     @Override
                     public void onSuccess(Response<BaseResponse<String>> response) {
@@ -469,7 +495,7 @@ public class DetailActivity extends BaseActivity {
                         UploadBean uploadBean = gson.fromJson(data, UploadBean.class);
                         if (uploadBean != null & uploadBean.getCode() == 0) {
                             uploadid = uploadBean.getResult().getId();
-                            DebugLog.e(uploadid+".................customerid");
+                            DebugLog.e(uploadid + ".................customerid");
                             downloadZip();
                         }
                     }
@@ -480,20 +506,17 @@ public class DetailActivity extends BaseActivity {
                 });
 
 
-
     }
-
-
 
 
     private void downloadZip() {
         OkGo.<File>get(AppConstant.DATA_ZIP(number))
                 .tag(this)
-                .execute(new FileCallback(imagefile,"data.tgz") {
+                .execute(new FileCallback(imagefile, "data.tgz") {
                     @Override
                     public void onSuccess(Response<File> response) {
                         File file = (File) response.body();
-                        Log.d("checkUpdateReceiver", file+"文件下载完成");
+                        Log.d("checkUpdateReceiver", file + "文件下载完成");
                         Log.d("checkUpdateReceiver", "文件下载完成");
                         UploadZip(file);
                         new Thread(new Runnable() {
@@ -509,12 +532,12 @@ public class DetailActivity extends BaseActivity {
 
                     @Override
                     public void downloadProgress(Progress progress) {
-                        Log.d("checkUpdateReceiver" , "文件下载中");
+                        Log.d("checkUpdateReceiver", "文件下载中");
                     }
 
                     @Override
                     public void onStart(Request<File, ? extends Request> request) {
-                        Log.d("checkUpdateReceiver" , "开始下载");
+                        Log.d("checkUpdateReceiver", "开始下载");
                     }
 
                     @Override
@@ -525,12 +548,12 @@ public class DetailActivity extends BaseActivity {
     }
 
     private void UploadZip(File file) {
-        File files = new File(imagefile+"/data.tgz");
+        File files = new File(imagefile + "/data.tgz");
         //上传图片
         OkGo.<LzyResponse<ServerModel>>post(AppConstant.UPLOAD_ZIP)
 
-               .params("id",uploadid)
-                .params("file",files,"data.tgz", MediaType.parse("application/x-tar"))
+                .params("id", uploadid)
+                .params("file", files, "data.tgz", MediaType.parse("application/x-tar"))
                 .execute(new DialogCallback<LzyResponse<ServerModel>>(this) {
                     @Override
                     public void onSuccess(Response<LzyResponse<ServerModel>> response) {
@@ -551,7 +574,7 @@ public class DetailActivity extends BaseActivity {
     private void GetImage() {
 
 
-        List<String> imageliat = Utils.getAllFiles(imagefile,"jpg");
+        List<String> imageliat = Utils.getAllFiles(imagefile, "jpg");
 
         UploadImage(imageliat);
 
@@ -559,13 +582,13 @@ public class DetailActivity extends BaseActivity {
     }
 
     private void UploadImage(List<String> imageliat) {
-        for (String file :imageliat){
+        for (String file : imageliat) {
 
             //上传图片
             OkGo.<LzyResponse<ServerModel>>post(AppConstant.UPLOAD_IMAGE)
 
-                    .params("id",uploadid)
-                    .params("file",new File(file))
+                    .params("id", uploadid)
+                    .params("file", new File(file))
                     .execute(new JsonCallback<LzyResponse<ServerModel>>() {
                         @Override
                         public void onSuccess(Response<LzyResponse<ServerModel>> response) {
@@ -585,19 +608,19 @@ public class DetailActivity extends BaseActivity {
     public void addTag() {
         dataLinAddtag.setVisibility(View.VISIBLE);
         dataLinAddtag.removeAllViews();
-        if (footList!=null&&footList.size()>0) {
+        if (footList != null && footList.size() > 0) {
             for (int i = 0; i < footList.size(); i++) {
-                    View view = LayoutInflater.from(DetailActivity.this).inflate(R.layout.detail_tag_item, null);
-                    TextView number = view.findViewById(R.id.tag_text_number);
-                    number.setText(footList.get(i).getIndex() + "");
-                    TextView title = view.findViewById(R.id.tag_text_title);
-                    title.setText("[" + footList.get(i).getName() + "] : ");
-                    TextView content = view.findViewById(R.id.tag_text_content);
-                    content.setText(footList.get(i).getContent());
-                    dataLinAddtag.addView(view);
+                View view = LayoutInflater.from(DetailActivity.this).inflate(R.layout.detail_tag_item, null);
+                TextView number = view.findViewById(R.id.tag_text_number);
+                number.setText(footList.get(i).getIndex() + "");
+                TextView title = view.findViewById(R.id.tag_text_title);
+                title.setText("[" + footList.get(i).getName() + "] : ");
+                TextView content = view.findViewById(R.id.tag_text_content);
+                content.setText(footList.get(i).getContent());
+                dataLinAddtag.addView(view);
 
             }
-        }else {
+        } else {
             dataLinAddtag.setVisibility(View.GONE);
         }
     }
@@ -636,10 +659,10 @@ public class DetailActivity extends BaseActivity {
         GlideUtil.load(DetailActivity.this, AppConstant.IAMGE_FOUR(number), detailImagePlantarright);
 
 
-        GlideUtil.load(DetailActivity.this, AppConstant.IMAGE_ONE(number), detailImageFootleft,"1-show.jpg");
-        GlideUtil.load(DetailActivity.this, AppConstant.IAMGE_TWO(number), detailImageFootright,"0-show.jpg");
-        GlideUtil.load(DetailActivity.this, AppConstant.IMAGE_TREE(number), detailImagePlantarleft,"5_l-show.jpg");
-        GlideUtil.load(DetailActivity.this, AppConstant.IAMGE_FOUR(number), detailImagePlantarright,"5_r-show.jpg");
+        GlideUtil.load(DetailActivity.this, AppConstant.IMAGE_ONE(number), detailImageFootleft, "1-show.jpg");
+        GlideUtil.load(DetailActivity.this, AppConstant.IAMGE_TWO(number), detailImageFootright, "0-show.jpg");
+        GlideUtil.load(DetailActivity.this, AppConstant.IMAGE_TREE(number), detailImagePlantarleft, "5_l-show.jpg");
+        GlideUtil.load(DetailActivity.this, AppConstant.IAMGE_FOUR(number), detailImagePlantarright, "5_r-show.jpg");
 
     }
 
@@ -647,62 +670,59 @@ public class DetailActivity extends BaseActivity {
     private void sortListTag(List<FootTagBean> mFootList) {
 
 
-
         TAGBean medial_left = null;
-        TAGBean face_left= null;
-        TAGBean lateral_left= null;
-        TAGBean medial_right= null;
-        TAGBean face_right= null;
-        TAGBean lateral_right= null;
+        TAGBean face_left = null;
+        TAGBean lateral_left = null;
+        TAGBean medial_right = null;
+        TAGBean face_right = null;
+        TAGBean lateral_right = null;
         //左脚内侧
-        List<TAGBean.DetailListBean> detailmedial_left =new ArrayList<>();
+        List<TAGBean.DetailListBean> detailmedial_left = new ArrayList<>();
         //左脚脚面
-        List<TAGBean.DetailListBean> detailface_left =new ArrayList<>();
+        List<TAGBean.DetailListBean> detailface_left = new ArrayList<>();
         //左脚外侧
-        List<TAGBean.DetailListBean> detaillateral_left =new ArrayList<>();
+        List<TAGBean.DetailListBean> detaillateral_left = new ArrayList<>();
         //右脚内侧
-        List<TAGBean.DetailListBean> detailmedial_right =new ArrayList<>();
+        List<TAGBean.DetailListBean> detailmedial_right = new ArrayList<>();
         //右脚脚面
-        List<TAGBean.DetailListBean> detailface_right =new ArrayList<>();
+        List<TAGBean.DetailListBean> detailface_right = new ArrayList<>();
         //右脚外侧
-        List<TAGBean.DetailListBean> detaillateral_right =new ArrayList<>();
+        List<TAGBean.DetailListBean> detaillateral_right = new ArrayList<>();
 
 
-
-
-        for (int i=0;i<TaglList.size();i++){
-            if (TaglList.get(i).getName().equals("左脚内侧")){
+        for (int i = 0; i < TaglList.size(); i++) {
+            if (TaglList.get(i).getName().equals("左脚内侧")) {
                 medial_left = TaglList.get(i);
-                detailmedial_left.addAll(detailmedial_left) ;
+                detailmedial_left.addAll(detailmedial_left);
             }
-            if (TaglList.get(i).getName().equals("左脚脚面")){
+            if (TaglList.get(i).getName().equals("左脚脚面")) {
                 face_left = TaglList.get(i);
-                detailface_left.addAll(TaglList.get(i).getDetailList()) ;
+                detailface_left.addAll(TaglList.get(i).getDetailList());
             }
-            if (TaglList.get(i).getName().equals("左脚外侧")){
+            if (TaglList.get(i).getName().equals("左脚外侧")) {
                 lateral_left = TaglList.get(i);
-                detaillateral_left.addAll(TaglList.get(i).getDetailList()) ;
+                detaillateral_left.addAll(TaglList.get(i).getDetailList());
             }
-            if (TaglList.get(i).getName().equals("右脚内侧")){
+            if (TaglList.get(i).getName().equals("右脚内侧")) {
                 medial_right = TaglList.get(i);
-                detailmedial_right.addAll(TaglList.get(i).getDetailList()) ;
+                detailmedial_right.addAll(TaglList.get(i).getDetailList());
             }
-            if (TaglList.get(i).getName().equals("右脚脚面")){
+            if (TaglList.get(i).getName().equals("右脚脚面")) {
                 face_right = TaglList.get(i);
-                detailface_right.addAll(TaglList.get(i).getDetailList()) ;
+                detailface_right.addAll(TaglList.get(i).getDetailList());
             }
-            if (TaglList.get(i).getName().equals("右脚外侧")){
+            if (TaglList.get(i).getName().equals("右脚外侧")) {
                 lateral_right = TaglList.get(i);
-                detaillateral_right.addAll(TaglList.get(i).getDetailList()) ;
+                detaillateral_right.addAll(TaglList.get(i).getDetailList());
             }
         }
 
         TaglList.clear();
 
 
-        for (FootTagBean footTagBean : mFootList){
+        for (FootTagBean footTagBean : mFootList) {
 
-            TAGBean tagBean =new TAGBean();
+            TAGBean tagBean = new TAGBean();
             tagBean.setFoot(footTagBean.getFoot());
             tagBean.setId(footTagBean.getId());
             tagBean.setItem(footTagBean.getItem());
@@ -715,58 +735,115 @@ public class DetailActivity extends BaseActivity {
             detailListBean.setX(footTagBean.getX());
             detailListBean.setPageY(footTagBean.getY());
             detailListBean.setIndex(footTagBean.getIndex());
-            if (footTagBean.getName().equals("左脚内侧")){
-                medial_left =tagBean;
+            if (footTagBean.getName().equals("左脚内侧")) {
+                medial_left = tagBean;
                 detailmedial_left.add(detailListBean);
             }
-            if (footTagBean.getName().equals("左脚脚面")){
-                face_left =tagBean;
+            if (footTagBean.getName().equals("左脚脚面")) {
+                face_left = tagBean;
                 detailface_left.add(detailListBean);
             }
-            if (footTagBean.getName().equals("左脚外侧")){
-                lateral_left =tagBean;
+            if (footTagBean.getName().equals("左脚外侧")) {
+                lateral_left = tagBean;
                 detaillateral_left.add(detailListBean);
             }
-            if (footTagBean.getName().equals("右脚内侧")){
-                medial_right =tagBean;
+            if (footTagBean.getName().equals("右脚内侧")) {
+                medial_right = tagBean;
                 detailmedial_right.add(detailListBean);
             }
-            if (footTagBean.getName().equals("右脚脚面")){
-                face_right =tagBean;
+            if (footTagBean.getName().equals("右脚脚面")) {
+                face_right = tagBean;
                 detailface_right.add(detailListBean);
             }
-            if (footTagBean.getName().equals("右脚外侧")){
-                lateral_right =tagBean;
+            if (footTagBean.getName().equals("右脚外侧")) {
+                lateral_right = tagBean;
                 detaillateral_right.add(detailListBean);
             }
         }
 
 
-
-        if (medial_left!=null){
+        if (medial_left != null) {
             medial_left.setDetailList(detailmedial_left);
             TaglList.add(medial_left);
         }
-        if (face_left!=null){
+        if (face_left != null) {
             face_left.setDetailList(detailface_left);
             TaglList.add(face_left);
         }
-        if (lateral_left!=null){
+        if (lateral_left != null) {
             lateral_left.setDetailList(detaillateral_left);
             TaglList.add(lateral_left);
         }
-        if (medial_right!=null){
+        if (medial_right != null) {
             medial_right.setDetailList(detailmedial_right);
             TaglList.add(medial_right);
         }
-        if (face_right!=null){
+        if (face_right != null) {
             face_right.setDetailList(detailface_right);
             TaglList.add(face_right);
         }
-        if (lateral_right!=null){
+        if (lateral_right != null) {
             lateral_right.setDetailList(detaillateral_right);
             TaglList.add(lateral_right);
         }
 
     }
+
+
+    /**
+     * 截取scrollview的屏幕
+     **/
+    public static Bitmap getScrollViewBitmap(ScrollView scrollView) {
+        int h = 0;
+        Bitmap bitmap;
+        for (int i = 0; i < scrollView.getChildCount(); i++) {
+            h += scrollView.getChildAt(i).getHeight();
+        }
+        // 创建对应大小的bitmap
+        bitmap = Bitmap.createBitmap(scrollView.getWidth(), h,
+                Bitmap.Config.ARGB_8888);
+        final Canvas canvas = new Canvas(bitmap);
+        scrollView.draw(canvas);
+        return bitmap;
+    }
+
+
+    /**
+     * 保存bitmap到SD卡
+     *
+     * @param bitName 保存的名字
+     * @param mBitmap 图片对像
+     *                return 生成压缩图片后的图片路径
+     */
+    public  void saveMyBitmap(Bitmap mBitmap, String bitName) {
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            String filePath = null;
+            FileOutputStream out = null;
+
+            filePath = Environment.getExternalStorageDirectory() + "/BintutuImage";
+            File imgDir = new File(filePath);
+            if (!imgDir.exists()) {
+                imgDir.mkdirs();
+            }
+            String imgNames = filePath + "/" + bitName + ".png";
+            try {
+                out = new FileOutputStream(imgNames);
+                mBitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            try {
+                out.flush();
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            DetailActivity.this.ShowToast("保存已经至" + Environment.getExternalStorageDirectory() + "/BintutuImage" + "目录文件夹下");
+
+        }
+
+
+    }
+
+
 }

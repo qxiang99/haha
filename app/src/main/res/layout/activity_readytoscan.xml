@@ -56,7 +56,7 @@
             android:layout_marginTop="@dimen/dp_1"
             android:layout_marginBottom="@dimen/dp_2"
             android:layout_marginRight="@dimen/dp_14"
-            android:background="@mipmap/start_scan"
+            android:background="@mipmap/scan_green_bg"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
 

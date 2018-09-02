@@ -57,6 +57,9 @@ public class GlideUtil {
             try {
                 filePath = Environment.getExternalStorageDirectory().getCanonicalPath() + "/Bintutu";
                 File imgDir = new File(filePath);
+                if (imgDir.exists()) {
+                    imgDir.delete();
+                }
                 if (!imgDir.exists()) {
                     imgDir.mkdirs();
                 }
@@ -76,6 +79,8 @@ public class GlideUtil {
             }
         }
     }
+
+
 
 
 }

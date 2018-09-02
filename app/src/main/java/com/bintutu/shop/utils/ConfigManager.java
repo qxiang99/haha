@@ -81,7 +81,7 @@ public class ConfigManager {
 
 
         public static boolean isShowSplash() {
-            return getBoolean(getConfigFile(), getVersionBindKey(SHOW_SPLASH), true);
+            return getBoolean(getConfigFile(), getVersionBindKey(SHOW_SPLASH), false);
         }
 
         public static void setShowSplash(boolean showSplash) {
@@ -136,6 +136,8 @@ public class ConfigManager {
         public static void setShopPhone(String phone) {
             commitString(getConfigFile(), SHOPPHONE, phone);
         }
+
+
 
        /* public static int getTag() {
             return getInt(getConfigFile(), DETAILTAG, 0);

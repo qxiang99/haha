@@ -46,13 +46,25 @@ public class CloseDailog extends Dialog {
         mCloseButConFirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ConFirm();
+               if (mSetClickListener!=null){
+                   mSetClickListener.onSetData();
+               }
+                dismiss();
             }
         });
     }
 
-    private void ConFirm() {
-        //关闭扫描仪
+
+
+    private OnSetClickListener mSetClickListener;
+
+    public void setSetClickListener(OnSetClickListener mSetClickListener) {
+        this.mSetClickListener = mSetClickListener;
+    }
+
+
+    public interface OnSetClickListener {
+        void onSetData();
     }
 
 

@@ -26,10 +26,16 @@ public class AppConstant {
     public static final String UPLOAD_ZIP = BASE_URLS + "shop_3d/backend/web/index.php/userfoottypedata/uploadzip";
     //上传图片
     public static final String UPLOAD_IMAGE = BASE_URLS + "shop_3d/backend/web/index.php/userfoottypedata/uploadpic";
+    public static final String COMMAND = BASE_URLS + "shop_3d/backend/web/index.php/user/login";
+
+
+
 
 
     //web首页
     public static final String WEBVIEW_HOME = "http://ipadscan_test.bintutu.com/shop_3dscanner_learning/frontend/shutdown.html";
+    //exhibition room
+    public static final String WEBVIEW_EXHIBITIONROOM = "http://ipadscan_test.bintutu.com/shop_3dscanner_learning/frontend/shopinformation.html";
     //web选鞋页
     public static final String WEBVIEW_SORT(String customer_id,String customer_phone){
         return "http://ipadscan_test.bintutu.com/shop_3dscanner_learning/frontend/sort.html?customer_id="+customer_id+"&customer_phone="+customer_phone;
@@ -42,6 +48,12 @@ public class AppConstant {
 
     //设备地址
     public static final String EQUIPMENT_URL = "http://192.168.12.1/";
+
+
+
+
+    public static final String CHOOSE_WIFI = EQUIPMENT_URL + "wifi";
+    public static final String SHUTDOWN = EQUIPMENT_URL + "shutDown";
     //查看设备是否在线----get
     public static final String GET_ID = EQUIPMENT_URL + "getID";
     //启动设备------------post

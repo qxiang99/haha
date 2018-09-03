@@ -140,7 +140,6 @@ public class DetailActivity extends BaseActivity {
     private String logincustomer_id;
     private String uploadid;
     private HashMap<View, Bitmap> map;
-    private String imagefile;
     private List<FootTagBean> footList = new ArrayList<>();
 
 
@@ -165,11 +164,7 @@ public class DetailActivity extends BaseActivity {
         showRecyclerview();
         //加载四张图片
         LoadingImage();
-        try {
-            imagefile = Environment.getExternalStorageDirectory().getCanonicalPath() + "/Bintutu";
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date(System.currentTimeMillis());
         String scanNametime = simpleDateFormat.format(date);
@@ -308,6 +303,7 @@ public class DetailActivity extends BaseActivity {
 
         loginDailog.seLogintListener(new LoginDailog.OnLoginClickListener() {
             private long lastClick;
+
             @Override
             public void Data(String number, String phone, String customer_id) {
                 if (System.currentTimeMillis() - lastClick <= 3000) {
@@ -331,7 +327,7 @@ public class DetailActivity extends BaseActivity {
                 String scanNametime = simpleDateFormat.format(date);
 
                 try {
-                    saveMyBitmap(getScrollViewBitmap(detailALLScroll), scanNametime);
+                    saveMyBitmap(Utils.getScrollViewBitmap(detailALLScroll), scanNametime);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -515,20 +511,17 @@ public class DetailActivity extends BaseActivity {
     private void downloadZip() {
         OkGo.<File>get(AppConstant.DATA_ZIP(number))
                 .tag(this)
-                .execute(new FileCallback(imagefile, "data.tgz") {
+                .execute(new FileCallback(AppConstant.ZIP_DATAIL, "data.tgz") {
                     @Override
                     public void onSuccess(Response<File> response) {
                         File file = (File) response.body();
-                        Log.d("checkUpdateReceiver", file + "文件下载完成");
-                        Log.d("checkUpdateReceiver", "文件下载完成");
-                        UploadZip(file);
+                        DebugLog.d("checkUpdateReceiver", file + "文件下载完成");
+                        UploadZip();
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
-                                //上传zip
                                 //上传图片
                                 GetImage();
-
                             }
                         }).start();
                     }
@@ -550,8 +543,8 @@ public class DetailActivity extends BaseActivity {
                 });
     }
 
-    private void UploadZip(File file) {
-        File files = new File(imagefile + "/data.tgz");
+    private void UploadZip() {
+        File files = new File(AppConstant.ZIP_DATAIL + "/data.tgz");
         //上传图片
         OkGo.<LzyResponse<ServerModel>>post(AppConstant.UPLOAD_ZIP)
 
@@ -575,35 +568,27 @@ public class DetailActivity extends BaseActivity {
 
 
     private void GetImage() {
-
-
-        List<String> imageliat = Utils.getAllFiles(imagefile, "jpg");
-
-        UploadImage(imageliat);
-
-
+        List<String> imageliat = Utils.getAllFiles(AppConstant.IMAGE_DATAIL, "jpg");
+        if (imageliat != null && imageliat.size() > 0) {
+            UploadImage(imageliat);
+        }
     }
 
     private void UploadImage(List<String> imageliat) {
         for (String file : imageliat) {
-
             //上传图片
             OkGo.<LzyResponse<ServerModel>>post(AppConstant.UPLOAD_IMAGE)
-
                     .params("id", uploadid)
                     .params("file", new File(file))
                     .execute(new JsonCallback<LzyResponse<ServerModel>>() {
                         @Override
                         public void onSuccess(Response<LzyResponse<ServerModel>> response) {
-
                         }
 
                         @Override
                         public void onError(Response<LzyResponse<ServerModel>> response) {
-
                         }
                     });
-
         }
     }
 
@@ -793,37 +778,15 @@ public class DetailActivity extends BaseActivity {
     }
 
 
-    /**
-     * 截取scrollview的屏幕
-     **/
-    public static Bitmap getScrollViewBitmap(ScrollView scrollView) {
-        int h = 0;
-        Bitmap bitmap;
-        for (int i = 0; i < scrollView.getChildCount(); i++) {
-            h += scrollView.getChildAt(i).getHeight();
-        }
-        // 创建对应大小的bitmap
-        bitmap = Bitmap.createBitmap(scrollView.getWidth(), h,
-                Bitmap.Config.ARGB_8888);
-        final Canvas canvas = new Canvas(bitmap);
-        scrollView.draw(canvas);
-        return bitmap;
-    }
 
 
-    /**
-     * 保存bitmap到SD卡
-     *
-     * @param bitName 保存的名字
-     * @param mBitmap 图片对像
-     *                return 生成压缩图片后的图片路径
-     */
+
     public  void saveMyBitmap(Bitmap mBitmap, String bitName) {
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             String filePath = null;
             FileOutputStream out = null;
 
-            filePath = Environment.getExternalStorageDirectory() + "/BintutuImage";
+            filePath =  AppConstant.IMAGE_LONG;
             File imgDir = new File(filePath);
             if (!imgDir.exists()) {
                 imgDir.mkdirs();
@@ -841,44 +804,12 @@ public class DetailActivity extends BaseActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            DetailActivity.this.ShowToast("保存已经至" + Environment.getExternalStorageDirectory() + "/BintutuImage" + "目录文件夹下");
+
+             DetailActivity.this.ShowToast("保存已经至" +AppConstant.IMAGE_LONG + "目录文件夹下");
 
         }
 
 
     }
-
-  /*  private void ShowDailog(final String fileimage) {
-        //    通过AlertDialog.Builder这个类来实例化我们的一个AlertDialog的对象
-        final AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
-        //    设置Title的图标
-        builder.setIcon(R.mipmap.logo);
-        //    设置Title的内容
-        builder.setTitle("提示");
-        //    设置Content来显示一个信息
-        builder.setMessage("是否打开文件");
-        //    设置一个PositiveButton
-        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-
-
-
-            }
-        });
-        //    设置一个NegativeButton
-        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        //    显示出该对话框
-        final AlertDialog dia =builder.show();
-    }
-
-    *//**//*
-*/
 
 }

@@ -1,6 +1,10 @@
 package com.bintutu.shop.utils;
 
 
+import android.os.Environment;
+
+import java.io.IOException;
+
 public class AppConstant {
 
     //true 正式 测试
@@ -9,6 +13,8 @@ public class AppConstant {
     public static String TEST_URL = "http://116.62.145.154:8080/";
     //正式环境
     public static String Formal_URL = "";
+    //图片
+    public static final String IMAGE_SPLIT = "http://resources_test.bintutu.com/merchandise_img/homepage_img";
 
     public static String BASE_URLS = Toogle ? Formal_URL : TEST_URL;
 
@@ -26,9 +32,8 @@ public class AppConstant {
     public static final String UPLOAD_ZIP = BASE_URLS + "shop_3d/backend/web/index.php/userfoottypedata/uploadzip";
     //上传图片
     public static final String UPLOAD_IMAGE = BASE_URLS + "shop_3d/backend/web/index.php/userfoottypedata/uploadpic";
+
     public static final String COMMAND = BASE_URLS + "shop_3d/backend/web/index.php/user/login";
-
-
 
 
 
@@ -46,12 +51,10 @@ public class AppConstant {
     }
 
 
+
+
     //设备地址
     public static final String EQUIPMENT_URL = "http://192.168.12.1/";
-
-
-
-
     public static final String CHOOSE_WIFI = EQUIPMENT_URL + "wifi";
     public static final String SHUTDOWN = EQUIPMENT_URL + "shutDown";
     //查看设备是否在线----get
@@ -96,4 +99,20 @@ public class AppConstant {
         return EQUIPMENT_URL + zip + "/data.tgz";
     }
 
+    public static String FILE(){
+        try {
+            return  Environment.getExternalStorageDirectory().getCanonicalPath();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    //足详情页图片
+    public static final String ZIP_DATAIL = FILE() + "/Bintutu/zip";
+    //轮播图
+    public static final String IMAGE_BANNER = FILE() + "/Bintutu/Banner";
+    //足详情页图片
+    public static final String IMAGE_DATAIL = FILE() + "/Bintutu/datail";
+    //保存长图
+    public static final String IMAGE_LONG = FILE() + "/Bintutu/image";
 }

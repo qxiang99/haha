@@ -90,6 +90,13 @@
             android:launchMode="singleTop"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustPan|stateHidden"></activity>
+        <!--上传成功页-->
+        <activity
+            android:name=".ui.activity.PhotoViewActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustPan|stateHidden"></activity>
         <activity android:name=".ui.activity.TextActivity">
 
         </activity>

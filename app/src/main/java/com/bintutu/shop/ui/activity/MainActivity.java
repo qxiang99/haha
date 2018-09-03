@@ -81,7 +81,6 @@ public class MainActivity extends BaseActivity {
     List<String> DetailList = new ArrayList<>();
     private Gson gson;
     private SmoothLinearLayoutManager layoutManager;
-    private String imagefile;
     private Timer timerRecerflow;
 
     @Override
@@ -97,31 +96,23 @@ public class MainActivity extends BaseActivity {
         commanDailog = new CommanDailog(MainActivity.this);
 
         mMainTextAuthorization.setText("授权门店:" + ConfigManager.Device.getShopID());
-        try {
-            imagefile = Environment.getExternalStorageDirectory().getCanonicalPath() + "/Bintutuflow";
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
-        DebugLog.e("printStackTrace",""+NetworkUtil.isNetworkAvailable(this));
+        DebugLog.e("printStackTrace", "" + NetworkUtil.isNetworkAvailable(this));
+
         DetailList.clear();
-        List<String> imageliat = Utils.getAllFiles(imagefile, "jpg");
+        List<String> imageliat = Utils.getAllFiles(AppConstant.IMAGE_BANNER, "jpg");
         if (imageliat != null && imageliat.size() > 0) {
             mReCverFlow.setVisibility(View.VISIBLE);
             DetailList.addAll(imageliat);
             CoverFlowAdapter coverFlowAdapter = new CoverFlowAdapter(MainActivity.this, DetailList);
             mReCverFlow.setAdapter(coverFlowAdapter);
-        }else {
+        } else {
             mReCverFlow.setVisibility(View.GONE);
-
+            mReCverFlow.setVisibility(View.GONE);
         }
         if (NetworkUtil.isNetworkAvailable(this)) {
             initData();
-        }else {
-
-
         }
-
     }
 
 
@@ -265,18 +256,18 @@ public class MainActivity extends BaseActivity {
                             mReCverFlow.setVisibility(View.VISIBLE);
                             Log.e("BaseResponse", datailImageBean.getResult().size() + ".....");
                             for (DatailImageBean.ResultBean resultBean : datailImageBean.getResult()) {
-                                DetailList.add("http://resources_test.bintutu.com/merchandise_img/homepage_img" + resultBean.getImg());
+                                DetailList.add(AppConstant.IMAGE_SPLIT + resultBean.getImg());
                                 CoverFlowAdapter coverFlowAdapter = new CoverFlowAdapter(MainActivity.this, DetailList);
                                 mReCverFlow.setAdapter(coverFlowAdapter);
                                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                                 Date date = new Date(System.currentTimeMillis());
                                 String scanNametime = simpleDateFormat.format(date);
-                                GlideUtil.load(MainActivity.this, "http://resources_test.bintutu.com/merchandise_img/homepage_img" + resultBean.getImg(), scanNametime+".jpg");
+                                GlideUtil.load(MainActivity.this, AppConstant.IMAGE_SPLIT + resultBean.getImg(), scanNametime + ".jpg");
                             }
                             mReCverFlow.scrollToPosition(DetailList.size() * 10);
                             startRecerflow();
 
-                        }else {
+                        } else {
                             mReCverFlow.setVisibility(View.GONE);
 
                         }
@@ -322,11 +313,11 @@ public class MainActivity extends BaseActivity {
         @Override
         public void handleMessage(Message msg) {
             int type = msg.what;
-          if (mReCverFlow!=null&DetailList!=null&&DetailList.size()>0){
-              mReCverFlow.getCoverFlowLayout().scrollToPosition(type);
-          }else {
-              timerRecerflow.cancel();
-          }
+            if (mReCverFlow != null & DetailList != null && DetailList.size() > 0) {
+                mReCverFlow.getCoverFlowLayout().scrollToPosition(type);
+            } else {
+                timerRecerflow.cancel();
+            }
 
         }
     };

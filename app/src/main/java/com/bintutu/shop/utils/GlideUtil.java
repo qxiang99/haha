@@ -39,7 +39,7 @@ public class GlideUtil {
             public void onResourceReady(byte[] bytes, GlideAnimation<? super byte[]> glideAnimation) {
                 try {
 
-                    savaBitmap(context,"/Bintutu",name, bytes);
+                    savaBitmap(context,AppConstant.IMAGE_DATAIL,name, bytes);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -54,7 +54,7 @@ public class GlideUtil {
             public void onResourceReady(byte[] bytes, GlideAnimation<? super byte[]> glideAnimation) {
                 try {
 
-                    savaBitmap(context,"/Bintutuflow",name, bytes);
+                    savaBitmap(context,AppConstant.IMAGE_BANNER,name, bytes);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -70,7 +70,7 @@ public class GlideUtil {
             String filePath = null;
             FileOutputStream fos = null;
             try {
-                filePath = Environment.getExternalStorageDirectory().getCanonicalPath() + file;
+                filePath = file;
                 File imgDir = new File(filePath);
                 if (!imgDir.exists()) {
                     imgDir.mkdirs();

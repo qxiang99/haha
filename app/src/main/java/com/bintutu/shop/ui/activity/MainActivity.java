@@ -322,7 +322,6 @@ public class MainActivity extends BaseActivity {
         }
     };
 
-
     /**
      * 检查wifi是否处开连接状态
      *

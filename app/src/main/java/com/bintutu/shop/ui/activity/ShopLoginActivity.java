@@ -93,13 +93,14 @@ public class ShopLoginActivity extends BaseActivity {
             return;
         }
 
-
+        jumpLoading("登陆中...");
         //登陆
         OkGo.<BaseResponse<String>>get(AppConstant.SHOP_LOGIN)
                 .params("phone", PHONE)
                 .execute(new JsonCallback<BaseResponse<String>>() {
                     @Override
                     public void onSuccess(Response<BaseResponse<String>> response) {
+                        closeLoading();
                         mShopLoginButSubmit.setEnabled(true);
                         ShopLoginBean shopLoginBean = gson.fromJson(String.valueOf(response.body()), ShopLoginBean.class);
                         DebugLog.e("shopLoginBean", (shopLoginBean.getResult() != null) + ".......");
@@ -118,6 +119,7 @@ public class ShopLoginActivity extends BaseActivity {
 
                     @Override
                     public void onError(Response<BaseResponse<String>> response) {
+                        closeLoading();
                         mShopLoginButSubmit.setEnabled(true);
                     }
                 });

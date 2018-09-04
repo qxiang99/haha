@@ -126,17 +126,7 @@ public class ReadyToScanActivity extends BaseActivity {
     }
 
     private void startFile() {
-
-
-        //getUrl()获取文件目录，例如返回值为/storage/sdcard1/MIUI/music/mp3_hd/单色冰淇凌_单色凌.mp3
-        File file = new File(Environment.getExternalStorageDirectory() + "/BintutuImage");
-//获取父目录
-        File parentFlie = new File(file.getParent());
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setDataAndType(Uri.fromFile(parentFlie), "*/*");
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
+     startActivity(new Intent(ReadyToScanActivity.this,PhotoViewActivity.class));
     }
 
 

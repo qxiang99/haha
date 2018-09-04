@@ -2,19 +2,20 @@ package com.bintutu.shop.ui.activity;
 
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.bintutu.shop.R;
 import com.bintutu.shop.ui.BaseActivity;
+import com.bintutu.shop.ui.adapter.PhotoAdapter;
 import com.bintutu.shop.ui.view.PhotoView;
+import com.bintutu.shop.ui.view.SlideViewPager;
 import com.bintutu.shop.utils.AppConstant;
 import com.bintutu.shop.utils.Utils;
 
@@ -25,10 +26,17 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class PhotoViewActivity extends BaseActivity {
-    @BindView(R.id.gv)
-    GridView mGridview;
+
     @BindView(R.id.pager)
-    ViewPager mViewPager;
+    SlideViewPager mViewPager;
+    @BindView(R.id.photo_recycleview)
+    RecyclerView mRecycleview;
+    @BindView(R.id.photo_lin)
+    LinearLayout photoLin;
+    @BindView(R.id.photo_text)
+    TextView photoText;
+    private PhotoAdapter mAdapter;
+    private String file;
 
     @Override
     protected void initContentView(Bundle savedInstanceState) {
@@ -37,58 +45,37 @@ public class PhotoViewActivity extends BaseActivity {
 
     @Override
     protected void init() {
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 4);
+        mRecycleview.setLayoutManager(layoutManager);
+
         List<String> imagelist = Utils.getAllFiles(AppConstant.IMAGE_LONG, "png");
         if (imagelist != null && imagelist.size() > 0) {
+            photoText.setVisibility(View.GONE);
             setGrid(imagelist);
             setPager(imagelist);
+        }else {
+            photoText.setVisibility(View.VISIBLE);
+            mRecycleview.setVisibility(View.GONE);
+            photoText.setText("没有生成的截图");
         }
 
     }
 
     @Override
     protected void setListener() {
-        mGridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mAdapter.setSetClickListener(new PhotoAdapter.OnSetClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+            public void onSetData(String data, int position) {
+                photoLin.setVisibility(View.VISIBLE);
                 mViewPager.setVisibility(View.VISIBLE);
                 mViewPager.setCurrentItem(position, false);
-
             }
         });
     }
 
     private void setGrid(final List<String> imagelist) {
-        mGridview.setAdapter(new BaseAdapter() {
-            @Override
-            public int getCount() {
-                return imagelist.size();
-            }
-            @Override
-            public Object getItem(int position) {
-                return null;
-            }
-
-            @Override
-            public long getItemId(int position) {
-                return 0;
-            }
-
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                PhotoView p = new PhotoView(PhotoViewActivity.this);
-                p.setLayoutParams(new AbsListView.LayoutParams((int) (getResources().getDisplayMetrics().density * 100), (int) (getResources().getDisplayMetrics().density * 100)));
-                p.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                try {
-                    p.setImageDrawable(imagelist.get(position));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                // 把PhotoView当普通的控件把触摸功能关掉
-                p.disenable();
-                return p;
-            }
-        });
+        mAdapter = new PhotoAdapter(imagelist);
+        mRecycleview.setAdapter(mAdapter);
     }
 
 
@@ -127,14 +114,21 @@ public class PhotoViewActivity extends BaseActivity {
     }
 
 
-
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0&&mViewPager.getVisibility()==View.VISIBLE) {
-
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0 && mViewPager.getVisibility() == View.VISIBLE) {
+            photoLin.setVisibility(View.GONE);
             mViewPager.setVisibility(View.GONE);
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }

@@ -3,19 +3,36 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <GridView
-        android:id="@+id/gv"
+    <TextView
+        android:id="@+id/photo_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text=""
+        android:visibility="gone"
+        android:textColor="@color/text_color_c1" />
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/photo_recycleview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="15dp"
-        android:horizontalSpacing="5dp"
-        android:numColumns="3"
-        android:verticalSpacing="5dp" />
+        android:background="@android:color/white"
+        android:overScrollMode="never" />
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/pager"
-        android:visibility="gone"
+    <LinearLayout
+        android:id="@+id/photo_lin"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:background="@color/black50"
+        android:visibility="gone">
+
+        <com.bintutu.shop.ui.view.SlideViewPager
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
+    </LinearLayout>
+
 
 </FrameLayout>

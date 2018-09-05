@@ -593,4 +593,8 @@ public class CoverFlowLayoutManger extends RecyclerView.LayoutManager {
                     isAlphaItem, cstIntervalRatio);
         }
     }
+
+    public RecyclerView.State getState() {
+        return mState;
+    }
 }

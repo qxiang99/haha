@@ -1,6 +1,7 @@
 package com.bintutu.shop.ui.adapter;
 
 import android.content.Context;
+import android.support.constraint.ConstraintLayout;
 import android.view.View;
 import android.widget.ImageView;
 import com.bintutu.shop.R;
@@ -37,7 +38,9 @@ public class PhotoAdapter extends DefaultAdapter<String> {
 
     protected class OrderListItem extends BaseHolder<String> {
 
-        @BindView(R.id.image)
+        @BindView(R.id.photo_item_con)
+        ConstraintLayout mItemCon;
+        @BindView(R.id.photo_item_image)
         ImageView mImage;
 
         protected OrderListItem(View itemView) {
@@ -50,7 +53,7 @@ public class PhotoAdapter extends DefaultAdapter<String> {
         public void setData(final String data, final int position) {
             Glide.with(itemView.getContext()).load(new File(data)).asBitmap().into(mImage);
 
-            mImage.setOnClickListener(new View.OnClickListener() {
+            mItemCon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (mSetClickListener !=null){

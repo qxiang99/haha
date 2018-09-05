@@ -63,6 +63,13 @@ public class PhotoViewActivity extends BaseActivity {
 
     @Override
     protected void setListener() {
+
+    }
+
+    private void setGrid(final List<String> imagelist) {
+        mAdapter = new PhotoAdapter(imagelist);
+        mRecycleview.setAdapter(mAdapter);
+
         mAdapter.setSetClickListener(new PhotoAdapter.OnSetClickListener() {
             @Override
             public void onSetData(String data, int position) {
@@ -71,11 +78,6 @@ public class PhotoViewActivity extends BaseActivity {
                 mViewPager.setCurrentItem(position, false);
             }
         });
-    }
-
-    private void setGrid(final List<String> imagelist) {
-        mAdapter = new PhotoAdapter(imagelist);
-        mRecycleview.setAdapter(mAdapter);
     }
 
 
@@ -125,10 +127,4 @@ public class PhotoViewActivity extends BaseActivity {
     }
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
 }

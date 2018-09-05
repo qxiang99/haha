@@ -2,6 +2,7 @@ package com.bintutu.shop;
 
 import android.app.Application;
 
+import com.bintutu.shop.utils.CrashHandler;
 import com.bintutu.shop.utils.ToastUtils;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheEntity;
@@ -32,6 +33,8 @@ public class ShopApplication extends Application {
         mcontext = this;
         toastUtils= new ToastUtils(mcontext);
         initOkGo();
+        //错误日志初始化
+        new CrashHandler(this);
     }
 
     public void ShowToast(String message) {

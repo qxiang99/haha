@@ -115,4 +115,7 @@ public class AppConstant {
     public static final String IMAGE_DATAIL = FILE() + "/Bintutu/datail";
     //保存长图
     public static final String IMAGE_LONG = FILE() + "/Bintutu/image";
+
+    public static final String CRASH = FILE() + "/Bintutu/crash";
+
 }

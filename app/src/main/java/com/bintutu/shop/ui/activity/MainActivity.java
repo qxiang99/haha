@@ -6,11 +6,8 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -23,7 +20,6 @@ import com.bintutu.shop.R;
 import com.bintutu.shop.bean.BaseResponse;
 import com.bintutu.shop.bean.CommandBean;
 import com.bintutu.shop.bean.DatailImageBean;
-import com.bintutu.shop.bean.ImageBean;
 import com.bintutu.shop.bean.ScanBean;
 import com.bintutu.shop.okgo.JsonCallback;
 import com.bintutu.shop.ui.BaseActivity;
@@ -32,7 +28,6 @@ import com.bintutu.shop.ui.view.CloseDailog;
 import com.bintutu.shop.ui.view.CommanDailog;
 import com.bintutu.shop.ui.view.CoverFlowLayoutManger;
 import com.bintutu.shop.ui.view.RecyclerCoverFlow;
-import com.bintutu.shop.ui.view.SmoothLinearLayoutManager;
 import com.bintutu.shop.ui.view.WifiDailog;
 import com.bintutu.shop.utils.AppConstant;
 import com.bintutu.shop.utils.ConfigManager;
@@ -45,18 +40,12 @@ import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
 
-import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 
@@ -80,8 +69,8 @@ public class MainActivity extends BaseActivity {
     private CloseDailog closeDailog;
     List<String> DetailList = new ArrayList<>();
     private Gson gson;
-    private SmoothLinearLayoutManager layoutManager;
-    private Timer timerRecerflow;
+
+
 
     @Override
     protected void initContentView(Bundle savedInstanceState) {
@@ -265,7 +254,7 @@ public class MainActivity extends BaseActivity {
                                 GlideUtil.load(MainActivity.this, AppConstant.IMAGE_SPLIT + resultBean.getImg(), scanNametime + ".jpg");
                             }
                             mReCverFlow.scrollToPosition(DetailList.size() * 10);
-                            startRecerflow();
+
 
                         } else {
                             mReCverFlow.setVisibility(View.GONE);
@@ -295,32 +284,6 @@ public class MainActivity extends BaseActivity {
         });
     }
 
-    private void startRecerflow() {
-        final int[] count = {DetailList.size() * 10};
-        timerRecerflow = new Timer();
-        timerRecerflow.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                count[0] = 1 + count[0];
-                Message message = new Message();
-                message.what = count[0];
-                mHandler.sendMessage(message);
-            }
-        }, 100, 3000);
-    }
-
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            int type = msg.what;
-            if (mReCverFlow != null & DetailList != null && DetailList.size() > 0) {
-                mReCverFlow.getCoverFlowLayout().scrollToPosition(type);
-            } else {
-                timerRecerflow.cancel();
-            }
-
-        }
-    };
 
     /**
      * 检查wifi是否处开连接状态

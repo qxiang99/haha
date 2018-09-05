@@ -1,6 +1,8 @@
 package com.bintutu.shop.ui.view;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
@@ -24,6 +26,13 @@ public class RecyclerCoverFlow extends RecyclerView {
      * 布局器构建者
      */
     private CoverFlowLayoutManger.Builder mManagerBuilder;
+    public RecyclerCoverFlow coverflow;
+    private int WHAT_AUTO_PLAY = 1000;
+    private int autoPlayDuration=4000;//刷新间隔时间
+    private int currentIndex = 0;
+    private boolean isPlaying = false;
+    private boolean isAutoPlaying = true;
+    private boolean hasInit;//数据设置
 
     public RecyclerCoverFlow(Context context) {
         super(context);
@@ -41,6 +50,7 @@ public class RecyclerCoverFlow extends RecyclerView {
     }
 
     private void init() {
+        coverflow =this;
         createManageBuilder();
         setLayoutManager(mManagerBuilder.build());
         setChildrenDrawingOrderEnabled(true); //开启重新排序
@@ -128,6 +138,8 @@ public class RecyclerCoverFlow extends RecyclerView {
         return ((CoverFlowLayoutManger)getLayoutManager());
     }
 
+
+
     /**
      * 获取被选中的Item位置
      */
@@ -149,17 +161,108 @@ public class RecyclerCoverFlow extends RecyclerView {
             case MotionEvent.ACTION_DOWN:
                 mDownX = ev.getX();
                 getParent().requestDisallowInterceptTouchEvent(true); //设置父类不拦截滑动事件
+                setPlaying(false);
                 break;
             case MotionEvent.ACTION_MOVE:
-                if ((ev.getX() > mDownX && getCoverFlowLayout().getCenterPosition() == 0) || (ev.getX() < mDownX && getCoverFlowLayout().getCenterPosition() == getCoverFlowLayout().getItemCount() -1)) {
+                if ((ev.getX() > mDownX && getCoverFlowLayout().getCenterPosition() == 0) || (ev.getX() < mDownX && getCoverFlowLayout().getCenterPosition() == getCoverFlowLayout().getItemCount() - 1)) {
                     //如果是滑动到了最前和最后，开放父类滑动事件拦截
                     getParent().requestDisallowInterceptTouchEvent(false);
                 } else {
                     //滑动到中间，设置父类不拦截滑动事件
                     getParent().requestDisallowInterceptTouchEvent(true);
                 }
+                setPlaying(false);
+                break;
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL:
+                setPlaying(true);
                 break;
         }
         return super.dispatchTouchEvent(ev);
     }
+
+
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        setPlaying(true);
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        setPlaying(false);
+    }
+
+    @Override
+    protected void onWindowVisibilityChanged(int visibility) {
+        super.onWindowVisibilityChanged(visibility);
+        if (visibility == VISIBLE) {
+            setPlaying(true);
+        } else {
+            setPlaying(false);
+        }
+    }
+
+    // 设置是否禁止滚动播放
+    public void setAutoPlaying(boolean isAutoPlaying) {
+        this.isAutoPlaying = isAutoPlaying;
+        setPlaying(this.isAutoPlaying);
+    }
+
+    public boolean isPlaying() {
+        return isPlaying;
+    }
+
+    /**
+     * 设置轮播间隔时间
+     *
+     * @param autoPlayDuration 时间毫秒
+     */
+    public void setAutoPlayDuration(int autoPlayDuration) {
+        this.autoPlayDuration = autoPlayDuration;
+    }
+
+    /**
+     * 设置轮播数据集
+     */
+    @Override
+    public void setAdapter(RecyclerView.Adapter adapter) {
+        hasInit = false;
+        super.setAdapter(adapter);
+        setPlaying(true);
+        hasInit = true;
+    }
+
+    /**
+     * 设置是否自动播放（上锁）
+     *
+     * @param playing 开始播放
+     */
+    protected synchronized void setPlaying(boolean playing) {
+        if (isAutoPlaying && hasInit) {
+            if (!isPlaying && playing) {
+                mHandler.sendEmptyMessageDelayed(WHAT_AUTO_PLAY, autoPlayDuration);
+                isPlaying = true;
+            } else if (isPlaying && !playing) {
+                mHandler.removeMessages(WHAT_AUTO_PLAY);
+                isPlaying = false;
+            }
+        }
+    }
+
+
+    protected Handler mHandler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+            if (msg.what == WHAT_AUTO_PLAY) {
+                currentIndex = getCoverFlowLayout().getCenterPosition();
+                ++currentIndex;
+                getCoverFlowLayout().smoothScrollToPosition(coverflow,getCoverFlowLayout().getState(),currentIndex);
+                mHandler.sendEmptyMessageDelayed(WHAT_AUTO_PLAY, autoPlayDuration);
+            }
+            return false;
+        }
+    });
 }

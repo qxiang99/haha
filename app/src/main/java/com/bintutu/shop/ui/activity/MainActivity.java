@@ -187,7 +187,6 @@ public class MainActivity extends BaseActivity {
                 .execute(new JsonCallback<BaseResponse<String>>() {
                     @Override
                     public void onSuccess(Response<BaseResponse<String>> response) {
-
                         DatailImageBean datailImageBean = gson.fromJson(String.valueOf(response.body()), DatailImageBean.class);
                         if (datailImageBean.getResult() != null) {
                             mReCverFlow.setVisibility(View.VISIBLE);

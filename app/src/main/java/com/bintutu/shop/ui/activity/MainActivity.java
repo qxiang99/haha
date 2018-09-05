@@ -71,7 +71,6 @@ public class MainActivity extends BaseActivity {
     private Gson gson;
 
 
-
     @Override
     protected void initContentView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_main);
@@ -80,14 +79,15 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void init() {
         gson = new Gson();
+        //
         closeDailog = new CloseDailog(MainActivity.this);
+        //
         wifiDailog = new WifiDailog(MainActivity.this);
+        //
         commanDailog = new CommanDailog(MainActivity.this);
-
+        //
         mMainTextAuthorization.setText("授权门店:" + ConfigManager.Device.getShopID());
-
-        DebugLog.e("printStackTrace", "" + NetworkUtil.isNetworkAvailable(this));
-
+        //
         DetailList.clear();
         List<String> imageliat = Utils.getAllFiles(AppConstant.IMAGE_BANNER, "jpg");
         if (imageliat != null && imageliat.size() > 0) {
@@ -107,6 +107,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void setListener() {
+        //打开关闭扫描仪界面
         mLinPowerOff.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -115,6 +116,15 @@ public class MainActivity extends BaseActivity {
                 }
             }
         });
+        //关闭扫描仪按钮
+        closeDailog.setSetClickListener(new CloseDailog.OnSetClickListener() {
+            @Override
+            public void onSetData() {
+                ScanClose();
+            }
+        });
+
+        //打开Wi-Fi操作界面
         mLinWifi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -123,6 +133,15 @@ public class MainActivity extends BaseActivity {
                 }
             }
         });
+        //wifi确定按钮
+        wifiDailog.setSetClickListener(new WifiDailog.OnSetClickListener() {
+            @Override
+            public void onSetData(String name, String pwd) {
+                WifiData(name, pwd);
+            }
+        });
+
+        //打开口令界面
         mLinCommand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -131,12 +150,22 @@ public class MainActivity extends BaseActivity {
                 }
             }
         });
+        //口令登录按钮
+        commanDailog.setSetClickListener(new CommanDailog.OnSetClickListener() {
+            @Override
+            public void onSetData(String command) {
+                CommanD(command);
+            }
+        });
+
+        //打开扫描界面
         mButScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(MainActivity.this, ReadyToScanActivity.class));
             }
         });
+        //打开展厅界面
         mButHibitionRoom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -147,28 +176,47 @@ public class MainActivity extends BaseActivity {
 
             }
         });
-        commanDailog.setSetClickListener(new CommanDailog.OnSetClickListener() {
-            @Override
-            public void onSetData(String command) {
-                CommanD(command);
-            }
-        });
-        closeDailog.setSetClickListener(new CloseDailog.OnSetClickListener() {
-            @Override
-            public void onSetData() {
-                ScanClose();
-            }
-        });
-        wifiDailog.setSetClickListener(new WifiDailog.OnSetClickListener() {
-            @Override
-            public void onSetData(String name, String pwd) {
-                WifiData(name, pwd);
-            }
-        });
     }
 
+    /**
+     * 获取首页轮播图
+     */
+    private void initData() {
+        OkGo.<BaseResponse<String>>get(AppConstant.SOWING_MAP)
+                .params("shop_id", ConfigManager.Device.getShopID())
+                .execute(new JsonCallback<BaseResponse<String>>() {
+                    @Override
+                    public void onSuccess(Response<BaseResponse<String>> response) {
+
+                        DatailImageBean datailImageBean = gson.fromJson(String.valueOf(response.body()), DatailImageBean.class);
+                        if (datailImageBean.getResult() != null) {
+                            mReCverFlow.setVisibility(View.VISIBLE);
+                            DetailList.clear();
+                            for (DatailImageBean.ResultBean resultBean : datailImageBean.getResult()) {
+                                DetailList.add(AppConstant.IMAGE_SPLIT + resultBean.getImg());
+                                CoverFlowAdapter coverFlowAdapter = new CoverFlowAdapter(MainActivity.this, DetailList);
+                                mReCverFlow.setAdapter(coverFlowAdapter);
+                                GlideUtil.download(MainActivity.this, AppConstant.IMAGE_SPLIT + resultBean.getImg());
+                            }
+                            mReCverFlow.scrollToPosition(DetailList.size() * 100);
+                        } else {
+                            mReCverFlow.setVisibility(View.GONE);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<BaseResponse<String>> response) {
+                    }
+                });
+    }
+
+    /**
+     * 修改Wi-Fi连接
+     *
+     * @param name
+     * @param pwd
+     */
     private void WifiData(String name, String pwd) {
-        //修改Wi-Fi连接
         OkGo.<BaseResponse<String>>post(AppConstant.CHOOSE_WIFI)
                 .params("id", name)
                 .params("pass", pwd)
@@ -188,8 +236,10 @@ public class MainActivity extends BaseActivity {
                 });
     }
 
+    /**
+     * 关闭扫描仪
+     */
     private void ScanClose() {
-        //关闭扫描仪
         OkGo.<BaseResponse<String>>post(AppConstant.SHUTDOWN)
                 .execute(new JsonCallback<BaseResponse<String>>() {
                     @Override
@@ -204,8 +254,12 @@ public class MainActivity extends BaseActivity {
                 });
     }
 
+    /**
+     * 口令
+     *
+     * @param command
+     */
     private void CommanD(String command) {
-        //口令
         OkGo.<BaseResponse<String>>post(AppConstant.COMMAND)
                 .params("phone", ConfigManager.Device.getShopPhone())
                 .params("password", md5(command))
@@ -230,58 +284,6 @@ public class MainActivity extends BaseActivity {
 
                     }
                 });
-    }
-
-    private void initData() {
-        //登陆
-        OkGo.<BaseResponse<String>>get(AppConstant.SOWING_MAP)
-                .params("shop_id", ConfigManager.Device.getShopID())
-                .execute(new JsonCallback<BaseResponse<String>>() {
-                    @Override
-                    public void onSuccess(Response<BaseResponse<String>> response) {
-
-                        DatailImageBean datailImageBean = gson.fromJson(String.valueOf(response.body()), DatailImageBean.class);
-                        if (datailImageBean.getResult() != null) {
-                            mReCverFlow.setVisibility(View.VISIBLE);
-                            Log.e("BaseResponse", datailImageBean.getResult().size() + ".....");
-                            for (DatailImageBean.ResultBean resultBean : datailImageBean.getResult()) {
-                                DetailList.add(AppConstant.IMAGE_SPLIT + resultBean.getImg());
-                                CoverFlowAdapter coverFlowAdapter = new CoverFlowAdapter(MainActivity.this, DetailList);
-                                mReCverFlow.setAdapter(coverFlowAdapter);
-                                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                                Date date = new Date(System.currentTimeMillis());
-                                String scanNametime = simpleDateFormat.format(date);
-                                GlideUtil.load(MainActivity.this, AppConstant.IMAGE_SPLIT + resultBean.getImg(), scanNametime + ".jpg");
-                            }
-                            mReCverFlow.scrollToPosition(DetailList.size() * 100);
-
-
-                        } else {
-                            mReCverFlow.setVisibility(View.GONE);
-
-                        }
-
-
-                    }
-
-                    @Override
-                    public void onError(Response<BaseResponse<String>> response) {
-
-
-                    }
-                });
-
-
-        //
-//        mList.setGreyItem(true); //设置灰度渐变
-//        mList.setAlphaItem(true); //设置半透渐变
-
-        mReCverFlow.setOnItemSelectedListener(new CoverFlowLayoutManger.OnSelected() {
-            @Override
-            public void onItemSelected(int position) {
-                // ((TextView) findViewById(R.id.index)).setText((position + 1) + "/" + mList.getLayoutManager().getItemCount());
-            }
-        });
     }
 
 

@@ -21,6 +21,7 @@ import com.bintutu.shop.bean.LoginBean;
 import com.bintutu.shop.okgo.Convert;
 import com.bintutu.shop.okgo.JsonCallback;
 import com.bintutu.shop.utils.AppConstant;
+import com.bintutu.shop.utils.GlideUtil;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.lzy.okgo.OkGo;
@@ -33,7 +34,9 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,21 +56,24 @@ public class TextActivity extends AppCompatActivity {
         setContentView(R.layout.activity_text);
         ButterKnife.bind(this);
 
+        final List<String> DetailList = new ArrayList<>();
+        DetailList.add("http://opzhpptsb.bkt.clouddn.com/one.jpg");
+        DetailList.add("http://opzhpptsb.bkt.clouddn.com/two.jpg");
+        DetailList.add("http://opzhpptsb.bkt.clouddn.com/tree.jpg");
+        DetailList.add("http://opzhpptsb.bkt.clouddn.com/four.jpg");
+        DetailList.add("http://opzhpptsb.bkt.clouddn.com/five.jpg");
+        DetailList.add("http://opzhpptsb.bkt.clouddn.com/six.jpg");
 
-      /* try {
-            gifDrawableThree = new GifDrawable(getResources(), R.drawable.scan_face);
-            image.setImageDrawable(gifDrawableThree);
+        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for (String file : DetailList) {
+                    GlideUtil.download(TextActivity.this, file);
+                }
+            }
+        });
 
-           gifDrawableThree.start();
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
-
-       // Glide.with(this).load(R.drawable.scan_face).asGif().into(image);
-       //Glide.with(this).load(R.drawable.scan_face).asGif().dontAnimate().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(image);
-
-       // Glide.with(this).load("").dontAnimate().centerCrop().apply(RequestOptions.bitmapTransform(new GlideRoundTransformation(radius))).into(imageView);
     }
 
     private void setData() {
@@ -158,8 +164,6 @@ public class TextActivity extends AppCompatActivity {
                 });*/
 
 
-
-
     }
 
     private void downloadApk() {
@@ -173,12 +177,12 @@ public class TextActivity extends AppCompatActivity {
 
                     @Override
                     public void downloadProgress(Progress progress) {
-                        Log.d("checkUpdateReceiver" , "文件下载中");
+                        Log.d("checkUpdateReceiver", "文件下载中");
                     }
 
                     @Override
                     public void onStart(Request<File, ? extends Request> request) {
-                        Log.d("checkUpdateReceiver" , "开始下载");
+                        Log.d("checkUpdateReceiver", "开始下载");
                     }
 
                     @Override

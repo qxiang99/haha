@@ -26,7 +26,10 @@
             android:name=".ui.activity.SplashActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.Loading">
-
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <!--商铺登录页-->
         <activity
@@ -61,10 +64,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTop"
             android:screenOrientation="landscape">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
         <!--gif动画页-->
         <activity
@@ -98,15 +98,10 @@
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustPan|stateHidden">
 
-
         </activity>
         <activity android:name=".ui.activity.TextActivity">
 
         </activity>
-
-        <service
-            android:name=".ui.server.UploadServer"
-            android:exported="false" />
 
     </application>
 

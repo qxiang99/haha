@@ -12,6 +12,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -120,17 +122,10 @@ public class DetailActivity extends BaseActivity {
     LinearLayout dataLinAddtag;
     @BindView(R.id.detail_edit_remark)
     EditText dataEditRemark;
-    private List<DetailBean> DetailList = new ArrayList<>();
-    private List<TAGBean> TaglList = new ArrayList<>();
-    private LoginDailog loginDailog;
 
-    private int[] ImageRes = {
-            R.mipmap.leftfoot_internal,
-            R.mipmap.leftfoot_surface,
-            R.mipmap.leftfoot_outside,
-            R.mipmap.rightfoot_internal,
-            R.mipmap.rightfoot_surface,
-            R.mipmap.rightfoot_outside};
+    private List<TAGBean> TaglList = new ArrayList<>();
+    private List<DetailBean> DetailList = new ArrayList<>();
+    private List<FootTagBean> footList = new ArrayList<>();
     private Gson gson;
     private LeftBean leftBean;
     private RightBean rightBean;
@@ -140,7 +135,12 @@ public class DetailActivity extends BaseActivity {
     private String logincustomer_id;
     private String uploadid;
     private HashMap<View, Bitmap> map;
-    private List<FootTagBean> footList = new ArrayList<>();
+    private LoginDailog loginDailog;
+    private int Retryleft = 0;
+    private int Retryright = 0;
+    private boolean Responseleft = false;
+    private boolean Responserighht = false;
+
 
 
     @Override
@@ -152,44 +152,43 @@ public class DetailActivity extends BaseActivity {
     @Override
     protected void init() {
         gson = new Gson();
-
-
+        //获取上一界面发送给扫描仪的指令
         Intent intent = getIntent();
         number = intent.getStringExtra(Constant.ItentKey1);
-        //
-        getLeft();
-        //
-        loginDailog = new LoginDailog(this);
         //初始化Recyclerview
         showRecyclerview();
+        //初始化LoginDailog
+        loginDailog = new LoginDailog(this);
+        //请求左右脚数据
+        jumpLoading("加载足型数据");
+        getLeft();
+        getRight();
         //加载四张图片
         LoadingImage();
-
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date date = new Date(System.currentTimeMillis());
-        String scanNametime = simpleDateFormat.format(date);
-        mDetailTextTime.setText("(数据采集日期 " + scanNametime + ")");
-
-        SetImage();
+        //设置采集数据时间
+        DataTime();
+        //设置六张足型图片
+        SetSixFootImage();
 
         detailButLeft.setEnabled(false);
         detailButRight.setEnabled(true);
-        detaiScroll.scrollTo(200, 0);
-
     }
+
+
 
 
     @Override
     protected void setListener() {
+        //清除小红点标注
         detailButDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 map.clear();
-                SetImage();
+                SetSixFootImage();
                 TaglList.clear();
             }
         });
-
+        //返回上一页
         detailButReturn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -203,6 +202,7 @@ public class DetailActivity extends BaseActivity {
                 finish();
             }
         });
+        //返回首页
         detailButHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -217,7 +217,7 @@ public class DetailActivity extends BaseActivity {
                 finish();
             }
         });
-
+        //切换左脚
         detailButLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -231,6 +231,7 @@ public class DetailActivity extends BaseActivity {
                 detailImageRightTwo.setVisibility(View.GONE);
             }
         });
+        //切换右脚
         detailButRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -283,7 +284,7 @@ public class DetailActivity extends BaseActivity {
             }
         });
 
-
+        //上传扫描数据
         detailButUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -301,16 +302,15 @@ public class DetailActivity extends BaseActivity {
             }
         });
 
+        //登录按钮监听回调
         loginDailog.seLogintListener(new LoginDailog.OnLoginClickListener() {
             private long lastClick;
-
             @Override
             public void Data(String number, String phone, String customer_id) {
                 if (System.currentTimeMillis() - lastClick <= 3000) {
                     return;
                 }
                 lastClick = System.currentTimeMillis();
-
                 loginnumber = number;
                 loginphone = phone;
                 ConfigManager.Foot.setCustomer_id(customer_id);
@@ -319,13 +319,14 @@ public class DetailActivity extends BaseActivity {
                 upload(loginnumber, loginphone, logincustomer_id);
             }
         });
+
+        //点击截屏按钮
         detailButSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
                 Date date = new Date(System.currentTimeMillis());
                 String scanNametime = simpleDateFormat.format(date);
-
                 try {
                     saveMyBitmap(Utils.getScrollViewBitmap(detailALLScroll), scanNametime);
                 } catch (Exception e) {
@@ -336,6 +337,33 @@ public class DetailActivity extends BaseActivity {
 
     }
 
+    /**
+     * 初始化Recyclerview
+     */
+    private void showRecyclerview() {
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        mRecyclerview.setLayoutManager(linearLayoutManager);
+        mRecyclerview.setHasFixedSize(true);
+        mRecyclerview.setItemAnimator(new DefaultItemAnimator());
+    }
+
+    /**
+     * 设置采集数据时间
+     */
+    private void DataTime() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date(System.currentTimeMillis());
+        String scanNametime = simpleDateFormat.format(date);
+        mDetailTextTime.setText("(数据采集日期 " + scanNametime + ")");
+    }
+
+    /**
+     * 取出该图片小红点标注数据，然后从原list移除 传入Dailog
+     * @param name
+     * @param view
+     * @param imageRe
+     * @param List
+     */
     private void showSpaceImage(String name, ImageView view, Bitmap imageRe, List<FootTagBean> List) {
 
         List<FootTagBean> newFoot = new ArrayList<>();
@@ -365,70 +393,82 @@ public class DetailActivity extends BaseActivity {
                 addTag();
             }
         });
-      /*  ImageDailog imageDailog = new ImageDailog(this);
-        imageDailog.show();
-        imageDailog.setImage(name,view, imageRe);
-        imageDailog.setImageClickListener(new ImageDailog.OnImageClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-            @Override
-            public void onSetData(ImageView view, Bitmap viewBitmap, TAGBean tagBean) {
-                map.put(view, viewBitmap);
-                view.setBackground(new BitmapDrawable(getResources(), viewBitmap));
+    }
 
-                if(!TaglList.contains(tagBean)) {
-                    TaglList.add(tagBean);
-                }
-                addTag();
+    /**
+     * 左右脚请求数据有偶尔失败情况
+     * 现增加重试机制
+     */
+    private Handler handlerTimer = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == 100) {
+                getLeft();
             }
-        });*/
-
-    }
-
-    private void showRecyclerview() {
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        mRecyclerview.setLayoutManager(linearLayoutManager);
-        mRecyclerview.setHasFixedSize(true);
-        mRecyclerview.setItemAnimator(new DefaultItemAnimator());
-    }
+            if (msg.what == 200) {
+                getRight();
+            }
+        }
+    };
 
 
+
+    /**
+     * 请求左脚数据
+     */
     public void getLeft() {
         OkGo.<BaseResponse<String>>get(AppConstant.LEFT_JSON(number))
                 .execute(new JsonCallback<BaseResponse<String>>() {
                     @Override
                     public void onSuccess(Response<BaseResponse<String>> response) {
-                        DebugLog.e("......" + response.body());
-                        getRight();
-                        String leftJson = String.valueOf(response.body());
-                        leftBean = gson.fromJson(leftJson, LeftBean.class);
-
+                        leftBean = gson.fromJson(String.valueOf(response.body()), LeftBean.class);
+                        if (Responseleft==true&&Responserighht==true){
+                            getData();
+                        }
                     }
-
                     @Override
                     public void onError(Response<BaseResponse<String>> response) {
+                        if (Retryleft<2){
+                            ++Retryleft;
+                            handlerTimer.sendEmptyMessageDelayed(100, 200);
+                        }else {
+                            closeLoading();
+                            ShowToast("左脚数据加载失败");
+                        }
                     }
                 });
     }
 
+    /**
+     * 请求右脚数据
+     */
     private void getRight() {
         OkGo.<BaseResponse<String>>get(AppConstant.RIGHT_JSON(number))
                 .execute(new JsonCallback<BaseResponse<String>>() {
                     @Override
                     public void onSuccess(Response<BaseResponse<String>> response) {
-                        DebugLog.e("......" + response.body());
-                        String rightJson = String.valueOf(response.body());
-                        rightBean = gson.fromJson(rightJson, RightBean.class);
-                        getData();
+                        rightBean = gson.fromJson(String.valueOf(response.body()), RightBean.class);
+                        if (Responserighht==true&&Responseleft==true){
+                            getData();
+                        }
                     }
 
                     @Override
                     public void onError(Response<BaseResponse<String>> response) {
+                        if (Retryright<2){
+                            ++Retryright;
+                            handlerTimer.sendEmptyMessageDelayed(200, 200);
+                        }else {
+                            closeLoading();
+                            ShowToast("右脚数据加载失败");
+                        }
                     }
                 });
     }
 
     public void getData() {
-
+        closeLoading();
         DetailList.add(new DetailBean(getResources().getString(R.string.FootLen), 1, leftBean.get_1_FootLen(), rightBean.get_1_FootLen()));
         DetailList.add(new DetailBean(getResources().getString(R.string.ZhiWei), 2, leftBean.get_2_ZhiWei(), rightBean.get_2_ZhiWei()));
         DetailList.add(new DetailBean(getResources().getString(R.string.FuWei), 3, leftBean.get_3_FuWei(), rightBean.get_3_FuWei()));
@@ -470,12 +510,8 @@ public class DetailActivity extends BaseActivity {
         map.put("left", leftBean);
         map.put("right", rightBean);
         String detailData = gson.toJson(map);
-
         sortListTag(footList);
-
         String foot_remark = gson.toJson(TaglList);
-
-
         final String remark = dataEditRemark.getText().toString().trim();
         //上传数据
         OkGo.<BaseResponse<String>>post(AppConstant.NEW_DATA)
@@ -614,7 +650,7 @@ public class DetailActivity extends BaseActivity {
     }
 
 
-    private void SetImage() {
+    private void SetSixFootImage() {
         Bitmap leftfoot_internal = BitmapFactory.decodeResource(getResources(), R.mipmap.leftfoot_internal);
         Bitmap leftfoot_surface = BitmapFactory.decodeResource(getResources(), R.mipmap.leftfoot_surface);
         Bitmap leftfoot_outside = BitmapFactory.decodeResource(getResources(), R.mipmap.leftfoot_outside);

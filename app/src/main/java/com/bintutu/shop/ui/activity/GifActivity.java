@@ -156,6 +156,7 @@ public class GifActivity extends Activity {
 
                     @Override
                     public void onError(Response<BaseResponse<String>> response) {
+                        super.onError(response);
                         mHandler.removeMessages(100);
                         timerscan.cancel();
                         Intent intent = new Intent();

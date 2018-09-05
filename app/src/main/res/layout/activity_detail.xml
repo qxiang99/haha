@@ -267,9 +267,9 @@
 
         <Button
             android:id="@+id/ready_but_return"
-            android:layout_width="@dimen/dp_66"
+            android:layout_width="@dimen/dp_65"
             android:layout_height="match_parent"
-            android:layout_marginBottom="@dimen/dp_2"
+            android:layout_marginBottom="@dimen/dp_3"
             android:layout_marginLeft="@dimen/dp_14"
             android:layout_marginTop="@dimen/dp_1"
             android:background="@mipmap/return_bg"
@@ -279,9 +279,9 @@
 
         <Button
             android:id="@+id/ready_but_home"
-            android:layout_width="@dimen/dp_66"
+            android:layout_width="@dimen/dp_65"
             android:layout_height="match_parent"
-            android:layout_marginBottom="@dimen/dp_2"
+            android:layout_marginBottom="@dimen/dp_3"
             android:layout_marginLeft="@dimen/dp_14"
             android:layout_marginTop="@dimen/dp_1"
             android:background="@mipmap/home_bg"
@@ -292,9 +292,9 @@
 
         <Button
             android:id="@+id/detail_but_upload"
-            android:layout_width="@dimen/dp_100"
+            android:layout_width="@dimen/dp_111"
             android:layout_height="match_parent"
-            android:layout_marginBottom="@dimen/dp_2"
+            android:layout_marginBottom="@dimen/dp_3"
             android:layout_marginRight="@dimen/dp_14"
             android:layout_marginTop="@dimen/dp_1"
             android:background="@mipmap/upload_scan"
@@ -303,9 +303,9 @@
 
         <Button
             android:id="@+id/detail_but_save"
-            android:layout_width="@dimen/dp_100"
+            android:layout_width="@dimen/dp_111"
             android:layout_height="match_parent"
-            android:layout_marginBottom="@dimen/dp_2"
+            android:layout_marginBottom="@dimen/dp_3"
             android:layout_marginRight="@dimen/dp_14"
             android:layout_marginTop="@dimen/dp_1"
             android:background="@mipmap/detail_save"

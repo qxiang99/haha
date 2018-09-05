@@ -43,10 +43,13 @@ public class LoginDailog extends Dialog {
     TextView mLoginTextCode;
     @BindView(R.id.login_but_submit)
     Button mLoginButSubmit;
+    @BindView(R.id.login_close)
+    Button mLoginClose;
     @BindView(R.id.login_view3)
     View loginView3;
     private Context mContext;
     private CutDown cutDown;
+    private boolean loginCode =false;
 
     public LoginDailog(@NonNull Context context) {
         super(context, R.style.dialog_style_two);
@@ -70,6 +73,14 @@ public class LoginDailog extends Dialog {
     }
 
     private void setListener() {
+
+        mLoginClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+              dismiss();
+            }
+        });
+
         mLoginTextCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -90,7 +101,7 @@ public class LoginDailog extends Dialog {
                         .execute(new JsonCallback<BaseResponse<LoginBean>>() {
                             @Override
                             public void onSuccess(Response<BaseResponse<LoginBean>> response) {
-                                DebugLog.e(".......");
+                                loginCode=true;
                                 ToastUtils.showToast(mContext, "发送成功");
                             }
 
@@ -122,7 +133,7 @@ public class LoginDailog extends Dialog {
                     return;
                 }
 
-
+                loginCode=true;
                 //验证码登陆
                 OkGo.<BaseResponse<String>>post(AppConstant.LOGIN)
                         .params("phone", PHONE)
@@ -201,7 +212,7 @@ public class LoginDailog extends Dialog {
     //对返回键进行监听
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0&&loginCode==true) {
             exit();
             return true;
         }

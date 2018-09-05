@@ -38,10 +38,9 @@ public class GifActivity extends Activity {
     @BindView(R.id.imageface)
     GifImageView imageface;
     private String scanNametime;
-    private Timer timeres;
     private Gson gson;
-    private Timer timer;
     private Timer timerscan;
+    private boolean RetryScan = true;//一次扫描重试机会
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,25 +52,19 @@ public class GifActivity extends Activity {
 
     protected void init() {
         gson = new Gson();
-        Timerstart();
-        //发送扫描命令加循环请求
+        //gif动画开始
+        Scanstart();
+        //发出扫描命令
+        ScanPost();
+        //发出循环请求
         RequestScan();
 
     }
 
-
-    private void RequestScan() {
-        //发出扫描命令
-        ScanPost();
-        //循环请求结果
-        timeres = new Timer();
-        timeres.schedule(new TimerTask() {
-            public void run() {
-                requestData();
-            }
-        }, 5000,10000);
-    }
-
+    /**
+     * 向扫描仪发起开始扫描指令
+     * 不返回结果
+     */
     private void ScanPost() {
         scanNametime = System.currentTimeMillis() + "";
         OkGo.<BaseResponse<String>>post(AppConstant.BEGIN_SCAN)
@@ -87,51 +80,88 @@ public class GifActivity extends Activity {
                     public void onError(Response<BaseResponse<String>> response) {
                     }
                 });
+    }
 
+    /**
+     * 5秒钟之后去请求扫描结果
+     */
+    private void RequestScan() {
+        final Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            public void run() {
+                requestData();
+                timer.cancel();
+            }
+        }, 5000);
 
     }
 
 
+    /**
+     * 10秒后去请求扫描结果
+     */
+    private Handler handlerTimer = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == 100) {
+
+                requestData();
+            }
+        }
+    };
+
+
+    /**
+     * 请求扫描结果
+     * result==1 扫描仪扫描成功
+     * result==2 扫描仪正在运行
+     * result==0 扫描仪出错
+     * 设置一次重试机会
+     */
     private void requestData() {
-        //AppConstant.REQUEST_DATA
         OkGo.<BaseResponse<String>>post(AppConstant.REQUEST_DATA)
                 .params("id", scanNametime)
                 .execute(new JsonCallback<BaseResponse<String>>() {
                     @Override
                     public void onSuccess(Response<BaseResponse<String>> response) {
                         ScanBean scanBean = gson.fromJson(String.valueOf(response.body()), ScanBean.class);
-                        DebugLog.e(scanBean.getResult()+"。。。。。1。。。。。");
                         if (scanBean.getResult() == 1) {
-                            timeres.cancel();
-                            timerscan.cancel();
 
-                            //数据是使用Intent返回
+                            mHandler.removeMessages(100);
+                            timerscan.cancel();
                             Intent intent = new Intent();
-                            //把返回数据存入Intent
                             intent.putExtra(Constant.ItentKey1, scanNametime);
-                            //设置返回数据
                             GifActivity.this.setResult(200, intent);
                             finish();
 
+                        } else if (scanBean.getResult() == 2) {
+                            //开启循环模式、
+                            RetryScan = false;
+                            handlerTimer.sendEmptyMessageDelayed(100, 10000);
                         } else if (scanBean.getResult() == 0) {
-                            timeres.cancel();
-                            timerscan.cancel();
 
-
-                            //数据是使用Intent返回
-                            Intent intent = new Intent();
-                            //把返回数据存入Intent
-                            intent.putExtra(Constant.ItentKey1, scanNametime);
-                            //设置返回数据
-                            GifActivity.this.setResult(500, intent);
-                            finish();
+                            if (RetryScan) {
+                                RetryScan = false;
+                                RequestScan();
+                            } else {
+                                timerscan.cancel();
+                                Intent intent = new Intent();
+                                intent.putExtra(Constant.ItentKey1, scanNametime);
+                                GifActivity.this.setResult(500, intent);
+                                finish();
+                            }
                         }
                     }
 
                     @Override
                     public void onError(Response<BaseResponse<String>> response) {
-                        timeres.cancel();
+                        mHandler.removeMessages(100);
                         timerscan.cancel();
+                        Intent intent = new Intent();
+                        intent.putExtra(Constant.ItentKey1, scanNametime);
+                        GifActivity.this.setResult(500, intent);
+                        finish();
                     }
                 });
 
@@ -139,8 +169,7 @@ public class GifActivity extends Activity {
     }
 
 
-
-    private void Timerstart() {
+    private void Scanstart() {
         final int[] count = {0};
         timerscan = new Timer();
         timerscan.schedule(new TimerTask() {
@@ -160,19 +189,19 @@ public class GifActivity extends Activity {
         public void handleMessage(Message msg) {
             int type = msg.what;
 
-            if (type >0&&type<21) {
+            if (type > 0 && type < 21) {
                 startface();
             }
-            if (type >20&&type<41) {
+            if (type > 20 && type < 41) {
                 startleft();
             }
-            if (type >40&&type<61) {
+            if (type > 40 && type < 61) {
                 startright();
             }
-            if (type >60&&type<81) {
+            if (type > 60 && type < 81) {
                 startbottom();
             }
-            if (type >81) {
+            if (type > 81) {
                 startface();
             }
         }
@@ -221,8 +250,6 @@ public class GifActivity extends Activity {
     }
 
 
-
-
     //退出时的时间
     private long mExitTime;
 
@@ -238,7 +265,7 @@ public class GifActivity extends Activity {
 
     public void exit() {
         if ((System.currentTimeMillis() - mExitTime) > 2000) {
-            ToastUtils.showToast(GifActivity.this, "如果想退出扫描，再按一次退出");
+            ToastUtils.showToast(GifActivity.this, "如果想退出扫描，再按一次返回");
             mExitTime = System.currentTimeMillis();
         } else {
             finish();

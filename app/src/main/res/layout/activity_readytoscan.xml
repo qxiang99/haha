@@ -14,34 +14,24 @@
         android:background="@mipmap/start_file"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/ready_cons_top"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/ready_cons_bottom"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_weight="8.9" />
+
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/ready_cons_bottom"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="@dimen/dp_40"
         android:background="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ready_cons_top"
-        app:layout_constraintVertical_weight="1.1">
+        app:layout_constraintRight_toRightOf="parent">
 
 
         <Button
             android:id="@+id/ready_but_return"
-            android:layout_width="@dimen/dp_66"
+            android:layout_width="@dimen/dp_65"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/dp_1"
-            android:layout_marginBottom="@dimen/dp_2"
+            android:layout_marginBottom="@dimen/dp_3"
             android:layout_marginLeft="@dimen/dp_14"
             android:background="@mipmap/return_bg"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -50,10 +40,10 @@
 
         <Button
             android:id="@+id/ready_but_home"
-            android:layout_width="@dimen/dp_66"
+            android:layout_width="@dimen/dp_65"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/dp_1"
-            android:layout_marginBottom="@dimen/dp_2"
+            android:layout_marginBottom="@dimen/dp_3"
             android:layout_marginLeft="@dimen/dp_14"
             android:background="@mipmap/home_bg"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -61,12 +51,12 @@
 
         <Button
             android:id="@+id/ready_but_startscan"
-            android:layout_width="@dimen/dp_95"
+            android:layout_width="@dimen/dp_111"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/dp_1"
-            android:layout_marginBottom="@dimen/dp_2"
+            android:layout_marginBottom="@dimen/dp_3"
             android:layout_marginRight="@dimen/dp_14"
-            android:background="@mipmap/scan_green_bg"
+            android:background="@mipmap/start_scan_gray"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
 

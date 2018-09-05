@@ -29,6 +29,8 @@ public class CommanDailog extends Dialog {
     EditText mCommandEditPwd;
     @BindView(R.id.command_but_submit)
     Button mCommandButSubmit;
+    @BindView(R.id.command_close)
+    Button mCommandClose;
 
     public CommanDailog(@NonNull Context context) {
         super(context, R.style.dialog_style);
@@ -42,6 +44,12 @@ public class CommanDailog extends Dialog {
     }
 
     private void setListener() {
+        mCommandClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
         mCommandButSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

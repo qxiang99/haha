@@ -805,7 +805,7 @@ public class DetailActivity extends BaseActivity {
                 e.printStackTrace();
             }
 
-             DetailActivity.this.ShowToast("保存已经至" +AppConstant.IMAGE_LONG + "目录文件夹下");
+             DetailActivity.this.ShowToast("已保存，请到扫描页点击右上角图片按钮查看");
 
         }
 

@@ -253,7 +253,7 @@ public class MainActivity extends BaseActivity {
                                 String scanNametime = simpleDateFormat.format(date);
                                 GlideUtil.load(MainActivity.this, AppConstant.IMAGE_SPLIT + resultBean.getImg(), scanNametime + ".jpg");
                             }
-                            mReCverFlow.scrollToPosition(DetailList.size() * 10);
+                            mReCverFlow.scrollToPosition(DetailList.size() * 100);
 
 
                         } else {

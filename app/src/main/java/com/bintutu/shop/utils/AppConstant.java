@@ -7,8 +7,10 @@ import java.io.IOException;
 
 public class AppConstant {
 
-    //TODO 服务器  请在“Formal_URL=”填写正式服务器地址   并把“Toogle”修改为 true
     public static boolean Toogle = false;
+
+
+    //TODO 服务器  请在“Formal_URL=”填写正式服务器地址   并把“Toogle”修改为 true
     public static String TEST_URL = "http://116.62.145.154:8080/";//测试环境
     public static String Formal_URL = "";//正式环境
     public static String BASE_URLS = Toogle ? Formal_URL : TEST_URL;

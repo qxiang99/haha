@@ -146,7 +146,6 @@ public class DetailActivity extends BaseActivity {
     private boolean Responserighht = false;
 
 
-
     @Override
     protected void initContentView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_detail);
@@ -177,7 +176,6 @@ public class DetailActivity extends BaseActivity {
         detailButLeft.setEnabled(false);
         detailButRight.setEnabled(true);
     }
-
 
 
     @Override
@@ -308,6 +306,7 @@ public class DetailActivity extends BaseActivity {
         //登录按钮监听回调
         loginDailog.seLogintListener(new LoginDailog.OnLoginClickListener() {
             private long lastClick;
+
             @Override
             public void Data(String number, String phone, String customer_id) {
                 if (System.currentTimeMillis() - lastClick <= 3000) {
@@ -362,6 +361,7 @@ public class DetailActivity extends BaseActivity {
 
     /**
      * 取出该图片小红点标注数据，然后从原list移除 传入Dailog
+     *
      * @param name
      * @param view
      * @param imageRe
@@ -416,7 +416,6 @@ public class DetailActivity extends BaseActivity {
     };*/
 
 
-
     /**
      * 请求左脚数据
      */
@@ -427,17 +426,18 @@ public class DetailActivity extends BaseActivity {
                     public void onSuccess(Response<BaseResponse<String>> response) {
                         leftBean = gson.fromJson(String.valueOf(response.body()), LeftBean.class);
                         Responseleft = true;
-                        if (Responserighht==false){
+                        if (Responserighht == false) {
                             getRight();
-                        }else if (Responseleft==true&&Responserighht==true){
+                        } else if (Responseleft == true && Responserighht == true) {
                             getData();
                         }
                     }
+
                     @Override
                     public void onError(Response<BaseResponse<String>> response) {
-                        if (Responserighht==false){
+                        if (Responserighht == false) {
                             getRight();
-                        }else {
+                        } else {
                             ShowToast("数据拉取失败");
                             closeLoading();
                         }
@@ -455,19 +455,19 @@ public class DetailActivity extends BaseActivity {
                     public void onSuccess(Response<BaseResponse<String>> response) {
                         rightBean = gson.fromJson(String.valueOf(response.body()), RightBean.class);
                         Responserighht = true;
-                        if (Responseleft==true){
+                        if (Responseleft == true) {
                             getData();
-                        }else {
+                        } else {
                             getLeft();
                         }
                     }
 
                     @Override
                     public void onError(Response<BaseResponse<String>> response) {
-                        if (Responserighht==false&&Retryright<1){
+                        if (Responserighht == false && Retryright < 1) {
                             ++Retryright;
                             getRight();
-                        }else {
+                        } else {
                             ShowToast("数据拉取失败");
                             closeLoading();
                         }
@@ -545,11 +545,34 @@ public class DetailActivity extends BaseActivity {
                             eventMsg.setCode(200);
                             eventMsg.setMsg(uploadid);
                             RxBus.getInstance().post(eventMsg);
+                            if (ConfigManager.Foot.getIdid() != null && !ConfigManager.Foot.getIdid().equals("")) {
+                                Intent intent = new Intent(DetailActivity.this, WebActivity.class);
+                                intent.putExtra(Constant.ItentKey1, AppConstant.WEBVIEW_CHOOSE(
+                                        ConfigManager.Foot.getCustomer_id(),
+                                        ConfigManager.Foot.getCustomer_phone(),
+                                        ConfigManager.Foot.getIdid(),
+                                        ConfigManager.Foot.getchoosed_color_id(),
+                                        ConfigManager.Foot.getchoosed_fur_id(),
+                                        ConfigManager.Foot.getchoosed_sole_material_id(),
+                                        ConfigManager.Foot.getchoosed_sole_accessory_id(),
+                                        ConfigManager.Foot.getchoosed_exclusive_id()));
+                                        startActivity(intent);
+                                finish();
+                                ConfigManager.Foot.setCustomer_id("");
+                                ConfigManager.Foot.setCustomer_phone("");
+                                ConfigManager.Foot.setIdid("");
+                                ConfigManager.Foot.setchoosed_color_id("");
+                                ConfigManager.Foot.setchoosed_exclusive_id("");
+                                ConfigManager.Foot.setchoosed_sole_accessory_id("");
+                                ConfigManager.Foot.setchoosed_sole_material_id("");
 
-                            Intent intent = new Intent(DetailActivity.this, UploadSucessActivity.class);
-                            intent.putExtra(Constant.ItentKey1, uploadid);
-                            startActivity(intent);
-                            finish();
+                            } else {
+                                Intent intent = new Intent(DetailActivity.this, UploadSucessActivity.class);
+                                intent.putExtra(Constant.ItentKey1, uploadid);
+                                startActivity(intent);
+                                finish();
+                            }
+
                         }
                     }
 
@@ -755,15 +778,12 @@ public class DetailActivity extends BaseActivity {
     }
 
 
-
-
-
-    public  void saveMyBitmap(Bitmap mBitmap, String bitName) {
+    public void saveMyBitmap(Bitmap mBitmap, String bitName) {
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             String filePath = null;
             FileOutputStream out = null;
 
-            filePath =  AppConstant.IMAGE_LONG;
+            filePath = AppConstant.IMAGE_LONG;
             File imgDir = new File(filePath);
             if (!imgDir.exists()) {
                 imgDir.mkdirs();
@@ -782,7 +802,7 @@ public class DetailActivity extends BaseActivity {
                 e.printStackTrace();
             }
 
-             DetailActivity.this.ShowToast("已保存，请到扫描页点击右上角图片按钮查看");
+            DetailActivity.this.ShowToast("已保存，请到扫描页点击右上角图片按钮查看");
 
         }
 
@@ -791,7 +811,7 @@ public class DetailActivity extends BaseActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0&&uploadid.equals("0")) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0 && uploadid.equals("0")) {
             EventMsg eventMsg = new EventMsg();
             eventMsg.setCode(500);
             RxBus.getInstance().post(eventMsg);

@@ -41,6 +41,7 @@ public class GifActivity extends Activity {
     private Gson gson;
     private Timer timerscan;
     private boolean RetryScan = true;//一次扫描重试机会
+    private Timer timerRequest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,30 +87,15 @@ public class GifActivity extends Activity {
      * 5秒钟之后去请求扫描结果
      */
     private void RequestScan() {
-        final Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
+        timerRequest = new Timer();
+        timerRequest.schedule(new TimerTask() {
             public void run() {
                 requestData();
-                timer.cancel();
             }
-        }, 5000);
+        }, 5000,10000);
 
     }
 
-
-    /**
-     * 10秒后去请求扫描结果
-     */
-    private Handler handlerTimer = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            if (msg.what == 100) {
-
-                requestData();
-            }
-        }
-    };
 
 
     /**
@@ -127,43 +113,37 @@ public class GifActivity extends Activity {
                     public void onSuccess(Response<BaseResponse<String>> response) {
                         ScanBean scanBean = gson.fromJson(String.valueOf(response.body()), ScanBean.class);
                         if (scanBean.getResult() == 1) {
-
-                            mHandler.removeMessages(100);
-                            timerscan.cancel();
+                            if (timerscan!=null){
+                                timerscan.cancel();
+                            }
+                            if (timerRequest!=null){
+                                timerRequest.cancel();
+                            }
                             Intent intent = new Intent();
                             intent.putExtra(Constant.ItentKey1, scanNametime);
                             GifActivity.this.setResult(200, intent);
                             finish();
 
-                        } else if (scanBean.getResult() == 2) {
-                            //开启循环模式、
-                            RetryScan = false;
-                            handlerTimer.sendEmptyMessageDelayed(100, 10000);
-                        } else if (scanBean.getResult() == 0) {
+                        } else  if (scanBean.getResult() == 0) {
 
-                            if (RetryScan) {
-                                RetryScan = false;
-                                ScanPost();
-                                RequestScan();
-                            } else {
-                                timerscan.cancel();
+
+                                if (timerscan!=null){
+                                    timerscan.cancel();
+                                }
+                                if (timerRequest!=null){
+                                    timerRequest.cancel();
+                                }
                                 Intent intent = new Intent();
                                 intent.putExtra(Constant.ItentKey1, scanNametime);
                                 GifActivity.this.setResult(500, intent);
                                 finish();
-                            }
+
                         }
                     }
 
                     @Override
                     public void onError(Response<BaseResponse<String>> response) {
                         super.onError(response);
-                        mHandler.removeMessages(100);
-                        timerscan.cancel();
-                        Intent intent = new Intent();
-                        intent.putExtra(Constant.ItentKey1, scanNametime);
-                        GifActivity.this.setResult(500, intent);
-                        finish();
                     }
                 });
 
@@ -251,6 +231,16 @@ public class GifActivity extends Activity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (timerscan!=null){
+            timerscan.cancel();
+        }
+        if (timerRequest!=null){
+            timerRequest.cancel();
+        }
+    }
 
     //退出时的时间
     private long mExitTime;

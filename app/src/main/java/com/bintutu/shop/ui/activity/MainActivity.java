@@ -162,7 +162,9 @@ public class MainActivity extends BaseActivity {
         mButScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, ReadyToScanActivity.class));
+                Intent intent = new Intent(MainActivity.this, ReadyToScanActivity.class);
+                intent.putExtra(Constant.ItentKey1, "MainActivity");
+                startActivity(intent);
             }
         });
         //打开展厅界面

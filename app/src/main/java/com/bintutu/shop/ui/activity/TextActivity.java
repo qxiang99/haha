@@ -217,4 +217,26 @@ public class TextActivity extends AppCompatActivity {
             ToastUtils.showToast(EmdataAppliaction.getInstance(), response.getException().getMessage());
         }
     }*/
+
+    /**
+     * 初始化网络为指定网络类型
+     */
+    private void initNetWork(){
+      /*  connectivityManager = (ConnectivityManager)getSystemService(CONNECTIVITY_SERVICE);
+        netcallback = new ConnectivityManager.NetworkCallback() {
+            @TargetApi(Build.VERSION_CODES.M)
+            @Override
+            public void onAvailable(Network network) {
+                super.onAvailable(network);
+                Log.e("test", "已根据功能和传输类型找到合适的网络");
+                // 可以通过下面代码将app接下来的请求都绑定到这个网络下请求
+                if (Build.VERSION.SDK_INT >= 23) {
+                    connectivityManager.bindProcessToNetwork(network);
+                } else {// 23后这个方法舍弃了
+                    ConnectivityManager.setProcessDefaultNetwork(network);
+                }
+            }
+        };
+        Utils.selectNetwork(connectivityManager,netcallback,UploadDataActivity.this);*/
+    }
 }

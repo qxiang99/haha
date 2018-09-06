@@ -1,7 +1,9 @@
 package com.bintutu.shop.ui.activity;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -124,10 +126,6 @@ public class WebActivity extends BaseActivity {
     protected void setListener() {
 
         mWebView.setWebViewClient(new WebViewClient() {
-            @Override
-            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
-                DebugLog.e("shouldOverrideUrlLoading");
-            }
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -141,52 +139,47 @@ public class WebActivity extends BaseActivity {
                 return true;
             }
 
-
-            @Override
-            public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                DebugLog.e("shouldOverrideUrlLoading");
-                super.onPageStarted(view, url, favicon);
-
-            }
-
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                DebugLog.e("shouldOverrideUrlLoading");
-                super.onPageFinished(view, url);
-            }
         });
+
+
+
 
         mWebView.setWebChromeClient(new WebChromeClient() {
 
-            public void onProgressChanged(WebView view, int progress) {
-                if (progress == 100) {
-                    mWebProgressbar.setVisibility(View.GONE);//加载完网页进度条消失
-                } else {
-                    mWebProgressbar.setVisibility(View.VISIBLE);//开始加载网页时显示进度条
-                    mWebProgressbar.setProgress(progress);//设置进度值
-                }
-            }
-
-
             @Override
             public boolean onJsAlert(WebView view, String url, String message, final JsResult result) {
+
+                AlertDialog.Builder b2 = new AlertDialog.Builder(WebActivity.this)
+                        .setTitle("提示").setMessage(message)
+                        .setPositiveButton("ok",
+                                new AlertDialog.OnClickListener() {
+
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        // TODO Auto-generated method stub
+                                        result.confirm();
+                                    }
+                                });
+
+                b2.setCancelable(false);
+                b2.create();
+                b2.show();
                 return true;
             }
 
             @Override
             public boolean onJsConfirm(WebView view, String url, String message, JsResult result) {
+                // TODO Auto-generated method stub
                 return super.onJsConfirm(view, url, message, result);
             }
 
             @Override
-            public boolean onJsPrompt(WebView view, String url, String message, String defaultValue, JsPromptResult result) {
+            public boolean onJsPrompt(WebView view, String url, String message, String defaultValue,
+                                      JsPromptResult result) {
+                // TODO Auto-generated method stub
                 return super.onJsPrompt(view, url, message, defaultValue, result);
             }
-
         });
-
-
-
 
 
 
@@ -213,7 +206,10 @@ public class WebActivity extends BaseActivity {
             if (webDataBean.getShop_phone() != null) {
                 ConfigManager.Device.setShopPhone(webDataBean.getShop_phone());
             }
-            startActivity(new Intent(WebActivity.this, ReadyToScanActivity.class));
+            Intent intent = new Intent(WebActivity.this, ReadyToScanActivity.class);
+            intent.putExtra(Constant.ItentKey1, "WebActivity");
+            intent.putExtra(Constant.ItentKey2, url);
+            startActivity(intent);
             finish();
         }
         if (url.startsWith("bintutu://home")) {
@@ -234,7 +230,11 @@ public class WebActivity extends BaseActivity {
             ConfigManager.Foot.setchoosed_exclusive_id(chooseBean.getChoosed_exclusive_id());
             ConfigManager.Foot.setchoosed_sole_accessory_id(chooseBean.getChoosed_sole_accessory_id());
             ConfigManager.Foot.setchoosed_sole_material_id(chooseBean.getChoosed_sole_material_id());
-            startActivity(new Intent(WebActivity.this, ReadyToScanActivity.class));
+
+            Intent intent = new Intent(WebActivity.this, ReadyToScanActivity.class);
+            intent.putExtra(Constant.ItentKey1, "WebActivity");
+            intent.putExtra(Constant.ItentKey2, url);
+            startActivity(intent);
             finish();
 
         }

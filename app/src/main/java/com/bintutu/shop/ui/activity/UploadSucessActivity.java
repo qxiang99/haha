@@ -80,7 +80,9 @@ public class UploadSucessActivity extends BaseActivity {
         sucessLinGoscan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(UploadSucessActivity.this, ReadyToScanActivity.class));
+                Intent intent = new Intent(UploadSucessActivity.this, ReadyToScanActivity.class);
+                intent.putExtra(Constant.ItentKey1, "UploadSucessActivity");
+                startActivity(intent);
                 finish();
             }
         });
@@ -115,7 +117,9 @@ public class UploadSucessActivity extends BaseActivity {
             @Override
             public void onFinish() {
                 if (sucessTextGoscan != null) {
-                    startActivity(new Intent(UploadSucessActivity.this, ReadyToScanActivity.class));
+                    Intent intent = new Intent(UploadSucessActivity.this, ReadyToScanActivity.class);
+                    intent.putExtra(Constant.ItentKey1, "UploadSucessActivity");
+                    startActivity(intent);
                     finish();
                 }
             }

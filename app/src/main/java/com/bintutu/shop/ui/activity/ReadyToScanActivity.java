@@ -30,6 +30,8 @@ public class ReadyToScanActivity extends BaseActivity {
     @BindView(R.id.ready_but_file)
     Button readyButFile;
     private boolean scangif = false;//判断设备是否在线 更换图标
+    private String activtyname;
+    private String activtyurl;
 
     @Override
     protected void initContentView(Bundle savedInstanceState) {
@@ -40,6 +42,11 @@ public class ReadyToScanActivity extends BaseActivity {
     protected void init() {
         //请求扫描仪是否在线
         JudgeOnlineScan();
+        Intent intent = getIntent();
+        activtyname = intent.getStringExtra(Constant.ItentKey1);
+        if ("WebActivity".equals(activtyname)){
+            activtyurl = intent.getStringExtra(Constant.ItentKey2);
+        }
     }
 
 
@@ -49,6 +56,11 @@ public class ReadyToScanActivity extends BaseActivity {
         readyButReturn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if ("WebActivity".equals(activtyname)){
+                    Intent intent = new Intent(ReadyToScanActivity.this, WebActivity.class);
+                    intent.putExtra(Constant.ItentKey1, activtyurl);
+                    startActivity(intent);
+                }
                 finish();
             }
         });
@@ -73,7 +85,7 @@ public class ReadyToScanActivity extends BaseActivity {
 
             }
         });
-        //开始扫描
+        //
         readyButFile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -128,6 +140,7 @@ public class ReadyToScanActivity extends BaseActivity {
             Intent intent = new Intent(ReadyToScanActivity.this, DetailActivity.class);
             intent.putExtra(Constant.ItentKey1, result);
             startActivity(intent);
+            finish();
         } else if (resultCode == 500) {
             ShowToast("扫描出错");
         }

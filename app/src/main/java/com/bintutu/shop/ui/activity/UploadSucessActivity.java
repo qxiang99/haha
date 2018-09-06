@@ -1,5 +1,6 @@
 package com.bintutu.shop.ui.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -31,6 +32,7 @@ public class UploadSucessActivity extends BaseActivity {
     @BindView(R.id.sucess_lin_goscan)
     LinearLayout sucessLinGoscan;
     private CutDown cutDown;
+    private Context mContext;
 
     @Override
     protected void initContentView(Bundle savedInstanceState) {
@@ -39,6 +41,7 @@ public class UploadSucessActivity extends BaseActivity {
 
     @Override
     protected void init() {
+        mContext = this;
 
         Intent intent = getIntent();
         String number = intent.getStringExtra(Constant.ItentKey1);
@@ -117,7 +120,7 @@ public class UploadSucessActivity extends BaseActivity {
 
             @Override
             public void onFinish() {
-                if (sucessTextGoscan != null) {
+                if (sucessTextGoscan != null&&mContext!=null) {
                     Intent intent = new Intent(UploadSucessActivity.this, ReadyToScanActivity.class);
                     intent.putExtra(Constant.ItentKey1, "UploadSucessActivity");
                     startActivity(intent);
@@ -133,5 +136,13 @@ public class UploadSucessActivity extends BaseActivity {
         cutDown.subscribeCutDown();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mContext =null;
+        if (cutDown!=null){
+            cutDown.Stop();
+        }
 
+    }
 }

@@ -66,4 +66,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (dialog != null) dialog.dismiss();
 
     }
+
+    @Override
+        protected void onDestroy() {
+        unbinder=null;
+        super.onDestroy();
+
+    }
 }

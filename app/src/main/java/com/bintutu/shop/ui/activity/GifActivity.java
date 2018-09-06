@@ -40,7 +40,6 @@ public class GifActivity extends Activity {
     private String scanNametime;
     private Gson gson;
     private Timer timerscan;
-    private boolean RetryScan = true;//一次扫描重试机会
     private Timer timerRequest;
 
     @Override
@@ -108,6 +107,7 @@ public class GifActivity extends Activity {
     private void requestData() {
         OkGo.<BaseResponse<String>>post(AppConstant.REQUEST_DATA)
                 .params("id", scanNametime)
+                .tag(this)
                 .execute(new JsonCallback<BaseResponse<String>>() {
                     @Override
                     public void onSuccess(Response<BaseResponse<String>> response) {
@@ -119,6 +119,8 @@ public class GifActivity extends Activity {
                             if (timerRequest!=null){
                                 timerRequest.cancel();
                             }
+                            //Activity销毁时，取消网络请求
+                            OkGo.getInstance().cancelTag(this);
                             Intent intent = new Intent();
                             intent.putExtra(Constant.ItentKey1, scanNametime);
                             GifActivity.this.setResult(200, intent);
@@ -133,6 +135,8 @@ public class GifActivity extends Activity {
                                 if (timerRequest!=null){
                                     timerRequest.cancel();
                                 }
+                            //Activity销毁时，取消网络请求
+                            OkGo.getInstance().cancelTag(this);
                                 Intent intent = new Intent();
                                 intent.putExtra(Constant.ItentKey1, scanNametime);
                                 GifActivity.this.setResult(500, intent);
@@ -240,7 +244,10 @@ public class GifActivity extends Activity {
         if (timerRequest!=null){
             timerRequest.cancel();
         }
+        //Activity销毁时，取消网络请求
+        OkGo.getInstance().cancelTag(this);
     }
+
 
     //退出时的时间
     private long mExitTime;
@@ -260,6 +267,14 @@ public class GifActivity extends Activity {
             ToastUtils.showToast(GifActivity.this, "如果想退出扫描，再按一次返回");
             mExitTime = System.currentTimeMillis();
         } else {
+            if (timerscan!=null){
+                timerscan.cancel();
+            }
+            if (timerRequest!=null){
+                timerRequest.cancel();
+            }
+            //Activity销毁时，取消网络请求
+            OkGo.getInstance().cancelTag(this);
             finish();
         }
     }

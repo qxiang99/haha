@@ -13,6 +13,16 @@ public class LoginBean implements Serializable {
     private int code;
     private ResultBean result;
 
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
+
+    private String msg;
+
     public int getCode() {
         return code;
     }

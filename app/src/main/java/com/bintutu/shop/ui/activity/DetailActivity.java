@@ -144,6 +144,8 @@ public class DetailActivity extends BaseActivity {
     private int Retryright = 0;
     private boolean Responseleft = false;
     private boolean Responserighht = false;
+    private String activtyurl="";
+    private String activtyname;
 
 
     @Override
@@ -158,6 +160,10 @@ public class DetailActivity extends BaseActivity {
         //获取上一界面发送给扫描仪的指令
         Intent intent = getIntent();
         number = intent.getStringExtra(Constant.ItentKey1);
+        activtyname = intent.getStringExtra(Constant.ItentKey2);
+        if ("WebActivity".equals(activtyname)){
+            activtyurl = intent.getStringExtra(Constant.ItentKey2);
+        }
         //初始化Recyclerview
         showRecyclerview();
         //初始化LoginDailog
@@ -196,10 +202,18 @@ public class DetailActivity extends BaseActivity {
                 ConfigManager.Foot.setCustomer_id("");
                 ConfigManager.Foot.setCustomer_phone("");
                 ConfigManager.Foot.setIdid("");
+                ConfigManager.Foot.setchoosed_fur_id("");
                 ConfigManager.Foot.setchoosed_color_id("");
                 ConfigManager.Foot.setchoosed_exclusive_id("");
                 ConfigManager.Foot.setchoosed_sole_accessory_id("");
                 ConfigManager.Foot.setchoosed_sole_material_id("");
+
+                if ("WebActivity".equals(activtyname)){
+                    Intent intent = new Intent(DetailActivity.this, WebActivity.class);
+                    intent.putExtra(Constant.ItentKey1, activtyurl);
+                    startActivity(intent);
+                }
+
                 finish();
             }
         });
@@ -210,6 +224,7 @@ public class DetailActivity extends BaseActivity {
                 ConfigManager.Foot.setCustomer_id("");
                 ConfigManager.Foot.setCustomer_phone("");
                 ConfigManager.Foot.setIdid("");
+                ConfigManager.Foot.setchoosed_fur_id("");
                 ConfigManager.Foot.setchoosed_color_id("");
                 ConfigManager.Foot.setchoosed_exclusive_id("");
                 ConfigManager.Foot.setchoosed_sole_accessory_id("");
@@ -561,6 +576,8 @@ public class DetailActivity extends BaseActivity {
                                 ConfigManager.Foot.setCustomer_id("");
                                 ConfigManager.Foot.setCustomer_phone("");
                                 ConfigManager.Foot.setIdid("");
+                                ConfigManager.Foot.setchoosed_fur_id("");
+                                ConfigManager.Foot.setchoosed_fur_id("");
                                 ConfigManager.Foot.setchoosed_color_id("");
                                 ConfigManager.Foot.setchoosed_exclusive_id("");
                                 ConfigManager.Foot.setchoosed_sole_accessory_id("");

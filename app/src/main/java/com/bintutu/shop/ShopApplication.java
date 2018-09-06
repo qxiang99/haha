@@ -64,7 +64,7 @@ public class ShopApplication extends Application {
         //超时时间设置，默认60秒
         builder.readTimeout(OkGo.DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS);      //全局的读取超时时间
         builder.writeTimeout(OkGo.DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS);     //全局的写入超时时间
-        builder.connectTimeout(20000, TimeUnit.MILLISECONDS);   //全局的连接超时时间
+        builder.connectTimeout(10000, TimeUnit.MILLISECONDS);   //全局的连接超时时间
 
         // 其他统一的配置
         OkGo.getInstance().init(this)                           //必须调用初始化

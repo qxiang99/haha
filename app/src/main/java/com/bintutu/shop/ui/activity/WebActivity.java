@@ -125,21 +125,7 @@ public class WebActivity extends BaseActivity {
     @Override
     protected void setListener() {
 
-        mWebView.setWebViewClient(new WebViewClient() {
 
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                DebugLog.e("shouldOverrideUrlLoading");
-                if (url.startsWith("bintutu://")) {
-                    DebugLog.e(url + "");
-                    Takeout(url);
-                } else {
-                    view.loadUrl(url);
-                }
-                return true;
-            }
-
-        });
 
 
 
@@ -182,7 +168,21 @@ public class WebActivity extends BaseActivity {
         });
 
 
+        mWebView.setWebViewClient(new WebViewClient() {
 
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                DebugLog.e("shouldOverrideUrlLoading");
+                if (url.startsWith("bintutu://")) {
+                    DebugLog.e(url + "");
+                    Takeout(url);
+                } else {
+                    view.loadUrl(url);
+                }
+                return true;
+            }
+
+        });
 
     }
 
@@ -226,6 +226,7 @@ public class WebActivity extends BaseActivity {
             ConfigManager.Foot.setCustomer_id(chooseBean.getCustomer_id());
             ConfigManager.Foot.setCustomer_phone(chooseBean.getCustomer_phone());
             ConfigManager.Foot.setIdid(chooseBean.getIdid());
+            ConfigManager.Foot.setchoosed_fur_id(chooseBean.getChoosed_fur_id());
             ConfigManager.Foot.setchoosed_color_id(chooseBean.getChoosed_color_id());
             ConfigManager.Foot.setchoosed_exclusive_id(chooseBean.getChoosed_exclusive_id());
             ConfigManager.Foot.setchoosed_sole_accessory_id(chooseBean.getChoosed_sole_accessory_id());

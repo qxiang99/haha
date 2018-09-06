@@ -26,28 +26,6 @@
             android:layout_marginLeft="305px"
             android:layout_marginRight="305px" />
 
-      <!--  <pl.droidsonroids.gif.GifImageView
-            android:id="@+id/imageleft"
-            android:layout_width="@dimen/dp_300"
-            android:layout_height="@dimen/dp_180"
-            android:layout_marginLeft="305px"
-            android:layout_marginRight="305px"
-            android:visibility="gone"/>
-        <pl.droidsonroids.gif.GifImageView
-            android:id="@+id/imageright"
-            android:layout_width="@dimen/dp_300"
-            android:layout_height="@dimen/dp_180"
-            android:layout_marginLeft="305px"
-            android:layout_marginRight="305px"
-            android:visibility="gone"/>
-        <pl.droidsonroids.gif.GifImageView
-            android:id="@+id/imagebottom"
-            android:layout_width="@dimen/dp_300"
-            android:layout_height="@dimen/dp_180"
-            android:layout_marginLeft="305px"
-            android:layout_marginRight="305px"
-            android:visibility="gone"/>-->
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

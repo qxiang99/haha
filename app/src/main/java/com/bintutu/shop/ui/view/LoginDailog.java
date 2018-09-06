@@ -150,13 +150,15 @@ public class LoginDailog extends Dialog {
                                         mListener.Data(Number, PHONE, loginBean.getResult().getCustomer_id());
                                     }
                                     dismiss();
+                                }else {
+                                    ToastUtils.showToast(mContext, ""+loginBean.getMsg());
                                 }
 
                             }
 
                             @Override
                             public void onError(Response<BaseResponse<String>> response) {
-
+                                    super.onError(response);
                             }
                         });
 

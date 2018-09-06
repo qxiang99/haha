@@ -173,7 +173,7 @@ public class MainActivity extends BaseActivity {
             public void onClick(View view) {
 
                 Intent intent = new Intent(MainActivity.this, WebActivity.class);
-                intent.putExtra(Constant.ItentKey1, AppConstant.WEBVIEW_SORT(ConfigManager.Foot.getCustomer_id(), ConfigManager.Foot.getCustomer_phone()));
+                intent.putExtra(Constant.ItentKey1, AppConstant.WEBVIEW_HOME);
                 startActivity(intent);
 
             }

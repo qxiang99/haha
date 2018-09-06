@@ -70,6 +70,7 @@ public class UploadSucessActivity extends BaseActivity {
                 ConfigManager.Foot.setCustomer_id("");
                 ConfigManager.Foot.setCustomer_phone("");
                 ConfigManager.Foot.setIdid("");
+                ConfigManager.Foot.setchoosed_fur_id("");
                 ConfigManager.Foot.setchoosed_color_id("");
                 ConfigManager.Foot.setchoosed_exclusive_id("");
                 ConfigManager.Foot.setchoosed_sole_accessory_id("");

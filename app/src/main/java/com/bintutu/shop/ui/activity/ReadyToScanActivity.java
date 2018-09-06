@@ -12,6 +12,8 @@ import com.bintutu.shop.ui.BaseActivity;
 import com.bintutu.shop.utils.AppConstant;
 import com.bintutu.shop.utils.ConfigManager;
 import com.bintutu.shop.utils.Constant;
+import com.bintutu.shop.utils.EventMsg;
+import com.bintutu.shop.utils.RxBus;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
 
@@ -31,7 +33,7 @@ public class ReadyToScanActivity extends BaseActivity {
     Button readyButFile;
     private boolean scangif = false;//判断设备是否在线 更换图标
     private String activtyname;
-    private String activtyurl;
+    private String activtyurl="";
 
     @Override
     protected void initContentView(Bundle savedInstanceState) {
@@ -139,8 +141,16 @@ public class ReadyToScanActivity extends BaseActivity {
             String result = data.getExtras().getString(Constant.ItentKey1);
             Intent intent = new Intent(ReadyToScanActivity.this, DetailActivity.class);
             intent.putExtra(Constant.ItentKey1, result);
+            intent.putExtra(Constant.ItentKey2, activtyname);
+            if ("WebActivity".equals(activtyname)){
+                intent.putExtra(Constant.ItentKey3, activtyurl);
+            }
             startActivity(intent);
             finish();
+
+            EventMsg eventMsg = new EventMsg();
+            eventMsg.setCode(500);
+            RxBus.getInstance().post(eventMsg);
         } else if (resultCode == 500) {
             ShowToast("扫描出错");
         }

@@ -3,6 +3,8 @@ package com.bintutu.shop;
 import android.app.Application;
 
 import com.bintutu.shop.utils.CrashHandler;
+import com.bintutu.shop.utils.EventMsg;
+import com.bintutu.shop.utils.RxBus;
 import com.bintutu.shop.utils.ToastUtils;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheEntity;
@@ -72,4 +74,13 @@ public class ShopApplication extends Application {
                 .setRetryCount(0) ;                              //全局统一超时重连次数，默认为三次，那么最差的情况会请求4次(一次原始请求，三次重连请求)，不需要可以设置为0
 
     }
+
+    @Override
+    public void onTerminate() {
+        EventMsg eventMsg = new EventMsg();
+        eventMsg.setCode(500);
+        RxBus.getInstance().post(eventMsg);
+        super.onTerminate();
+    }
+
 }

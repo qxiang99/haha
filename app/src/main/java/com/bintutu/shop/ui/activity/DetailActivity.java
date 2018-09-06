@@ -19,6 +19,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -136,7 +137,7 @@ public class DetailActivity extends BaseActivity {
     private String loginnumber;
     private String loginphone;
     private String logincustomer_id;
-    private String uploadid;
+    private String uploadid = "0";
     private HashMap<View, Bitmap> map;
     private LoginDailog loginDailog;
     private int Retryleft = 0;
@@ -165,7 +166,6 @@ public class DetailActivity extends BaseActivity {
         //请求左右脚数据
         jumpLoading("加载足型数据");
         getLeft();
-        getRight();
         //加载四张图片
         LoadingImage();
         //设置采集数据时间
@@ -402,7 +402,7 @@ public class DetailActivity extends BaseActivity {
      * 左右脚请求数据有偶尔失败情况
      * 现增加重试机制
      */
-    private Handler handlerTimer = new Handler() {
+  /*  private Handler handlerTimer = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -413,7 +413,7 @@ public class DetailActivity extends BaseActivity {
                 getRight();
             }
         }
-    };
+    };*/
 
 
 
@@ -426,21 +426,20 @@ public class DetailActivity extends BaseActivity {
                     @Override
                     public void onSuccess(Response<BaseResponse<String>> response) {
                         leftBean = gson.fromJson(String.valueOf(response.body()), LeftBean.class);
-                        handlerTimer.removeMessages(100);
                         Responseleft = true;
-                        if (Responseleft==true&&Responserighht==true){
+                        if (Responserighht==false){
+                            getRight();
+                        }else if (Responseleft==true&&Responserighht==true){
                             getData();
                         }
                     }
                     @Override
                     public void onError(Response<BaseResponse<String>> response) {
-                        if (Retryleft<2){
-                            ++Retryleft;
-                            handlerTimer.sendEmptyMessageDelayed(100, 200);
+                        if (Responserighht==false){
+                            getRight();
                         }else {
+                            ShowToast("数据拉取失败");
                             closeLoading();
-                            handlerTimer.removeMessages(100);
-                            ShowToast("左脚数据加载失败");
                         }
                     }
                 });
@@ -455,22 +454,22 @@ public class DetailActivity extends BaseActivity {
                     @Override
                     public void onSuccess(Response<BaseResponse<String>> response) {
                         rightBean = gson.fromJson(String.valueOf(response.body()), RightBean.class);
-                        handlerTimer.removeMessages(200);
                         Responserighht = true;
-                        if (Responserighht==true&&Responseleft==true){
+                        if (Responseleft==true){
                             getData();
+                        }else {
+                            getLeft();
                         }
                     }
 
                     @Override
                     public void onError(Response<BaseResponse<String>> response) {
-                        if (Retryright<2){
+                        if (Responserighht==false&&Retryright<1){
                             ++Retryright;
-                            handlerTimer.sendEmptyMessageDelayed(200, 200);
+                            getRight();
                         }else {
+                            ShowToast("数据拉取失败");
                             closeLoading();
-                            handlerTimer.removeMessages(200);
-                            ShowToast("右脚数据加载失败");
                         }
                     }
                 });
@@ -515,7 +514,7 @@ public class DetailActivity extends BaseActivity {
 
 
     private void upload(String number, String phone, String customer_id) {
-
+        jumpLoading("上传数据中");
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("left", leftBean);
         map.put("right", rightBean);
@@ -536,11 +535,14 @@ public class DetailActivity extends BaseActivity {
                 .execute(new JsonCallback<BaseResponse<String>>() {
                     @Override
                     public void onSuccess(Response<BaseResponse<String>> response) {
+                        closeLoading();
                         String data = String.valueOf(response.body());
                         UploadBean uploadBean = gson.fromJson(data, UploadBean.class);
                         if (uploadBean != null & uploadBean.getCode() == 0) {
+                            ShowToast("上传成功");
                             uploadid = uploadBean.getResult().getId();
                             EventMsg eventMsg = new EventMsg();
+                            eventMsg.setCode(200);
                             eventMsg.setMsg(uploadid);
                             RxBus.getInstance().post(eventMsg);
 
@@ -553,6 +555,8 @@ public class DetailActivity extends BaseActivity {
 
                     @Override
                     public void onError(Response<BaseResponse<String>> response) {
+                        ShowToast("上传失败");
+                        closeLoading();
                     }
                 });
     }
@@ -785,4 +789,13 @@ public class DetailActivity extends BaseActivity {
 
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0&&uploadid.equals("0")) {
+            EventMsg eventMsg = new EventMsg();
+            eventMsg.setCode(500);
+            RxBus.getInstance().post(eventMsg);
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 }

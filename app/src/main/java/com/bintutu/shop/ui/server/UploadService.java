@@ -3,19 +3,12 @@ package com.bintutu.shop.ui.server;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Environment;
 import android.os.IBinder;
-import android.os.RemoteException;
 import android.support.annotation.Nullable;
 import android.util.Log;
-
-import com.bintutu.shop.IUploadServiceface;
-import com.bintutu.shop.okgo.DialogCallback;
 import com.bintutu.shop.okgo.JsonCallback;
 import com.bintutu.shop.okgo.LzyResponse;
 import com.bintutu.shop.okgo.ServerModel;
-import com.bintutu.shop.ui.activity.DetailActivity;
-import com.bintutu.shop.ui.activity.UploadSucessActivity;
 import com.bintutu.shop.utils.AppConstant;
 import com.bintutu.shop.utils.Constant;
 import com.bintutu.shop.utils.DebugLog;
@@ -44,6 +37,8 @@ public class UploadService extends Service {
     private String UploadID;
     private boolean loadZip = false;
     private boolean upload = false;
+    private boolean ZIPsuccess = false;
+    private boolean IMAGEsuccess = false;
 
     @Nullable
     @Override
@@ -81,6 +76,8 @@ public class UploadService extends Service {
                         loadZip = true;
                         if (loadZip == true && upload == true) {
                             UploadZip();
+                            //上传图片
+                            GetImage();
                         }
                     }
 
@@ -108,7 +105,8 @@ public class UploadService extends Service {
         }
     }
 
-    private void UploadImage(List<String> imageliat) {
+    private void UploadImage(final List<String> imageliat) {
+        final int[] page = {0};
         for (String file : imageliat) {
             //上传图片
             OkGo.<LzyResponse<ServerModel>>post(AppConstant.UPLOAD_IMAGE)
@@ -117,18 +115,26 @@ public class UploadService extends Service {
                     .execute(new JsonCallback<LzyResponse<ServerModel>>() {
                         @Override
                         public void onSuccess(Response<LzyResponse<ServerModel>> response) {
+                            page[0] = page[0] +1;
+                            if (imageliat.size()==page[0]){
+                                IMAGEsuccess= true;
+                                FinishService();
+                            }
                         }
 
                         @Override
                         public void onError(Response<LzyResponse<ServerModel>> response) {
+                            page[0] = page[0] +1;
+                            if (imageliat.size()==page[0]){
+                                IMAGEsuccess= true;
+                                FinishService();
+                            }
                         }
                     });
         }
     }
 
     private void UploadZip() {
-        //上传图片
-        GetImage();
         File files = new File(AppConstant.ZIP_DATAIL + "/data.tgz");
         //上传图片
         OkGo.<LzyResponse<ServerModel>>post(AppConstant.UPLOAD_ZIP)
@@ -138,12 +144,14 @@ public class UploadService extends Service {
                 .execute(new JsonCallback<LzyResponse<ServerModel>>() {
                     @Override
                     public void onSuccess(Response<LzyResponse<ServerModel>> response) {
-
+                        ZIPsuccess=true;
+                        FinishService();
                     }
 
                     @Override
                     public void onError(Response<LzyResponse<ServerModel>> response) {
-
+                        ZIPsuccess=true;
+                        FinishService();
                     }
                 });
     }
@@ -159,18 +167,27 @@ public class UploadService extends Service {
             @Override
             public void accept(EventMsg eventMsg) throws Exception {
                 if (eventMsg != null) {
-                    UploadID =eventMsg.getMsg();
-                    upload= true;
-                    if (loadZip == true && upload == true) {
-                        UploadZip();
+                    if (eventMsg.getCode()==200){
+                        UploadID =eventMsg.getMsg();
+                        upload= true;
+                        if (loadZip == true && upload == true) {
+                            UploadZip();
+                            //上传图片
+                            GetImage();
+                        }
+                    }else if (eventMsg.getCode()==500){
+                        stopSelf();
                     }
+
                 }
             }
         });
     }
 
     private void FinishService(){
-        stopSelf();
+        if (ZIPsuccess==true&&IMAGEsuccess==true){
+            stopSelf();
+        }
     }
 
 

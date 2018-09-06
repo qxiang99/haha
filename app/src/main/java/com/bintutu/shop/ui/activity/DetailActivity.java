@@ -43,13 +43,16 @@ import com.bintutu.shop.okgo.LzyResponse;
 import com.bintutu.shop.okgo.ServerModel;
 import com.bintutu.shop.ui.BaseActivity;
 import com.bintutu.shop.ui.adapter.DetailAdapter;
+import com.bintutu.shop.ui.server.UploadService;
 import com.bintutu.shop.ui.view.ImageTwoDailog;
 import com.bintutu.shop.ui.view.LoginDailog;
 import com.bintutu.shop.utils.AppConstant;
 import com.bintutu.shop.utils.ConfigManager;
 import com.bintutu.shop.utils.Constant;
 import com.bintutu.shop.utils.DebugLog;
+import com.bintutu.shop.utils.EventMsg;
 import com.bintutu.shop.utils.GlideUtil;
+import com.bintutu.shop.utils.RxBus;
 import com.bintutu.shop.utils.Utils;
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
@@ -169,11 +172,11 @@ public class DetailActivity extends BaseActivity {
         DataTime();
         //设置六张足型图片
         SetSixFootImage();
-
+        //Upload();
+        Upload();
         detailButLeft.setEnabled(false);
         detailButRight.setEnabled(true);
     }
-
 
 
 
@@ -424,6 +427,7 @@ public class DetailActivity extends BaseActivity {
                     public void onSuccess(Response<BaseResponse<String>> response) {
                         leftBean = gson.fromJson(String.valueOf(response.body()), LeftBean.class);
                         handlerTimer.removeMessages(100);
+                        Responseleft = true;
                         if (Responseleft==true&&Responserighht==true){
                             getData();
                         }
@@ -452,6 +456,7 @@ public class DetailActivity extends BaseActivity {
                     public void onSuccess(Response<BaseResponse<String>> response) {
                         rightBean = gson.fromJson(String.valueOf(response.body()), RightBean.class);
                         handlerTimer.removeMessages(200);
+                        Responserighht = true;
                         if (Responserighht==true&&Responseleft==true){
                             getData();
                         }
@@ -473,6 +478,7 @@ public class DetailActivity extends BaseActivity {
 
     public void getData() {
         closeLoading();
+        DetailList.clear();
         DetailList.add(new DetailBean(getResources().getString(R.string.FootLen), 1, leftBean.get_1_FootLen(), rightBean.get_1_FootLen()));
         DetailList.add(new DetailBean(getResources().getString(R.string.ZhiWei), 2, leftBean.get_2_ZhiWei(), rightBean.get_2_ZhiWei()));
         DetailList.add(new DetailBean(getResources().getString(R.string.FuWei), 3, leftBean.get_3_FuWei(), rightBean.get_3_FuWei()));
@@ -534,8 +540,14 @@ public class DetailActivity extends BaseActivity {
                         UploadBean uploadBean = gson.fromJson(data, UploadBean.class);
                         if (uploadBean != null & uploadBean.getCode() == 0) {
                             uploadid = uploadBean.getResult().getId();
-                            DebugLog.e(uploadid + ".................customerid");
-                            downloadZip();
+                            EventMsg eventMsg = new EventMsg();
+                            eventMsg.setMsg(uploadid);
+                            RxBus.getInstance().post(eventMsg);
+
+                            Intent intent = new Intent(DetailActivity.this, UploadSucessActivity.class);
+                            intent.putExtra(Constant.ItentKey1, uploadid);
+                            startActivity(intent);
+                            finish();
                         }
                     }
 
@@ -543,93 +555,14 @@ public class DetailActivity extends BaseActivity {
                     public void onError(Response<BaseResponse<String>> response) {
                     }
                 });
-
-
     }
 
 
-    private void downloadZip() {
-        OkGo.<File>get(AppConstant.DATA_ZIP(number))
-                .tag(this)
-                .execute(new FileCallback(AppConstant.ZIP_DATAIL, "data.tgz") {
-                    @Override
-                    public void onSuccess(Response<File> response) {
-                        File file = (File) response.body();
-                        DebugLog.d("checkUpdateReceiver", file + "文件下载完成");
-                        UploadZip();
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                //上传图片
-                                GetImage();
-                            }
-                        }).start();
-                    }
-
-                    @Override
-                    public void downloadProgress(Progress progress) {
-                        Log.d("checkUpdateReceiver", "文件下载中");
-                    }
-
-                    @Override
-                    public void onStart(Request<File, ? extends Request> request) {
-                        Log.d("checkUpdateReceiver", "开始下载");
-                    }
-
-                    @Override
-                    public void onError(Response<File> response) {
-                        super.onError(response);
-                    }
-                });
-    }
-
-    private void UploadZip() {
-        File files = new File(AppConstant.ZIP_DATAIL + "/data.tgz");
-        //上传图片
-        OkGo.<LzyResponse<ServerModel>>post(AppConstant.UPLOAD_ZIP)
-
-                .params("id", uploadid)
-                .params("file", files, "data.tgz", MediaType.parse("application/x-tar"))
-                .execute(new DialogCallback<LzyResponse<ServerModel>>(this) {
-                    @Override
-                    public void onSuccess(Response<LzyResponse<ServerModel>> response) {
-                        Intent intent = new Intent(DetailActivity.this, UploadSucessActivity.class);
-                        intent.putExtra(Constant.ItentKey1, uploadid);
-                        startActivity(intent);
-                        finish();
-                    }
-
-                    @Override
-                    public void onError(Response<LzyResponse<ServerModel>> response) {
-
-                    }
-                });
-    }
-
-
-    private void GetImage() {
-        List<String> imageliat = Utils.getAllFiles(AppConstant.IMAGE_DATAIL, "jpg");
-        if (imageliat != null && imageliat.size() > 0) {
-            UploadImage(imageliat);
-        }
-    }
-
-    private void UploadImage(List<String> imageliat) {
-        for (String file : imageliat) {
-            //上传图片
-            OkGo.<LzyResponse<ServerModel>>post(AppConstant.UPLOAD_IMAGE)
-                    .params("id", uploadid)
-                    .params("file", new File(file))
-                    .execute(new JsonCallback<LzyResponse<ServerModel>>() {
-                        @Override
-                        public void onSuccess(Response<LzyResponse<ServerModel>> response) {
-                        }
-
-                        @Override
-                        public void onError(Response<LzyResponse<ServerModel>> response) {
-                        }
-                    });
-        }
+    private void Upload() {
+        /*启动服务*/
+        Intent intent = new Intent(this, UploadService.class);
+        intent.putExtra(Constant.ItentKey1, number);
+        startService(intent);
     }
 
 

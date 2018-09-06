@@ -2,7 +2,6 @@ package com.bintutu.shop.bean;
 
 public class ChooseBean {
 
-
     /**
      * customer_id : 44
      * customer_phone : 18862338050

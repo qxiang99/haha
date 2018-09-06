@@ -423,6 +423,7 @@ public class DetailActivity extends BaseActivity {
                     @Override
                     public void onSuccess(Response<BaseResponse<String>> response) {
                         leftBean = gson.fromJson(String.valueOf(response.body()), LeftBean.class);
+                        handlerTimer.removeMessages(100);
                         if (Responseleft==true&&Responserighht==true){
                             getData();
                         }
@@ -434,6 +435,7 @@ public class DetailActivity extends BaseActivity {
                             handlerTimer.sendEmptyMessageDelayed(100, 200);
                         }else {
                             closeLoading();
+                            handlerTimer.removeMessages(100);
                             ShowToast("左脚数据加载失败");
                         }
                     }
@@ -449,6 +451,7 @@ public class DetailActivity extends BaseActivity {
                     @Override
                     public void onSuccess(Response<BaseResponse<String>> response) {
                         rightBean = gson.fromJson(String.valueOf(response.body()), RightBean.class);
+                        handlerTimer.removeMessages(200);
                         if (Responserighht==true&&Responseleft==true){
                             getData();
                         }
@@ -461,6 +464,7 @@ public class DetailActivity extends BaseActivity {
                             handlerTimer.sendEmptyMessageDelayed(200, 200);
                         }else {
                             closeLoading();
+                            handlerTimer.removeMessages(200);
                             ShowToast("右脚数据加载失败");
                         }
                     }

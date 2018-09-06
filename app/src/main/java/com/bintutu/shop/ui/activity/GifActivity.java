@@ -143,6 +143,7 @@ public class GifActivity extends Activity {
 
                             if (RetryScan) {
                                 RetryScan = false;
+                                ScanPost();
                                 RequestScan();
                             } else {
                                 timerscan.cancel();

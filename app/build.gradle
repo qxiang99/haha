@@ -6,8 +6,8 @@ android {
         applicationId "com.bintutu.shop"
         minSdkVersion 15
         targetSdkVersion 19
-        versionCode 20180907
-        versionName "1.0.8"
+        versionCode 20180909
+        versionName "1.0.9"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 

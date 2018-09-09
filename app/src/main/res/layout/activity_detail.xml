@@ -228,7 +228,7 @@
                     android:layout_width="0px"
                     android:layout_height="match_parent"
                     android:layout_marginRight="@dimen/dp_23"
-                    android:scaleType="fitCenter"
+                    android:scaleType="fitXY"
                     android:layout_weight="1" />
 
                 <ImageView
@@ -236,7 +236,7 @@
                     android:layout_width="0px"
                     android:layout_height="match_parent"
                     android:layout_marginRight="@dimen/dp_23"
-                    android:scaleType="fitCenter"
+                    android:scaleType="fitXY"
                     android:layout_weight="1" />
 
                 <ImageView
@@ -244,14 +244,14 @@
                     android:layout_width="0px"
                     android:layout_height="match_parent"
                     android:layout_marginRight="@dimen/dp_23"
-                    android:scaleType="fitCenter"
+                    android:scaleType="fitXY"
                     android:layout_weight="1" />
 
                 <ImageView
                     android:id="@+id/detail_image_plantarright"
                     android:layout_width="0px"
                     android:layout_height="match_parent"
-                    android:scaleType="fitCenter"
+                    android:scaleType="fitXY"
                     android:layout_weight="1" />
             </LinearLayout>
 

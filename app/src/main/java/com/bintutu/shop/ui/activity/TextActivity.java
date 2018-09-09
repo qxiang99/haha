@@ -56,20 +56,19 @@ public class TextActivity extends AppCompatActivity {
         setContentView(R.layout.activity_text);
         ButterKnife.bind(this);
 
-        final List<String> DetailList = new ArrayList<>();
+        /*final List<String> DetailList = new ArrayList<>();
         DetailList.add("http://opzhpptsb.bkt.clouddn.com/one.jpg");
         DetailList.add("http://opzhpptsb.bkt.clouddn.com/two.jpg");
         DetailList.add("http://opzhpptsb.bkt.clouddn.com/tree.jpg");
         DetailList.add("http://opzhpptsb.bkt.clouddn.com/four.jpg");
         DetailList.add("http://opzhpptsb.bkt.clouddn.com/five.jpg");
-        DetailList.add("http://opzhpptsb.bkt.clouddn.com/six.jpg");
+        DetailList.add("http://opzhpptsb.bkt.clouddn.com/six.jpg");*/
 
+        final ImageView text_image = findViewById(R.id.text_image);
         findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (String file : DetailList) {
-                    GlideUtil.download(TextActivity.this, file);
-                }
+              GlideUtil.load(TextActivity.this,"http://opzhpptsb.bkt.clouddn.com/one.jpg",text_image);
             }
         });
 

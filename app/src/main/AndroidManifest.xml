@@ -81,7 +81,6 @@
             android:launchMode="singleTop"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustPan|stateHidden">
-
         </activity>
         <!--上传成功页-->
         <activity

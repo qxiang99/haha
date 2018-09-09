@@ -80,8 +80,6 @@ public class DetailActivity extends BaseActivity {
 
     @BindView(R.id.recyclerview)
     RecyclerView mRecyclerview;
-    @BindView(R.id.detai_scroll)
-    HorizontalScrollView detaiScroll;
     @BindView(R.id.detail_all_scroll)
     ScrollView detailALLScroll;
     @BindView(R.id.detail_lin_image)

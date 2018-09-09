@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -35,6 +36,8 @@ public class PhotoViewActivity extends BaseActivity {
     LinearLayout photoLin;
     @BindView(R.id.photo_text)
     TextView photoText;
+    @BindView(R.id.photo_but_return)
+    Button photoButReturn;
     private PhotoAdapter mAdapter;
     private String file;
 
@@ -45,7 +48,7 @@ public class PhotoViewActivity extends BaseActivity {
 
     @Override
     protected void init() {
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 4);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 8);
         mRecycleview.setLayoutManager(layoutManager);
 
         List<String> imagelist = Utils.getAllFiles(AppConstant.IMAGE_LONG, "png");
@@ -63,7 +66,12 @@ public class PhotoViewActivity extends BaseActivity {
 
     @Override
     protected void setListener() {
-
+        photoButReturn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void setGrid(final List<String> imagelist) {

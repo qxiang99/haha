@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:layout_centerInParent="true"
     app:cardElevation="@dimen/dp_3"
+    app:cardCornerRadius="@dimen/dp_4"
     android:orientation="vertical">
 
     <ImageView

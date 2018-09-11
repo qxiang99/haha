@@ -33,6 +33,8 @@ import com.bintutu.shop.utils.AppConstant;
 import com.bintutu.shop.utils.ConfigManager;
 import com.bintutu.shop.utils.Constant;
 import com.bintutu.shop.utils.DebugLog;
+import com.bintutu.shop.utils.EventMsg;
+import com.bintutu.shop.utils.RxBus;
 import com.google.gson.Gson;
 
 import java.net.HttpCookie;
@@ -41,6 +43,8 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 
 public class WebActivity extends BaseActivity {
 
@@ -120,6 +124,7 @@ public class WebActivity extends BaseActivity {
         ConfigManager.Foot.setchoosed_exclusive_id("");
         ConfigManager.Foot.setchoosed_sole_accessory_id("");
         ConfigManager.Foot.setchoosed_sole_material_id("");
+        RxBusMsg();
     }
 
     @Override
@@ -210,7 +215,6 @@ public class WebActivity extends BaseActivity {
             intent.putExtra(Constant.ItentKey1, "WebActivity");
             intent.putExtra(Constant.ItentKey2, url);
             startActivity(intent);
-            finish();
         }
         if (url.startsWith("bintutu://home")) {
 
@@ -236,7 +240,6 @@ public class WebActivity extends BaseActivity {
             intent.putExtra(Constant.ItentKey1, "WebActivity");
             intent.putExtra(Constant.ItentKey2, url);
             startActivity(intent);
-            finish();
 
         }
 
@@ -318,21 +321,24 @@ public class WebActivity extends BaseActivity {
         CookieSyncManager.getInstance().sync();// To get instant sync instead of waiting for the timer to trigger, the host can call this.
     }
 
-/*
-    //对返回键进行监听
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (event.getAction() == KeyEvent.ACTION_DOWN) {
-            if (keyCode == KeyEvent.KEYCODE_BACK && mWebView.canGoBack()) {  //表示按返回键
-
-                mWebView.goBack();   //后退
-
-                //webview.goForward();//前进
-                return true;    //已处理
+    private void RxBusMsg() {
+        RxBus.getInstance().toObservable().map(new Function<Object, EventMsg>() {
+            @Override
+            public EventMsg apply(Object o) throws Exception {
+                return (EventMsg) o;
             }
-        }
-        return false;
-    }*/
+        }).subscribe(new Consumer<EventMsg>() {
+            @Override
+            public void accept(EventMsg eventMsg) throws Exception {
+                if (eventMsg != null) {
+                    if (eventMsg.getCode()==800){
+                      finish();
+                    }
+
+                }
+            }
+        });
+    }
 
 
 

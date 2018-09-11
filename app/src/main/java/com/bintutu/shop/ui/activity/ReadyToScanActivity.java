@@ -33,7 +33,6 @@ public class ReadyToScanActivity extends BaseActivity {
     Button readyButFile;
     private boolean scangif = false;//判断设备是否在线 更换图标
     private String activtyname;
-    private String activtyurl="";
 
     @Override
     protected void initContentView(Bundle savedInstanceState) {
@@ -46,9 +45,6 @@ public class ReadyToScanActivity extends BaseActivity {
         JudgeOnlineScan();
         Intent intent = getIntent();
         activtyname = intent.getStringExtra(Constant.ItentKey1);
-        if ("WebActivity".equals(activtyname)){
-            activtyurl = intent.getStringExtra(Constant.ItentKey2);
-        }
     }
 
 
@@ -58,11 +54,6 @@ public class ReadyToScanActivity extends BaseActivity {
         readyButReturn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if ("WebActivity".equals(activtyname)){
-                    Intent intent = new Intent(ReadyToScanActivity.this, WebActivity.class);
-                    intent.putExtra(Constant.ItentKey1, activtyurl);
-                    startActivity(intent);
-                }
                 finish();
             }
         });
@@ -141,10 +132,6 @@ public class ReadyToScanActivity extends BaseActivity {
             String result = data.getExtras().getString(Constant.ItentKey1);
             Intent intent = new Intent(ReadyToScanActivity.this, DetailActivity.class);
             intent.putExtra(Constant.ItentKey1, result);
-            intent.putExtra(Constant.ItentKey2, activtyname);
-            if ("WebActivity".equals(activtyname)){
-                intent.putExtra(Constant.ItentKey3, activtyurl);
-            }
             startActivity(intent);
             finish();
 

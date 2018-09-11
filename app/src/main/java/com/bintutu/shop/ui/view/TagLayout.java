@@ -19,6 +19,7 @@ import com.bintutu.shop.bean.FootTagBean;
 import com.bintutu.shop.bean.TAGBean;
 import com.bintutu.shop.utils.ConfigManager;
 import com.bintutu.shop.utils.DebugLog;
+import com.bintutu.shop.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,15 +82,22 @@ public class  TagLayout extends RelativeLayout implements View.OnTouchListener {
     }
 
     private void SetItem(final int x,final int y){
-        final EditDailog editDailog = new EditDailog(mContext);
-        editDailog.show();
-        editDailog.setEditClickListener(new EditDailog.OnEditClickListener() {
-            @Override
-            public void onSetData(String edit) {
-                editDailog.dismiss();
-                addItem(x,y,edit);
-            }
-        });
+        int inLINDw2 = LayoutPicture.getWidth();
+        int inLINDh2 = LayoutPicture.getHeight();
+        if (x>0&&y>0&&x<inLINDw2&&y<inLINDh2){
+            final EditDailog editDailog = new EditDailog(mContext);
+            editDailog.show();
+            editDailog.setEditClickListener(new EditDailog.OnEditClickListener() {
+                @Override
+                public void onSetData(String edit) {
+                    editDailog.dismiss();
+                    addItem(x,y,edit);
+                }
+            });
+        }else {
+            ToastUtils.showToast(mContext,"请不要再边界外添加");
+        }
+
 
     }
 

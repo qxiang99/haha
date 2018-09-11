@@ -116,7 +116,6 @@ public class WebActivity extends BaseActivity {
         DebugLog.e("新连接：" + url);
 
 
-
         ConfigManager.Foot.setCustomer_id("");
         ConfigManager.Foot.setCustomer_phone("");
         ConfigManager.Foot.setIdid("");

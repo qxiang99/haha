@@ -145,7 +145,9 @@ public class DetailActivity extends BaseActivity {
     private int Retryright = 0;
     private boolean Responseleft = false;
     private boolean Responserighht = false;
+    private boolean leftANDrighht = true;
     private String activtyurl="";
+    private Thread footThread;
 
 
     @Override
@@ -166,7 +168,8 @@ public class DetailActivity extends BaseActivity {
         loginDailog = new LoginDailog(this);
         //请求左右脚数据
         jumpLoading("加载足型数据");
-        getLeft();
+       // getLeft();
+        getfoot();
         //加载四张图片
         LoadingImage();
         //设置采集数据时间
@@ -421,9 +424,9 @@ public class DetailActivity extends BaseActivity {
     };*/
 
 
-    /**
+  /*  *//**
      * 请求左脚数据
-     */
+     *//*
     public void getLeft() {
         OkGo.<BaseResponse<String>>get(AppConstant.LEFT_JSON(number))
                 .execute(new JsonCallback<BaseResponse<String>>() {
@@ -450,9 +453,9 @@ public class DetailActivity extends BaseActivity {
                 });
     }
 
-    /**
+    *//**
      * 请求右脚数据
-     */
+     *//*
     private void getRight() {
         OkGo.<BaseResponse<String>>get(AppConstant.RIGHT_JSON(number))
                 .execute(new JsonCallback<BaseResponse<String>>() {
@@ -478,7 +481,93 @@ public class DetailActivity extends BaseActivity {
                         }
                     }
                 });
+    }*/
+
+
+    public void getfoot() {
+
+        footThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                long one =  System.currentTimeMillis();
+                long two;
+                do {
+
+                    if (!Responseleft){
+                        OkGo.<BaseResponse<String>>get(AppConstant.LEFT_JSON(number))
+                                .execute(new JsonCallback<BaseResponse<String>>() {
+                                    @Override
+                                    public void onSuccess(Response<BaseResponse<String>> response) {
+                                        leftBean = gson.fromJson(String.valueOf(response.body()), LeftBean.class);
+                                        Responseleft = true;
+                                        if (Responseleft==true&&Responserighht==true){
+                                            getFootData(2);
+                                        }
+                                    }
+                                    @Override
+                                    public void onError(Response<BaseResponse<String>> response) {
+                                    }
+                                });
+                    }
+
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    if (!Responserighht){
+                        OkGo.<BaseResponse<String>>get(AppConstant.RIGHT_JSON(number))
+                                .execute(new JsonCallback<BaseResponse<String>>() {
+                                    @Override
+                                    public void onSuccess(Response<BaseResponse<String>> response) {
+                                        rightBean = gson.fromJson(String.valueOf(response.body()), RightBean.class);
+                                        Responserighht = true;
+                                        if (Responseleft==true&&Responserighht==true){
+                                            getFootData(2);
+                                        }
+                                    }
+                                    @Override
+                                    public void onError(Response<BaseResponse<String>> response) {
+                                    }
+                                });
+                    }
+
+                    two =  System.currentTimeMillis();
+
+                } while ((!Responseleft||!Responserighht)&&((two-one)<20000)&&leftANDrighht);
+                getFootData(1);
+            }
+        });
+        footThread.start();
+
     }
+
+    public void getFootData(int type) {
+        Message message = new Message();
+        message.what = 2;
+        mhandler.sendMessage(message);
+    }
+
+    Handler mhandler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1:
+                    if (mDetailTextTime!=null){
+                        closeLoading();
+                        ShowToast("数据拉取失败");
+                    }
+                    break;
+                case 2:
+                    getData();
+                    break;
+            }
+            return true;
+        }
+    });
+
 
     public void getData() {
         closeLoading();
@@ -831,5 +920,15 @@ public class DetailActivity extends BaseActivity {
             RxBus.getInstance().post(eventMsg);
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (footThread!=null){
+            leftANDrighht=false;
+            footThread.currentThread().interrupt();
+            footThread = null;
+        }
     }
 }

@@ -21,12 +21,6 @@ public class FittingActivity extends BaseActivity {
     @Override
     protected void setListener() {
 
-        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(FittingActivity.this, FitTestActivity.class));
-            }
-        });
 
     }
 }

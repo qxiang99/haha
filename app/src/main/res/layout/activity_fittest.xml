@@ -27,7 +27,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_5"
                     android:gravity="center"
-                    android:text="扫描成功 !"
+                    android:text="测试成功 !"
                     android:textColor="@color/bg_color"
                     android:textSize="@dimen/dp_30" />
 
@@ -46,7 +46,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_5"
                     android:gravity="center"
-                    android:text="数据上传成功后，您可以在App中查看您的足型数据"
+                    android:text="数据上传成功后，您可以在App中查看您的数据"
                     android:textColor="@color/text_color_bf"
                     android:textSize="@dimen/dp_11" />
 
@@ -81,13 +81,14 @@
                     android:layout_height="@dimen/dp_30"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/dp_6"
-                    android:background="@mipmap/goscan_bg"
+                    android:background="@drawable/button_bg"
                     android:gravity="center">
 
                     <TextView
                         android:id="@+id/sucess_text_goscan"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:text="继 续 扫 描"
                         android:gravity="center"
                         android:textSize="@dimen/dp_12" />
                 </LinearLayout>

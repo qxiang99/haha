@@ -15,6 +15,7 @@ import com.bintutu.shop.utils.AppConstant;
 import com.bintutu.shop.utils.ConfigManager;
 import com.bintutu.shop.utils.Constant;
 import com.bintutu.shop.utils.CutDown;
+import com.bintutu.shop.utils.DebugLog;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,6 +32,8 @@ public class UploadSucessActivity extends BaseActivity {
     TextView sucessTextGoscan;
     @BindView(R.id.sucess_lin_goscan)
     LinearLayout sucessLinGoscan;
+    @BindView(R.id.sucess_lin_fitting)
+    LinearLayout sucessLinFitting;
     private CutDown cutDown;
     private Context mContext;
 
@@ -46,6 +49,7 @@ public class UploadSucessActivity extends BaseActivity {
         Intent intent = getIntent();
         String number = intent.getStringExtra(Constant.ItentKey1);
         sucessTextNumber.setText("扫描编码：" + number);
+        //sucessLinFitting.setEnabled(false);
         Countdown();
     }
 
@@ -56,7 +60,7 @@ public class UploadSucessActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(UploadSucessActivity.this, WebActivity.class);
-                if (ConfigManager.Foot.getIdid()!=null&&!ConfigManager.Foot.getIdid().equals("")){
+                if (ConfigManager.Foot.getIdid() != null && !ConfigManager.Foot.getIdid().equals("")) {
                     intent.putExtra(Constant.ItentKey1, AppConstant.WEBVIEW_CHOOSE(
                             ConfigManager.Foot.getCustomer_id(),
                             ConfigManager.Foot.getCustomer_phone(),
@@ -66,8 +70,8 @@ public class UploadSucessActivity extends BaseActivity {
                             ConfigManager.Foot.getchoosed_sole_material_id(),
                             ConfigManager.Foot.getchoosed_sole_accessory_id(),
                             ConfigManager.Foot.getchoosed_exclusive_id()));
-                }else {
-                    intent.putExtra(Constant.ItentKey1, AppConstant.WEBVIEW_SORT( ConfigManager.Foot.getCustomer_id(),ConfigManager.Foot.getCustomer_phone()));
+                } else {
+                    intent.putExtra(Constant.ItentKey1, AppConstant.WEBVIEW_SORT(ConfigManager.Foot.getCustomer_id(), ConfigManager.Foot.getCustomer_phone()));
                 }
                 startActivity(intent);
                 ConfigManager.Foot.setCustomer_id("");
@@ -104,6 +108,16 @@ public class UploadSucessActivity extends BaseActivity {
                 finish();
             }
         });
+        sucessLinFitting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (cutDown != null) {
+                    cutDown.Stop();
+                }
+                finish();
+                startActivity(new Intent(UploadSucessActivity.this, FittingActivity.class));
+            }
+        });
     }
 
     private void Countdown() {
@@ -120,7 +134,7 @@ public class UploadSucessActivity extends BaseActivity {
 
             @Override
             public void onFinish() {
-                if (sucessTextGoscan != null&&mContext!=null) {
+                if (sucessTextGoscan != null && mContext != null) {
                     Intent intent = new Intent(UploadSucessActivity.this, ReadyToScanActivity.class);
                     intent.putExtra(Constant.ItentKey1, "UploadSucessActivity");
                     startActivity(intent);
@@ -139,10 +153,17 @@ public class UploadSucessActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mContext =null;
-        if (cutDown!=null){
+        mContext = null;
+        if (cutDown != null) {
             cutDown.Stop();
         }
 
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }

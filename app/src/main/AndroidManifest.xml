@@ -26,10 +26,6 @@
             android:name=".ui.activity.SplashActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.Loading">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <!--商铺登录页-->
         <activity
@@ -80,28 +76,45 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTop"
             android:screenOrientation="landscape"
-            android:windowSoftInputMode="adjustPan|stateHidden">
-        </activity>
+            android:windowSoftInputMode="adjustPan|stateHidden"></activity>
         <!--上传成功页-->
         <activity
             android:name=".ui.activity.UploadSucessActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTop"
             android:screenOrientation="landscape"
-            android:windowSoftInputMode="adjustPan|stateHidden"></activity>
+            android:windowSoftInputMode="adjustPan|stateHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <!--上传成功页-->
         <activity
             android:name=".ui.activity.PhotoViewActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTop"
             android:screenOrientation="landscape"
-            android:windowSoftInputMode="adjustPan|stateHidden">
-
-        </activity>
+            android:windowSoftInputMode="adjustPan|stateHidden"></activity>
+        <!--Fitting测试-->
+        <activity
+            android:name=".ui.activity.FittingActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustPan|stateHidden"></activity>
+        <!--Fitting测试-->
+        <activity
+            android:name=".ui.activity.FitTestActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustPan|stateHidden"></activity>
         <activity android:name=".ui.activity.TextActivity">
 
         </activity>
-        <service android:name=".ui.server.UploadService"/>
+
+        <service android:name=".ui.server.UploadService" />
 
 
     </application>

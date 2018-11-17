@@ -148,6 +148,7 @@ public class DetailActivity extends BaseActivity {
     private boolean leftANDrighht = true;
     private String activtyurl="";
     private Thread footThread;
+    private String footlen;
 
 
     @Override
@@ -604,6 +605,7 @@ public class DetailActivity extends BaseActivity {
 
         DetailAdapter detailAdapter = new DetailAdapter(DetailList);
         mRecyclerview.setAdapter(detailAdapter);
+        footlen = leftBean.get_1_FootLen();
     }
 
 
@@ -672,6 +674,7 @@ public class DetailActivity extends BaseActivity {
                             } else {
                                 Intent intent = new Intent(DetailActivity.this, UploadSucessActivity.class);
                                 intent.putExtra(Constant.ItentKey1, uploadid);
+                                intent.putExtra(Constant.ItentKey2, footlen);
                                 startActivity(intent);
                                 finish();
                             }

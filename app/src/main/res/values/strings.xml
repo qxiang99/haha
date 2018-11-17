@@ -32,4 +32,7 @@
     <string name="SZhiZhiChang">后跟边距长度</string>
     <string name="FuGuChang">前掌凸点部位长度</string>
 
+    <item name="tag_key_data" type="id"/>
+    <item name="tag_key_position" type="id"/>
+
 </resources>

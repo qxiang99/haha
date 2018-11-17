@@ -1,5 +1,6 @@
 package com.bintutu.shop.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,17 +9,20 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bintutu.shop.R;
 import com.bintutu.shop.bean.FittingBean;
 import com.bintutu.shop.ui.BaseActivity;
 import com.bintutu.shop.ui.adapter.FittingAdapter;
-import com.bintutu.shop.utils.DebugLog;
+import com.bintutu.shop.ui.view.LabelsView;
+import com.bintutu.shop.utils.Constant;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class FittingActivity extends BaseActivity {
 
@@ -82,10 +86,14 @@ public class FittingActivity extends BaseActivity {
     @BindView(R.id.fitting_freme_right_three)
     FrameLayout fittingFremeRightThree;
 
+    @BindView(R.id.labels)
+    LabelsView labelsView;
 
+    private ArrayList<String> fitList = new ArrayList<>();
     private List<FittingBean> leftList = new ArrayList<>();
     private List<FittingBean> rightList = new ArrayList<>();
     private FittingAdapter fittingAdapter;
+    private float number;
 
     @Override
     protected void initContentView(Bundle savedInstanceState) {
@@ -94,6 +102,9 @@ public class FittingActivity extends BaseActivity {
 
     @Override
     protected void init() {
+        //
+        getFootLenght();
+       //
         showRecyclerview();
         for (int i = 65; i < 85; i++) {
             if (i < 75) {
@@ -103,6 +114,7 @@ public class FittingActivity extends BaseActivity {
                 rightList.add(new FittingBean(String.valueOf((char) i), 1));
             }
         }
+
     }
 
     @Override
@@ -157,8 +169,6 @@ public class FittingActivity extends BaseActivity {
 
 
     }
-
-
 
 
     /**
@@ -452,5 +462,79 @@ public class FittingActivity extends BaseActivity {
                 fittingRightThreeR.setBackgroundResource(R.mipmap.right_three_r_red);
             }
         }
+    }
+
+
+    public void getFootLenght() {
+        Intent intent = getIntent();
+       // String footlen = intent.getStringExtra(Constant.ItentKey2);
+        // number = Float.valueOf(footlen);
+         number = Float.valueOf("248.45789");
+        if (number>=228&&number<233){
+            fitList.add("MO235M1");
+        }
+        if (number>=233&&number<238){
+            fitList.add("MO235M1");
+            fitList.add("MO240S1");
+        }
+        if (number>=238&&number<243){
+            fitList.add("MO235M1");
+            fitList.add("MO240S1");
+            fitList.add("MO240M1");
+            fitList.add("MO240L1");
+            fitList.add("MO245S1");
+        }
+        if (number>=243&&number<248){
+            fitList.add("MO240L1");
+            fitList.add("MO245S1");
+            fitList.add("MO245M1");
+            fitList.add("MO245L1");
+            fitList.add("MO250S1");
+        }
+        if (number>=248&&number<253){
+            fitList.add("MO245L1");
+            fitList.add("MO250S1");
+            fitList.add("MO250M1");
+            fitList.add("MO250L1");
+            fitList.add("MO255S1");
+        }
+        if (number>=253&&number<258){
+            fitList.add("MO250L1");
+            fitList.add("MO255S1");
+            fitList.add("MO255M1");
+            fitList.add("MO255L1");
+            fitList.add("MO260S1");
+        }
+        if (number>=258&&number<263){
+            fitList.add("MO255L1");
+            fitList.add("MO260S1");
+            fitList.add("MO260M1");
+            fitList.add("MO260L1");
+            fitList.add("MO265S1");
+        }
+        if (number>=263&&number<268){
+            fitList.add("MO260M1");
+            fitList.add("MO260L1");
+            fitList.add("MO265S1");
+            fitList.add("MO265M1");
+            fitList.add("MO265L1");
+        }
+        if (number>=268&&number<273){
+            fitList.add("MO265L1");
+            fitList.add("MO270S1");
+            fitList.add("MO270M1");
+            fitList.add("MO270L1");
+            fitList.add("MO275M1");
+        }
+        if (number>=273&&number<278){
+            fitList.add("MO270L1");
+            fitList.add("MO275M1");
+        }
+        labelsView.setLabels(fitList, new LabelsView.LabelTextProvider<String>() {
+            @Override
+            public CharSequence getLabelText(TextView label, int position, String data) {
+                return data;
+            }
+        });
     }
 }

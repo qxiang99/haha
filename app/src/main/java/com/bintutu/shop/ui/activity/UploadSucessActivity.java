@@ -36,6 +36,8 @@ public class UploadSucessActivity extends BaseActivity {
     LinearLayout sucessLinFitting;
     private CutDown cutDown;
     private Context mContext;
+    private String footlen;
+    private String number;
 
     @Override
     protected void initContentView(Bundle savedInstanceState) {
@@ -47,7 +49,8 @@ public class UploadSucessActivity extends BaseActivity {
         mContext = this;
 
         Intent intent = getIntent();
-        String number = intent.getStringExtra(Constant.ItentKey1);
+        number = intent.getStringExtra(Constant.ItentKey1);
+        footlen = intent.getStringExtra(Constant.ItentKey2);
         sucessTextNumber.setText("扫描编码：" + number);
         //sucessLinFitting.setEnabled(false);
         Countdown();
@@ -114,8 +117,13 @@ public class UploadSucessActivity extends BaseActivity {
                 if (cutDown != null) {
                     cutDown.Stop();
                 }
+
+                Intent intent = new Intent(UploadSucessActivity.this, FittingActivity.class);
+                intent.putExtra(Constant.ItentKey1, number);
+                intent.putExtra(Constant.ItentKey2, footlen);
+                startActivity(intent);
                 finish();
-                startActivity(new Intent(UploadSucessActivity.this, FittingActivity.class));
+
             }
         });
     }
@@ -160,10 +168,4 @@ public class UploadSucessActivity extends BaseActivity {
 
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
 }

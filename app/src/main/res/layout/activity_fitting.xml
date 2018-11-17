@@ -52,54 +52,73 @@
                 app:selectType="SINGLE"
                 app:wordMargin="@dimen/dp_13" />
 
+
+            <LinearLayout
+                android:id="@+id/lin_write_one"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_4_5"
+                android:layout_marginTop="@dimen/dp_55"
+                android:background="@mipmap/fitting_backg"
+                android:orientation="vertical"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/labels" />
+
+
             <LinearLayout
                 android:id="@+id/detail_lin_but"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_22"
-                android:layout_marginTop="@dimen/dp_18"
+                android:layout_marginTop="@dimen/dp_4"
                 android:orientation="horizontal"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/labels">
 
-                <Button
-                    android:id="@+id/detail_but_left"
-                    android:layout_width="@dimen/dp_68"
-                    android:layout_height="@dimen/dp_23"
-                    android:layout_marginRight="@dimen/dp_36"
-                    android:background="@drawable/detail_but_bg"
-                    android:text="左脚"
-                    android:textColor="@color/detail_but_text_cor"
-                    android:textSize="@dimen/dp_11" />
+                <LinearLayout
+                    android:id="@+id/detail_lin_left"
+                    android:layout_width="@dimen/dp_118"
+                    android:layout_height="@dimen/dp_53"
+                    android:background="@drawable/fitting_lin_button"
+                    android:gravity="center">
 
-                <Button
-                    android:id="@+id/detail_but_right"
-                    android:layout_width="@dimen/dp_68"
-                    android:layout_height="@dimen/dp_23"
-                    android:background="@drawable/detail_but_bg"
-                    android:text="右脚"
-                    android:textColor="@color/detail_but_text_cor"
-                    android:textSize="@dimen/dp_11" />
+                    <Button
+                        android:id="@+id/detail_but_left"
+                        android:layout_width="@dimen/dp_68"
+                        android:layout_height="@dimen/dp_23"
+                        android:background="@drawable/detail_but_bg"
+                        android:text="左脚"
+                        android:textColor="@color/detail_but_text_cor"
+                        android:textSize="@dimen/dp_11" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/detail_lin_right"
+                    android:layout_width="@dimen/dp_118"
+                    android:layout_height="@dimen/dp_53"
+                    android:background="@drawable/fitting_lin_button"
+                    android:gravity="center">
+                    <Button
+                        android:id="@+id/detail_but_right"
+                        android:layout_width="@dimen/dp_68"
+                        android:layout_height="@dimen/dp_23"
+                        android:background="@drawable/detail_but_bg"
+                        android:text="右脚"
+                        android:textColor="@color/detail_but_text_cor"
+                        android:textSize="@dimen/dp_11" />
+                </LinearLayout>
+
+
 
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/lin_write_one"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_10"
-                android:layout_marginTop="@dimen/dp_10"
-                android:background="@mipmap/fitting_backg"
-                android:orientation="vertical"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/detail_lin_but" />
+
             <LinearLayout
                 android:id="@+id/fitting_lin_image"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_200"
                 android:layout_marginLeft="@dimen/dp_4"
                 android:layout_marginRight="@dimen/dp_4"
-                android:layout_marginTop="@dimen/dp_14"
                 android:orientation="horizontal"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -307,7 +326,7 @@
             <LinearLayout
                 android:id="@+id/lin_write"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_28"
+                android:layout_height="@dimen/dp_5"
                 android:layout_marginTop="@dimen/dp_27"
                 android:background="@mipmap/fitting_backg"
                 android:orientation="vertical"
@@ -319,7 +338,7 @@
                 android:id="@+id/item_lin2"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_31"
-                android:layout_marginTop="@dimen/dp_13"
+                android:layout_marginTop="@dimen/dp_28"
                 android:background="@color/bg_color"
                 android:orientation="horizontal"
                 app:layout_constraintLeft_toLeftOf="parent"

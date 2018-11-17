@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bintutu.shop.R;
@@ -16,7 +17,6 @@ import com.bintutu.shop.bean.FittingBean;
 import com.bintutu.shop.ui.BaseActivity;
 import com.bintutu.shop.ui.adapter.FittingAdapter;
 import com.bintutu.shop.ui.view.LabelsView;
-import com.bintutu.shop.utils.Constant;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,6 +88,10 @@ public class FittingActivity extends BaseActivity {
 
     @BindView(R.id.labels)
     LabelsView labelsView;
+    @BindView(R.id.detail_lin_left)
+    LinearLayout detailLinLeft;
+    @BindView(R.id.detail_lin_right)
+    LinearLayout detailLinRight;
 
     private ArrayList<String> fitList = new ArrayList<>();
     private List<FittingBean> leftList = new ArrayList<>();
@@ -104,7 +108,7 @@ public class FittingActivity extends BaseActivity {
     protected void init() {
         //
         getFootLenght();
-       //
+        //
         showRecyclerview();
         for (int i = 65; i < 85; i++) {
             if (i < 75) {
@@ -114,14 +118,53 @@ public class FittingActivity extends BaseActivity {
                 rightList.add(new FittingBean(String.valueOf((char) i), 1));
             }
         }
-
+        detailLinLeft.setEnabled(false);
+        detailLinRight.setEnabled(true);
+        detailButLeft.setEnabled(false);
+        detailButRight.setEnabled(true);
     }
 
     @Override
     protected void setListener() {
+        detailLinLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                detailLinLeft.setEnabled(false);
+                detailLinRight.setEnabled(true);
+                detailButLeft.setEnabled(false);
+                detailButRight.setEnabled(true);
+                fittingFremeLeftOne.setVisibility(View.VISIBLE);
+                fittingFremeLeftTwo.setVisibility(View.VISIBLE);
+                fittingFremeLeftThree.setVisibility(View.VISIBLE);
+                fittingFremeRightOne.setVisibility(View.GONE);
+                fittingFremeRightTwo.setVisibility(View.GONE);
+                fittingFremeRightThree.setVisibility(View.GONE);
+                fittingAdapter.setNewData(leftList);
+            }
+        });
+        detailLinRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                detailLinLeft.setEnabled(true);
+                detailLinRight.setEnabled(false);
+                detailButLeft.setEnabled(true);
+                detailButRight.setEnabled(false);
+                fittingFremeLeftOne.setVisibility(View.GONE);
+                fittingFremeLeftTwo.setVisibility(View.GONE);
+                fittingFremeLeftThree.setVisibility(View.GONE);
+                fittingFremeRightOne.setVisibility(View.VISIBLE);
+                fittingFremeRightTwo.setVisibility(View.VISIBLE);
+                fittingFremeRightThree.setVisibility(View.VISIBLE);
+                fittingAdapter.setNewData(rightList);
+            }
+        });
         detailButLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                detailLinLeft.setEnabled(false);
+                detailLinRight.setEnabled(true);
+                detailButLeft.setEnabled(false);
+                detailButRight.setEnabled(true);
                 fittingFremeLeftOne.setVisibility(View.VISIBLE);
                 fittingFremeLeftTwo.setVisibility(View.VISIBLE);
                 fittingFremeLeftThree.setVisibility(View.VISIBLE);
@@ -134,6 +177,10 @@ public class FittingActivity extends BaseActivity {
         detailButRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                detailLinLeft.setEnabled(true);
+                detailLinRight.setEnabled(false);
+                detailButLeft.setEnabled(true);
+                detailButRight.setEnabled(false);
                 fittingFremeLeftOne.setVisibility(View.GONE);
                 fittingFremeLeftTwo.setVisibility(View.GONE);
                 fittingFremeLeftThree.setVisibility(View.GONE);
@@ -467,66 +514,66 @@ public class FittingActivity extends BaseActivity {
 
     public void getFootLenght() {
         Intent intent = getIntent();
-       // String footlen = intent.getStringExtra(Constant.ItentKey2);
+        // String footlen = intent.getStringExtra(Constant.ItentKey2);
         // number = Float.valueOf(footlen);
-         number = Float.valueOf("248.45789");
-        if (number>=228&&number<233){
+        number = Float.valueOf("248.45789");
+        if (number >= 228 && number < 233) {
             fitList.add("MO235M1");
         }
-        if (number>=233&&number<238){
+        if (number >= 233 && number < 238) {
             fitList.add("MO235M1");
             fitList.add("MO240S1");
         }
-        if (number>=238&&number<243){
+        if (number >= 238 && number < 243) {
             fitList.add("MO235M1");
             fitList.add("MO240S1");
             fitList.add("MO240M1");
             fitList.add("MO240L1");
             fitList.add("MO245S1");
         }
-        if (number>=243&&number<248){
+        if (number >= 243 && number < 248) {
             fitList.add("MO240L1");
             fitList.add("MO245S1");
             fitList.add("MO245M1");
             fitList.add("MO245L1");
             fitList.add("MO250S1");
         }
-        if (number>=248&&number<253){
+        if (number >= 248 && number < 253) {
             fitList.add("MO245L1");
             fitList.add("MO250S1");
             fitList.add("MO250M1");
             fitList.add("MO250L1");
             fitList.add("MO255S1");
         }
-        if (number>=253&&number<258){
+        if (number >= 253 && number < 258) {
             fitList.add("MO250L1");
             fitList.add("MO255S1");
             fitList.add("MO255M1");
             fitList.add("MO255L1");
             fitList.add("MO260S1");
         }
-        if (number>=258&&number<263){
+        if (number >= 258 && number < 263) {
             fitList.add("MO255L1");
             fitList.add("MO260S1");
             fitList.add("MO260M1");
             fitList.add("MO260L1");
             fitList.add("MO265S1");
         }
-        if (number>=263&&number<268){
+        if (number >= 263 && number < 268) {
             fitList.add("MO260M1");
             fitList.add("MO260L1");
             fitList.add("MO265S1");
             fitList.add("MO265M1");
             fitList.add("MO265L1");
         }
-        if (number>=268&&number<273){
+        if (number >= 268 && number < 273) {
             fitList.add("MO265L1");
             fitList.add("MO270S1");
             fitList.add("MO270M1");
             fitList.add("MO270L1");
             fitList.add("MO275M1");
         }
-        if (number>=273&&number<278){
+        if (number >= 273 && number < 278) {
             fitList.add("MO270L1");
             fitList.add("MO275M1");
         }
@@ -536,5 +583,12 @@ public class FittingActivity extends BaseActivity {
                 return data;
             }
         });
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }

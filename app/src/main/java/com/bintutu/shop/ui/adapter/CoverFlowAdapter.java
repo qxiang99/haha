@@ -41,7 +41,9 @@ public class CoverFlowAdapter extends RecyclerView.Adapter<CoverFlowAdapter.View
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        Glide.with(mContext).load(mdetailList.get(position % mdetailList.size())).into(holder.img);
+        if (mdetailList.size()!=0){
+            Glide.with(mContext).load(mdetailList.get(position % mdetailList.size())).into(holder.img);
+        }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

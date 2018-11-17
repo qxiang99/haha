@@ -11,14 +11,27 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bintutu.shop.R;
+import com.bintutu.shop.bean.BaseResponse;
 import com.bintutu.shop.bean.FittingBean;
+import com.bintutu.shop.bean.UploadBean;
+import com.bintutu.shop.bean.UploadFittingBean;
+import com.bintutu.shop.okgo.JsonCallback;
 import com.bintutu.shop.ui.BaseActivity;
 import com.bintutu.shop.ui.adapter.FittingAdapter;
 import com.bintutu.shop.ui.view.LabelsView;
+import com.bintutu.shop.utils.AppConstant;
+import com.bintutu.shop.utils.ConfigManager;
+import com.bintutu.shop.utils.Constant;
+import com.bintutu.shop.utils.DebugLog;
+import com.google.gson.Gson;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.model.Response;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -92,12 +105,22 @@ public class FittingActivity extends BaseActivity {
     LinearLayout detailLinLeft;
     @BindView(R.id.detail_lin_right)
     LinearLayout detailLinRight;
+    @BindView(R.id.fitting_but_return)
+    Button fittingButReturn;
+    @BindView(R.id.fitting_but_home)
+    Button fittingButHome;
+    @BindView(R.id.fitting_but_upload)
+    Button fittingButUpload;
 
     private ArrayList<String> fitList = new ArrayList<>();
     private List<FittingBean> leftList = new ArrayList<>();
     private List<FittingBean> rightList = new ArrayList<>();
     private FittingAdapter fittingAdapter;
     private float number;
+    private String footlen="";
+    private String uploadid="";
+    private String shoesData="";
+    private Gson gson;
 
     @Override
     protected void initContentView(Bundle savedInstanceState) {
@@ -106,6 +129,7 @@ public class FittingActivity extends BaseActivity {
 
     @Override
     protected void init() {
+        gson = new Gson();
         //
         getFootLenght();
         //
@@ -190,6 +214,32 @@ public class FittingActivity extends BaseActivity {
                 fittingAdapter.setNewData(rightList);
             }
         });
+        //返回上一页
+        fittingButReturn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(FittingActivity.this, UploadSucessActivity.class);
+                intent.putExtra(Constant.ItentKey1, uploadid);
+                intent.putExtra(Constant.ItentKey2, footlen);
+                startActivity(intent);
+                finish();
+            }
+        });
+        //返回首页
+        fittingButHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(FittingActivity.this, MainActivity.class));
+                finish();
+            }
+        });
+        fittingButUpload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //UploadData();
+            }
+        });
         fittingAdapter.setSetClickListener(new FittingAdapter.OnSetClickListener() {
             @Override
             public void onSetData(FittingBean data, List<FittingBean> infos) {
@@ -215,6 +265,42 @@ public class FittingActivity extends BaseActivity {
         });
 
 
+    }
+
+    private void UploadData() {
+        jumpLoading("上传数据中");
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        for (FittingBean fittingBean :leftList){
+            map.put(fittingBean.getName(), fittingBean.getType());
+        }
+        for (FittingBean fittingBean :rightList){
+            map.put(fittingBean.getName(), fittingBean.getType());
+        }
+        String Data = gson.toJson(map);
+        OkGo.<BaseResponse<String>>post(AppConstant.FITTING_DATA)
+                .params("shoes", shoesData)//
+                .params("shop_id", ConfigManager.Device.getShopID())//商铺号
+                .params("userfoottypedata_id",uploadid)//上传数据成功返回的
+                .params("detail", Data)//
+                .execute(new JsonCallback<BaseResponse<String>>() {
+                    @Override
+                    public void onSuccess(Response<BaseResponse<String>> response) {
+                        closeLoading();
+                        String data = String.valueOf(response.body());
+                        UploadFittingBean uploadBean = gson.fromJson(data, UploadFittingBean.class);
+                        if (uploadBean != null & uploadBean.getCode() == 0) {
+                            ShowToast("上传成功");
+                        }else{
+                            ShowToast(uploadBean.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<BaseResponse<String>> response) {
+                        ShowToast("上传失败");
+                        closeLoading();
+                    }
+                });
     }
 
 
@@ -514,7 +600,8 @@ public class FittingActivity extends BaseActivity {
 
     public void getFootLenght() {
         Intent intent = getIntent();
-        // String footlen = intent.getStringExtra(Constant.ItentKey2);
+        uploadid = intent.getStringExtra(Constant.ItentKey1);
+        footlen = intent.getStringExtra(Constant.ItentKey2);
         // number = Float.valueOf(footlen);
         number = Float.valueOf("248.45789");
         if (number >= 228 && number < 233) {
@@ -577,18 +664,24 @@ public class FittingActivity extends BaseActivity {
             fitList.add("MO270L1");
             fitList.add("MO275M1");
         }
+
+        if(fitList!=null&&fitList.size()>0){
+            labelsView.setSelectType(LabelsView.SelectType.SINGLE_IRREVOCABLY);
+            shoesData = fitList.get(0);
+        }
         labelsView.setLabels(fitList, new LabelsView.LabelTextProvider<String>() {
             @Override
             public CharSequence getLabelText(TextView label, int position, String data) {
                 return data;
             }
         });
+        labelsView.setOnLabelClickListener(new LabelsView.OnLabelClickListener() {
+            @Override
+            public void onLabelClick(TextView label, Object data, int position) {
+                shoesData = String.valueOf(data);
+            }
+        });
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
+
 }

@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class AppConstant {
 
-    public static boolean Toogle = true;
+    public static boolean Toogle = false;
 
     //TODO 服务器  请在“Formal_URL=”填写正式服务器地址   并把“Toogle”修改为 true
     public static String TEST_URL = "http://116.62.145.154:8080/";//测试环境
@@ -46,6 +46,8 @@ public class AppConstant {
     public static final String SOWING_MAP = BASE_URLS + "shop_3d/backend/web/index.php/homepage/pictures";
     //上传数据
     public static final String NEW_DATA = BASE_URLS + "shop_3d/backend/web/index.php/userfoottypedata/newdata";
+    //上传Fitting数据
+    public static final String FITTING_DATA = BASE_URLS + "shop_3d/backend/web/index.php/fitting/newfitting";
     //上传ZIP
     public static final String UPLOAD_ZIP = BASE_URLS + "shop_3d/backend/web/index.php/userfoottypedata/uploadzip";
     //上传图片

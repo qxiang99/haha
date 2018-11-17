@@ -37,7 +37,7 @@ public class UploadSucessActivity extends BaseActivity {
     private CutDown cutDown;
     private Context mContext;
     private String footlen;
-    private String number;
+    private String uploadid;
 
     @Override
     protected void initContentView(Bundle savedInstanceState) {
@@ -49,9 +49,9 @@ public class UploadSucessActivity extends BaseActivity {
         mContext = this;
 
         Intent intent = getIntent();
-        number = intent.getStringExtra(Constant.ItentKey1);
+        uploadid = intent.getStringExtra(Constant.ItentKey1);
         footlen = intent.getStringExtra(Constant.ItentKey2);
-        sucessTextNumber.setText("扫描编码：" + number);
+        sucessTextNumber.setText("扫描编码：" + uploadid);
         //sucessLinFitting.setEnabled(false);
         Countdown();
     }
@@ -119,7 +119,7 @@ public class UploadSucessActivity extends BaseActivity {
                 }
 
                 Intent intent = new Intent(UploadSucessActivity.this, FittingActivity.class);
-                intent.putExtra(Constant.ItentKey1, number);
+                intent.putExtra(Constant.ItentKey1, uploadid);
                 intent.putExtra(Constant.ItentKey2, footlen);
                 startActivity(intent);
                 finish();

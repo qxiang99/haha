@@ -679,6 +679,8 @@ public class DetailActivity extends BaseActivity {
                                 finish();
                             }
 
+                        }else {
+                            ShowToast("上传失败");
                         }
                     }
 

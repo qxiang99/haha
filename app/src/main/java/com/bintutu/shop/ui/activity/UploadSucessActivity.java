@@ -10,12 +10,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bintutu.shop.R;
+import com.bintutu.shop.bean.BaseResponse;
+import com.bintutu.shop.bean.UploadFittingBean;
+import com.bintutu.shop.okgo.JsonCallback;
 import com.bintutu.shop.ui.BaseActivity;
 import com.bintutu.shop.utils.AppConstant;
 import com.bintutu.shop.utils.ConfigManager;
 import com.bintutu.shop.utils.Constant;
 import com.bintutu.shop.utils.CutDown;
 import com.bintutu.shop.utils.DebugLog;
+import com.google.gson.Gson;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.model.Response;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,6 +44,7 @@ public class UploadSucessActivity extends BaseActivity {
     private Context mContext;
     private String footlen;
     private String uploadid;
+    private Gson gson;
 
     @Override
     protected void initContentView(Bundle savedInstanceState) {
@@ -46,13 +53,15 @@ public class UploadSucessActivity extends BaseActivity {
 
     @Override
     protected void init() {
+        gson = new Gson();
         mContext = this;
 
         Intent intent = getIntent();
         uploadid = intent.getStringExtra(Constant.ItentKey1);
         footlen = intent.getStringExtra(Constant.ItentKey2);
         sucessTextNumber.setText("扫描编码：" + uploadid);
-        //sucessLinFitting.setEnabled(false);
+        sucessLinFitting.setEnabled(false);
+        getFitting();
         Countdown();
     }
 
@@ -168,4 +177,26 @@ public class UploadSucessActivity extends BaseActivity {
 
     }
 
+    public void getFitting() {
+        jumpLoading("请求数据");
+        OkGo.<BaseResponse<String>>get(AppConstant.HAVE_FITTING)
+                .params("shop_id", ConfigManager.Device.getShopID())
+                .execute(new JsonCallback<BaseResponse<String>>() {
+                    @Override
+                    public void onSuccess(Response<BaseResponse<String>> response) {
+                        closeLoading();
+                        String data = String.valueOf(response.body());
+                        UploadFittingBean uploadBean = gson.fromJson(data, UploadFittingBean.class);
+                        if (uploadBean != null & uploadBean.getCode() == 0) {
+                            sucessLinFitting.setEnabled(true);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<BaseResponse<String>> response) {
+                        super.onError(response);
+                        closeLoading();
+                    }
+                });
+    }
 }

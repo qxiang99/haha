@@ -116,7 +116,7 @@ public class FittingActivity extends BaseActivity {
     private List<FittingBean> leftList = new ArrayList<>();
     private List<FittingBean> rightList = new ArrayList<>();
     private FittingAdapter fittingAdapter;
-    private float number;
+    private float number= (float)0;
     private String footlen="";
     private String uploadid="";
     private String shoesData="";
@@ -236,8 +236,9 @@ public class FittingActivity extends BaseActivity {
         fittingButUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                //UploadData();
+               /* startActivity(new Intent(FittingActivity.this, FitTestActivity.class));
+                finish();*/
+                UploadData();
             }
         });
         fittingAdapter.setSetClickListener(new FittingAdapter.OnSetClickListener() {
@@ -290,6 +291,8 @@ public class FittingActivity extends BaseActivity {
                         UploadFittingBean uploadBean = gson.fromJson(data, UploadFittingBean.class);
                         if (uploadBean != null & uploadBean.getCode() == 0) {
                             ShowToast("上传成功");
+                            startActivity(new Intent(FittingActivity.this, FitTestActivity.class));
+                            finish();
                         }else{
                             ShowToast(uploadBean.getMessage());
                         }
@@ -602,8 +605,7 @@ public class FittingActivity extends BaseActivity {
         Intent intent = getIntent();
         uploadid = intent.getStringExtra(Constant.ItentKey1);
         footlen = intent.getStringExtra(Constant.ItentKey2);
-        // number = Float.valueOf(footlen);
-        number = Float.valueOf("248.45789");
+         number = Float.valueOf(footlen);
         if (number >= 228 && number < 233) {
             fitList.add("MO235M1");
         }

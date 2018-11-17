@@ -46,6 +46,8 @@ public class AppConstant {
     public static final String SOWING_MAP = BASE_URLS + "shop_3d/backend/web/index.php/homepage/pictures";
     //上传数据
     public static final String NEW_DATA = BASE_URLS + "shop_3d/backend/web/index.php/userfoottypedata/newdata";
+    //判断是否有Fitting权限
+    public static final String HAVE_FITTING = BASE_URLS + "shop_3d/backend/web/index.php/shop/havefitting";
     //上传Fitting数据
     public static final String FITTING_DATA = BASE_URLS + "shop_3d/backend/web/index.php/fitting/newfitting";
     //上传ZIP

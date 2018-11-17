@@ -20,9 +20,9 @@ public class FitTestActivity extends BaseActivity {
     LinearLayout sucessLinFitting;
     @BindView(R.id.sucess_lin_goscan)
     LinearLayout sucessLinGoscan;
-    @BindView(R.id.sucess_but_choose)
+    @BindView(R.id.fittest_but_choose)
     Button sucessButChoose;
-    @BindView(R.id.sucess_but_backhome)
+    @BindView(R.id.fittest_but_backhome)
     Button sucessButBackhome;
 
     @Override

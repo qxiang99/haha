@@ -108,7 +108,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/sucess_but_choose"
+            android:id="@+id/fittest_but_choose"
             android:layout_width="@dimen/dp_100"
             android:layout_height="match_parent"
             android:layout_marginBottom="@dimen/dp_2"
@@ -117,7 +117,7 @@
             android:background="@mipmap/chooseshoes" />
 
         <Button
-            android:id="@+id/sucess_but_backhome"
+            android:id="@+id/fittest_but_backhome"
             android:layout_width="@dimen/dp_100"
             android:layout_height="match_parent"
             android:layout_marginBottom="@dimen/dp_2"

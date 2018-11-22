@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/dp_53"
+    android:layout_height="@dimen/dp_16">
+    <!--app:labelTextPaddingLeft="@dimen/dp_8"
+                app:labelTextPaddingRight="@dimen/dp_8"
+                app:labelTextPaddingTop="@dimen/dp_3"
+                app:labelTextSize="@dimen/dp_9"-->
+    <TextView
+        android:id="@+id/lable_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/dp_8"
+        android:textColor="@color/bg_color"
+        android:gravity="center"/>
+
+</android.support.constraint.ConstraintLayout>

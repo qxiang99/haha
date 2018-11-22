@@ -20,6 +20,7 @@ import com.bintutu.shop.bean.UploadFittingBean;
 import com.bintutu.shop.okgo.JsonCallback;
 import com.bintutu.shop.ui.BaseActivity;
 import com.bintutu.shop.ui.adapter.FittingAdapter;
+import com.bintutu.shop.ui.view.LabelPopWin;
 import com.bintutu.shop.ui.view.LabelsView;
 import com.bintutu.shop.utils.AppConstant;
 import com.bintutu.shop.utils.ConfigManager;
@@ -607,7 +608,8 @@ public class FittingActivity extends BaseActivity {
         Intent intent = getIntent();
         uploadid = intent.getStringExtra(Constant.ItentKey1);
         footlen = intent.getStringExtra(Constant.ItentKey2);
-        number = Float.valueOf(footlen);
+        //number = Float.valueOf(footlen);
+        number = Float.valueOf(248f);
         if (number >= 228 && number < 233) {
             fitList.add("MO235M1");
         }
@@ -669,6 +671,7 @@ public class FittingActivity extends BaseActivity {
             fitList.add("MO275M1");
         }
 
+        fitList.add("自定义  ∨");
         if (fitList != null && fitList.size() > 0) {
             labelsView.setSelectType(LabelsView.SelectType.SINGLE_IRREVOCABLY);
             shoesData = fitList.get(0);
@@ -676,13 +679,24 @@ public class FittingActivity extends BaseActivity {
         labelsView.setLabels(fitList, new LabelsView.LabelTextProvider<String>() {
             @Override
             public CharSequence getLabelText(TextView label, int position, String data) {
-                return data;
+                return "123";
             }
         });
+        final LabelPopWin  editMoneyPopWin = new LabelPopWin(FittingActivity.this);
         labelsView.setOnLabelClickListener(new LabelsView.OnLabelClickListener() {
             @Override
             public void onLabelClick(TextView label, Object data, int position) {
                 shoesData = String.valueOf(data);
+                if ("自定义  ∨".equals(shoesData)){
+                    editMoneyPopWin.showAsDropDown(label, 0, 0);
+                    editMoneyPopWin.setOnMClickListner(new LabelPopWin.OnMClickListener() {
+                        @Override
+                        public void onmClick(String result) {
+
+                        }
+                    });
+                }
+
             }
         });
     }

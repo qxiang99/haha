@@ -62,6 +62,6 @@ public class LabelAdapter extends DefaultAdapter<String> {
     }
 
     public interface OnSetClickListener {
-        void onSetData( List<String> infos);
+        void onSetData( String infos);
     }
 }

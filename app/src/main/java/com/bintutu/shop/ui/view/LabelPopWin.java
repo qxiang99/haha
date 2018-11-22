@@ -11,6 +11,7 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 
 import com.bintutu.shop.R;
+import com.bintutu.shop.ui.adapter.DefaultAdapter;
 import com.bintutu.shop.ui.adapter.FittingAdapter;
 import com.bintutu.shop.ui.adapter.LabelAdapter;
 
@@ -69,6 +70,16 @@ public class LabelPopWin extends PopupWindow {
         mRecyclerview.setItemAnimator(new DefaultItemAnimator());
         LabelAdapter labelAdapter = new LabelAdapter(list);
         mRecyclerview.setAdapter(labelAdapter);
+        labelAdapter.setOnItemClickListener(new DefaultAdapter.OnRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(View view, int viewType, Object data, int position) {
+                dismiss();
+                if (mOnMClickListner!=null){
+                    mOnMClickListner.onmClick(String.valueOf(data));
+
+                }
+            }
+        });
     }
 
     private OnMClickListener mOnMClickListner;

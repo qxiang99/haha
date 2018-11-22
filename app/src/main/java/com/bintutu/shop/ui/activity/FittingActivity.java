@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -679,19 +680,23 @@ public class FittingActivity extends BaseActivity {
         labelsView.setLabels(fitList, new LabelsView.LabelTextProvider<String>() {
             @Override
             public CharSequence getLabelText(TextView label, int position, String data) {
-                return "123";
+                return data;
             }
         });
         final LabelPopWin  editMoneyPopWin = new LabelPopWin(FittingActivity.this);
         labelsView.setOnLabelClickListener(new LabelsView.OnLabelClickListener() {
             @Override
-            public void onLabelClick(TextView label, Object data, int position) {
+            public void onLabelClick(final TextView label, Object data, final int position) {
                 shoesData = String.valueOf(data);
                 if ("自定义  ∨".equals(shoesData)){
                     editMoneyPopWin.showAsDropDown(label, 0, 0);
                     editMoneyPopWin.setOnMClickListner(new LabelPopWin.OnMClickListener() {
                         @Override
                         public void onmClick(String result) {
+                            Log.e("onmClick","..."+result);
+                            fitList.add(position,result);
+                            shoesData = String.valueOf(result);
+                            label.setText(result+"  ∨");
 
                         }
                     });

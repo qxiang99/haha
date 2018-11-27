@@ -10,7 +10,7 @@
         android:id="@+id/lable_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/dp_8"
+        android:textSize="@dimen/dp_9"
         android:textColor="@color/bg_color"
         android:gravity="center"/>
 

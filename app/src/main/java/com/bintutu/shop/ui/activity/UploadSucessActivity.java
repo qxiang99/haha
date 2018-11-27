@@ -60,7 +60,7 @@ public class UploadSucessActivity extends BaseActivity {
         uploadid = intent.getStringExtra(Constant.ItentKey1);
         footlen = intent.getStringExtra(Constant.ItentKey2);
         sucessTextNumber.setText("扫描编码：" + uploadid);
-        //sucessLinFitting.setEnabled(false);
+        sucessLinFitting.setEnabled(false);
         getFitting();
         Countdown();
     }

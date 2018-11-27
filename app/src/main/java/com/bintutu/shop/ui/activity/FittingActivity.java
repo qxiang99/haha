@@ -609,8 +609,8 @@ public class FittingActivity extends BaseActivity {
         Intent intent = getIntent();
         uploadid = intent.getStringExtra(Constant.ItentKey1);
         footlen = intent.getStringExtra(Constant.ItentKey2);
-        //number = Float.valueOf(footlen);
-        number = Float.valueOf(248f);
+        number = Float.valueOf(footlen);
+        //number = Float.valueOf(248f);
         if (number >= 228 && number < 233) {
             fitList.add("MO235M1");
         }
@@ -707,10 +707,4 @@ public class FittingActivity extends BaseActivity {
     }
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
 }

@@ -149,8 +149,7 @@ public class DetailActivity extends BaseActivity {
     private String activtyurl="";
     private Thread footThread;
     private String footlen;
-    private String webid;
-    private int WEBtype;
+
 
 
     @Override
@@ -165,10 +164,6 @@ public class DetailActivity extends BaseActivity {
         //获取上一界面发送给扫描仪的指令
         Intent intent = getIntent();
         number = intent.getStringExtra(Constant.ItentKey1);
-        WEBtype = intent.getIntExtra(Constant.ItentKey7,0);
-        if (WEBtype ==2){
-            webid = intent.getStringExtra(Constant.ItentKey6);
-        }
         //初始化Recyclerview
         showRecyclerview();
         //初始化LoginDailog
@@ -642,7 +637,7 @@ public class DetailActivity extends BaseActivity {
                         UploadBean uploadBean = gson.fromJson(data, UploadBean.class);
                         if (uploadBean != null & uploadBean.getCode() == 0) {
                             ShowToast("上传成功");
-
+                            ConfigManager.Foot.setWebFitting_id("");
                         }else {
                             ShowToast("上传失败");
                         }

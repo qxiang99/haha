@@ -9,7 +9,7 @@ import android.os.Environment;
 import android.util.Log;
 import android.widget.ScrollView;
 
-import com.bintutu.shop.ui.activity.DetailActivity;
+
 
 import org.json.JSONArray;
 import org.json.JSONObject;

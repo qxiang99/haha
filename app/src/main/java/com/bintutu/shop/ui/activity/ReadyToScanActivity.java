@@ -34,6 +34,7 @@ public class ReadyToScanActivity extends BaseActivity {
     private boolean scangif = false;//判断设备是否在线 更换图标
     private String activtyname;
 
+
     @Override
     protected void initContentView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_readytoscan);

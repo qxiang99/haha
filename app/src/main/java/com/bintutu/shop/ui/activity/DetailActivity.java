@@ -149,6 +149,8 @@ public class DetailActivity extends BaseActivity {
     private String activtyurl="";
     private Thread footThread;
     private String footlen;
+    private String webid;
+    private int WEBtype;
 
 
     @Override
@@ -163,6 +165,10 @@ public class DetailActivity extends BaseActivity {
         //获取上一界面发送给扫描仪的指令
         Intent intent = getIntent();
         number = intent.getStringExtra(Constant.ItentKey1);
+        WEBtype = intent.getIntExtra(Constant.ItentKey7,0);
+        if (WEBtype ==2){
+            webid = intent.getStringExtra(Constant.ItentKey6);
+        }
         //初始化Recyclerview
         showRecyclerview();
         //初始化LoginDailog
@@ -305,7 +311,9 @@ public class DetailActivity extends BaseActivity {
                     loginphone = ConfigManager.Foot.getCustomer_phone();
                     logincustomer_id = ConfigManager.Foot.getCustomer_id();
                     upload(loginnumber, loginphone, logincustomer_id);
-                } else {
+                } else if (ConfigManager.Foot.getWebFitting_id() != null && !ConfigManager.Foot.getWebFitting_id() .equals("")) {
+                   upDataload(ConfigManager.Foot.getWebFitting_id());
+                }else {
                     loginDailog.show();
                 }
 
@@ -347,6 +355,7 @@ public class DetailActivity extends BaseActivity {
         });
 
     }
+
 
     /**
      * 初始化Recyclerview
@@ -608,6 +617,44 @@ public class DetailActivity extends BaseActivity {
         footlen = leftBean.get_1_FootLen();
     }
 
+    private void upDataload(String webFitting_id) {
+        jumpLoading("上传数据中");
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("left", leftBean);
+        map.put("right", rightBean);
+        String detailData = gson.toJson(map);
+        sortListTag(footList);
+        String foot_remark = gson.toJson(TaglList);
+        Log.e("foot_remark","......"+foot_remark);
+        final String remark = dataEditRemark.getText().toString().trim();
+        //上传数据
+        OkGo.<BaseResponse<String>>post(AppConstant.FITTING_ADDFOOTDATAWITHFITTING)
+                .params("id", webFitting_id)//数据的id
+                .params("foot_remark", foot_remark)//图片的标记
+                .params("detail_data", detailData)//足型数据详情
+                .params("device_id", ConfigManager.Device.getEquipmentID())//设备id
+                .params("remark",remark + "")//备注
+                .execute(new JsonCallback<BaseResponse<String>>() {
+                    @Override
+                    public void onSuccess(Response<BaseResponse<String>> response) {
+                        closeLoading();
+                        String data = String.valueOf(response.body());
+                        UploadBean uploadBean = gson.fromJson(data, UploadBean.class);
+                        if (uploadBean != null & uploadBean.getCode() == 0) {
+                            ShowToast("上传成功");
+
+                        }else {
+                            ShowToast("上传失败");
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<BaseResponse<String>> response) {
+                        ShowToast("上传失败");
+                        closeLoading();
+                    }
+                });
+    }
 
     private void upload(String number, String phone, String customer_id) {
         jumpLoading("上传数据中");

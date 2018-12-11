@@ -156,6 +156,7 @@ public class ConfigManager {
 
         public static final String People_id = "device_People_id";
         public static final String customer_id = "device_customer_id";
+        public static final String webfitting_id = "device_webfitting_id";
         public static final String customer_phone = "device_customer_phone";
         public static final String idid = "device_idid";
         public static final String choosed_color_id = "device_choosed_color_id";
@@ -182,6 +183,14 @@ public class ConfigManager {
 
         public static void setCustomer_id(String id) {
             commitString(getConfigFile(), customer_id, id);
+        }
+
+        public static String getWebFitting_id() {
+            return getString(getConfigFile(), webfitting_id, "");
+        }
+
+        public static void setWebFitting_id(String id) {
+            commitString(getConfigFile(), webfitting_id, id);
         }
 
         public static String getCustomer_phone() {

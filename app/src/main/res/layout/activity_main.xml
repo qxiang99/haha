@@ -53,7 +53,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="@dimen/dp_410"
+        android:layout_width="@dimen/dp_500"
         android:layout_height="@dimen/dp_40"
         android:orientation="horizontal"
         android:background="@drawable/main_lin_bg"
@@ -96,13 +96,21 @@
         </LinearLayout>
 
 
+        <Button
+            android:id="@+id/main_but_fitting"
+            android:layout_width="@dimen/dp_88"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/dp_6"
+            android:layout_marginLeft="@dimen/dp_55"
+            android:layout_marginBottom="@dimen/dp_3"
+            android:background="@mipmap/fitting_button"/>
 
         <Button
             android:id="@+id/main_but_scan"
             android:layout_width="@dimen/dp_88"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/dp_6"
-            android:layout_marginLeft="@dimen/dp_55"
+            android:layout_marginLeft="@dimen/dp_35"
             android:layout_marginBottom="@dimen/dp_3"
             android:background="@mipmap/home_but_scan"/>
 

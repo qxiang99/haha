@@ -128,6 +128,7 @@ public class UploadSucessActivity extends BaseActivity {
                 }
 
                 Intent intent = new Intent(UploadSucessActivity.this, FittingActivity.class);
+                intent.putExtra(Constant.ItentKey7, 2);
                 intent.putExtra(Constant.ItentKey1, uploadid);
                 intent.putExtra(Constant.ItentKey2, footlen);
                 startActivity(intent);

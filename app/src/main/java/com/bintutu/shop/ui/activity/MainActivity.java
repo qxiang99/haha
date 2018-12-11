@@ -27,6 +27,7 @@ import com.bintutu.shop.ui.adapter.CoverFlowAdapter;
 import com.bintutu.shop.ui.view.CloseDailog;
 import com.bintutu.shop.ui.view.CommanDailog;
 import com.bintutu.shop.ui.view.CoverFlowLayoutManger;
+import com.bintutu.shop.ui.view.LoginDailog;
 import com.bintutu.shop.ui.view.RecyclerCoverFlow;
 import com.bintutu.shop.ui.view.WifiDailog;
 import com.bintutu.shop.utils.AppConstant;
@@ -64,11 +65,14 @@ public class MainActivity extends BaseActivity {
     Button mButHibitionRoom;
     @BindView(R.id.main_text_authorization)
     TextView mMainTextAuthorization;
+    @BindView(R.id.main_but_fitting)
+    Button mMainButFitting;
     private WifiDailog wifiDailog;
     private CommanDailog commanDailog;
     private CloseDailog closeDailog;
     List<String> DetailList = new ArrayList<>();
     private Gson gson;
+    private LoginDailog loginDailog;
 
 
     @Override
@@ -87,6 +91,9 @@ public class MainActivity extends BaseActivity {
         commanDailog = new CommanDailog(MainActivity.this);
         //
         mMainTextAuthorization.setText("授权门店:" + ConfigManager.Device.getShopID());
+        //
+        //初始化LoginDailog
+        loginDailog = new LoginDailog(this);
         //
         DetailList.clear();
         List<String> imageliat = Utils.getAllFiles(AppConstant.IMAGE_BANNER, "jpg");
@@ -178,6 +185,35 @@ public class MainActivity extends BaseActivity {
 
             }
         });
+        //点击fittin按钮
+        mMainButFitting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loginDailog.show();
+            }
+        });
+        //登录按钮监听回调
+        loginDailog.seLogintListener(new LoginDailog.OnLoginClickListener() {
+            private long lastClick;
+
+            @Override
+            public void Data(String number, String phone, String customer_id) {
+                if (System.currentTimeMillis() - lastClick <= 3000) {
+                    return;
+                }
+                lastClick = System.currentTimeMillis();
+                startfitting(number, phone, customer_id);
+            }
+        });
+    }
+
+    private void startfitting(String number, String phone, String customer_id) {
+        Intent intent = new Intent(MainActivity.this, FittingActivity.class);
+        intent.putExtra(Constant.ItentKey7, 1);
+        intent.putExtra(Constant.ItentKey1, number);
+        intent.putExtra(Constant.ItentKey2, phone);
+        intent.putExtra(Constant.ItentKey3, customer_id);
+        startActivity(intent);
     }
 
     /**

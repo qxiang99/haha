@@ -27,6 +27,7 @@ import android.widget.ProgressBar;
 
 import com.bintutu.shop.R;
 import com.bintutu.shop.bean.ChooseBean;
+import com.bintutu.shop.bean.RelateFootDataBean;
 import com.bintutu.shop.bean.WebDataBean;
 import com.bintutu.shop.ui.BaseActivity;
 import com.bintutu.shop.utils.AppConstant;
@@ -235,6 +236,19 @@ public class WebActivity extends BaseActivity {
             ConfigManager.Foot.setchoosed_sole_accessory_id(chooseBean.getChoosed_sole_accessory_id());
             ConfigManager.Foot.setchoosed_sole_material_id(chooseBean.getChoosed_sole_material_id());
 
+            Intent intent = new Intent(WebActivity.this, ReadyToScanActivity.class);
+            intent.putExtra(Constant.ItentKey1, "WebActivity");
+            intent.putExtra(Constant.ItentKey2, url);
+            startActivity(intent);
+
+        }
+
+        if (url.startsWith("bintutu://relatefootdata")) {
+            Map<String, String> map = getParamsMap(url, "bintutu://relatefootdata");
+            String data = map.get("param");
+            callback = map.get("callback");
+            DebugLog.e("param:" + data);
+            RelateFootDataBean chooseBean = gson.fromJson(data, RelateFootDataBean.class);
             Intent intent = new Intent(WebActivity.this, ReadyToScanActivity.class);
             intent.putExtra(Constant.ItentKey1, "WebActivity");
             intent.putExtra(Constant.ItentKey2, url);

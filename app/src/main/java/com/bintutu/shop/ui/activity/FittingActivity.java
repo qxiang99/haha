@@ -123,6 +123,10 @@ public class FittingActivity extends BaseActivity {
     private String uploadid = "";
     private String shoesData = "";
     private Gson gson;
+    private int goType;
+    private String name;
+    private String customer_phone;
+    private String customer_id;
 
     @Override
     protected void initContentView(Bundle savedInstanceState) {
@@ -240,7 +244,12 @@ public class FittingActivity extends BaseActivity {
             public void onClick(View v) {
                /* startActivity(new Intent(FittingActivity.this, FitTestActivity.class));
                 finish();*/
-                UploadData();
+               if (goType==1){
+                   NewFittingData();
+               }else if(goType==2){
+                   UploadData();
+               }
+
             }
         });
         fittingAdapter.setSetClickListener(new FittingAdapter.OnSetClickListener() {
@@ -270,6 +279,47 @@ public class FittingActivity extends BaseActivity {
 
     }
 
+    private void NewFittingData() {
+        jumpLoading("上传数据中");
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        for (FittingBean fittingBean : leftList) {
+            map.put(fittingBean.getName(), fittingBean.getType());
+        }
+        for (FittingBean fittingBean : rightList) {
+            map.put(fittingBean.getName(), fittingBean.getType());
+        }
+        final String remark = fittingEditRemark.getText().toString().trim();
+        String Data = gson.toJson(map);
+        OkGo.<BaseResponse<String>>post(AppConstant.FITTING_NEWFITTING)
+                .params("customer_id", customer_id)//客户的id
+                .params("name", name)//数据的名称
+                .params("customer_phone", customer_phone)//客户的手机
+                .params("shop_id", ConfigManager.Device.getShopID())//商铺号
+                .params("shoes", shoesData)//选择的fitting鞋
+                .params("detail", Data)//fitting数据详情
+                .params("remark", remark + "")//备注
+                .execute(new JsonCallback<BaseResponse<String>>() {
+                    @Override
+                    public void onSuccess(Response<BaseResponse<String>> response) {
+                        closeLoading();
+                        String data = String.valueOf(response.body());
+                        UploadFittingBean uploadBean = gson.fromJson(data, UploadFittingBean.class);
+                        if (uploadBean != null & uploadBean.getCode() == 0) {
+                            ShowToast("上传成功");
+                            finish();
+                        } else {
+                            ShowToast(uploadBean.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<BaseResponse<String>> response) {
+                        ShowToast("上传失败");
+                        closeLoading();
+                    }
+                });
+    }
+
     private void UploadData() {
         jumpLoading("上传数据中");
         HashMap<String, Object> map = new HashMap<String, Object>();
@@ -281,10 +331,9 @@ public class FittingActivity extends BaseActivity {
         }
         final String remark = fittingEditRemark.getText().toString().trim();
         String Data = gson.toJson(map);
-        OkGo.<BaseResponse<String>>post(AppConstant.FITTING_DATA)
-                .params("shoes", shoesData)//
-                .params("shop_id", ConfigManager.Device.getShopID())//商铺号
-                .params("userfoottypedata_id", uploadid)//上传数据成功返回的
+        OkGo.<BaseResponse<String>>post(AppConstant.FITTING_MODIFYFITTING)
+                .params("id", uploadid)//上传数据成功返回的
+                .params("shoes", shoesData)//选择的fitting鞋
                 .params("detail", Data)//
                 .params("remark", remark + "")//备注
                 .execute(new JsonCallback<BaseResponse<String>>() {
@@ -607,9 +656,17 @@ public class FittingActivity extends BaseActivity {
 
     public void getFootLenght() {
         Intent intent = getIntent();
-        uploadid = intent.getStringExtra(Constant.ItentKey1);
-        footlen = intent.getStringExtra(Constant.ItentKey2);
-        number = Float.valueOf(footlen);
+        goType = intent.getIntExtra(Constant.ItentKey7,0);
+        if (goType==1){
+            name = intent.getStringExtra(Constant.ItentKey1);
+            customer_phone = intent.getStringExtra(Constant.ItentKey2);
+            customer_id = intent.getStringExtra(Constant.ItentKey3);
+        }
+        if (goType==2){
+            uploadid = intent.getStringExtra(Constant.ItentKey1);
+            footlen = intent.getStringExtra(Constant.ItentKey2);
+            number = Float.valueOf(footlen);
+        }
         //number = Float.valueOf(248f);
         if (number >= 228 && number < 233) {
             fitList.add("MO235M1");

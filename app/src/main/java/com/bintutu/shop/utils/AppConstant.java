@@ -48,6 +48,12 @@ public class AppConstant {
     public static final String NEW_DATA = BASE_URLS + "shop_3d/backend/web/index.php/userfoottypedata/newdata";
     //判断是否有Fitting权限
     public static final String HAVE_FITTING = BASE_URLS + "shop_3d/backend/web/index.php/shop/havefitting";
+    //首页上传Fitting数据
+    public static final String FITTING_NEWFITTING = BASE_URLS + "shop_3d/backend/web/index.php/userfoottypedata/newfitting";
+    //已有fitting数据，关联扫描足型数据
+    public static final String FITTING_ADDFOOTDATAWITHFITTING = BASE_URLS + "shop_3d/backend/web/index.php/userfoottypedata/addfootdatawithfitting";
+    //修改fitting数据，已有足型数据关联fitting数据
+    public static final String FITTING_MODIFYFITTING = BASE_URLS + "shop_3d/backend/web/index.php/userfoottypedata/modifyfitting";
     //上传Fitting数据
     public static final String FITTING_DATA = BASE_URLS + "shop_3d/backend/web/index.php/fitting/newfitting";
     //上传ZIP

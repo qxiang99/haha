@@ -21,6 +21,7 @@ import com.bintutu.shop.bean.BaseResponse;
 import com.bintutu.shop.bean.CommandBean;
 import com.bintutu.shop.bean.DatailImageBean;
 import com.bintutu.shop.bean.ScanBean;
+import com.bintutu.shop.bean.UploadFittingBean;
 import com.bintutu.shop.okgo.JsonCallback;
 import com.bintutu.shop.ui.BaseActivity;
 import com.bintutu.shop.ui.adapter.CoverFlowAdapter;
@@ -72,7 +73,7 @@ public class MainActivity extends BaseActivity {
     private CloseDailog closeDailog;
     List<String> DetailList = new ArrayList<>();
     private Gson gson;
-    private LoginDailog loginDailog;
+
 
 
     @Override
@@ -92,8 +93,7 @@ public class MainActivity extends BaseActivity {
         //
         mMainTextAuthorization.setText("授权门店:" + ConfigManager.Device.getShopID());
         //
-        //初始化LoginDailog
-        loginDailog = new LoginDailog(this);
+        getFitting();
         //
         DetailList.clear();
         List<String> imageliat = Utils.getAllFiles(AppConstant.IMAGE_BANNER, "jpg");
@@ -189,31 +189,36 @@ public class MainActivity extends BaseActivity {
         mMainButFitting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loginDailog.show();
+                Intent intent = new Intent(MainActivity.this, FittingActivity.class);
+                intent.putExtra(Constant.ItentKey7, 1);
+                startActivity(intent);
             }
         });
-        //登录按钮监听回调
-        loginDailog.seLogintListener(new LoginDailog.OnLoginClickListener() {
-            private long lastClick;
 
-            @Override
-            public void Data(String number, String phone, String customer_id) {
-                if (System.currentTimeMillis() - lastClick <= 3000) {
-                    return;
-                }
-                lastClick = System.currentTimeMillis();
-                startfitting(number, phone, customer_id);
-            }
-        });
     }
 
-    private void startfitting(String number, String phone, String customer_id) {
-        Intent intent = new Intent(MainActivity.this, FittingActivity.class);
-        intent.putExtra(Constant.ItentKey7, 1);
-        intent.putExtra(Constant.ItentKey1, number);
-        intent.putExtra(Constant.ItentKey2, phone);
-        intent.putExtra(Constant.ItentKey3, customer_id);
-        startActivity(intent);
+    public void getFitting() {
+        jumpLoading("请求数据");
+        OkGo.<BaseResponse<String>>get(AppConstant.HAVE_FITTING)
+                .params("shop_id", ConfigManager.Device.getShopID())
+                .execute(new JsonCallback<BaseResponse<String>>() {
+                    @Override
+                    public void onSuccess(Response<BaseResponse<String>> response) {
+                        closeLoading();
+                        String data = String.valueOf(response.body());
+                        UploadFittingBean uploadBean = gson.fromJson(data, UploadFittingBean.class);
+                        if (uploadBean != null & uploadBean.getCode() == 0) {
+                            mMainButFitting.setVisibility(View.VISIBLE);
+                           // sucessLinFitting.setEnabled(true);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<BaseResponse<String>> response) {
+                        super.onError(response);
+                        closeLoading();
+                    }
+                });
     }
 
     /**

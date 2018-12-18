@@ -23,6 +23,7 @@ import com.bintutu.shop.ui.BaseActivity;
 import com.bintutu.shop.ui.adapter.FittingAdapter;
 import com.bintutu.shop.ui.view.LabelPopWin;
 import com.bintutu.shop.ui.view.LabelsView;
+import com.bintutu.shop.ui.view.LoginDailog;
 import com.bintutu.shop.utils.AppConstant;
 import com.bintutu.shop.utils.ConfigManager;
 import com.bintutu.shop.utils.Constant;
@@ -124,10 +125,7 @@ public class FittingActivity extends BaseActivity {
     private String shoesData = "";
     private Gson gson;
     private int goType;
-    private String name;
-    private String customer_phone;
-    private String customer_id;
-
+    private LoginDailog loginDailog;
     @Override
     protected void initContentView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_fitting);
@@ -138,6 +136,9 @@ public class FittingActivity extends BaseActivity {
         gson = new Gson();
         //
         getFootLenght();
+        //
+        //初始化LoginDailog
+        loginDailog = new LoginDailog(this);
         //
         showRecyclerview();
         for (int i = 65; i < 85; i++) {
@@ -224,10 +225,14 @@ public class FittingActivity extends BaseActivity {
         fittingButReturn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(FittingActivity.this, UploadSucessActivity.class);
-                intent.putExtra(Constant.ItentKey1, uploadid);
-                intent.putExtra(Constant.ItentKey2, footlen);
-                startActivity(intent);
+                if (goType==1){
+                    startActivity(new Intent(FittingActivity.this, MainActivity.class));
+                }else {
+                    Intent intent = new Intent(FittingActivity.this, UploadSucessActivity.class);
+                    intent.putExtra(Constant.ItentKey1, uploadid);
+                    intent.putExtra(Constant.ItentKey2, footlen);
+                    startActivity(intent);
+                }
                 finish();
             }
         });
@@ -245,11 +250,24 @@ public class FittingActivity extends BaseActivity {
                /* startActivity(new Intent(FittingActivity.this, FitTestActivity.class));
                 finish();*/
                if (goType==1){
-                   NewFittingData();
+                   loginDailog.show();
                }else if(goType==2){
                    UploadData();
                }
 
+            }
+        });
+        //登录按钮监听回调
+        loginDailog.seLogintListener(new LoginDailog.OnLoginClickListener() {
+            private long lastClick;
+
+            @Override
+            public void Data(String number, String phone, String customer_id) {
+                if (System.currentTimeMillis() - lastClick <= 3000) {
+                    return;
+                }
+                lastClick = System.currentTimeMillis();
+                NewFittingData(number, phone, customer_id);
             }
         });
         fittingAdapter.setSetClickListener(new FittingAdapter.OnSetClickListener() {
@@ -279,7 +297,7 @@ public class FittingActivity extends BaseActivity {
 
     }
 
-    private void NewFittingData() {
+    private void NewFittingData(String name, String customer_phone, String customer_id) {
         jumpLoading("上传数据中");
         HashMap<String, Object> map = new HashMap<String, Object>();
         for (FittingBean fittingBean : leftList) {
@@ -319,6 +337,7 @@ public class FittingActivity extends BaseActivity {
                     }
                 });
     }
+
 
     private void UploadData() {
         jumpLoading("上传数据中");
@@ -657,11 +676,6 @@ public class FittingActivity extends BaseActivity {
     public void getFootLenght() {
         Intent intent = getIntent();
         goType = intent.getIntExtra(Constant.ItentKey7,0);
-        if (goType==1){
-            name = intent.getStringExtra(Constant.ItentKey1);
-            customer_phone = intent.getStringExtra(Constant.ItentKey2);
-            customer_id = intent.getStringExtra(Constant.ItentKey3);
-        }
         if (goType==2){
             uploadid = intent.getStringExtra(Constant.ItentKey1);
             footlen = intent.getStringExtra(Constant.ItentKey2);

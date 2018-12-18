@@ -69,6 +69,7 @@ public class LoginDailog extends Dialog {
         Date date = new Date(System.currentTimeMillis());
         String scanNametime = simpleDateFormat.format(date);
         mLoginEditNumber.setText(scanNametime);
+        mLoginEditNumber.setSelection(scanNametime.length());
         setListener();
     }
 

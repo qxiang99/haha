@@ -249,6 +249,7 @@ public class WebActivity extends BaseActivity {
             callback = map.get("callback");
             DebugLog.e("param:" + data);
             RelateFootDataBean chooseBean = gson.fromJson(data, RelateFootDataBean.class);
+            ConfigManager.Foot.setWebFitting_id(chooseBean.getId());
             Intent intent = new Intent(WebActivity.this, ReadyToScanActivity.class);
             intent.putExtra(Constant.ItentKey1, "WebActivity");
             intent.putExtra(Constant.ItentKey2, url);

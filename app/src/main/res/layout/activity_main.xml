@@ -53,7 +53,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="@dimen/dp_500"
+        android:layout_width="wrap_content"
         android:layout_height="@dimen/dp_40"
         android:orientation="horizontal"
         android:background="@drawable/main_lin_bg"
@@ -103,6 +103,7 @@
             android:layout_marginTop="@dimen/dp_6"
             android:layout_marginLeft="@dimen/dp_55"
             android:layout_marginBottom="@dimen/dp_3"
+            android:visibility="gone"
             android:background="@mipmap/fitting_button"/>
 
         <Button
@@ -122,6 +123,7 @@
             android:layout_marginTop="@dimen/dp_6"
             android:layout_marginLeft="@dimen/dp_35"
             android:layout_marginBottom="@dimen/dp_3"
+            android:layout_marginRight="@dimen/dp_45"
             android:background="@mipmap/home_but_hibitionroom"/>
 
     </LinearLayout>

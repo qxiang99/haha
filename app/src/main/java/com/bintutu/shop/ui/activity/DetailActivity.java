@@ -637,7 +637,27 @@ public class DetailActivity extends BaseActivity {
                         UploadBean uploadBean = gson.fromJson(data, UploadBean.class);
                         if (uploadBean != null & uploadBean.getCode() == 0) {
                             ShowToast("上传成功");
+                            ShowToast("上传成功");
+
+                            uploadid = uploadBean.getResult().getId();
+                            EventMsg eventMsg = new EventMsg();
+                            eventMsg.setCode(200);
+                            eventMsg.setMsg(uploadid);
+                            RxBus.getInstance().post(eventMsg);
+
+                            EventMsg eventMsgtwo = new EventMsg();
+                            eventMsgtwo.setCode(800);
+                            RxBus.getInstance().post(eventMsgtwo);
+
                             ConfigManager.Foot.setWebFitting_id("");
+
+                            String url = AppConstant.WEBVIEW_INFORMATION(ConfigManager.Device.getShopID(),ConfigManager.Device.getShopPhone());
+                            Intent intent = new Intent(DetailActivity.this, WebActivity.class);
+                            intent.putExtra(Constant.ItentKey1,url);
+                            startActivity(intent);
+                            finish();
+
+                            finish();
                         }else {
                             ShowToast("上传失败");
                         }
@@ -686,7 +706,7 @@ public class DetailActivity extends BaseActivity {
                             RxBus.getInstance().post(eventMsg);
 
                             EventMsg eventMsgtwo = new EventMsg();
-                            eventMsgtwo.setCode(900);
+                            eventMsgtwo.setCode(800);
                             RxBus.getInstance().post(eventMsgtwo);
 
 

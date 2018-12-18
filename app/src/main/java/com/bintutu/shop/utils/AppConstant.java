@@ -78,8 +78,11 @@ public class AppConstant {
     public static final String WEBVIEW_CHOOSE(String customer_id,String phone,String id,String color,String fur,String sole_materials,String sole_accessory,String exclusive){
         return BASE_WEB_URLS+"information.html?customer_id="+customer_id+"&phone="+phone+"&id="+id+"&color="+color+"&fur="+fur+"&sole_materials="+sole_materials+"&sole_accessory="+sole_accessory+"&exclusive="+exclusive;
     }
+//web选鞋页http://ipadscan_test.bintutu.com/shop_3dscanner_learning/frontend/shopinformation.html?shop_id=1&shop_phone=123
+    public static final String WEBVIEW_INFORMATION(String shop_id,String phone) {
+        return BASE_WEB_URLS + "shopinformation.html?shop_id=" + shop_id + "&shop_phone=" + phone;
 
-
+    }
 
 
     //修改Wi-Fi连接-------post

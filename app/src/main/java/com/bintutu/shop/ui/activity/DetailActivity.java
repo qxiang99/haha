@@ -612,7 +612,7 @@ public class DetailActivity extends BaseActivity {
         footlen = leftBean.get_1_FootLen();
     }
 
-    private void upDataload(String webFitting_id) {
+    private void upDataload(final String webFitting_id) {
         jumpLoading("上传数据中");
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("left", leftBean);
@@ -637,13 +637,15 @@ public class DetailActivity extends BaseActivity {
                         UploadBean uploadBean = gson.fromJson(data, UploadBean.class);
                         if (uploadBean != null & uploadBean.getCode() == 0) {
                             ShowToast("上传成功");
-                            ShowToast("上传成功");
 
-                            uploadid = uploadBean.getResult().getId();
-                            EventMsg eventMsg = new EventMsg();
-                            eventMsg.setCode(200);
-                            eventMsg.setMsg(uploadid);
-                            RxBus.getInstance().post(eventMsg);
+
+                            try {
+                                EventMsg eventMsg = new EventMsg();
+                                eventMsg.setCode(200);
+                                eventMsg.setMsg(webFitting_id);
+                                RxBus.getInstance().post(eventMsg);
+                            } catch (Exception e) {
+                            }
 
                             EventMsg eventMsgtwo = new EventMsg();
                             eventMsgtwo.setCode(800);

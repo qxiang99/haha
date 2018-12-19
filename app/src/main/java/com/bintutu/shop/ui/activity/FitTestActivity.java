@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.bintutu.shop.R;
 import com.bintutu.shop.ui.BaseActivity;
@@ -24,6 +25,9 @@ public class FitTestActivity extends BaseActivity {
     Button sucessButChoose;
     @BindView(R.id.fittest_but_backhome)
     Button sucessButBackhome;
+    @BindView(R.id.sucess_text_number)
+    TextView sucessTextNumber;
+    private String contest;
 
     @Override
     protected void initContentView(Bundle savedInstanceState) {
@@ -32,8 +36,10 @@ public class FitTestActivity extends BaseActivity {
 
     @Override
     protected void init() {
+        contest = getIntent().getStringExtra(Constant.ItentKey1);
         sucessLinFitting.setEnabled(false);
         sucessLinGoscan.setEnabled(false);
+        sucessTextNumber.setText("扫描编码："+contest);
     }
 
     @Override

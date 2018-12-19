@@ -297,7 +297,7 @@ public class FittingActivity extends BaseActivity {
 
     }
 
-    private void NewFittingData(String name, String customer_phone, String customer_id) {
+    private void NewFittingData(final String name, String customer_phone,final String customer_id) {
         jumpLoading("上传数据中");
         HashMap<String, Object> map = new HashMap<String, Object>();
         for (FittingBean fittingBean : leftList) {
@@ -324,6 +324,10 @@ public class FittingActivity extends BaseActivity {
                         UploadFittingBean uploadBean = gson.fromJson(data, UploadFittingBean.class);
                         if (uploadBean != null & uploadBean.getCode() == 0) {
                             ShowToast("上传成功");
+
+                            Intent intent = new Intent(FittingActivity.this, FitTestActivity.class);
+                            intent.putExtra(Constant.ItentKey1, name);
+                            startActivity(intent);
                             finish();
                         } else {
                             ShowToast(uploadBean.getMessage());
@@ -363,7 +367,9 @@ public class FittingActivity extends BaseActivity {
                         UploadFittingBean uploadBean = gson.fromJson(data, UploadFittingBean.class);
                         if (uploadBean != null & uploadBean.getCode() == 0) {
                             ShowToast("上传成功");
-                            startActivity(new Intent(FittingActivity.this, FitTestActivity.class));
+                            Intent intent = new Intent(FittingActivity.this, FitTestActivity.class);
+                            intent.putExtra(Constant.ItentKey1, uploadid);
+                            startActivity(intent);
                             finish();
                         } else {
                             ShowToast(uploadBean.getMessage());

@@ -28,6 +28,7 @@ public class FitTestActivity extends BaseActivity {
     @BindView(R.id.sucess_text_number)
     TextView sucessTextNumber;
     private String contest;
+    private String numberid;
 
     @Override
     protected void initContentView(Bundle savedInstanceState) {
@@ -36,9 +37,14 @@ public class FitTestActivity extends BaseActivity {
 
     @Override
     protected void init() {
-        contest = getIntent().getStringExtra(Constant.ItentKey1);
+        contest = getIntent().getStringExtra(Constant.ItentKey2);
+        int goType = getIntent().getIntExtra(Constant.ItentKey1,0);
+        if (goType==1){
+            sucessLinGoscan.setEnabled(false);
+        }else {
+            numberid = getIntent().getStringExtra(Constant.ItentKey3);
+        }
         sucessLinFitting.setEnabled(false);
-        sucessLinGoscan.setEnabled(false);
         sucessTextNumber.setText("扫描编码："+contest);
     }
 
@@ -84,6 +90,14 @@ public class FitTestActivity extends BaseActivity {
                 ConfigManager.Foot.setchoosed_sole_accessory_id("");
                 ConfigManager.Foot.setchoosed_sole_material_id("");
                 startActivity(new Intent(FitTestActivity.this, MainActivity.class));
+                finish();
+            }
+        });
+        sucessLinGoscan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(FitTestActivity.this, ReadyToScanActivity.class);
+                startActivity(intent);
                 finish();
             }
         });

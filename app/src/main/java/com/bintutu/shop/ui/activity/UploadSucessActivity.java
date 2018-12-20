@@ -189,7 +189,10 @@ public class UploadSucessActivity extends BaseActivity {
                         String data = String.valueOf(response.body());
                         UploadFittingBean uploadBean = gson.fromJson(data, UploadFittingBean.class);
                         if (uploadBean != null & uploadBean.getCode() == 0) {
-                            sucessLinFitting.setEnabled(true);
+                            if (uploadBean.getResult()==1){
+                                sucessLinFitting.setEnabled(true);
+                            }
+
                         }
                     }
 

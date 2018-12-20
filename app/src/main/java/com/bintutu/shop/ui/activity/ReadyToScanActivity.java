@@ -32,7 +32,6 @@ public class ReadyToScanActivity extends BaseActivity {
     @BindView(R.id.ready_but_file)
     Button readyButFile;
     private boolean scangif = false;//判断设备是否在线 更换图标
-    private String activtyname;
 
 
     @Override
@@ -44,8 +43,7 @@ public class ReadyToScanActivity extends BaseActivity {
     protected void init() {
         //请求扫描仪是否在线
         JudgeOnlineScan();
-        Intent intent = getIntent();
-        activtyname = intent.getStringExtra(Constant.ItentKey1);
+
     }
 
 

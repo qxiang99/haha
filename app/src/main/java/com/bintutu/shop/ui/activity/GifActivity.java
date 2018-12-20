@@ -32,6 +32,8 @@ import butterknife.ButterKnife;
 import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageView;
 
+import static java.lang.System.currentTimeMillis;
+
 public class GifActivity extends Activity {
 
 
@@ -66,7 +68,7 @@ public class GifActivity extends Activity {
      * 不返回结果
      */
     private void ScanPost() {
-        scanNametime = System.currentTimeMillis() + "";
+        scanNametime = System.currentTimeMillis()+ "";
         OkGo.<BaseResponse<String>>post(AppConstant.BEGIN_SCAN)
                 .params("id", scanNametime)//名称
                 .params("begin", "1")
@@ -263,9 +265,9 @@ public class GifActivity extends Activity {
     }
 
     public void exit() {
-        if ((System.currentTimeMillis() - mExitTime) > 2000) {
+        if ((currentTimeMillis() - mExitTime) > 2000) {
             ToastUtils.showToast(GifActivity.this, "如果想退出扫描，再按一次返回");
-            mExitTime = System.currentTimeMillis();
+            mExitTime = currentTimeMillis();
         } else {
             if (timerscan!=null){
                 timerscan.cancel();

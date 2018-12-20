@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.bintutu.shop.R;
 import com.bintutu.shop.bean.BaseResponse;
 import com.bintutu.shop.bean.FittingBean;
+import com.bintutu.shop.bean.UploadBean;
 import com.bintutu.shop.bean.UploadFittingBean;
 import com.bintutu.shop.okgo.JsonCallback;
 import com.bintutu.shop.ui.BaseActivity;
@@ -321,16 +322,23 @@ public class FittingActivity extends BaseActivity {
                     public void onSuccess(Response<BaseResponse<String>> response) {
                         closeLoading();
                         String data = String.valueOf(response.body());
-                        UploadFittingBean uploadBean = gson.fromJson(data, UploadFittingBean.class);
+                        UploadBean uploadBean = gson.fromJson(data, UploadBean.class);
                         if (uploadBean != null & uploadBean.getCode() == 0) {
                             ShowToast("上传成功");
 
                             Intent intent = new Intent(FittingActivity.this, FitTestActivity.class);
-                            intent.putExtra(Constant.ItentKey1, name);
+                            intent.putExtra(Constant.ItentKey1, 2);
+                            intent.putExtra(Constant.ItentKey2, name);
+                            if (uploadBean.getResult()!=null&&uploadBean.getResult().getId()!=null){
+                                intent.putExtra(Constant.ItentKey3, uploadBean.getResult().getId());
+                            }else {
+                                intent.putExtra(Constant.ItentKey3, "0");
+                            }
+
                             startActivity(intent);
                             finish();
                         } else {
-                            ShowToast(uploadBean.getMessage());
+                            ShowToast("上传失败");
                         }
                     }
 
@@ -368,7 +376,8 @@ public class FittingActivity extends BaseActivity {
                         if (uploadBean != null & uploadBean.getCode() == 0) {
                             ShowToast("上传成功");
                             Intent intent = new Intent(FittingActivity.this, FitTestActivity.class);
-                            intent.putExtra(Constant.ItentKey1, uploadid);
+                            intent.putExtra(Constant.ItentKey1, 1);
+                            intent.putExtra(Constant.ItentKey2, uploadid);
                             startActivity(intent);
                             finish();
                         } else {

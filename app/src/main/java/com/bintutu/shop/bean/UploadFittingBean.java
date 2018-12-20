@@ -3,6 +3,7 @@ package com.bintutu.shop.bean;
 public class UploadFittingBean {
 
     private int code;
+    private int result;
     private String msg;
 
     public int getCode() {
@@ -20,6 +21,15 @@ public class UploadFittingBean {
     public void setMessage(String msg) {
         this.msg = msg;
     }
+
+    public int getResult() {
+        return result;
+    }
+
+    public void setResult(int result) {
+        this.result = result;
+    }
+
 
 
 }

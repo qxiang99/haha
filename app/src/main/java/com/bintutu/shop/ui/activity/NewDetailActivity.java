@@ -345,7 +345,7 @@ public class NewDetailActivity extends BaseActivity {
         LeftBean NewleftBean =new LeftBean();
         NewleftBean.set_1_FootLen(getNewValue(dataBeans.get_1_FootLen(),dataBeans.get_1_FootLen_F(),leftBean.get_1_FootLen()));
         NewleftBean.set_2_ZhiWei(getNewValue(dataBeans.get_2_ZhiWei(),dataBeans.get_2_ZhiWei_F(),leftBean.get_2_ZhiWei()));
-        NewleftBean.set_6_JiaoZhiZhou(getNewValue(dataBeans.get_6_JiaoZhiZhou(),dataBeans.get_6_JiaoZhiZhou_F(),leftBean.get_6_JiaoZhiZhou()));
+        NewleftBean.set_15_ZhiWeiKuan(getNewValue(dataBeans.get_15_ZhiWeiKuan(),dataBeans.get_15_ZhiWeiKuan_F(),leftBean.get_15_ZhiWeiKuan()));
         NewleftBean.set_16_DiBanKuan(getNewValue(dataBeans.get_16_DiBanKuan(),dataBeans.get_16_DiBanKuan_F(),leftBean.get_16_DiBanKuan()));
         NewleftBean.set_7_WaiHuaiXiaGao(getNewValue(dataBeans.get_7_WaiHuaiXiaGao(),dataBeans.get_7_WaiHuaiXiaGao_F(),leftBean.get_7_WaiHuaiXiaGao()));
         NewleftBean.set_11_1ZhiZhiGao(getNewValue(dataBeans.get_11_1ZhiZhiGao(),dataBeans.get_11_1ZhiZhiGao_F(),leftBean.get_11_1ZhiZhiGao()));
@@ -372,7 +372,7 @@ public class NewDetailActivity extends BaseActivity {
         RightBean NewRightBean =new RightBean();
         NewRightBean.set_1_FootLen(getNewValue(dataBeans.get_1_FootLen(),dataBeans.get_1_FootLen_F(),rightBean.get_1_FootLen()));
         NewRightBean.set_2_ZhiWei(getNewValue(dataBeans.get_2_ZhiWei(),dataBeans.get_2_ZhiWei_F(),rightBean.get_2_ZhiWei()));
-        NewRightBean.set_6_JiaoZhiZhou(getNewValue(dataBeans.get_6_JiaoZhiZhou(),dataBeans.get_6_JiaoZhiZhou_F(),rightBean.get_6_JiaoZhiZhou()));
+        NewRightBean.set_15_ZhiWeiKuan(getNewValue(dataBeans.get_15_ZhiWeiKuan(),dataBeans.get_15_ZhiWeiKuan_F(),rightBean.get_15_ZhiWeiKuan()));
         NewRightBean.set_16_DiBanKuan(getNewValue(dataBeans.get_16_DiBanKuan(),dataBeans.get_16_DiBanKuan_F(),rightBean.get_16_DiBanKuan()));
         NewRightBean.set_7_WaiHuaiXiaGao(getNewValue(dataBeans.get_7_WaiHuaiXiaGao(),dataBeans.get_7_WaiHuaiXiaGao_F(),rightBean.get_7_WaiHuaiXiaGao()));
         NewRightBean.set_11_1ZhiZhiGao(getNewValue(dataBeans.get_11_1ZhiZhiGao(),dataBeans.get_11_1ZhiZhiGao_F(),rightBean.get_11_1ZhiZhiGao()));
@@ -396,35 +396,35 @@ public class NewDetailActivity extends BaseActivity {
         NewRightBean.set_34_HouGenBianChang(getNewValue(dataBeans.get_34_HouGenBianChang(),dataBeans.get_34_HouGenBianChang_F(),rightBean.get_34_HouGenBianChang()));
         NewRightBean.set_35_QianZhangTuDianChang(getNewValue(dataBeans.get_35_QianZhangTuDianChang(),dataBeans.get_35_QianZhangTuDianChang_F(),rightBean.get_35_QianZhangTuDianChang()));
         DetailList.clear();
+        //DetailList.add(new DetailBean(getResources().getString(R.string.DouWei), 4, leftBean.get_6_JiaoZhiZhou(), rightBean.get_6_JiaoZhiZhou()));//6
+        //DetailList.add(new DetailBean(getResources().getString(R.string.JiaoWanWei), 5, leftBean.get_14_JiaoZhiKuan(), rightBean.get_14_JiaoZhiKuan()));//14
         DetailList.add(new DetailBean(getResources().getString(R.string.FootLen), 1, leftBean.get_1_FootLen(), rightBean.get_1_FootLen()));//1
         DetailList.add(new DetailBean(getResources().getString(R.string.ZhiWei), 2, leftBean.get_2_ZhiWei(), rightBean.get_2_ZhiWei()));//2
         DetailList.add(new DetailBean(getResources().getString(R.string.FuWei), 3, leftBean.get_3_FuWei(), rightBean.get_3_FuWei()));//3
-        DetailList.add(new DetailBean(getResources().getString(R.string.DouWei), 4, leftBean.get_6_JiaoZhiZhou(), rightBean.get_6_JiaoZhiZhou()));//6
-        DetailList.add(new DetailBean(getResources().getString(R.string.JiaoWanWei), 5, leftBean.get_14_JiaoZhiKuan(), rightBean.get_14_JiaoZhiKuan()));//14
-        DetailList.add(new DetailBean(getResources().getString(R.string.JiaoZhiZhou), 6, leftBean.get_15_ZhiWeiKuan(), rightBean.get_15_ZhiWeiKuan()));//15
-        DetailList.add(new DetailBean(getResources().getString(R.string.WaiHuaiXiaGao), 7, leftBean.get_16_DiBanKuan(), rightBean.get_16_DiBanKuan()));//16
-        DetailList.add(new DetailBean(getResources().getString(R.string.HouGenTuGao), 8, leftBean.get_7_WaiHuaiXiaGao(), rightBean.get_7_WaiHuaiXiaGao()));//7
-        DetailList.add(new DetailBean(getResources().getString(R.string.ZhouShangGao), 9, leftBean.get_10_FuWeiGao(), rightBean.get_10_FuWeiGao()));//10
-        DetailList.add(new DetailBean(getResources().getString(R.string.FuWeiGao), 10, leftBean.get_11_1ZhiZhiGao(), rightBean.get_11_1ZhiZhiGao()));//11
-        DetailList.add(new DetailBean(getResources().getString(R.string.ZhiZhiGao), 11, leftBean.get_12_DaMoZhiGao(), rightBean.get_12_DaMoZhiGao()));//12
-        DetailList.add(new DetailBean(getResources().getString(R.string.DaMoZhiGao), 12, leftBean.get_17_MuZhiLiKuan(), rightBean.get_17_MuZhiLiKuan()));//17
-        DetailList.add(new DetailBean(getResources().getString(R.string.JiaoWanGao), 13, leftBean.get_18_XiaoZhiWaiKuan(), rightBean.get_18_XiaoZhiWaiKuan()));//18
-        DetailList.add(new DetailBean(getResources().getString(R.string.JiaoZhiKuan), 14,  leftBean.get_19_1ZhizhiLiKuan(), rightBean.get_19_1ZhizhiLiKuan()));//19
-        DetailList.add(new DetailBean(getResources().getString(R.string.ZhiWeiKuan), 15, leftBean.get_20_5ZhizhiLiKuan(), rightBean.get_20_5ZhizhiLiKuan()));//20
-        DetailList.add(new DetailBean(getResources().getString(R.string.DiBanKuan), 16,  leftBean.get_21_YaoWoWaiKuan(), rightBean.get_21_YaoWoWaiKuan()));//21
-        DetailList.add(new DetailBean(getResources().getString(R.string.MuZhiLiKuan), 17, leftBean.get_22_ZhongXinDiKuan(), rightBean.get_22_ZhongXinDiKuan()));//22
-        DetailList.add(new DetailBean(getResources().getString(R.string.XiaoZhiWaiKuan), 18,  leftBean.get_24_MuZhiWaiTuChang(), rightBean.get_24_MuZhiWaiTuChang()));//24
-        DetailList.add(new DetailBean(getResources().getString(R.string.lZhizhiLiKuan), 19,  leftBean.get_25_XiaoZhiDuanChang(), rightBean.get_25_XiaoZhiDuanChang()));//25
-        DetailList.add(new DetailBean(getResources().getString(R.string.SZhizhiLiKuan), 20, leftBean.get_26_XiaoZhiWaiTuChang(), rightBean.get_26_XiaoZhiWaiTuChang()));//26
-        DetailList.add(new DetailBean(getResources().getString(R.string.YaoWoWaiKuan), 21, leftBean.get_27_1ZhiZhiChang(), rightBean.get_27_1ZhiZhiChang()));//27
-        DetailList.add(new DetailBean(getResources().getString(R.string.ZhongXinDiKuan), 22, leftBean.get_28_5ZhiZhiChang(), rightBean.get_28_5ZhiZhiChang()));//28
-        DetailList.add(new DetailBean(getResources().getString(R.string.JiaoHuaiNeiKuan), 23, leftBean.get_29_FuGuChang(), rightBean.get_29_FuGuChang()));//29
-        DetailList.add(new DetailBean(getResources().getString(R.string.MuZhiWaiTuChang), 24, leftBean.get_30_YaoWoChang(), rightBean.get_30_YaoWoChang()));//30
-        DetailList.add(new DetailBean(getResources().getString(R.string.XiaoZhiDuanChang), 25, leftBean.get_31_ZhouShangDianChang(), rightBean.get_31_ZhouShangDianChang()));//31
-        DetailList.add(new DetailBean(getResources().getString(R.string.XiaoZhiWaiTuChang), 26, leftBean.get_32_WaiHuaiGuZhongChang(), rightBean.get_32_WaiHuaiGuZhongChang()));//32
-        DetailList.add(new DetailBean(getResources().getString(R.string.lZhiZhiChang), 27, leftBean.get_33_ZhongXinChang(), rightBean.get_33_ZhongXinChang()));//33
-        DetailList.add(new DetailBean(getResources().getString(R.string.SZhiZhiChang), 28, leftBean.get_34_HouGenBianChang(), rightBean.get_34_HouGenBianChang()));//34
-        DetailList.add(new DetailBean(getResources().getString(R.string.FuGuChang), 29, leftBean.get_35_QianZhangTuDianChang(), rightBean.get_35_QianZhangTuDianChang()));//35
+        DetailList.add(new DetailBean(getResources().getString(R.string.JiaoZhiZhou), 4, leftBean.get_15_ZhiWeiKuan(), rightBean.get_15_ZhiWeiKuan()));//4
+        DetailList.add(new DetailBean(getResources().getString(R.string.WaiHuaiXiaGao), 5, leftBean.get_16_DiBanKuan(), rightBean.get_16_DiBanKuan()));//5
+        DetailList.add(new DetailBean(getResources().getString(R.string.HouGenTuGao), 6, leftBean.get_7_WaiHuaiXiaGao(), rightBean.get_7_WaiHuaiXiaGao()));//6
+        DetailList.add(new DetailBean(getResources().getString(R.string.ZhouShangGao), 7, leftBean.get_10_FuWeiGao(), rightBean.get_10_FuWeiGao()));//7
+        DetailList.add(new DetailBean(getResources().getString(R.string.FuWeiGao), 8, leftBean.get_11_1ZhiZhiGao(), rightBean.get_11_1ZhiZhiGao()));//8
+        DetailList.add(new DetailBean(getResources().getString(R.string.ZhiZhiGao), 9, leftBean.get_12_DaMoZhiGao(), rightBean.get_12_DaMoZhiGao()));//9
+        DetailList.add(new DetailBean(getResources().getString(R.string.DaMoZhiGao), 10, leftBean.get_17_MuZhiLiKuan(), rightBean.get_17_MuZhiLiKuan()));//10
+        DetailList.add(new DetailBean(getResources().getString(R.string.JiaoWanGao), 11, leftBean.get_18_XiaoZhiWaiKuan(), rightBean.get_18_XiaoZhiWaiKuan()));//11
+        DetailList.add(new DetailBean(getResources().getString(R.string.JiaoZhiKuan), 12,  leftBean.get_19_1ZhizhiLiKuan(), rightBean.get_19_1ZhizhiLiKuan()));//12
+        DetailList.add(new DetailBean(getResources().getString(R.string.ZhiWeiKuan), 13, leftBean.get_20_5ZhizhiLiKuan(), rightBean.get_20_5ZhizhiLiKuan()));//13
+        DetailList.add(new DetailBean(getResources().getString(R.string.DiBanKuan), 14,  leftBean.get_21_YaoWoWaiKuan(), rightBean.get_21_YaoWoWaiKuan()));//14
+        DetailList.add(new DetailBean(getResources().getString(R.string.MuZhiLiKuan), 15, leftBean.get_22_ZhongXinDiKuan(), rightBean.get_22_ZhongXinDiKuan()));//15
+        DetailList.add(new DetailBean(getResources().getString(R.string.XiaoZhiWaiKuan), 16,  leftBean.get_24_MuZhiWaiTuChang(), rightBean.get_24_MuZhiWaiTuChang()));//16
+        DetailList.add(new DetailBean(getResources().getString(R.string.lZhizhiLiKuan), 17,  leftBean.get_25_XiaoZhiDuanChang(), rightBean.get_25_XiaoZhiDuanChang()));//17
+        DetailList.add(new DetailBean(getResources().getString(R.string.SZhizhiLiKuan), 18, leftBean.get_26_XiaoZhiWaiTuChang(), rightBean.get_26_XiaoZhiWaiTuChang()));//18
+        DetailList.add(new DetailBean(getResources().getString(R.string.YaoWoWaiKuan), 19, leftBean.get_27_1ZhiZhiChang(), rightBean.get_27_1ZhiZhiChang()));//19
+        DetailList.add(new DetailBean(getResources().getString(R.string.ZhongXinDiKuan), 20, leftBean.get_28_5ZhiZhiChang(), rightBean.get_28_5ZhiZhiChang()));//20
+        DetailList.add(new DetailBean(getResources().getString(R.string.JiaoHuaiNeiKuan), 21, leftBean.get_29_FuGuChang(), rightBean.get_29_FuGuChang()));//21
+        DetailList.add(new DetailBean(getResources().getString(R.string.MuZhiWaiTuChang), 22, leftBean.get_30_YaoWoChang(), rightBean.get_30_YaoWoChang()));//22
+        DetailList.add(new DetailBean(getResources().getString(R.string.XiaoZhiDuanChang), 23, leftBean.get_31_ZhouShangDianChang(), rightBean.get_31_ZhouShangDianChang()));//23
+        DetailList.add(new DetailBean(getResources().getString(R.string.XiaoZhiWaiTuChang), 24, leftBean.get_32_WaiHuaiGuZhongChang(), rightBean.get_32_WaiHuaiGuZhongChang()));//24
+        DetailList.add(new DetailBean(getResources().getString(R.string.lZhiZhiChang), 25, leftBean.get_33_ZhongXinChang(), rightBean.get_33_ZhongXinChang()));//25
+        DetailList.add(new DetailBean(getResources().getString(R.string.SZhiZhiChang), 26, leftBean.get_34_HouGenBianChang(), rightBean.get_34_HouGenBianChang()));//26
+        DetailList.add(new DetailBean(getResources().getString(R.string.FuGuChang), 27, leftBean.get_35_QianZhangTuDianChang(), rightBean.get_35_QianZhangTuDianChang()));//27
 
         DetailAdapter detailAdapter = new DetailAdapter(DetailList);
         mRecyclerview.setAdapter(detailAdapter);

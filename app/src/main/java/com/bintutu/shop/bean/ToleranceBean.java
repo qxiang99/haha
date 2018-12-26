@@ -116,8 +116,8 @@ public class ToleranceBean {
         private double _34_HouGenBianChang_F;
         private double _35_QianZhangTuDianChang;
         private double _35_QianZhangTuDianChang_F;
-        private double _6_JiaoZhiZhou;
-        private double _6_JiaoZhiZhou_F;
+        private double _15_ZhiWeiKuan;
+        private double _15_ZhiWeiKuan_F;
         private double _7_WaiHuaiXiaGao;
         private double _7_WaiHuaiXiaGao_F;
         private String id;
@@ -490,20 +490,20 @@ public class ToleranceBean {
             this._35_QianZhangTuDianChang_F = _35_QianZhangTuDianChang_F;
         }
 
-        public double get_6_JiaoZhiZhou() {
-            return _6_JiaoZhiZhou;
+        public double get_15_ZhiWeiKuan() {
+            return _15_ZhiWeiKuan;
         }
 
-        public void set_6_JiaoZhiZhou(double _6_JiaoZhiZhou) {
-            this._6_JiaoZhiZhou = _6_JiaoZhiZhou;
+        public void set_15_ZhiWeiKuan(double _15_ZhiWeiKuan) {
+            this._15_ZhiWeiKuan = _15_ZhiWeiKuan;
         }
 
-        public double get_6_JiaoZhiZhou_F() {
-            return _6_JiaoZhiZhou_F;
+        public double get_15_ZhiWeiKuan_F() {
+            return _15_ZhiWeiKuan_F;
         }
 
-        public void set_6_JiaoZhiZhou_F(double _6_JiaoZhiZhou_F) {
-            this._6_JiaoZhiZhou_F = _6_JiaoZhiZhou_F;
+        public void set_15_ZhiWeiKuan_F(double _15_ZhiWeiKuan_F) {
+            this._15_ZhiWeiKuan_F = _15_ZhiWeiKuan_F;
         }
 
         public double get_7_WaiHuaiXiaGao() {

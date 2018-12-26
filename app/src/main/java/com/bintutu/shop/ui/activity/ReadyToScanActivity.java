@@ -301,16 +301,13 @@ public class ReadyToScanActivity extends BaseActivity {
             int type = 0;
             if (remarkLin.getVisibility() != View.VISIBLE) {
                 type = 1;
-            } else {
-                type = 2;
             }
-
             Intent intent = new Intent(ReadyToScanActivity.this, NewDetailActivity.class);
             intent.putExtra(Constant.ItentKey1, result);
             intent.putExtra(Constant.ItentKey2, sex);
             intent.putExtra(Constant.ItentKey3, Forehand);
             intent.putExtra(Constant.ItentKey4, Instep);
-            intent.putExtra(Constant.ItentKey5, edit);
+            intent.putExtra(Constant.ItentKey5, Integer.parseInt(edit));
             intent.putExtra(Constant.ItentKey7, type);
             startActivity(intent);
             finish();

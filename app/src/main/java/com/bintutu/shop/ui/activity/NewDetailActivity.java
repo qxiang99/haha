@@ -151,12 +151,22 @@ public class NewDetailActivity extends BaseActivity {
     @Override
     protected void init() {
         gson = new Gson();
-        //得到需要编辑的数据
-        getTolerance();
-        getInStep();
+
         //获取上一界面发送给扫描仪的指令
         Intent intent = getIntent();
         number = intent.getStringExtra(Constant.ItentKey1);
+        int type  = intent.getIntExtra(Constant.ItentKey7,0);
+        if (type==1){
+            int sex  = intent.getIntExtra(Constant.ItentKey2,0);
+            int Forehand  = intent.getIntExtra(Constant.ItentKey3,0);
+            int Instep  = intent.getIntExtra(Constant.ItentKey4,0);
+            int edit  = intent.getIntExtra(Constant.ItentKey5,0);
+
+        }
+
+        //得到需要编辑的数据
+        getTolerance();
+        getInStep();
         //初始化Recyclerview
         showRecyclerview();
         //初始化LoginDailog

@@ -14,11 +14,11 @@ public class DetailBean {
     private String left;
     private String right;
 
-    public DetailBean(String name,int number, String left, String right) {
+    public DetailBean(String name,int number, double left, double right) {
         setName(name);
         setNumber(number);
-        setLeft(left);
-        setRight(right);
+        setLeft(String.valueOf(left));
+        setRight(String.valueOf(right));
     }
 
 

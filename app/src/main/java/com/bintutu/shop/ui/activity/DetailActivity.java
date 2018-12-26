@@ -551,7 +551,7 @@ public class DetailActivity extends BaseActivity {
 
     public void getFootData(int type) {
         Message message = new Message();
-        message.what = 2;
+        message.what = type;
         mhandler.sendMessage(message);
     }
 
@@ -609,7 +609,7 @@ public class DetailActivity extends BaseActivity {
 
         DetailAdapter detailAdapter = new DetailAdapter(DetailList);
         mRecyclerview.setAdapter(detailAdapter);
-        footlen = leftBean.get_1_FootLen();
+        footlen = String.valueOf(leftBean.get_1_FootLen());
     }
 
     private void upDataload(final String webFitting_id) {

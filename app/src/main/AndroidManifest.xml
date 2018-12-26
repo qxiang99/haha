@@ -26,10 +26,7 @@
             android:name=".ui.activity.SplashActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.Loading">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
         <!--商铺登录页-->
         <activity
@@ -81,6 +78,18 @@
             android:launchMode="singleTop"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustPan|stateHidden"></activity>
+         <!--演示要用的数据详情页-->
+        <activity
+            android:name=".ui.activity.NewDetailActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustPan|stateHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <!--上传成功页-->
         <activity
             android:name=".ui.activity.UploadSucessActivity"

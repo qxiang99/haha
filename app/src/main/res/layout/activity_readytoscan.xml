@@ -15,19 +15,18 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/ready_cons_edit"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_40"
-        android:background="@color/black99"
-        app:layout_constraintBottom_toTopOf="@+id/ready_cons_bottom"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent">
+
 
         <LinearLayout
+            android:id="@+id/remark_lin"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:layout_height="@dimen/dp_50"
+            android:orientation="horizontal"
+            android:background="@color/black99"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/ready_cons_bottom"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -94,6 +93,7 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_weight="2"
+                android:gravity="center"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
@@ -106,7 +106,28 @@
                     android:textSize="@dimen/dp_12"
                     android:textColor="@color/white"
                     android:layout_marginLeft="@dimen/dp_14" />
-
+                <LinearLayout
+                    android:layout_width="@dimen/dp_40"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_4"
+                    android:orientation="vertical"
+                    android:gravity="center">
+                    <EditText
+                        android:id="@+id/remark_edit"
+                        android:layout_width="@dimen/dp_40"
+                        android:layout_height="@dimen/dp_12"
+                        android:background="@null"
+                        android:hint=""
+                        android:maxLines="1"
+                        android:inputType="number"
+                        android:textColor="@color/text_color_bf"
+                        android:textColorHint="@color/text_color_bf"
+                        android:textSize="@dimen/dp_12" />
+                    <View
+                        android:layout_width="@dimen/dp_40"
+                        android:layout_height="@dimen/dp_1"
+                        android:background="@color/text_color_bf" />
+                </LinearLayout>
 
             </LinearLayout>
             <LinearLayout
@@ -280,7 +301,6 @@
 
 
 
-    </android.support.constraint.ConstraintLayout>
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/ready_cons_bottom"
@@ -314,6 +334,16 @@
             android:background="@mipmap/home_bg"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/ready_but_return"/>
+
+        <Button
+            android:id="@+id/ready_but_remarks"
+            android:layout_width="@dimen/dp_35"
+            android:layout_height="@dimen/dp_35"
+            android:layout_marginRight="@dimen/dp_50"
+            android:background="@mipmap/remarks_bg"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/ready_but_startscan"/>
 
         <Button
             android:id="@+id/ready_but_startscan"

@@ -2,8 +2,10 @@ package com.bintutu.shop.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -16,6 +18,7 @@ import com.bintutu.shop.utils.ConfigManager;
 import com.bintutu.shop.utils.Constant;
 import com.bintutu.shop.utils.EventMsg;
 import com.bintutu.shop.utils.RxBus;
+import com.bintutu.shop.utils.ToastUtils;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
 
@@ -66,9 +69,19 @@ public class ReadyToScanActivity extends BaseActivity {
     ImageView linInstepImage;
     @BindView(R.id.lin_instep_pine)
     LinearLayout linInstepPine;
+    @BindView(R.id.ready_but_remarks)
+    Button readyButRemarks;
+    @BindView(R.id.remark_lin)
+    LinearLayout remarkLin;
+    @BindView(R.id.remark_edit)
+    EditText remarkEdit;
 
 
     private boolean scangif = false;//判断设备是否在线 更换图标
+    private int sex = 0;//性别
+    private int Forehand = 0;//前掌
+    private int Instep = 0;//脚背
+    private String edit;
 
 
     @Override
@@ -88,21 +101,33 @@ public class ReadyToScanActivity extends BaseActivity {
         linForehandTightImage.setEnabled(false);
         linForehandCentreImage.setEnabled(true);
         linForehandImage.setEnabled(true);
+        Forehand = 1;
 
         linInstepTightImage.setEnabled(false);
         linInstepCentreImage.setEnabled(true);
         linInstepImage.setEnabled(true);
-
+        Instep = 1;
     }
 
 
     @Override
     protected void setListener() {
+        readyButRemarks.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (remarkLin.getVisibility() == View.VISIBLE) {
+                    remarkLin.setVisibility(View.GONE);
+                } else {
+                    remarkLin.setVisibility(View.VISIBLE);
+                }
+            }
+        });
         editMale.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 editMaleIamge.setEnabled(false);
                 editFemaleIamge.setEnabled(true);
+                sex = 1;
 
             }
         });
@@ -111,6 +136,7 @@ public class ReadyToScanActivity extends BaseActivity {
             public void onClick(View v) {
                 editMaleIamge.setEnabled(true);
                 editFemaleIamge.setEnabled(false);
+                sex = 2;
 
             }
         });
@@ -120,6 +146,7 @@ public class ReadyToScanActivity extends BaseActivity {
                 linForehandTightImage.setEnabled(false);
                 linForehandCentreImage.setEnabled(true);
                 linForehandImage.setEnabled(true);
+                Forehand = 1;
             }
         });
         linForehandCentre.setOnClickListener(new View.OnClickListener() {
@@ -128,6 +155,7 @@ public class ReadyToScanActivity extends BaseActivity {
                 linForehandTightImage.setEnabled(true);
                 linForehandCentreImage.setEnabled(false);
                 linForehandImage.setEnabled(true);
+                Forehand = 2;
             }
         });
         linForehandPine.setOnClickListener(new View.OnClickListener() {
@@ -136,6 +164,7 @@ public class ReadyToScanActivity extends BaseActivity {
                 linForehandTightImage.setEnabled(true);
                 linForehandCentreImage.setEnabled(true);
                 linForehandImage.setEnabled(false);
+                Forehand = 3;
             }
         });
         linInstepTight.setOnClickListener(new View.OnClickListener() {
@@ -144,6 +173,7 @@ public class ReadyToScanActivity extends BaseActivity {
                 linInstepTightImage.setEnabled(false);
                 linInstepCentreImage.setEnabled(true);
                 linInstepImage.setEnabled(true);
+                Instep = 1;
             }
         });
 
@@ -153,6 +183,7 @@ public class ReadyToScanActivity extends BaseActivity {
                 linInstepTightImage.setEnabled(true);
                 linInstepCentreImage.setEnabled(false);
                 linInstepImage.setEnabled(true);
+                Instep = 2;
             }
         });
         linInstepPine.setOnClickListener(new View.OnClickListener() {
@@ -161,6 +192,7 @@ public class ReadyToScanActivity extends BaseActivity {
                 linInstepTightImage.setEnabled(true);
                 linInstepCentreImage.setEnabled(true);
                 linInstepImage.setEnabled(false);
+                Instep = 3;
             }
         });
 
@@ -185,8 +217,13 @@ public class ReadyToScanActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 if (scangif) {
-                    Intent intent = new Intent(ReadyToScanActivity.this, GifActivity.class);
-                    startActivityForResult(intent, 300);
+                    if (remarkLin.getVisibility() != View.VISIBLE) {
+                        Intent intent = new Intent(ReadyToScanActivity.this, GifActivity.class);
+                        startActivityForResult(intent, 300);
+                    } else {
+                        SetData();
+                    }
+
                 } else {
                     ShowToast("设备不在线！！");
                 }
@@ -201,6 +238,22 @@ public class ReadyToScanActivity extends BaseActivity {
             }
         });
 
+    }
+
+    private void SetData() {
+        if (sex == 0) {
+            ShowToast("请备注您的性别");
+            return;
+        }
+
+        edit = remarkEdit.getText().toString().trim();
+        if (TextUtils.isEmpty(edit)) {
+            ShowToast("请备注您的尺码");
+            return;
+        }
+
+        Intent intent = new Intent(ReadyToScanActivity.this, GifActivity.class);
+        startActivityForResult(intent, 300);
     }
 
     /**
@@ -245,8 +298,20 @@ public class ReadyToScanActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == 200) {
             String result = data.getExtras().getString(Constant.ItentKey1);
-            Intent intent = new Intent(ReadyToScanActivity.this, DetailActivity.class);
+            int type = 0;
+            if (remarkLin.getVisibility() != View.VISIBLE) {
+                type = 1;
+            } else {
+                type = 2;
+            }
+
+            Intent intent = new Intent(ReadyToScanActivity.this, NewDetailActivity.class);
             intent.putExtra(Constant.ItentKey1, result);
+            intent.putExtra(Constant.ItentKey2, sex);
+            intent.putExtra(Constant.ItentKey3, Forehand);
+            intent.putExtra(Constant.ItentKey4, Instep);
+            intent.putExtra(Constant.ItentKey5, edit);
+            intent.putExtra(Constant.ItentKey7, type);
             startActivity(intent);
             finish();
 
@@ -259,10 +324,4 @@ public class ReadyToScanActivity extends BaseActivity {
     }
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
 }

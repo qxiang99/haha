@@ -1,0 +1,318 @@
+{
+  "data": [
+  {
+    "id": "m34S",
+    "_3_FuWei": 215,
+    "_3_FuWei_F": 2,
+    "10_FuWeiGao": 50.068,
+    "10_FuWeiGao_F": 1
+  },
+  {
+    "id": "m34M",
+    "_3_FuWei": 218.5,
+    "_3_FuWei_F": 2,
+    "10_FuWeiGao": 51.568,
+    "10_FuWeiGao_F": 1
+  },
+  {
+    "id": "m34L",
+    "_3_FuWei": 223.5,
+    "_3_FuWei_F": 2,
+    "10_FuWeiGao": 53.068,
+    "10_FuWeiGao_F": 1
+  },
+  {
+    "id": "f35S",
+    "_3_FuWei": 218.5,
+    "_3_FuWei_F": 2,
+    "10_FuWeiGao": 51.24,
+    "10_FuWeiGao_F": 1
+  },
+  {
+    "id": "f35M",
+    "_3_FuWei": 222,
+    "_3_FuWei_F": 2,
+    "10_FuWeiGao": 52.74,
+    "10_FuWeiGao_F": 1
+  },
+  {
+    "id": "f35L",
+    "_3_FuWei": 223.5,
+    "_3_FuWei_F": 2,
+    "10_FuWeiGao": 54.24,
+    "10_FuWeiGao_F": 1
+  },
+  {
+    "id": "f36S",
+    "_3_FuWei": 222,
+    "_3_FuWei_F": 2,
+    "10_FuWeiGao": 52.412,
+    "10_FuWeiGao_F": 1
+  },
+  {
+    "id": "f36M",
+    "_3_FuWei": 225.5,
+    "_3_FuWei_F": 2,
+    "10_FuWeiGao": 53.912,
+    "10_FuWeiGao_F": 1
+  },
+  {
+    "id": "f36L",
+    "_3_FuWei": 230.5,
+    "_3_FuWei_F": 2,
+    "10_FuWeiGao": 55.412,
+    "10_FuWeiGao_F": 1
+  },
+  {
+    "id": "f37S",
+    "_3_FuWei": 225.5,
+    "_3_FuWei_F": 2,
+    "10_FuWeiGao": 53.6,
+    "10_FuWeiGao_F": 1
+  },
+  {
+    "id": "f37M",
+    "_3_FuWei": 229,
+    "_3_FuWei_F": 2,
+    "10_FuWeiGao": 55.1,
+    "10_FuWeiGao_F": 1
+  },
+  {
+    "id": "f37L",
+    "_3_FuWei": 234,
+    "_3_FuWei_F": 2,
+    "10_FuWeiGao": 56.6,
+    "10_FuWeiGao_F": 1
+  },
+  {
+    "id": "f38S",
+    "_3_FuWei": 229,
+    "_3_FuWei_F": 2,
+    "10_FuWeiGao": 54.756,
+    "10_FuWeiGao_F": 1
+  },
+  {
+    "id": "f38M",
+    "_3_FuWei": 232.5,
+    "_3_FuWei_F": 2,
+    "10_FuWeiGao": 56.256,
+    "10_FuWeiGao_F": 1
+  },
+  {
+    "id": "f38L",
+    "_3_FuWei": 237.5,
+    "_3_FuWei_F": 2,
+    "10_FuWeiGao": 57.756,
+    "10_FuWeiGao_F": 1
+  },
+  {
+    "id": "f39S",
+    "_3_FuWei": 232.5,
+    "_3_FuWei_F": 2,
+    "10_FuWeiGao": 55.928,
+    "10_FuWeiGao_F": 1
+  },
+  {
+    "id": "f39M",
+    "_3_FuWei": 236,
+    "_3_FuWei_F": 2,
+    "10_FuWeiGao": 57.428,
+    "10_FuWeiGao_F": 1
+  },
+  {
+    "id": "f39L",
+    "_3_FuWei": 241,
+    "_3_FuWei_F": 2,
+    "10_FuWeiGao": 58.928,
+    "10_FuWeiGao_F": 1
+  },
+  {
+    "id": "f40S",
+    "_3_FuWei": 236,
+    "_3_FuWei_F": 2,
+    "10_FuWeiGao": 57.1,
+    "10_FuWeiGao_F": 1
+  },
+  {
+    "id": "f40M",
+    "_3_FuWei": 239.5,
+    "_3_FuWei_F": 2,
+    "10_FuWeiGao": 58.6,
+    "10_FuWeiGao_F": 1
+  },
+  {
+    "id": "f40L",
+    "_3_FuWei": 244.5,
+    "_3_FuWei_F": 2,
+    "10_FuWeiGao": 60.1,
+    "10_FuWeiGao_F": 1
+  },
+  {
+    "id": "m38S",
+    "_3_FuWei": 236,
+    "_3_FuWei_F": 2,
+    "10_FuWeiGao": 54.756,
+    "10_FuWeiGao_F": 1
+  },
+  {
+    "id": "m38M",
+    "_3_FuWei": 239.5,
+    "_3_FuWei_F": 2,
+    "10_FuWeiGao": 56.256,
+    "10_FuWeiGao_F": 1
+  },
+  {
+    "id": "m38L",
+    "_3_FuWei": 244.5,
+    "_3_FuWei_F": 2,
+    "10_FuWeiGao": 57.756,
+    "10_FuWeiGao_F": 1
+  },
+  {
+    "id": "m39S",
+    "_3_FuWei": 239.5,
+    "_3_FuWei_F": 2,
+    "10_FuWeiGao": 55.928,
+    "10_FuWeiGao_F": 1
+  },
+  {
+    "id": "m39M",
+    "_3_FuWei": 243,
+    "_3_FuWei_F": 2,
+    "10_FuWeiGao": 57.428,
+    "10_FuWeiGao_F": 1
+  },
+  {
+    "id": "m39L",
+    "_3_FuWei": 248,
+    "_3_FuWei_F": 2,
+    "10_FuWeiGao": 58.928,
+    "10_FuWeiGao_F": 1
+  },
+  {
+    "id": "m40S",
+    "_3_FuWei": 243,
+    "_3_FuWei_F": 2,
+    "10_FuWeiGao": 57.1,
+    "10_FuWeiGao_F": 1
+  },
+  {
+    "id": "m40M",
+    "_3_FuWei": 246.5,
+    "_3_FuWei_F": 2,
+    "10_FuWeiGao": 58.6,
+    "10_FuWeiGao_F": 1
+  },
+  {
+    "id": "m39L",
+    "_3_FuWei": 251.5,
+    "_3_FuWei_F": 2,
+    "10_FuWeiGao": 60.1,
+    "10_FuWeiGao_F": 1
+  },
+  {
+    "id": "m41S",
+    "_3_FuWei": 246.5,
+    "_3_FuWei_F": 2,
+    "10_FuWeiGao": 58.272,
+    "10_FuWeiGao_F": 1
+  },
+  {
+    "id": "m41M",
+    "_3_FuWei": 250,
+    "_3_FuWei_F": 2,
+    "10_FuWeiGao": 59.772,
+    "10_FuWeiGao_F": 1
+  },
+  {
+    "id": "m41L",
+    "_3_FuWei": 255,
+    "_3_FuWei_F": 2,
+    "10_FuWeiGao": 61.272,
+    "10_FuWeiGao_F": 1
+  },
+  {
+    "id": "m42S",
+    "_3_FuWei": 250,
+    "_3_FuWei_F": 2,
+    "10_FuWeiGao": 59.444,
+    "10_FuWeiGao_F": 1
+  },
+  {
+    "id": "m42M",
+    "_3_FuWei": 253.5,
+    "_3_FuWei_F": 2,
+    "10_FuWeiGao": 60.944,
+    "10_FuWeiGao_F": 1
+  },
+  {
+    "id": "m42L",
+    "_3_FuWei": 258.5,
+    "_3_FuWei_F": 2,
+    "10_FuWeiGao": 62.444,
+    "10_FuWeiGao_F": 1
+  },
+  {
+    "id": "m43S",
+    "_3_FuWei": 253.5,
+    "_3_FuWei_F": 2,
+    "10_FuWeiGao": 60.616,
+    "10_FuWeiGao_F": 1
+  },
+  {
+    "id": "m43SM",
+    "_3_FuWei": 257,
+    "_3_FuWei_F": 2,
+    "10_FuWeiGao": 62.116,
+    "10_FuWeiGao_F": 1
+  },
+  {
+    "id": "m43SL",
+    "_3_FuWei": 262,
+    "_3_FuWei_F": 2,
+    "10_FuWeiGao": 63.616,
+    "10_FuWeiGao_F": 1
+  },
+  {
+    "id": "m44S",
+    "_3_FuWei": 257,
+    "_3_FuWei_F": 2,
+    "10_FuWeiGao": 61.788,
+    "10_FuWeiGao_F": 1
+  },
+  {
+    "id": "m44M",
+    "_3_FuWei": 260.5,
+    "_3_FuWei_F": 2,
+    "10_FuWeiGao": 63.288,
+    "10_FuWeiGao_F": 1
+  },
+  {
+    "id": "m44L",
+    "_3_FuWei": 265.5,
+    "_3_FuWei_F": 2,
+    "10_FuWeiGao": 64.788,
+    "10_FuWeiGao_F": 1
+  },
+  {
+    "id": "m45S",
+    "_3_FuWei": 260.5,
+    "_3_FuWei_F": 2,
+    "10_FuWeiGao": 62.96,
+    "10_FuWeiGao_F": 1
+  },
+  {
+    "id": "m45M",
+    "_3_FuWei": 264,
+    "_3_FuWei_F": 2,
+    "10_FuWeiGao": 64.46,
+    "10_FuWeiGao_F": 1
+  },
+  {
+    "id": "m45L",
+    "_3_FuWei": 269,
+    "_3_FuWei_F": 2,
+    "10_FuWeiGao": 65.96,
+    "10_FuWeiGao_F": 1
+  }
+]}

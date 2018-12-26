@@ -15,6 +15,272 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/ready_cons_edit"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40"
+        android:background="@color/black99"
+        app:layout_constraintBottom_toTopOf="@+id/ready_cons_bottom"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/edit_sex"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="性别: "
+                    android:textSize="@dimen/dp_12"
+                    android:textColor="@color/white"
+                    android:layout_marginLeft="@dimen/dp_14" />
+                <LinearLayout
+                    android:id="@+id/edit_male"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="@dimen/dp_4"
+                    android:gravity="center_vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="男"
+                        android:textSize="@dimen/dp_9"
+                        android:textColor="@color/white" />
+                    <ImageView
+                        android:id="@+id/edit_male_iamge"
+                        android:layout_width="@dimen/dp_8"
+                        android:layout_height="@dimen/dp_8"
+                        android:layout_marginLeft="@dimen/dp_1"
+                        android:layout_marginRight="@dimen/dp_3"
+                        android:background="@drawable/edit_image"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/edit_female"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/dp_3"
+                        android:gravity="center"
+                        android:text="女"
+                        android:textSize="@dimen/dp_9"
+                        android:textColor="@color/white" />
+                    <ImageView
+                        android:id="@+id/edit_female_iamge"
+                        android:layout_width="@dimen/dp_8"
+                        android:layout_height="@dimen/dp_8"
+                        android:layout_marginLeft="@dimen/dp_1"
+                        android:layout_marginRight="@dimen/dp_3"
+                        android:background="@drawable/edit_image"/>
+                </LinearLayout>
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/edit_shoesize"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="日常: "
+                    android:textSize="@dimen/dp_12"
+                    android:textColor="@color/white"
+                    android:layout_marginLeft="@dimen/dp_14" />
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:gravity="center"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="前掌: "
+                    android:textSize="@dimen/dp_12"
+                    android:textColor="@color/white"
+                    android:layout_marginLeft="@dimen/dp_14" />
+                <LinearLayout
+                    android:id="@+id/lin_forehand_tight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/dp_3"
+                        android:gravity="center"
+                        android:text="紧"
+                        android:textSize="@dimen/dp_9"
+                        android:textColor="@color/white" />
+                    <ImageView
+                        android:id="@+id/lin_forehand_tight_image"
+                        android:layout_width="@dimen/dp_8"
+                        android:layout_height="@dimen/dp_8"
+                        android:layout_marginLeft="@dimen/dp_1"
+                        android:layout_marginRight="@dimen/dp_3"
+                        android:background="@drawable/edit_image"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/lin_forehand_centre"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/dp_3"
+                        android:gravity="center"
+                        android:text="中"
+                        android:textSize="@dimen/dp_9"
+                        android:textColor="@color/white" />
+                    <ImageView
+                        android:id="@+id/lin_forehand_centre_image"
+                        android:layout_width="@dimen/dp_8"
+                        android:layout_height="@dimen/dp_8"
+                        android:layout_marginLeft="@dimen/dp_1"
+                        android:layout_marginRight="@dimen/dp_3"
+                        android:background="@drawable/edit_image"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/lin_forehand_pine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/dp_3"
+                        android:gravity="center"
+                        android:text="松"
+                        android:textSize="@dimen/dp_9"
+                        android:textColor="@color/white" />
+                    <ImageView
+                        android:id="@+id/lin_forehand_image"
+                        android:layout_width="@dimen/dp_8"
+                        android:layout_height="@dimen/dp_8"
+                        android:layout_marginLeft="@dimen/dp_1"
+                        android:layout_marginRight="@dimen/dp_3"
+                        android:background="@drawable/edit_image"/>
+                </LinearLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:gravity="center"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="脚背: "
+                    android:textSize="@dimen/dp_12"
+                    android:textColor="@color/white"
+                    android:layout_marginLeft="@dimen/dp_14" />
+                <LinearLayout
+                    android:id="@+id/lin_instep_tight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/dp_3"
+                        android:gravity="center"
+                        android:text="紧"
+                        android:textSize="@dimen/dp_9"
+                        android:textColor="@color/white" />
+                    <ImageView
+                        android:id="@+id/lin_instep_tight_image"
+                        android:layout_width="@dimen/dp_8"
+                        android:layout_height="@dimen/dp_8"
+                        android:layout_marginLeft="@dimen/dp_1"
+                        android:layout_marginRight="@dimen/dp_3"
+                        android:background="@drawable/edit_image"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/lin_instep_centre"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/dp_3"
+                        android:gravity="center"
+                        android:text="中"
+                        android:textSize="@dimen/dp_9"
+                        android:textColor="@color/white" />
+                    <ImageView
+                        android:id="@+id/lin_instep_centre_image"
+                        android:layout_width="@dimen/dp_8"
+                        android:layout_height="@dimen/dp_8"
+                        android:layout_marginLeft="@dimen/dp_1"
+                        android:layout_marginRight="@dimen/dp_3"
+                        android:background="@drawable/edit_image"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/lin_instep_pine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/dp_3"
+                        android:gravity="center"
+                        android:text="松"
+                        android:textSize="@dimen/dp_9"
+                        android:textColor="@color/white" />
+                    <ImageView
+                        android:id="@+id/lin_instep_image"
+                        android:layout_width="@dimen/dp_8"
+                        android:layout_height="@dimen/dp_8"
+                        android:layout_marginLeft="@dimen/dp_1"
+                        android:layout_marginRight="@dimen/dp_3"
+                        android:background="@drawable/edit_image"/>
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+
+    </android.support.constraint.ConstraintLayout>
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/ready_cons_bottom"

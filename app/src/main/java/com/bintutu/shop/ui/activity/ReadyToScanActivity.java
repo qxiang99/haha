@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.bintutu.shop.R;
 import com.bintutu.shop.bean.BaseResponse;
@@ -18,6 +20,7 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 
 public class ReadyToScanActivity extends BaseActivity {
@@ -31,6 +34,40 @@ public class ReadyToScanActivity extends BaseActivity {
     Button readyButStartscan;
     @BindView(R.id.ready_but_file)
     Button readyButFile;
+    @BindView(R.id.edit_male_iamge)
+    ImageView editMaleIamge;
+    @BindView(R.id.edit_female_iamge)
+    ImageView editFemaleIamge;
+    @BindView(R.id.edit_male)
+    LinearLayout editMale;
+    @BindView(R.id.edit_female)
+    LinearLayout editFemale;
+    @BindView(R.id.lin_forehand_tight_image)
+    ImageView linForehandTightImage;
+    @BindView(R.id.lin_forehand_tight)
+    LinearLayout linForehandTight;
+    @BindView(R.id.lin_forehand_centre_image)
+    ImageView linForehandCentreImage;
+    @BindView(R.id.lin_forehand_centre)
+    LinearLayout linForehandCentre;
+    @BindView(R.id.lin_forehand_image)
+    ImageView linForehandImage;
+    @BindView(R.id.lin_forehand_pine)
+    LinearLayout linForehandPine;
+    @BindView(R.id.lin_instep_tight_image)
+    ImageView linInstepTightImage;
+    @BindView(R.id.lin_instep_tight)
+    LinearLayout linInstepTight;
+    @BindView(R.id.lin_instep_centre_image)
+    ImageView linInstepCentreImage;
+    @BindView(R.id.lin_instep_centre)
+    LinearLayout linInstepCentre;
+    @BindView(R.id.lin_instep_image)
+    ImageView linInstepImage;
+    @BindView(R.id.lin_instep_pine)
+    LinearLayout linInstepPine;
+
+
     private boolean scangif = false;//判断设备是否在线 更换图标
 
 
@@ -44,11 +81,90 @@ public class ReadyToScanActivity extends BaseActivity {
         //请求扫描仪是否在线
         JudgeOnlineScan();
 
+        editMaleIamge.setEnabled(true);
+        editFemaleIamge.setEnabled(true);
+
+
+        linForehandTightImage.setEnabled(false);
+        linForehandCentreImage.setEnabled(true);
+        linForehandImage.setEnabled(true);
+
+        linInstepTightImage.setEnabled(false);
+        linInstepCentreImage.setEnabled(true);
+        linInstepImage.setEnabled(true);
+
     }
 
 
     @Override
     protected void setListener() {
+        editMale.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editMaleIamge.setEnabled(false);
+                editFemaleIamge.setEnabled(true);
+
+            }
+        });
+        editFemale.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editMaleIamge.setEnabled(true);
+                editFemaleIamge.setEnabled(false);
+
+            }
+        });
+        linForehandTight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                linForehandTightImage.setEnabled(false);
+                linForehandCentreImage.setEnabled(true);
+                linForehandImage.setEnabled(true);
+            }
+        });
+        linForehandCentre.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                linForehandTightImage.setEnabled(true);
+                linForehandCentreImage.setEnabled(false);
+                linForehandImage.setEnabled(true);
+            }
+        });
+        linForehandPine.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                linForehandTightImage.setEnabled(true);
+                linForehandCentreImage.setEnabled(true);
+                linForehandImage.setEnabled(false);
+            }
+        });
+        linInstepTight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                linInstepTightImage.setEnabled(false);
+                linInstepCentreImage.setEnabled(true);
+                linInstepImage.setEnabled(true);
+            }
+        });
+
+        linInstepCentre.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                linInstepTightImage.setEnabled(true);
+                linInstepCentreImage.setEnabled(false);
+                linInstepImage.setEnabled(true);
+            }
+        });
+        linInstepPine.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                linInstepTightImage.setEnabled(true);
+                linInstepCentreImage.setEnabled(true);
+                linInstepImage.setEnabled(false);
+            }
+        });
+
+
         //返回
         readyButReturn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,4 +259,10 @@ public class ReadyToScanActivity extends BaseActivity {
     }
 
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
 }

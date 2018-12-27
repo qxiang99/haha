@@ -251,6 +251,19 @@ public class ReadyToScanActivity extends BaseActivity {
             ShowToast("请备注您的尺码");
             return;
         }
+        if (sex==1){
+            if (39>Integer.getInteger(edit)||Integer.getInteger(edit)>45){
+                ShowToast("男士尺码范围 39 ~ 45 ");
+                return;
+            }
+        }
+
+        if (sex==2){
+            if (34>Integer.getInteger(edit)||Integer.getInteger(edit)>42){
+                ShowToast("女士尺码范围 34 ~ 42 ");
+                return;
+            }
+        }
 
         Intent intent = new Intent(ReadyToScanActivity.this, GifActivity.class);
         startActivityForResult(intent, 300);

@@ -66,6 +66,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
+
 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
 public class NewDetailActivity extends BaseActivity {
 
@@ -151,22 +152,8 @@ public class NewDetailActivity extends BaseActivity {
     @Override
     protected void init() {
         gson = new Gson();
-
         //获取上一界面发送给扫描仪的指令
-        Intent intent = getIntent();
-        number = intent.getStringExtra(Constant.ItentKey1);
-        int type  = intent.getIntExtra(Constant.ItentKey7,0);
-        if (type==1){
-            int sex  = intent.getIntExtra(Constant.ItentKey2,0);
-            int Forehand  = intent.getIntExtra(Constant.ItentKey3,0);
-            int Instep  = intent.getIntExtra(Constant.ItentKey4,0);
-            int edit  = intent.getIntExtra(Constant.ItentKey5,0);
-
-        }
-
-        //得到需要编辑的数据
-        getTolerance();
-        getInStep();
+        getContent();
         //初始化Recyclerview
         showRecyclerview();
         //初始化LoginDailog
@@ -188,6 +175,44 @@ public class NewDetailActivity extends BaseActivity {
         detailButRight.setEnabled(true);
 
 
+    }
+
+    private void getContent() {
+        Intent intent = getIntent();
+        number = intent.getStringExtra(Constant.ItentKey1);
+        int type = intent.getIntExtra(Constant.ItentKey7, 0);
+        if (type == 1) {
+            int sex = intent.getIntExtra(Constant.ItentKey2, 0);
+            int Forehand = intent.getIntExtra(Constant.ItentKey3, 0);
+            int Instep = intent.getIntExtra(Constant.ItentKey4, 0);
+            int edit = intent.getIntExtra(Constant.ItentKey5, 0);
+
+            String SexName = "";
+            String ForehandName = "";
+            String InstepName = "";
+            if (sex == 1) {
+                SexName = "m";
+            } else if (sex == 2) {
+                SexName = "f";
+            }
+            if (Forehand == 1) {
+                ForehandName = "S";
+            } else if (Forehand == 2) {
+                ForehandName = "M";
+            } else if (Forehand == 2) {
+                ForehandName = "L";
+            }
+            if (Instep == 1) {
+                InstepName = "S";
+            } else if (Instep == 2) {
+                InstepName = "M";
+            } else if (Instep == 2) {
+                InstepName = "L";
+            }
+            //得到需要编辑的数据
+            getTolerance(SexName+edit+ForehandName);
+            getInStep(SexName+edit+InstepName);
+        }
     }
 
 
@@ -312,9 +337,9 @@ public class NewDetailActivity extends BaseActivity {
                     loginphone = ConfigManager.Foot.getCustomer_phone();
                     logincustomer_id = ConfigManager.Foot.getCustomer_id();
                     upload(loginnumber, loginphone, logincustomer_id);
-                } else if (ConfigManager.Foot.getWebFitting_id() != null && !ConfigManager.Foot.getWebFitting_id() .equals("")) {
+                } else if (ConfigManager.Foot.getWebFitting_id() != null && !ConfigManager.Foot.getWebFitting_id().equals("")) {
                     upDataload(ConfigManager.Foot.getWebFitting_id());
-                }else {
+                } else {
                     loginDailog.show();
                 }
 
@@ -359,8 +384,9 @@ public class NewDetailActivity extends BaseActivity {
 
     /**
      * 得到需要编辑的数据
+     * @param s
      */
-    private void getTolerance() {
+    private void getTolerance(String id) {
         InputStream is;
         StringBuffer buffer = null;
         try {
@@ -376,10 +402,14 @@ public class NewDetailActivity extends BaseActivity {
             e.printStackTrace();
         }
         ToleranceBean toleranceBean = gson.fromJson(buffer.toString(), ToleranceBean.class);
-        TolerancedataBeans =  toleranceBean.getData().get(0);
+        for (ToleranceBean.DataBean dataBean :toleranceBean.getData()){
+            if (id.equals(dataBean.getId())){
+                TolerancedataBeans = dataBean;
+            }
+        }
     }
 
-    private void getInStep() {
+    private void getInStep(String id) {
         InputStream is;
         StringBuffer buffer = null;
         try {
@@ -395,7 +425,11 @@ public class NewDetailActivity extends BaseActivity {
             e.printStackTrace();
         }
         InstepBean instepBean = gson.fromJson(buffer.toString(), InstepBean.class);
-        InstepdataBeans = instepBean.getData().get(0);
+        for (InstepBean.DataBean dataBean :instepBean.getData()){
+            if (id.equals(dataBean.getId())){
+                InstepdataBeans = dataBean;
+            }
+        }
     }
 
     /**
@@ -463,21 +497,22 @@ public class NewDetailActivity extends BaseActivity {
             @Override
             public void run() {
 
-                long one =  System.currentTimeMillis();
+                long one = System.currentTimeMillis();
                 long two;
                 do {
 
-                    if (!Responseleft){
+                    if (!Responseleft) {
                         OkGo.<BaseResponse<String>>get(AppConstant.LEFT_JSON(number))
                                 .execute(new JsonCallback<BaseResponse<String>>() {
                                     @Override
                                     public void onSuccess(Response<BaseResponse<String>> response) {
                                         LeftFootBean = gson.fromJson(String.valueOf(response.body()), LeftBean.class);
                                         Responseleft = true;
-                                        if (Responseleft==true&&Responserighht==true){
+                                        if (Responseleft == true && Responserighht == true) {
                                             getFootData(2);
                                         }
                                     }
+
                                     @Override
                                     public void onError(Response<BaseResponse<String>> response) {
                                     }
@@ -490,26 +525,28 @@ public class NewDetailActivity extends BaseActivity {
                         e.printStackTrace();
                     }
 
-                    if (!Responserighht){
+                    if (!Responserighht) {
                         OkGo.<BaseResponse<String>>get(AppConstant.RIGHT_JSON(number))
                                 .execute(new JsonCallback<BaseResponse<String>>() {
                                     @Override
                                     public void onSuccess(Response<BaseResponse<String>> response) {
                                         RightFootBean = gson.fromJson(String.valueOf(response.body()), RightBean.class);
                                         Responserighht = true;
-                                        if (Responseleft==true&&Responserighht==true){
+                                        if (Responseleft == true && Responserighht == true) {
                                             getFootData(2);
                                         }
                                     }
+
                                     @Override
                                     public void onError(Response<BaseResponse<String>> response) {
                                     }
                                 });
                     }
 
-                    two =  System.currentTimeMillis();
+                    two = System.currentTimeMillis();
 
-                } while ((!Responseleft||!Responserighht)&&((two-one)<20000)&&leftANDrighht);
+                }
+                while ((!Responseleft || !Responserighht) && ((two - one) < 20000) && leftANDrighht);
                 getFootData(1);
             }
         });
@@ -528,7 +565,7 @@ public class NewDetailActivity extends BaseActivity {
         public boolean handleMessage(Message msg) {
             switch (msg.what) {
                 case 1:
-                    if (mDetailTextTime!=null){
+                    if (mDetailTextTime != null) {
                         closeLoading();
                         ShowToast("数据拉取失败");
                     }
@@ -546,69 +583,26 @@ public class NewDetailActivity extends BaseActivity {
     public void getData() {
         String left = "{ \"10_FuWeiGao\" : 0.0, \"11_1ZhiZhiGao\" : 0.0, \"12_DaMoZhiGao\" : 0.0, \"13_JiaoWanGao\" : 0.0, \"14_JiaoZhiKuan\" : 0.0, \"15_ZhiWeiKuan\" : 75.0062, \"16_DiBanKuan\" : 75.0062, \"17_MuZhiLiKuan\" : 9.89464, \"18_XiaoZhiWaiKuan\" : 56.4657, \"19_1ZhizhiLiKuan\" : 17.5741, \"1_FootLen\" : 221.054, \"20_5ZhizhiLiKuan\" : 55.9658, \"21_YaoWoWaiKuan\" : 73.5143, \"22_ZhongXinDiKuan\" : 56.0287, \"23_JiaoHuaiNeiKuan\" : 0.0, \"24_MuZhiWaiTuChang\" : 198.949, \"25_XiaoZhiDuanChang\" : 182.37, \"26_XiaoZhiWaiTuChang\" : 172.422, \"27_1ZhiZhiChang\" : 160.264, \"28_5ZhiZhiChang\" : 140.369, \"29_FuGuChang\" : 121.58, \"2_ZhiWei\" : 0.0, \"30_YaoWoChang\" : 90.6323, \"31_ZhouShangDianChang\" : 85.1059, \"32_WaiHuaiGuZhongChang\" : 49.7372, \"33_ZhongXinChang\" : 39.7898, \"34_HouGenBianChang\" : 8.84217, \"35_QianZhangTuDianChang\" : 152.085, \"36_ZuGongDu\" : 0.0, \"37_NeiWaiFanDu\" : 0.0, \"3_FuWei\" : 0.0, \"4_DouWei\" : 0.0, \"5_JiaoWanWei\" : 0.0, \"6_JiaoZhiZhou\" : 0.0, \"7_WaiHuaiXiaGao\" : 0.0, \"8_HouGenTuGao\" : 0.0, \"9_ZhouShangGao\" : 0.0 }";
         String right = "{ \"10_FuWeiGao\" : 0.0, \"11_1ZhiZhiGao\" : 0.0, \"12_DaMoZhiGao\" : 0.0, \"13_JiaoWanGao\" : 0.0, \"14_JiaoZhiKuan\" : 0.0, \"15_ZhiWeiKuan\" : 45.1571, \"16_DiBanKuan\" : 45.1571, \"17_MuZhiLiKuan\" : 0.0, \"18_XiaoZhiWaiKuan\" : 0.0, \"19_1ZhizhiLiKuan\" : 0.0, \"1_FootLen\" : 212.314, \"20_5ZhizhiLiKuan\" : 0.0, \"21_YaoWoWaiKuan\" : 0.0, \"22_ZhongXinDiKuan\" : 0.0, \"23_JiaoHuaiNeiKuan\" : 0.0, \"24_MuZhiWaiTuChang\" : 0.0, \"25_XiaoZhiDuanChang\" : 0.0, \"26_XiaoZhiWaiTuChang\" : 0.0, \"27_1ZhiZhiChang\" : 0.0, \"28_5ZhiZhiChang\" : 0.0, \"29_FuGuChang\" : 0.0, \"2_ZhiWei\" : 0.0, \"30_YaoWoChang\" : 87.0485, \"31_ZhouShangDianChang\" : 81.7407, \"32_WaiHuaiGuZhongChang\" : 47.7705, \"33_ZhongXinChang\" : 0.0, \"34_HouGenBianChang\" : 8.49254, \"35_QianZhangTuDianChang\" : 146.072, \"36_ZuGongDu\" : 0.0, \"37_NeiWaiFanDu\" : 0.0, \"3_FuWei\" : 0.0, \"4_DouWei\" : 0.0, \"5_JiaoWanWei\" : 0.0, \"6_JiaoZhiZhou\" : 0.0, \"7_WaiHuaiXiaGao\" : 0.0, \"8_HouGenTuGao\" : 0.0, \"9_ZhouShangGao\" : 0.0 }";
-        LeftBean leftBean = gson.fromJson(left, LeftBean.class);
-        RightBean rightBean = gson.fromJson(right, RightBean.class);
+        LeftBean LeftFootBean = gson.fromJson(left, LeftBean.class);
+        RightBean RightFootBean = gson.fromJson(right, RightBean.class);
 
         newleftBean = new LeftBean();
-        newleftBean.set_1_FootLen(getNewValue(TolerancedataBeans.get_1_FootLen(),TolerancedataBeans.get_1_FootLen_F(),leftBean.get_1_FootLen()));
-        newleftBean.set_2_ZhiWei(getNewValue(TolerancedataBeans.get_2_ZhiWei(),TolerancedataBeans.get_2_ZhiWei_F(),leftBean.get_2_ZhiWei()));
-        newleftBean.set_15_ZhiWeiKuan(getNewValue(TolerancedataBeans.get_15_ZhiWeiKuan(),TolerancedataBeans.get_15_ZhiWeiKuan_F(),leftBean.get_15_ZhiWeiKuan()));
-        newleftBean.set_16_DiBanKuan(getNewValue(TolerancedataBeans.get_16_DiBanKuan(),TolerancedataBeans.get_16_DiBanKuan_F(),leftBean.get_16_DiBanKuan()));
-        newleftBean.set_7_WaiHuaiXiaGao(getNewValue(TolerancedataBeans.get_7_WaiHuaiXiaGao(),TolerancedataBeans.get_7_WaiHuaiXiaGao_F(),leftBean.get_7_WaiHuaiXiaGao()));
-        newleftBean.set_11_1ZhiZhiGao(getNewValue(TolerancedataBeans.get_11_1ZhiZhiGao(),TolerancedataBeans.get_11_1ZhiZhiGao_F(),leftBean.get_11_1ZhiZhiGao()));
-        newleftBean.set_12_DaMoZhiGao(getNewValue(TolerancedataBeans.get_12_DaMoZhiGao(),TolerancedataBeans.get_12_DaMoZhiGao_F(),leftBean.get_12_DaMoZhiGao()));
-        newleftBean.set_17_MuZhiLiKuan(getNewValue(TolerancedataBeans.get_17_MuZhiLiKuan(),TolerancedataBeans.get_17_MuZhiLiKuan_F(),leftBean.get_17_MuZhiLiKuan()));
-        newleftBean.set_18_XiaoZhiWaiKuan(getNewValue(TolerancedataBeans.get_18_XiaoZhiWaiKuan(),TolerancedataBeans.get_18_XiaoZhiWaiKuan_F(),leftBean.get_18_XiaoZhiWaiKuan()));
-        newleftBean.set_19_1ZhizhiLiKuan(getNewValue(TolerancedataBeans.get_19_1ZhizhiLiKuan(),TolerancedataBeans.get_19_1ZhizhiLiKuan_F(),leftBean.get_19_1ZhizhiLiKuan()));
-        newleftBean.set_20_5ZhizhiLiKuan(getNewValue(TolerancedataBeans.get_20_5ZhizhiLiKuan(),TolerancedataBeans.get_20_5ZhizhiLiKuan_F(),leftBean.get_20_5ZhizhiLiKuan()));
-        newleftBean.set_21_YaoWoWaiKuan(getNewValue(TolerancedataBeans.get_21_YaoWoWaiKuan(),TolerancedataBeans.get_21_YaoWoWaiKuan_F(),leftBean.get_21_YaoWoWaiKuan()));
-        newleftBean.set_22_ZhongXinDiKuan(getNewValue(TolerancedataBeans.get_22_ZhongXinDiKuan(),TolerancedataBeans.get_22_ZhongXinDiKuan_F(),leftBean.get_22_ZhongXinDiKuan()));
-        newleftBean.set_24_MuZhiWaiTuChang(getNewValue(TolerancedataBeans.get_24_MuZhiWaiTuChang(),TolerancedataBeans.get_24_MuZhiWaiTuChang_F(),leftBean.get_24_MuZhiWaiTuChang()));
-        newleftBean.set_25_XiaoZhiDuanChang(getNewValue(TolerancedataBeans.get_25_XiaoZhiDuanChang(),TolerancedataBeans.get_25_XiaoZhiDuanChang_F(),leftBean.get_25_XiaoZhiDuanChang()));
-        newleftBean.set_26_XiaoZhiWaiTuChang(getNewValue(TolerancedataBeans.get_26_XiaoZhiWaiTuChang(),TolerancedataBeans.get_26_XiaoZhiWaiTuChang_F(),leftBean.get_26_XiaoZhiWaiTuChang()));
-        newleftBean.set_27_1ZhiZhiChang(getNewValue(TolerancedataBeans.get_27_1ZhiZhiChang(),TolerancedataBeans.get_27_1ZhiZhiChang_F(),leftBean.get_27_1ZhiZhiChang()));
-        newleftBean.set_28_5ZhiZhiChang(getNewValue(TolerancedataBeans.get_28_5ZhiZhiChang(),TolerancedataBeans.get_28_5ZhiZhiChang_F(),leftBean.get_28_5ZhiZhiChang()));
-        newleftBean.set_29_FuGuChang(getNewValue(TolerancedataBeans.get_29_FuGuChang(),TolerancedataBeans.get_29_FuGuChang_F(),leftBean.get_29_FuGuChang()));
-        newleftBean.set_30_YaoWoChang(getNewValue(TolerancedataBeans.get_30_YaoWoChang(),TolerancedataBeans.get_30_YaoWoChang_F(),leftBean.get_30_YaoWoChang()));
-        newleftBean.set_31_ZhouShangDianChang(getNewValue(TolerancedataBeans.get_31_ZhouShangDianChang(),TolerancedataBeans.get_31_ZhouShangDianChang_F(),leftBean.get_31_ZhouShangDianChang()));
-        newleftBean.set_32_WaiHuaiGuZhongChang(getNewValue(TolerancedataBeans.get_32_WaiHuaiGuZhongChang(),TolerancedataBeans.get_32_WaiHuaiGuZhongChang_F(),leftBean.get_32_WaiHuaiGuZhongChang()));
-        newleftBean.set_33_ZhongXinChang(getNewValue(TolerancedataBeans.get_33_ZhongXinChang(),TolerancedataBeans.get_33_ZhongXinChang_F(),leftBean.get_33_ZhongXinChang()));
-        newleftBean.set_34_HouGenBianChang(getNewValue(TolerancedataBeans.get_34_HouGenBianChang(),TolerancedataBeans.get_34_HouGenBianChang_F(),leftBean.get_34_HouGenBianChang()));
-        newleftBean.set_35_QianZhangTuDianChang(getNewValue(TolerancedataBeans.get_35_QianZhangTuDianChang(),TolerancedataBeans.get_35_QianZhangTuDianChang_F(),leftBean.get_35_QianZhangTuDianChang()));
-
-        newleftBean.set_3_FuWei(getNewValue(InstepdataBeans.get_3_FuWei(),InstepdataBeans.get_3_FuWei_F(),leftBean.get_3_FuWei()));
-        newleftBean.set_10_FuWeiGao(getNewValue(InstepdataBeans.get_10_FuWeiGao(),InstepdataBeans.get_10_FuWeiGao_F(),leftBean.get_10_FuWeiGao()));
-
-
         newRightBean = new RightBean();
-        newRightBean.set_1_FootLen(getNewValue(TolerancedataBeans.get_1_FootLen(),TolerancedataBeans.get_1_FootLen_F(),rightBean.get_1_FootLen()));
-        newRightBean.set_2_ZhiWei(getNewValue(TolerancedataBeans.get_2_ZhiWei(),TolerancedataBeans.get_2_ZhiWei_F(),rightBean.get_2_ZhiWei()));
-        newRightBean.set_15_ZhiWeiKuan(getNewValue(TolerancedataBeans.get_15_ZhiWeiKuan(),TolerancedataBeans.get_15_ZhiWeiKuan_F(),rightBean.get_15_ZhiWeiKuan()));
-        newRightBean.set_16_DiBanKuan(getNewValue(TolerancedataBeans.get_16_DiBanKuan(),TolerancedataBeans.get_16_DiBanKuan_F(),rightBean.get_16_DiBanKuan()));
-        newRightBean.set_7_WaiHuaiXiaGao(getNewValue(TolerancedataBeans.get_7_WaiHuaiXiaGao(),TolerancedataBeans.get_7_WaiHuaiXiaGao_F(),rightBean.get_7_WaiHuaiXiaGao()));
-        newRightBean.set_11_1ZhiZhiGao(getNewValue(TolerancedataBeans.get_11_1ZhiZhiGao(),TolerancedataBeans.get_11_1ZhiZhiGao_F(),rightBean.get_11_1ZhiZhiGao()));
-        newRightBean.set_12_DaMoZhiGao(getNewValue(TolerancedataBeans.get_12_DaMoZhiGao(),TolerancedataBeans.get_12_DaMoZhiGao_F(),rightBean.get_12_DaMoZhiGao()));
-        newRightBean.set_17_MuZhiLiKuan(getNewValue(TolerancedataBeans.get_17_MuZhiLiKuan(),TolerancedataBeans.get_17_MuZhiLiKuan_F(),rightBean.get_17_MuZhiLiKuan()));
-        newRightBean.set_18_XiaoZhiWaiKuan(getNewValue(TolerancedataBeans.get_18_XiaoZhiWaiKuan(),TolerancedataBeans.get_18_XiaoZhiWaiKuan_F(),rightBean.get_18_XiaoZhiWaiKuan()));
-        newRightBean.set_19_1ZhizhiLiKuan(getNewValue(TolerancedataBeans.get_19_1ZhizhiLiKuan(),TolerancedataBeans.get_19_1ZhizhiLiKuan_F(),rightBean.get_19_1ZhizhiLiKuan()));
-        newRightBean.set_20_5ZhizhiLiKuan(getNewValue(TolerancedataBeans.get_20_5ZhizhiLiKuan(),TolerancedataBeans.get_20_5ZhizhiLiKuan_F(),rightBean.get_20_5ZhizhiLiKuan()));
-        newRightBean.set_21_YaoWoWaiKuan(getNewValue(TolerancedataBeans.get_21_YaoWoWaiKuan(),TolerancedataBeans.get_21_YaoWoWaiKuan_F(),rightBean.get_21_YaoWoWaiKuan()));
-        newRightBean.set_22_ZhongXinDiKuan(getNewValue(TolerancedataBeans.get_22_ZhongXinDiKuan(),TolerancedataBeans.get_22_ZhongXinDiKuan_F(),rightBean.get_22_ZhongXinDiKuan()));
-        newRightBean.set_24_MuZhiWaiTuChang(getNewValue(TolerancedataBeans.get_24_MuZhiWaiTuChang(),TolerancedataBeans.get_24_MuZhiWaiTuChang_F(),rightBean.get_24_MuZhiWaiTuChang()));
-        newRightBean.set_25_XiaoZhiDuanChang(getNewValue(TolerancedataBeans.get_25_XiaoZhiDuanChang(),TolerancedataBeans.get_25_XiaoZhiDuanChang_F(),rightBean.get_25_XiaoZhiDuanChang()));
-        newRightBean.set_26_XiaoZhiWaiTuChang(getNewValue(TolerancedataBeans.get_26_XiaoZhiWaiTuChang(),TolerancedataBeans.get_26_XiaoZhiWaiTuChang_F(),rightBean.get_26_XiaoZhiWaiTuChang()));
-        newRightBean.set_27_1ZhiZhiChang(getNewValue(TolerancedataBeans.get_27_1ZhiZhiChang(),TolerancedataBeans.get_27_1ZhiZhiChang_F(),rightBean.get_27_1ZhiZhiChang()));
-        newRightBean.set_28_5ZhiZhiChang(getNewValue(TolerancedataBeans.get_28_5ZhiZhiChang(),TolerancedataBeans.get_28_5ZhiZhiChang_F(),rightBean.get_28_5ZhiZhiChang()));
-        newRightBean.set_29_FuGuChang(getNewValue(TolerancedataBeans.get_29_FuGuChang(),TolerancedataBeans.get_29_FuGuChang_F(),rightBean.get_29_FuGuChang()));
-        newRightBean.set_30_YaoWoChang(getNewValue(TolerancedataBeans.get_30_YaoWoChang(),TolerancedataBeans.get_30_YaoWoChang_F(),rightBean.get_30_YaoWoChang()));
-        newRightBean.set_31_ZhouShangDianChang(getNewValue(TolerancedataBeans.get_31_ZhouShangDianChang(),TolerancedataBeans.get_31_ZhouShangDianChang_F(),rightBean.get_31_ZhouShangDianChang()));
-        newRightBean.set_32_WaiHuaiGuZhongChang(getNewValue(TolerancedataBeans.get_32_WaiHuaiGuZhongChang(),TolerancedataBeans.get_32_WaiHuaiGuZhongChang_F(),rightBean.get_32_WaiHuaiGuZhongChang()));
-        newRightBean.set_33_ZhongXinChang(getNewValue(TolerancedataBeans.get_33_ZhongXinChang(),TolerancedataBeans.get_33_ZhongXinChang_F(),rightBean.get_33_ZhongXinChang()));
-        newRightBean.set_34_HouGenBianChang(getNewValue(TolerancedataBeans.get_34_HouGenBianChang(),TolerancedataBeans.get_34_HouGenBianChang_F(),rightBean.get_34_HouGenBianChang()));
-        newRightBean.set_35_QianZhangTuDianChang(getNewValue(TolerancedataBeans.get_35_QianZhangTuDianChang(),TolerancedataBeans.get_35_QianZhangTuDianChang_F(),rightBean.get_35_QianZhangTuDianChang()));
 
-        newRightBean.set_3_FuWei(getNewValue(InstepdataBeans.get_3_FuWei(),InstepdataBeans.get_3_FuWei_F(),leftBean.get_3_FuWei()));
-        newRightBean.set_10_FuWeiGao(getNewValue(InstepdataBeans.get_10_FuWeiGao(),InstepdataBeans.get_10_FuWeiGao_F(),leftBean.get_10_FuWeiGao()));
+        if (TolerancedataBeans!=null){
+            Tolerance(LeftFootBean,RightFootBean);
+        }else {
+            newleftBean=LeftFootBean;
+            newRightBean=RightFootBean;
+        }
+
+        if (InstepdataBeans!=null){
+            Instep(LeftFootBean,RightFootBean);
+        }else {
+            newleftBean=LeftFootBean;
+            newRightBean=RightFootBean;
+        }
+
 
         DetailList.clear();
         //DetailList.add(new DetailBean(getResources().getString(R.string.DouWei), 4, leftBean.get_6_JiaoZhiZhou(), rightBean.get_6_JiaoZhiZhou()));//6
@@ -624,12 +618,12 @@ public class NewDetailActivity extends BaseActivity {
         DetailList.add(new DetailBean(getResources().getString(R.string.ZhiZhiGao), 9, newleftBean.get_12_DaMoZhiGao(), newRightBean.get_12_DaMoZhiGao()));//9
         DetailList.add(new DetailBean(getResources().getString(R.string.DaMoZhiGao), 10, newleftBean.get_17_MuZhiLiKuan(), newRightBean.get_17_MuZhiLiKuan()));//10
         DetailList.add(new DetailBean(getResources().getString(R.string.JiaoWanGao), 11, newleftBean.get_18_XiaoZhiWaiKuan(), newRightBean.get_18_XiaoZhiWaiKuan()));//11
-        DetailList.add(new DetailBean(getResources().getString(R.string.JiaoZhiKuan), 12,  newleftBean.get_19_1ZhizhiLiKuan(), newRightBean.get_19_1ZhizhiLiKuan()));//12
+        DetailList.add(new DetailBean(getResources().getString(R.string.JiaoZhiKuan), 12, newleftBean.get_19_1ZhizhiLiKuan(), newRightBean.get_19_1ZhizhiLiKuan()));//12
         DetailList.add(new DetailBean(getResources().getString(R.string.ZhiWeiKuan), 13, newleftBean.get_20_5ZhizhiLiKuan(), newRightBean.get_20_5ZhizhiLiKuan()));//13
-        DetailList.add(new DetailBean(getResources().getString(R.string.DiBanKuan), 14,  newleftBean.get_21_YaoWoWaiKuan(), newRightBean.get_21_YaoWoWaiKuan()));//14
+        DetailList.add(new DetailBean(getResources().getString(R.string.DiBanKuan), 14, newleftBean.get_21_YaoWoWaiKuan(), newRightBean.get_21_YaoWoWaiKuan()));//14
         DetailList.add(new DetailBean(getResources().getString(R.string.MuZhiLiKuan), 15, newleftBean.get_22_ZhongXinDiKuan(), newRightBean.get_22_ZhongXinDiKuan()));//15
-        DetailList.add(new DetailBean(getResources().getString(R.string.XiaoZhiWaiKuan), 16,  newleftBean.get_24_MuZhiWaiTuChang(), newRightBean.get_24_MuZhiWaiTuChang()));//16
-        DetailList.add(new DetailBean(getResources().getString(R.string.lZhizhiLiKuan), 17,  newleftBean.get_25_XiaoZhiDuanChang(), newRightBean.get_25_XiaoZhiDuanChang()));//17
+        DetailList.add(new DetailBean(getResources().getString(R.string.XiaoZhiWaiKuan), 16, newleftBean.get_24_MuZhiWaiTuChang(), newRightBean.get_24_MuZhiWaiTuChang()));//16
+        DetailList.add(new DetailBean(getResources().getString(R.string.lZhizhiLiKuan), 17, newleftBean.get_25_XiaoZhiDuanChang(), newRightBean.get_25_XiaoZhiDuanChang()));//17
         DetailList.add(new DetailBean(getResources().getString(R.string.SZhizhiLiKuan), 18, newleftBean.get_26_XiaoZhiWaiTuChang(), newRightBean.get_26_XiaoZhiWaiTuChang()));//18
         DetailList.add(new DetailBean(getResources().getString(R.string.YaoWoWaiKuan), 19, newleftBean.get_27_1ZhiZhiChang(), newRightBean.get_27_1ZhiZhiChang()));//19
         DetailList.add(new DetailBean(getResources().getString(R.string.ZhongXinDiKuan), 20, newleftBean.get_28_5ZhiZhiChang(), newRightBean.get_28_5ZhiZhiChang()));//20
@@ -643,7 +637,72 @@ public class NewDetailActivity extends BaseActivity {
 
         DetailAdapter detailAdapter = new DetailAdapter(DetailList);
         mRecyclerview.setAdapter(detailAdapter);
-        footlen =  String.valueOf(newleftBean.get_1_FootLen());
+        footlen = String.valueOf(newleftBean.get_1_FootLen());
+    }
+
+    private void Instep(LeftBean LeftFootBean, RightBean RightFootBean) {
+        newleftBean.set_3_FuWei(getNewValue(InstepdataBeans.get_3_FuWei(), InstepdataBeans.get_3_FuWei_F(), LeftFootBean.get_3_FuWei()));
+        newleftBean.set_10_FuWeiGao(getNewValue(InstepdataBeans.get_10_FuWeiGao(), InstepdataBeans.get_10_FuWeiGao_F(), LeftFootBean.get_10_FuWeiGao()));
+
+        newRightBean.set_3_FuWei(getNewValue(InstepdataBeans.get_3_FuWei(), InstepdataBeans.get_3_FuWei_F(), RightFootBean.get_3_FuWei()));
+        newRightBean.set_10_FuWeiGao(getNewValue(InstepdataBeans.get_10_FuWeiGao(), InstepdataBeans.get_10_FuWeiGao_F(), RightFootBean.get_10_FuWeiGao()));
+    }
+
+    private void Tolerance( LeftBean LeftFootBean, RightBean RightFootBean) {
+        newleftBean.set_1_FootLen(getNewValue(TolerancedataBeans.get_1_FootLen(), TolerancedataBeans.get_1_FootLen_F(), LeftFootBean.get_1_FootLen()));
+        newleftBean.set_2_ZhiWei(getNewValue(TolerancedataBeans.get_2_ZhiWei(), TolerancedataBeans.get_2_ZhiWei_F(), LeftFootBean.get_2_ZhiWei()));
+        newleftBean.set_15_ZhiWeiKuan(getNewValue(TolerancedataBeans.get_15_ZhiWeiKuan(), TolerancedataBeans.get_15_ZhiWeiKuan_F(), LeftFootBean.get_15_ZhiWeiKuan()));
+        newleftBean.set_16_DiBanKuan(getNewValue(TolerancedataBeans.get_16_DiBanKuan(), TolerancedataBeans.get_16_DiBanKuan_F(), LeftFootBean.get_16_DiBanKuan()));
+        newleftBean.set_7_WaiHuaiXiaGao(getNewValue(TolerancedataBeans.get_7_WaiHuaiXiaGao(), TolerancedataBeans.get_7_WaiHuaiXiaGao_F(), LeftFootBean.get_7_WaiHuaiXiaGao()));
+        newleftBean.set_11_1ZhiZhiGao(getNewValue(TolerancedataBeans.get_11_1ZhiZhiGao(), TolerancedataBeans.get_11_1ZhiZhiGao_F(), LeftFootBean.get_11_1ZhiZhiGao()));
+        newleftBean.set_12_DaMoZhiGao(getNewValue(TolerancedataBeans.get_12_DaMoZhiGao(), TolerancedataBeans.get_12_DaMoZhiGao_F(), LeftFootBean.get_12_DaMoZhiGao()));
+        newleftBean.set_17_MuZhiLiKuan(getNewValue(TolerancedataBeans.get_17_MuZhiLiKuan(), TolerancedataBeans.get_17_MuZhiLiKuan_F(), LeftFootBean.get_17_MuZhiLiKuan()));
+        newleftBean.set_18_XiaoZhiWaiKuan(getNewValue(TolerancedataBeans.get_18_XiaoZhiWaiKuan(), TolerancedataBeans.get_18_XiaoZhiWaiKuan_F(), LeftFootBean.get_18_XiaoZhiWaiKuan()));
+        newleftBean.set_19_1ZhizhiLiKuan(getNewValue(TolerancedataBeans.get_19_1ZhizhiLiKuan(), TolerancedataBeans.get_19_1ZhizhiLiKuan_F(), LeftFootBean.get_19_1ZhizhiLiKuan()));
+        newleftBean.set_20_5ZhizhiLiKuan(getNewValue(TolerancedataBeans.get_20_5ZhizhiLiKuan(), TolerancedataBeans.get_20_5ZhizhiLiKuan_F(), LeftFootBean.get_20_5ZhizhiLiKuan()));
+        newleftBean.set_21_YaoWoWaiKuan(getNewValue(TolerancedataBeans.get_21_YaoWoWaiKuan(), TolerancedataBeans.get_21_YaoWoWaiKuan_F(), LeftFootBean.get_21_YaoWoWaiKuan()));
+        newleftBean.set_22_ZhongXinDiKuan(getNewValue(TolerancedataBeans.get_22_ZhongXinDiKuan(), TolerancedataBeans.get_22_ZhongXinDiKuan_F(), LeftFootBean.get_22_ZhongXinDiKuan()));
+        newleftBean.set_24_MuZhiWaiTuChang(getNewValue(TolerancedataBeans.get_24_MuZhiWaiTuChang(), TolerancedataBeans.get_24_MuZhiWaiTuChang_F(), LeftFootBean.get_24_MuZhiWaiTuChang()));
+        newleftBean.set_25_XiaoZhiDuanChang(getNewValue(TolerancedataBeans.get_25_XiaoZhiDuanChang(), TolerancedataBeans.get_25_XiaoZhiDuanChang_F(), LeftFootBean.get_25_XiaoZhiDuanChang()));
+        newleftBean.set_26_XiaoZhiWaiTuChang(getNewValue(TolerancedataBeans.get_26_XiaoZhiWaiTuChang(), TolerancedataBeans.get_26_XiaoZhiWaiTuChang_F(), LeftFootBean.get_26_XiaoZhiWaiTuChang()));
+        newleftBean.set_27_1ZhiZhiChang(getNewValue(TolerancedataBeans.get_27_1ZhiZhiChang(), TolerancedataBeans.get_27_1ZhiZhiChang_F(), LeftFootBean.get_27_1ZhiZhiChang()));
+        newleftBean.set_28_5ZhiZhiChang(getNewValue(TolerancedataBeans.get_28_5ZhiZhiChang(), TolerancedataBeans.get_28_5ZhiZhiChang_F(), LeftFootBean.get_28_5ZhiZhiChang()));
+        newleftBean.set_29_FuGuChang(getNewValue(TolerancedataBeans.get_29_FuGuChang(), TolerancedataBeans.get_29_FuGuChang_F(), LeftFootBean.get_29_FuGuChang()));
+        newleftBean.set_30_YaoWoChang(getNewValue(TolerancedataBeans.get_30_YaoWoChang(), TolerancedataBeans.get_30_YaoWoChang_F(), LeftFootBean.get_30_YaoWoChang()));
+        newleftBean.set_31_ZhouShangDianChang(getNewValue(TolerancedataBeans.get_31_ZhouShangDianChang(), TolerancedataBeans.get_31_ZhouShangDianChang_F(), LeftFootBean.get_31_ZhouShangDianChang()));
+        newleftBean.set_32_WaiHuaiGuZhongChang(getNewValue(TolerancedataBeans.get_32_WaiHuaiGuZhongChang(), TolerancedataBeans.get_32_WaiHuaiGuZhongChang_F(), LeftFootBean.get_32_WaiHuaiGuZhongChang()));
+        newleftBean.set_33_ZhongXinChang(getNewValue(TolerancedataBeans.get_33_ZhongXinChang(), TolerancedataBeans.get_33_ZhongXinChang_F(), LeftFootBean.get_33_ZhongXinChang()));
+        newleftBean.set_34_HouGenBianChang(getNewValue(TolerancedataBeans.get_34_HouGenBianChang(), TolerancedataBeans.get_34_HouGenBianChang_F(), LeftFootBean.get_34_HouGenBianChang()));
+        newleftBean.set_35_QianZhangTuDianChang(getNewValue(TolerancedataBeans.get_35_QianZhangTuDianChang(), TolerancedataBeans.get_35_QianZhangTuDianChang_F(), LeftFootBean.get_35_QianZhangTuDianChang()));
+
+
+        this.newRightBean.set_1_FootLen(getNewValue(TolerancedataBeans.get_1_FootLen(), TolerancedataBeans.get_1_FootLen_F(), RightFootBean.get_1_FootLen()));
+        this.newRightBean.set_2_ZhiWei(getNewValue(TolerancedataBeans.get_2_ZhiWei(), TolerancedataBeans.get_2_ZhiWei_F(), RightFootBean.get_2_ZhiWei()));
+        this.newRightBean.set_15_ZhiWeiKuan(getNewValue(TolerancedataBeans.get_15_ZhiWeiKuan(), TolerancedataBeans.get_15_ZhiWeiKuan_F(), RightFootBean.get_15_ZhiWeiKuan()));
+        this.newRightBean.set_16_DiBanKuan(getNewValue(TolerancedataBeans.get_16_DiBanKuan(), TolerancedataBeans.get_16_DiBanKuan_F(), RightFootBean.get_16_DiBanKuan()));
+        this.newRightBean.set_7_WaiHuaiXiaGao(getNewValue(TolerancedataBeans.get_7_WaiHuaiXiaGao(), TolerancedataBeans.get_7_WaiHuaiXiaGao_F(), RightFootBean.get_7_WaiHuaiXiaGao()));
+        this.newRightBean.set_11_1ZhiZhiGao(getNewValue(TolerancedataBeans.get_11_1ZhiZhiGao(), TolerancedataBeans.get_11_1ZhiZhiGao_F(), RightFootBean.get_11_1ZhiZhiGao()));
+        this.newRightBean.set_12_DaMoZhiGao(getNewValue(TolerancedataBeans.get_12_DaMoZhiGao(), TolerancedataBeans.get_12_DaMoZhiGao_F(), RightFootBean.get_12_DaMoZhiGao()));
+        this.newRightBean.set_17_MuZhiLiKuan(getNewValue(TolerancedataBeans.get_17_MuZhiLiKuan(), TolerancedataBeans.get_17_MuZhiLiKuan_F(), RightFootBean.get_17_MuZhiLiKuan()));
+        this.newRightBean.set_18_XiaoZhiWaiKuan(getNewValue(TolerancedataBeans.get_18_XiaoZhiWaiKuan(), TolerancedataBeans.get_18_XiaoZhiWaiKuan_F(), RightFootBean.get_18_XiaoZhiWaiKuan()));
+        this.newRightBean.set_19_1ZhizhiLiKuan(getNewValue(TolerancedataBeans.get_19_1ZhizhiLiKuan(), TolerancedataBeans.get_19_1ZhizhiLiKuan_F(), RightFootBean.get_19_1ZhizhiLiKuan()));
+        this.newRightBean.set_20_5ZhizhiLiKuan(getNewValue(TolerancedataBeans.get_20_5ZhizhiLiKuan(), TolerancedataBeans.get_20_5ZhizhiLiKuan_F(), RightFootBean.get_20_5ZhizhiLiKuan()));
+        this.newRightBean.set_21_YaoWoWaiKuan(getNewValue(TolerancedataBeans.get_21_YaoWoWaiKuan(), TolerancedataBeans.get_21_YaoWoWaiKuan_F(), RightFootBean.get_21_YaoWoWaiKuan()));
+        this.newRightBean.set_22_ZhongXinDiKuan(getNewValue(TolerancedataBeans.get_22_ZhongXinDiKuan(), TolerancedataBeans.get_22_ZhongXinDiKuan_F(), RightFootBean.get_22_ZhongXinDiKuan()));
+        this.newRightBean.set_24_MuZhiWaiTuChang(getNewValue(TolerancedataBeans.get_24_MuZhiWaiTuChang(), TolerancedataBeans.get_24_MuZhiWaiTuChang_F(), RightFootBean.get_24_MuZhiWaiTuChang()));
+        this.newRightBean.set_25_XiaoZhiDuanChang(getNewValue(TolerancedataBeans.get_25_XiaoZhiDuanChang(), TolerancedataBeans.get_25_XiaoZhiDuanChang_F(), RightFootBean.get_25_XiaoZhiDuanChang()));
+        this.newRightBean.set_26_XiaoZhiWaiTuChang(getNewValue(TolerancedataBeans.get_26_XiaoZhiWaiTuChang(), TolerancedataBeans.get_26_XiaoZhiWaiTuChang_F(), RightFootBean.get_26_XiaoZhiWaiTuChang()));
+        this.newRightBean.set_27_1ZhiZhiChang(getNewValue(TolerancedataBeans.get_27_1ZhiZhiChang(), TolerancedataBeans.get_27_1ZhiZhiChang_F(), RightFootBean.get_27_1ZhiZhiChang()));
+        this.newRightBean.set_28_5ZhiZhiChang(getNewValue(TolerancedataBeans.get_28_5ZhiZhiChang(), TolerancedataBeans.get_28_5ZhiZhiChang_F(), RightFootBean.get_28_5ZhiZhiChang()));
+        this.newRightBean.set_29_FuGuChang(getNewValue(TolerancedataBeans.get_29_FuGuChang(), TolerancedataBeans.get_29_FuGuChang_F(), RightFootBean.get_29_FuGuChang()));
+        this.newRightBean.set_30_YaoWoChang(getNewValue(TolerancedataBeans.get_30_YaoWoChang(), TolerancedataBeans.get_30_YaoWoChang_F(), RightFootBean.get_30_YaoWoChang()));
+        this.newRightBean.set_31_ZhouShangDianChang(getNewValue(TolerancedataBeans.get_31_ZhouShangDianChang(), TolerancedataBeans.get_31_ZhouShangDianChang_F(), RightFootBean.get_31_ZhouShangDianChang()));
+        this.newRightBean.set_32_WaiHuaiGuZhongChang(getNewValue(TolerancedataBeans.get_32_WaiHuaiGuZhongChang(), TolerancedataBeans.get_32_WaiHuaiGuZhongChang_F(), RightFootBean.get_32_WaiHuaiGuZhongChang()));
+        this.newRightBean.set_33_ZhongXinChang(getNewValue(TolerancedataBeans.get_33_ZhongXinChang(), TolerancedataBeans.get_33_ZhongXinChang_F(), RightFootBean.get_33_ZhongXinChang()));
+        this.newRightBean.set_34_HouGenBianChang(getNewValue(TolerancedataBeans.get_34_HouGenBianChang(), TolerancedataBeans.get_34_HouGenBianChang_F(), RightFootBean.get_34_HouGenBianChang()));
+        this.newRightBean.set_35_QianZhangTuDianChang(getNewValue(TolerancedataBeans.get_35_QianZhangTuDianChang(), TolerancedataBeans.get_35_QianZhangTuDianChang_F(), RightFootBean.get_35_QianZhangTuDianChang()));
+
+
     }
 
     private void upDataload(final String webFitting_id) {
@@ -654,7 +713,7 @@ public class NewDetailActivity extends BaseActivity {
         String detailData = gson.toJson(map);
         sortListTag(footList);
         String foot_remark = gson.toJson(TaglList);
-        Log.e("foot_remark","......"+foot_remark);
+        Log.e("foot_remark", "......" + foot_remark);
         final String remark = dataEditRemark.getText().toString().trim();
         //上传数据
         OkGo.<BaseResponse<String>>post(AppConstant.FITTING_ADDFOOTDATAWITHFITTING)
@@ -662,7 +721,7 @@ public class NewDetailActivity extends BaseActivity {
                 .params("foot_remark", foot_remark)//图片的标记
                 .params("detail_data", detailData)//足型数据详情
                 .params("device_id", ConfigManager.Device.getEquipmentID())//设备id
-                .params("remark",remark + "")//备注
+                .params("remark", remark + "")//备注
                 .execute(new JsonCallback<BaseResponse<String>>() {
                     @Override
                     public void onSuccess(Response<BaseResponse<String>> response) {
@@ -687,14 +746,14 @@ public class NewDetailActivity extends BaseActivity {
 
                             ConfigManager.Foot.setWebFitting_id("");
 
-                            String url = AppConstant.WEBVIEW_INFORMATION(ConfigManager.Device.getShopID(),ConfigManager.Device.getShopPhone());
+                            String url = AppConstant.WEBVIEW_INFORMATION(ConfigManager.Device.getShopID(), ConfigManager.Device.getShopPhone());
                             Intent intent = new Intent(NewDetailActivity.this, WebActivity.class);
-                            intent.putExtra(Constant.ItentKey1,url);
+                            intent.putExtra(Constant.ItentKey1, url);
                             startActivity(intent);
                             finish();
 
                             finish();
-                        }else {
+                        } else {
                             ShowToast("上传失败");
                         }
                     }
@@ -715,7 +774,7 @@ public class NewDetailActivity extends BaseActivity {
         String detailData = gson.toJson(map);
         sortListTag(footList);
         String foot_remark = gson.toJson(TaglList);
-        Log.e("foot_remark","......"+foot_remark);
+        Log.e("foot_remark", "......" + foot_remark);
         final String remark = dataEditRemark.getText().toString().trim();
         //上传数据
         OkGo.<BaseResponse<String>>post(AppConstant.NEW_DATA)
@@ -777,7 +836,7 @@ public class NewDetailActivity extends BaseActivity {
                                 finish();
                             }
 
-                        }else {
+                        } else {
                             ShowToast("上传失败");
                         }
                     }
@@ -800,9 +859,9 @@ public class NewDetailActivity extends BaseActivity {
 
 
     private double getNewValue(double footLen, double footLen_f, double footLen1) {
-        if ((footLen+footLen_f)>footLen1&&(footLen-footLen_f)<footLen1){
+        if ((footLen + footLen_f) > footLen1 && (footLen - footLen_f) < footLen1) {
             return footLen1;
-        }else {
+        } else {
             return footLen;
         }
     }
@@ -1035,8 +1094,8 @@ public class NewDetailActivity extends BaseActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        if (footThread!=null){
-            leftANDrighht=false;
+        if (footThread != null) {
+            leftANDrighht = false;
             footThread.currentThread().interrupt();
             footThread = null;
         }

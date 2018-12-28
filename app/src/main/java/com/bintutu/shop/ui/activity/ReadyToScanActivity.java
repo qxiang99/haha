@@ -82,7 +82,8 @@ public class ReadyToScanActivity extends BaseActivity {
     private int Forehand = 0;//前掌
     private int Instep = 0;//脚背
     private String edit;
-
+    int type = 0;
+    private int footage=0;
 
     @Override
     protected void initContentView(Bundle savedInstanceState) {
@@ -98,15 +99,15 @@ public class ReadyToScanActivity extends BaseActivity {
         editFemaleIamge.setEnabled(true);
 
 
-        linForehandTightImage.setEnabled(false);
-        linForehandCentreImage.setEnabled(true);
+        linForehandTightImage.setEnabled(true);
+        linForehandCentreImage.setEnabled(false);
         linForehandImage.setEnabled(true);
-        Forehand = 1;
+        Forehand = 2;
 
-        linInstepTightImage.setEnabled(false);
-        linInstepCentreImage.setEnabled(true);
+        linInstepTightImage.setEnabled(true);
+        linInstepCentreImage.setEnabled(false);
         linInstepImage.setEnabled(true);
-        Instep = 1;
+        Instep = 2;
     }
 
 
@@ -218,6 +219,7 @@ public class ReadyToScanActivity extends BaseActivity {
             public void onClick(View view) {
                 if (scangif) {
                     if (remarkLin.getVisibility() != View.VISIBLE) {
+                        type = 0;
                         Intent intent = new Intent(ReadyToScanActivity.this, GifActivity.class);
                         startActivityForResult(intent, 300);
                     } else {
@@ -252,18 +254,21 @@ public class ReadyToScanActivity extends BaseActivity {
             return;
         }
         if (sex==1){
-            if (39>Integer.getInteger(edit)||Integer.getInteger(edit)>45){
-                ShowToast("男士尺码范围 39 ~ 45 ");
+            if (38>Integer.parseInt(edit)||Integer.parseInt(edit)>45){
+                ShowToast("男士尺码范围 38 ~ 45 ");
                 return;
             }
         }
 
         if (sex==2){
-            if (34>Integer.getInteger(edit)||Integer.getInteger(edit)>42){
-                ShowToast("女士尺码范围 34 ~ 42 ");
+            if (34>Integer.parseInt(edit)||Integer.parseInt(edit)>40){
+                ShowToast("女士尺码范围 34 ~ 40 ");
                 return;
             }
         }
+
+        type = 1;
+        footage = Integer.parseInt(edit);
 
         Intent intent = new Intent(ReadyToScanActivity.this, GifActivity.class);
         startActivityForResult(intent, 300);
@@ -311,17 +316,16 @@ public class ReadyToScanActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == 200) {
             String result = data.getExtras().getString(Constant.ItentKey1);
-            int type = 0;
-            if (remarkLin.getVisibility() != View.VISIBLE) {
-                type = 1;
-            }
+
             Intent intent = new Intent(ReadyToScanActivity.this, NewDetailActivity.class);
             intent.putExtra(Constant.ItentKey1, result);
-            intent.putExtra(Constant.ItentKey2, sex);
-            intent.putExtra(Constant.ItentKey3, Forehand);
-            intent.putExtra(Constant.ItentKey4, Instep);
-            intent.putExtra(Constant.ItentKey5, Integer.parseInt(edit));
             intent.putExtra(Constant.ItentKey7, type);
+            if (type==1){
+                intent.putExtra(Constant.ItentKey2, sex);
+                intent.putExtra(Constant.ItentKey3, Forehand);
+                intent.putExtra(Constant.ItentKey4, Instep);
+                intent.putExtra(Constant.ItentKey5, footage);
+            }
             startActivity(intent);
             finish();
 

@@ -383,7 +383,7 @@ public class NewDetailActivity extends BaseActivity {
 
     /**
      * 得到需要编辑的数据
-     * @param s
+     * @param
      */
     private void getTolerance(String id) {
         InputStream is;
@@ -546,7 +546,9 @@ public class NewDetailActivity extends BaseActivity {
 
                 }
                 while ((!Responseleft || !Responserighht) && ((two - one) < 20000) && leftANDrighht);
-                getFootData(1);
+                if (Responseleft == false || Responserighht == false) {
+                    getFootData(1);
+                }
             }
         });
         footThread.start();
@@ -857,8 +859,13 @@ public class NewDetailActivity extends BaseActivity {
         if ((footLen + footLen_f) > footLen1 && (footLen - footLen_f) < footLen1) {
             return footLen1;
         } else {
-            double a =  Math.random()>0.5?0.1:0.2;
-            return footLen+a;
+            double a= Math.random();
+            boolean b =  Math.random()>0.5?true:false;
+            if (b) {
+                return footLen+a;
+            }else {
+                return footLen-a;
+            }
         }
     }
 

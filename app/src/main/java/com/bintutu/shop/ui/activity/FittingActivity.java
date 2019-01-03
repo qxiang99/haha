@@ -43,46 +43,7 @@ public class FittingActivity extends BaseActivity {
 
     @BindView(R.id.recyclerview)
     RecyclerView mRecyclerview;
-    @BindView(R.id.fitting_left_one_i)
-    ImageView fittingLeftOneI;
-    @BindView(R.id.fitting_left_one_j)
-    ImageView fittingLeftOneJ;
-    @BindView(R.id.fitting_left_two_a)
-    ImageView fittingLeftTwoA;
-    @BindView(R.id.fitting_left_two_b)
-    ImageView fittingLeftTwoB;
-    @BindView(R.id.fitting_left_two_c)
-    ImageView fittingLeftTwoC;
-    @BindView(R.id.fitting_left_two_d)
-    ImageView fittingLeftTwoD;
-    @BindView(R.id.fitting_left_two_e)
-    ImageView fittingLeftTwoE;
-    @BindView(R.id.fitting_left_three_f)
-    ImageView fittingLeftThreeF;
-    @BindView(R.id.fitting_left_three_g)
-    ImageView fittingLeftThreeG;
-    @BindView(R.id.fitting_left_three_h)
-    ImageView fittingLeftThreeH;
-    @BindView(R.id.fitting_right_one_s)
-    ImageView fittingRightOneS;
-    @BindView(R.id.fitting_right_one_t)
-    ImageView fittingRightOneT;
-    @BindView(R.id.fitting_right_two_k)
-    ImageView fittingRightTwoK;
-    @BindView(R.id.fitting_right_two_m)
-    ImageView fittingRightTwoM;
-    @BindView(R.id.fitting_right_two_l)
-    ImageView fittingRightTwoL;
-    @BindView(R.id.fitting_right_two_n)
-    ImageView fittingRightTwoN;
-    @BindView(R.id.fitting_right_two_o)
-    ImageView fittingRightTwoO;
-    @BindView(R.id.fitting_right_three_r)
-    ImageView fittingRightThreeR;
-    @BindView(R.id.fitting_right_three_q)
-    ImageView fittingRightThreeQ;
-    @BindView(R.id.fitting_right_three_p)
-    ImageView fittingRightThreeP;
+
 
     @BindView(R.id.detail_but_left)
     Button detailButLeft;
@@ -115,6 +76,38 @@ public class FittingActivity extends BaseActivity {
     Button fittingButUpload;
     @BindView(R.id.fitting_edit_remark)
     EditText fittingEditRemark;
+    @BindView(R.id.fitting_left_one_b)
+    ImageView fittingLeftOneB;
+    @BindView(R.id.fitting_left_one_d)
+    ImageView fittingLeftOneD;
+    @BindView(R.id.fitting_left_one_f)
+    ImageView fittingLeftOneF;
+    @BindView(R.id.fitting_left_one_g)
+    ImageView fittingLeftOneG;
+    @BindView(R.id.fitting_left_one_h)
+    ImageView fittingLeftOneH;
+    @BindView(R.id.fitting_left_two_a)
+    ImageView fittingLeftTwoA;
+    @BindView(R.id.fitting_left_three_e)
+    ImageView fittingLeftThreeE;
+    @BindView(R.id.fitting_left_three_c)
+    ImageView fittingLeftThreeC;
+    @BindView(R.id.fitting_right_one_r)
+    ImageView fittingRightOneR;
+    @BindView(R.id.fitting_right_one_q)
+    ImageView fittingRightOneQ;
+    @BindView(R.id.fitting_right_one_p)
+    ImageView fittingRightOneP;
+    @BindView(R.id.fitting_right_one_v)
+    ImageView fittingRightOneV;
+    @BindView(R.id.fitting_right_one_s)
+    ImageView fittingRightOneS;
+    @BindView(R.id.fitting_right_two_o)
+    ImageView fittingRightTwoO;
+    @BindView(R.id.fitting_right_three_k)
+    ImageView fittingRightThreeK;
+    @BindView(R.id.fitting_right_three_l)
+    ImageView fittingRightThreeL;
 
     private ArrayList<String> fitList = new ArrayList<>();
     private List<FittingBean> leftList = new ArrayList<>();
@@ -127,6 +120,7 @@ public class FittingActivity extends BaseActivity {
     private Gson gson;
     private int goType;
     private LoginDailog loginDailog;
+
     @Override
     protected void initContentView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_fitting);
@@ -226,9 +220,9 @@ public class FittingActivity extends BaseActivity {
         fittingButReturn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (goType==1){
+                if (goType == 1) {
                     startActivity(new Intent(FittingActivity.this, MainActivity.class));
-                }else {
+                } else {
                     Intent intent = new Intent(FittingActivity.this, UploadSucessActivity.class);
                     intent.putExtra(Constant.ItentKey1, uploadid);
                     intent.putExtra(Constant.ItentKey2, footlen);
@@ -250,11 +244,11 @@ public class FittingActivity extends BaseActivity {
             public void onClick(View v) {
                /* startActivity(new Intent(FittingActivity.this, FitTestActivity.class));
                 finish();*/
-               if (goType==1){
-                   loginDailog.show();
-               }else if(goType==2){
-                   UploadData();
-               }
+                if (goType == 1) {
+                    loginDailog.show();
+                } else if (goType == 2) {
+                    UploadData();
+                }
 
             }
         });
@@ -274,31 +268,33 @@ public class FittingActivity extends BaseActivity {
         fittingAdapter.setSetClickListener(new FittingAdapter.OnSetClickListener() {
             @Override
             public void onSetData(FittingBean data, List<FittingBean> infos) {
-                if (data.getName().equals("A") || data.getName().equals("B") || data.getName().equals("C") || data.getName().equals("D") || data.getName().equals("E")) {
-                    SetImagelefttwo(data);
-                }
-                if (data.getName().equals("F") || data.getName().equals("G") || data.getName().equals("H")) {
-                    SetImageleftthree(data);
-                }
-                if (data.getName().equals("I") || data.getName().equals("J")) {
+                if (data.getName().equals("B") || data.getName().equals("D")|| data.getName().equals("F")|| data.getName().equals("G")|| data.getName().equals("H")) {
                     SetImageleftone(data);
                 }
-                if (data.getName().equals("K") || data.getName().equals("L") || data.getName().equals("M") || data.getName().equals("N") || data.getName().equals("O")) {
-                    SetImagerighttwo(data);
+                if (data.getName().equals("A") ) {
+                    SetImagelefttwo(data);
                 }
-                if (data.getName().equals("P") || data.getName().equals("Q") || data.getName().equals("R")) {
-                    SetImagerightthree(data);
+                if (data.getName().equals("E") || data.getName().equals("C") ) {
+                    SetImageleftthree(data);
                 }
-                if (data.getName().equals("S") || data.getName().equals("T")) {
+
+                if (data.getName().equals("R") || data.getName().equals("Q")|| data.getName().equals("P")|| data.getName().equals("V")|| data.getName().equals("S")) {
                     SetImagerightone(data);
                 }
+                if (data.getName().equals("O")) {
+                    SetImagerighttwo(data);
+                }
+                if (data.getName().equals("K") || data.getName().equals("L")) {
+                    SetImagerightthree(data);
+                }
+
             }
         });
 
 
     }
 
-    private void NewFittingData(final String name, String customer_phone,final String customer_id) {
+    private void NewFittingData(final String name, String customer_phone, final String customer_id) {
         jumpLoading("上传数据中");
         HashMap<String, Object> map = new HashMap<String, Object>();
         for (FittingBean fittingBean : leftList) {
@@ -329,9 +325,9 @@ public class FittingActivity extends BaseActivity {
                             Intent intent = new Intent(FittingActivity.this, FitTestActivity.class);
                             intent.putExtra(Constant.ItentKey1, 2);
                             intent.putExtra(Constant.ItentKey2, name);
-                            if (uploadBean.getResult()!=null&&uploadBean.getResult().getId()!=null){
+                            if (uploadBean.getResult() != null && uploadBean.getResult().getId() != null) {
                                 intent.putExtra(Constant.ItentKey3, uploadBean.getResult().getId());
-                            }else {
+                            } else {
                                 intent.putExtra(Constant.ItentKey3, "0");
                             }
 
@@ -407,31 +403,70 @@ public class FittingActivity extends BaseActivity {
     }
 
     private void SetImageleftone(FittingBean data) {
-        if (data.getName().equals("I")) {
+        if (data.getName().equals("B")) {
             if (data.getType() == 0) {
-                fittingLeftOneI.setVisibility(View.VISIBLE);
-                fittingLeftOneI.setBackgroundResource(R.mipmap.left_one_i_green);
+                fittingLeftOneB.setVisibility(View.VISIBLE);
+                fittingLeftOneB.setBackgroundResource(R.mipmap.left_one_b_green);
             }
             if (data.getType() == 1) {
-                fittingLeftOneI.setVisibility(View.GONE);
+                fittingLeftOneB.setVisibility(View.GONE);
             }
             if (data.getType() == 2) {
-                fittingLeftOneI.setVisibility(View.VISIBLE);
-                fittingLeftOneI.setBackgroundResource(R.mipmap.left_one_i_red);
+                fittingLeftOneB.setVisibility(View.VISIBLE);
+                fittingLeftOneB.setBackgroundResource(R.mipmap.left_one_b_red);
             }
 
         }
-        if (data.getName().equals("J")) {
+        if (data.getName().equals("D")) {
             if (data.getType() == 0) {
-                fittingLeftOneJ.setVisibility(View.VISIBLE);
-                fittingLeftOneJ.setBackgroundResource(R.mipmap.left_one_j_green);
+                fittingLeftOneD.setVisibility(View.VISIBLE);
+                fittingLeftOneD.setBackgroundResource(R.mipmap.left_one_d_green);
             }
             if (data.getType() == 1) {
-                fittingLeftOneJ.setVisibility(View.GONE);
+                fittingLeftOneD.setVisibility(View.GONE);
             }
             if (data.getType() == 2) {
-                fittingLeftOneJ.setVisibility(View.VISIBLE);
-                fittingLeftOneJ.setBackgroundResource(R.mipmap.left_one_j_red);
+                fittingLeftOneD.setVisibility(View.VISIBLE);
+                fittingLeftOneD.setBackgroundResource(R.mipmap.left_one_d_red);
+            }
+        }
+        if (data.getName().equals("F")) {
+            if (data.getType() == 0) {
+                fittingLeftOneF.setVisibility(View.VISIBLE);
+                fittingLeftOneF.setBackgroundResource(R.mipmap.left_one_f_green);
+            }
+            if (data.getType() == 1) {
+                fittingLeftOneF.setVisibility(View.GONE);
+            }
+            if (data.getType() == 2) {
+                fittingLeftOneF.setVisibility(View.VISIBLE);
+                fittingLeftOneF.setBackgroundResource(R.mipmap.left_one_f_red);
+            }
+        }
+        if (data.getName().equals("G")) {
+            if (data.getType() == 0) {
+                fittingLeftOneG.setVisibility(View.VISIBLE);
+                fittingLeftOneG.setBackgroundResource(R.mipmap.left_one_g_green);
+            }
+            if (data.getType() == 1) {
+                fittingLeftOneG.setVisibility(View.GONE);
+            }
+            if (data.getType() == 2) {
+                fittingLeftOneG.setVisibility(View.VISIBLE);
+                fittingLeftOneG.setBackgroundResource(R.mipmap.left_one_g_red);
+            }
+        }
+        if (data.getName().equals("H")) {
+            if (data.getType() == 0) {
+                fittingLeftOneH.setVisibility(View.VISIBLE);
+                fittingLeftOneH.setBackgroundResource(R.mipmap.left_one_h_green);
+            }
+            if (data.getType() == 1) {
+                fittingLeftOneH.setVisibility(View.GONE);
+            }
+            if (data.getType() == 2) {
+                fittingLeftOneH.setVisibility(View.VISIBLE);
+                fittingLeftOneH.setBackgroundResource(R.mipmap.left_one_h_red);
             }
         }
     }
@@ -450,103 +485,93 @@ public class FittingActivity extends BaseActivity {
                 fittingLeftTwoA.setBackgroundResource(R.mipmap.left_two_a_red);
             }
         }
-        if (data.getName().equals("B")) {
+
+    }
+
+    private void SetImageleftthree(FittingBean data) {
+        if (data.getName().equals("E")) {
             if (data.getType() == 0) {
-                fittingLeftTwoB.setVisibility(View.VISIBLE);
-                fittingLeftTwoB.setBackgroundResource(R.mipmap.left_two_b_green);
+                fittingLeftThreeE.setVisibility(View.VISIBLE);
+                fittingLeftThreeE.setBackgroundResource(R.mipmap.left_three_e_green);
             }
             if (data.getType() == 1) {
-                fittingLeftTwoB.setVisibility(View.GONE);
+                fittingLeftThreeE.setVisibility(View.GONE);
             }
             if (data.getType() == 2) {
-                fittingLeftTwoB.setVisibility(View.VISIBLE);
-                fittingLeftTwoB.setBackgroundResource(R.mipmap.left_two_b_red);
+                fittingLeftThreeE.setVisibility(View.VISIBLE);
+                fittingLeftThreeE.setBackgroundResource(R.mipmap.left_three_e_red);
             }
         }
         if (data.getName().equals("C")) {
             if (data.getType() == 0) {
-                fittingLeftTwoC.setVisibility(View.VISIBLE);
-                fittingLeftTwoC.setBackgroundResource(R.mipmap.left_two_c_green);
+                fittingLeftThreeC.setVisibility(View.VISIBLE);
+                fittingLeftThreeC.setBackgroundResource(R.mipmap.left_three_c_green);
             }
             if (data.getType() == 1) {
-                fittingLeftTwoC.setVisibility(View.GONE);
+                fittingLeftThreeC.setVisibility(View.GONE);
             }
             if (data.getType() == 2) {
-                fittingLeftTwoC.setVisibility(View.VISIBLE);
-                fittingLeftTwoC.setBackgroundResource(R.mipmap.left_two_c_red);
+                fittingLeftThreeC.setVisibility(View.VISIBLE);
+                fittingLeftThreeC.setBackgroundResource(R.mipmap.left_three_c_red);
             }
         }
-        if (data.getName().equals("D")) {
-            if (data.getType() == 0) {
-                fittingLeftTwoD.setVisibility(View.VISIBLE);
-                fittingLeftTwoD.setBackgroundResource(R.mipmap.left_two_d_green);
-            }
-            if (data.getType() == 1) {
-                fittingLeftTwoD.setVisibility(View.GONE);
-            }
-            if (data.getType() == 2) {
-                fittingLeftTwoD.setVisibility(View.VISIBLE);
-                fittingLeftTwoD.setBackgroundResource(R.mipmap.left_two_d_red);
-            }
-        }
-        if (data.getName().equals("E")) {
-            if (data.getType() == 0) {
-                fittingLeftTwoE.setVisibility(View.VISIBLE);
-                fittingLeftTwoE.setBackgroundResource(R.mipmap.left_two_e_green);
-            }
-            if (data.getType() == 1) {
-                fittingLeftTwoE.setVisibility(View.GONE);
-            }
-            if (data.getType() == 2) {
-                fittingLeftTwoE.setVisibility(View.VISIBLE);
-                fittingLeftTwoE.setBackgroundResource(R.mipmap.left_two_e_red);
-            }
-        }
-    }
 
-    private void SetImageleftthree(FittingBean data) {
-        if (data.getName().equals("F")) {
-            if (data.getType() == 0) {
-                fittingLeftThreeF.setVisibility(View.VISIBLE);
-                fittingLeftThreeF.setBackgroundResource(R.mipmap.left_three_f_green);
-            }
-            if (data.getType() == 1) {
-                fittingLeftThreeF.setVisibility(View.GONE);
-            }
-            if (data.getType() == 2) {
-                fittingLeftThreeF.setVisibility(View.VISIBLE);
-                fittingLeftThreeF.setBackgroundResource(R.mipmap.left_three_f_red);
-            }
-        }
-        if (data.getName().equals("G")) {
-            if (data.getType() == 0) {
-                fittingLeftThreeG.setVisibility(View.VISIBLE);
-                fittingLeftThreeG.setBackgroundResource(R.mipmap.left_three_g_green);
-            }
-            if (data.getType() == 1) {
-                fittingLeftThreeG.setVisibility(View.GONE);
-            }
-            if (data.getType() == 2) {
-                fittingLeftThreeG.setVisibility(View.VISIBLE);
-                fittingLeftThreeG.setBackgroundResource(R.mipmap.left_three_g_red);
-            }
-        }
-        if (data.getName().equals("H")) {
-            if (data.getType() == 0) {
-                fittingLeftThreeH.setVisibility(View.VISIBLE);
-                fittingLeftThreeH.setBackgroundResource(R.mipmap.left_three_h_green);
-            }
-            if (data.getType() == 1) {
-                fittingLeftThreeH.setVisibility(View.GONE);
-            }
-            if (data.getType() == 2) {
-                fittingLeftThreeH.setVisibility(View.VISIBLE);
-                fittingLeftThreeH.setBackgroundResource(R.mipmap.left_three_h_red);
-            }
-        }
     }
 
     private void SetImagerightone(FittingBean data) {
+        if (data.getName().equals("R")) {
+            if (data.getType() == 0) {
+                fittingRightOneR.setVisibility(View.VISIBLE);
+                fittingRightOneR.setBackgroundResource(R.mipmap.right_one_s_green);
+            }
+            if (data.getType() == 1) {
+                fittingRightOneR.setVisibility(View.GONE);
+            }
+            if (data.getType() == 2) {
+                fittingRightOneR.setVisibility(View.VISIBLE);
+                fittingRightOneR.setBackgroundResource(R.mipmap.right_one_s_red);
+            }
+
+        }
+        if (data.getName().equals("Q")) {
+            if (data.getType() == 0) {
+                fittingRightOneQ.setVisibility(View.VISIBLE);
+                fittingRightOneQ.setBackgroundResource(R.mipmap.right_one_q_green);
+            }
+            if (data.getType() == 1) {
+                fittingRightOneQ.setVisibility(View.GONE);
+            }
+            if (data.getType() == 2) {
+                fittingRightOneQ.setVisibility(View.VISIBLE);
+                fittingRightOneQ.setBackgroundResource(R.mipmap.right_one_q_red);
+            }
+        }
+        if (data.getName().equals("P")) {
+            if (data.getType() == 0) {
+                fittingRightOneP.setVisibility(View.VISIBLE);
+                fittingRightOneP.setBackgroundResource(R.mipmap.right_one_p_green);
+            }
+            if (data.getType() == 1) {
+                fittingRightOneP.setVisibility(View.GONE);
+            }
+            if (data.getType() == 2) {
+                fittingRightOneP.setVisibility(View.VISIBLE);
+                fittingRightOneP.setBackgroundResource(R.mipmap.right_one_p_red);
+            }
+        }
+        if (data.getName().equals("V")) {
+            if (data.getType() == 0) {
+                fittingRightOneV.setVisibility(View.VISIBLE);
+                fittingRightOneV.setBackgroundResource(R.mipmap.right_one_v_green);
+            }
+            if (data.getType() == 1) {
+                fittingRightOneV.setVisibility(View.GONE);
+            }
+            if (data.getType() == 2) {
+                fittingRightOneV.setVisibility(View.VISIBLE);
+                fittingRightOneV.setBackgroundResource(R.mipmap.right_one_v_red);
+            }
+        }
         if (data.getName().equals("S")) {
             if (data.getType() == 0) {
                 fittingRightOneS.setVisibility(View.VISIBLE);
@@ -559,76 +584,10 @@ public class FittingActivity extends BaseActivity {
                 fittingRightOneS.setVisibility(View.VISIBLE);
                 fittingRightOneS.setBackgroundResource(R.mipmap.right_one_s_red);
             }
-
-        }
-        if (data.getName().equals("T")) {
-            if (data.getType() == 0) {
-                fittingRightOneT.setVisibility(View.VISIBLE);
-                fittingRightOneT.setBackgroundResource(R.mipmap.right_one_t_green);
-            }
-            if (data.getType() == 1) {
-                fittingRightOneT.setVisibility(View.GONE);
-            }
-            if (data.getType() == 2) {
-                fittingRightOneT.setVisibility(View.VISIBLE);
-                fittingRightOneT.setBackgroundResource(R.mipmap.right_one_t_red);
-            }
         }
     }
 
     private void SetImagerighttwo(FittingBean data) {
-        if (data.getName().equals("K")) {
-            if (data.getType() == 0) {
-                fittingRightTwoK.setVisibility(View.VISIBLE);
-                fittingRightTwoK.setBackgroundResource(R.mipmap.right_two_k_green);
-            }
-            if (data.getType() == 1) {
-                fittingRightTwoK.setVisibility(View.GONE);
-            }
-            if (data.getType() == 2) {
-                fittingRightTwoK.setVisibility(View.VISIBLE);
-                fittingRightTwoK.setBackgroundResource(R.mipmap.right_two_k_red);
-            }
-        }
-        if (data.getName().equals("L")) {
-            if (data.getType() == 0) {
-                fittingRightTwoL.setVisibility(View.VISIBLE);
-                fittingRightTwoL.setBackgroundResource(R.mipmap.right_two_l_green);
-            }
-            if (data.getType() == 1) {
-                fittingRightTwoL.setVisibility(View.GONE);
-            }
-            if (data.getType() == 2) {
-                fittingRightTwoL.setVisibility(View.VISIBLE);
-                fittingRightTwoL.setBackgroundResource(R.mipmap.right_two_l_red);
-            }
-        }
-        if (data.getName().equals("M")) {
-            if (data.getType() == 0) {
-                fittingRightTwoM.setVisibility(View.VISIBLE);
-                fittingRightTwoM.setBackgroundResource(R.mipmap.right_two_m_green);
-            }
-            if (data.getType() == 1) {
-                fittingRightTwoM.setVisibility(View.GONE);
-            }
-            if (data.getType() == 2) {
-                fittingRightTwoM.setVisibility(View.VISIBLE);
-                fittingRightTwoM.setBackgroundResource(R.mipmap.right_two_m_red);
-            }
-        }
-        if (data.getName().equals("N")) {
-            if (data.getType() == 0) {
-                fittingRightTwoN.setVisibility(View.VISIBLE);
-                fittingRightTwoN.setBackgroundResource(R.mipmap.right_two_n_green);
-            }
-            if (data.getType() == 1) {
-                fittingRightTwoN.setVisibility(View.GONE);
-            }
-            if (data.getType() == 2) {
-                fittingRightTwoN.setVisibility(View.VISIBLE);
-                fittingRightTwoN.setBackgroundResource(R.mipmap.right_two_n_red);
-            }
-        }
         if (data.getName().equals("O")) {
             if (data.getType() == 0) {
                 fittingRightTwoO.setVisibility(View.VISIBLE);
@@ -646,52 +605,40 @@ public class FittingActivity extends BaseActivity {
     }
 
     private void SetImagerightthree(FittingBean data) {
-        if (data.getName().equals("P")) {
+        if (data.getName().equals("K")) {
             if (data.getType() == 0) {
-                fittingRightThreeP.setVisibility(View.VISIBLE);
-                fittingRightThreeP.setBackgroundResource(R.mipmap.right_three_p_green);
+                fittingRightThreeK.setVisibility(View.VISIBLE);
+                fittingRightThreeK.setBackgroundResource(R.mipmap.right_three_k_green);
             }
             if (data.getType() == 1) {
-                fittingRightThreeP.setVisibility(View.GONE);
+                fittingRightThreeK.setVisibility(View.GONE);
             }
             if (data.getType() == 2) {
-                fittingRightThreeP.setVisibility(View.VISIBLE);
-                fittingRightThreeP.setBackgroundResource(R.mipmap.right_three_p_red);
+                fittingRightThreeK.setVisibility(View.VISIBLE);
+                fittingRightThreeK.setBackgroundResource(R.mipmap.right_three_k_red);
             }
         }
-        if (data.getName().equals("Q")) {
+        if (data.getName().equals("L")) {
             if (data.getType() == 0) {
-                fittingRightThreeQ.setVisibility(View.VISIBLE);
-                fittingRightThreeQ.setBackgroundResource(R.mipmap.right_three_q_green);
+                fittingRightThreeL.setVisibility(View.VISIBLE);
+                fittingRightThreeL.setBackgroundResource(R.mipmap.right_three_l_green);
             }
             if (data.getType() == 1) {
-                fittingRightThreeQ.setVisibility(View.GONE);
+                fittingRightThreeL.setVisibility(View.GONE);
             }
             if (data.getType() == 2) {
-                fittingRightThreeQ.setVisibility(View.VISIBLE);
-                fittingRightThreeQ.setBackgroundResource(R.mipmap.right_three_q_red);
+                fittingRightThreeL.setVisibility(View.VISIBLE);
+                fittingRightThreeL.setBackgroundResource(R.mipmap.right_three_l_red);
             }
         }
-        if (data.getName().equals("R")) {
-            if (data.getType() == 0) {
-                fittingRightThreeR.setVisibility(View.VISIBLE);
-                fittingRightThreeR.setBackgroundResource(R.mipmap.right_three_r_green);
-            }
-            if (data.getType() == 1) {
-                fittingRightThreeR.setVisibility(View.GONE);
-            }
-            if (data.getType() == 2) {
-                fittingRightThreeR.setVisibility(View.VISIBLE);
-                fittingRightThreeR.setBackgroundResource(R.mipmap.right_three_r_red);
-            }
-        }
+
     }
 
 
     public void getFootLenght() {
         Intent intent = getIntent();
-        goType = intent.getIntExtra(Constant.ItentKey7,0);
-        if (goType==2){
+        goType = intent.getIntExtra(Constant.ItentKey7, 0);
+        if (goType == 2) {
             uploadid = intent.getStringExtra(Constant.ItentKey1);
             footlen = intent.getStringExtra(Constant.ItentKey2);
             number = Float.valueOf(footlen);
@@ -769,20 +716,20 @@ public class FittingActivity extends BaseActivity {
                 return data;
             }
         });
-        final LabelPopWin  editMoneyPopWin = new LabelPopWin(FittingActivity.this);
+        final LabelPopWin editMoneyPopWin = new LabelPopWin(FittingActivity.this);
         labelsView.setOnLabelClickListener(new LabelsView.OnLabelClickListener() {
             @Override
             public void onLabelClick(final TextView label, Object data, final int position) {
                 shoesData = String.valueOf(data);
-                if ("自定义  ∨".equals(shoesData)){
+                if ("自定义  ∨".equals(shoesData)) {
                     editMoneyPopWin.showAsDropDown(label, 0, 0);
                     editMoneyPopWin.setOnMClickListner(new LabelPopWin.OnMClickListener() {
                         @Override
                         public void onmClick(String result) {
-                            Log.e("onmClick","..."+result);
-                            fitList.add(position,result);
+                            Log.e("onmClick", "..." + result);
+                            fitList.add(position, result);
                             shoesData = String.valueOf(result);
-                            label.setText(result+"  ∨");
+                            label.setText(result + "  ∨");
 
                         }
                     });
@@ -793,4 +740,10 @@ public class FittingActivity extends BaseActivity {
     }
 
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
 }

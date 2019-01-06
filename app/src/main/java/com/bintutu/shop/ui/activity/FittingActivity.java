@@ -365,10 +365,10 @@ public class FittingActivity extends BaseActivity {
         jumpLoading("上传数据中");
         HashMap<String, Object> map = new HashMap<String, Object>();
         for (FittingBean fittingBean : leftList) {
-            map.put(fittingBean.getName(), fittingBean.getType());
+            map.put(fittingBean.getTwoname(), fittingBean.getType());
         }
         for (FittingBean fittingBean : rightList) {
-            map.put(fittingBean.getName(), fittingBean.getType());
+            map.put(fittingBean.getTwoname(), fittingBean.getType());
         }
         final String remark = fittingEditRemark.getText().toString().trim();
         String Data = gson.toJson(map);

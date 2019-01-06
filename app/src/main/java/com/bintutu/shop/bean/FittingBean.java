@@ -10,6 +10,7 @@ public class FittingBean {
 
     public FittingBean(String name,String twoname, int type) {
         setName(name);
+        setTwoname(twoname);
         setType(type);
     }
 

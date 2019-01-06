@@ -136,14 +136,28 @@ public class FittingActivity extends BaseActivity {
         loginDailog = new LoginDailog(this);
         //
         showRecyclerview();
-        for (int i = 65; i < 85; i++) {
-            if (i < 75) {
-                leftList.add(new FittingBean(String.valueOf((char) i), 1));
-            }
-            if (i > 74) {
-                rightList.add(new FittingBean(String.valueOf((char) i), 1));
-            }
-        }
+        leftList.add(new FittingBean("A", "A",1));
+        leftList.add(new FittingBean("B", "B",1));
+        leftList.add(new FittingBean("C","C", 1));
+        leftList.add(new FittingBean("D","D", 1));
+        leftList.add(new FittingBean("E", "E",1));
+        leftList.add(new FittingBean("F", "F",1));
+        leftList.add(new FittingBean("G", "G",1));
+        leftList.add(new FittingBean("H", "H",1));
+        leftList.add(new FittingBean("左前掌", "left_sole",1));
+        leftList.add(new FittingBean("左后掌", "left_heel",1));
+
+        rightList.add(new FittingBean("K", "K",1));
+        rightList.add(new FittingBean("L", "L",1));
+        rightList.add(new FittingBean("O", "O",1));
+        rightList.add(new FittingBean("P", "P",1));
+        rightList.add(new FittingBean("Q", "Q",1));
+        rightList.add(new FittingBean("R", "R",1));
+        rightList.add(new FittingBean("S", "S",1));
+        rightList.add(new FittingBean("V", "V",1));
+        rightList.add(new FittingBean("右前掌", "right_sole",1));
+        rightList.add(new FittingBean("右后掌", "right_heel",1));
+
         detailLinLeft.setEnabled(false);
         detailLinRight.setEnabled(true);
         detailButLeft.setEnabled(false);
@@ -298,10 +312,10 @@ public class FittingActivity extends BaseActivity {
         jumpLoading("上传数据中");
         HashMap<String, Object> map = new HashMap<String, Object>();
         for (FittingBean fittingBean : leftList) {
-            map.put(fittingBean.getName(), fittingBean.getType());
+            map.put(fittingBean.getTwoname(), fittingBean.getType());
         }
         for (FittingBean fittingBean : rightList) {
-            map.put(fittingBean.getName(), fittingBean.getType());
+            map.put(fittingBean.getTwoname(), fittingBean.getType());
         }
         final String remark = fittingEditRemark.getText().toString().trim();
         String Data = gson.toJson(map);
@@ -522,14 +536,14 @@ public class FittingActivity extends BaseActivity {
         if (data.getName().equals("R")) {
             if (data.getType() == 0) {
                 fittingRightOneR.setVisibility(View.VISIBLE);
-                fittingRightOneR.setBackgroundResource(R.mipmap.right_one_s_green);
+                fittingRightOneR.setBackgroundResource(R.mipmap.right_one_r_green);
             }
             if (data.getType() == 1) {
                 fittingRightOneR.setVisibility(View.GONE);
             }
             if (data.getType() == 2) {
                 fittingRightOneR.setVisibility(View.VISIBLE);
-                fittingRightOneR.setBackgroundResource(R.mipmap.right_one_s_red);
+                fittingRightOneR.setBackgroundResource(R.mipmap.right_one_r_red);
             }
 
         }

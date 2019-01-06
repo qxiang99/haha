@@ -4,14 +4,22 @@ public class FittingBean {
 
 
     private String name;
+    private String twoname;
     private int type;
 
 
-    public FittingBean(String name, int type) {
+    public FittingBean(String name,String twoname, int type) {
         setName(name);
         setType(type);
     }
 
+    public String getTwoname() {
+        return twoname;
+    }
+
+    public void setTwoname(String twoname) {
+        this.twoname = twoname;
+    }
 
     public String getName() {
         return name;

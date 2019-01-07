@@ -144,8 +144,8 @@ public class FittingActivity extends BaseActivity {
         leftList.add(new FittingBean("F", "F",1));
         leftList.add(new FittingBean("G", "G",1));
         leftList.add(new FittingBean("H", "H",1));
-        leftList.add(new FittingBean("左前掌", "left_sole",1));
-        leftList.add(new FittingBean("左后掌", "left_heel",1));
+        leftList.add(new FittingBean("前掌", "left_sole",1));
+        leftList.add(new FittingBean("后掌", "left_heel",1));
 
         rightList.add(new FittingBean("K", "K",1));
         rightList.add(new FittingBean("L", "L",1));
@@ -155,8 +155,8 @@ public class FittingActivity extends BaseActivity {
         rightList.add(new FittingBean("R", "R",1));
         rightList.add(new FittingBean("S", "S",1));
         rightList.add(new FittingBean("V", "V",1));
-        rightList.add(new FittingBean("右前掌", "right_sole",1));
-        rightList.add(new FittingBean("右后掌", "right_heel",1));
+        rightList.add(new FittingBean("前掌", "right_sole",1));
+        rightList.add(new FittingBean("后掌", "right_heel",1));
 
         detailLinLeft.setEnabled(false);
         detailLinRight.setEnabled(true);
@@ -258,10 +258,14 @@ public class FittingActivity extends BaseActivity {
             public void onClick(View v) {
                /* startActivity(new Intent(FittingActivity.this, FitTestActivity.class));
                 finish();*/
-                if (goType == 1) {
-                    loginDailog.show();
-                } else if (goType == 2) {
-                    UploadData();
+                if (!"".equals(shoesData)){
+                    if (goType == 1) {
+                        loginDailog.show();
+                    } else if (goType == 2) {
+                        UploadData();
+                    }
+                }else {
+                    ShowToast("请选择fitting鞋");
                 }
 
             }
@@ -720,7 +724,7 @@ public class FittingActivity extends BaseActivity {
         }
 
         fitList.add("自定义  ∨");
-        if (fitList != null && fitList.size() > 0) {
+        if (fitList != null && fitList.size() > 1) {
             labelsView.setSelectType(LabelsView.SelectType.SINGLE_IRREVOCABLY);
             shoesData = fitList.get(0);
         }

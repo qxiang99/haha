@@ -83,6 +83,7 @@ public class ReadyToScanActivity extends BaseActivity {
     private int Instep = 0;//脚背
     private String edit;
     int type = 0;
+    private int footage=0;
 
 
     @Override
@@ -268,6 +269,8 @@ public class ReadyToScanActivity extends BaseActivity {
         }
 
         type = 1;
+        footage = Integer.parseInt(edit);
+
         Intent intent = new Intent(ReadyToScanActivity.this, GifActivity.class);
         startActivityForResult(intent, 300);
     }
@@ -317,11 +320,13 @@ public class ReadyToScanActivity extends BaseActivity {
 
             Intent intent = new Intent(ReadyToScanActivity.this, NewDetailActivity.class);
             intent.putExtra(Constant.ItentKey1, result);
-            intent.putExtra(Constant.ItentKey2, sex);
-            intent.putExtra(Constant.ItentKey3, Forehand);
-            intent.putExtra(Constant.ItentKey4, Instep);
-            intent.putExtra(Constant.ItentKey5, Integer.parseInt(edit));
             intent.putExtra(Constant.ItentKey7, type);
+            if (type==1){
+                intent.putExtra(Constant.ItentKey2, sex);
+                intent.putExtra(Constant.ItentKey3, Forehand);
+                intent.putExtra(Constant.ItentKey4, Instep);
+                intent.putExtra(Constant.ItentKey5, footage);
+            }
             startActivity(intent);
             finish();
 

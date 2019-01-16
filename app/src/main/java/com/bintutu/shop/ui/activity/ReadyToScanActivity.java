@@ -100,15 +100,15 @@ public class ReadyToScanActivity extends BaseActivity {
         editFemaleIamge.setEnabled(true);
 
 
-        linForehandTightImage.setEnabled(false);
-        linForehandCentreImage.setEnabled(true);
+        linForehandTightImage.setEnabled(true);
+        linForehandCentreImage.setEnabled(false);
         linForehandImage.setEnabled(true);
-        Forehand = 1;
+        Forehand = 2;
 
-        linInstepTightImage.setEnabled(false);
-        linInstepCentreImage.setEnabled(true);
+        linInstepTightImage.setEnabled(true);
+        linInstepCentreImage.setEnabled(false);
         linInstepImage.setEnabled(true);
-        Instep = 1;
+        Instep = 2;
     }
 
 
